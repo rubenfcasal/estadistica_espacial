@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>A.1 Tipos de objetos | Estadística Espacial con R</title>
+  <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="A.1 Tipos de objetos | Estadística Espacial con R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="A.1 Tipos de objetos | Estadística Espacial con R" />
+  
+  <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  
+
+<meta name="author" content="Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)" />
+<meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro-sp.html"/>
+<link rel="next" href="métodos-y-procedimientos-clases-sp.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Aprendizaje Estadístico</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
+<li class="chapter" data-level="1" data-path="intro-estesp.html"><a href="intro-estesp.html"><i class="fa fa-check"></i><b>1</b> Introducción: Procesos espaciales y Geoestadística</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="geoestadistica.html"><a href="geoestadistica.html#modelos-clasicos-espaciales"><i class="fa fa-check"></i><b>1.2.1</b> Modelos clásicos y modelos espaciales</a></li>
+<li class="chapter" data-level="1.2.2" data-path="geoestadistica.html"><a href="geoestadistica.html#ventajas-de-la-aproximación-espacial-y-espacio-temporal"><i class="fa fa-check"></i><b>1.2.2</b> Ventajas de la aproximación espacial (y espacio-temporal)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-tipos.html"><a href="datos-tipos.html"><i class="fa fa-check"></i><b>2.1</b> Tipos de datos espaciales</a></li>
+<li class="chapter" data-level="2.2" data-path="sf-intro.html"><a href="sf-intro.html"><i class="fa fa-check"></i><b>2.2</b> Introducción al paquete <strong>sf</strong></a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
+<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vario-muestrales.html"><a href="vario-muestrales.html"><i class="fa fa-check"></i><b>3.1</b> Estimadores muestrales del semivariograma</a></li>
+<li class="chapter" data-level="3.2" data-path="modelos-variog.html"><a href="modelos-variog.html"><i class="fa fa-check"></i><b>3.2</b> Modelos de semivariogramas</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="modelos-variog.html"><a href="modelos-variog.html#modelos-parametricos"><i class="fa fa-check"></i><b>3.2.1</b> Modelos paramétricos isotrópicos</a></li>
+<li class="chapter" data-level="3.2.2" data-path="modelos-variog.html"><a href="modelos-variog.html#anisotropia"><i class="fa fa-check"></i><b>3.2.2</b> Modelado de anisotropía</a></li>
+<li class="chapter" data-level="3.2.3" data-path="modelos-variog.html"><a href="modelos-variog.html#vario-lin-reg"><i class="fa fa-check"></i><b>3.2.3</b> El modelo lineal de regionalización</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>4.1</b> Introducción</a></li>
+<li class="chapter" data-level="4.2" data-path="ksimple.html"><a href="ksimple.html"><i class="fa fa-check"></i><b>4.2</b> Kriging con media conocida: kriging simple</a></li>
+<li class="chapter" data-level="4.3" data-path="kuniversal.html"><a href="kuniversal.html"><i class="fa fa-check"></i><b>4.3</b> Kriging con media desconocida: kriging universal</a></li>
+<li class="chapter" data-level="4.4" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.4</b> Consideraciones acerca de los métodos kriging</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="appendix"><span><b>Apendices</b></span></li>
+<li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html"><i class="fa fa-check"></i><b>A.1</b> Tipos de objetos</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialpoints-y-spatialpointsdataframe"><i class="fa fa-check"></i><b>A.1.1</b> SpatialPoints y SpatialPointsDataFrame</a></li>
+<li class="chapter" data-level="A.1.2" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatiallines-y-spatialpolygons"><i class="fa fa-check"></i><b>A.1.2</b> SpatialLines y SpatialPolygons</a></li>
+<li class="chapter" data-level="A.1.3" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialgrid-y-spatialpixels"><i class="fa fa-check"></i><b>A.1.3</b> SpatialGrid y SpatialPixels</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html"><i class="fa fa-check"></i><b>A.2</b> Métodos y procedimientos clases sp</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html#importarexportartransformar"><i class="fa fa-check"></i><b>A.2.1</b> Importar/exportar/transformar</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html"><i class="fa fa-check"></i><b>A.3</b> Representaciones gráficas</a>
+<ul>
+<li class="chapter" data-level="A.3.1" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-estándar"><i class="fa fa-check"></i><b>A.3.1</b> Gráficos estándar</a></li>
+<li class="chapter" data-level="A.3.2" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-lattice-spplot"><i class="fa fa-check"></i><b>A.3.2</b> Gráficos lattice: spplot</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="intro-geoR.html"><a href="intro-geoR.html"><i class="fa fa-check"></i><b>B</b> Introducción al paquete <strong>geoR</strong></a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html"><i class="fa fa-check"></i><b>B.1</b> Inicio de una sesión y de carga de datos</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#archivos-de-datos"><i class="fa fa-check"></i><b>B.1.1</b> Archivos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="análisis-descriptivo-de-datos-geoestadísticos.html"><a href="análisis-descriptivo-de-datos-geoestadísticos.html"><i class="fa fa-check"></i><b>B.2</b> Análisis descriptivo de datos geoestadísticos</a></li>
+<li class="chapter" data-level="B.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html"><i class="fa fa-check"></i><b>B.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="B.3.1" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#variogramas-empíricos"><i class="fa fa-check"></i><b>B.3.1</b> Variogramas empíricos</a></li>
+<li class="chapter" data-level="B.3.2" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#ajuste-de-un-modelo-de-variograma"><i class="fa fa-check"></i><b>B.3.2</b> Ajuste de un modelo de variograma</a></li>
+<li class="chapter" data-level="B.3.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#inferencia-sobre-el-variograma"><i class="fa fa-check"></i><b>B.3.3</b> Inferencia sobre el variograma</a></li>
+<li class="chapter" data-level="B.3.4" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#estimación-del-variograma-en-procesos-no-estacionarios"><i class="fa fa-check"></i><b>B.3.4</b> Estimación del variograma en procesos no estacionarios</a></li>
+</ul></li>
+<li class="chapter" data-level="B.4" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html"><i class="fa fa-check"></i><b>B.4</b> Predicción espacial (kriging)</a>
+<ul>
+<li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<ul>
+<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Espacial con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tipos-de-objetos" class="section level2" number="7.1">
+<h2><span class="header-section-number">A.1</span> Tipos de objetos</h2>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="tipos-de-objetos.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librería sp:classes and methods for spatial data</span></span>
+<span id="cb91-2"><a href="tipos-de-objetos.html#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp) <span class="co"># install.packages(&#39;sp&#39;)</span></span>
+<span id="cb91-3"><a href="tipos-de-objetos.html#cb91-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="tipos-de-objetos.html#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tipos de objetos</span></span>
+<span id="cb91-5"><a href="tipos-de-objetos.html#cb91-5" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">&quot;Spatial&quot;</span>)</span></code></pre></div>
+<pre><code>## Class &quot;Spatial&quot; [package &quot;sp&quot;]
+## 
+## Slots:
+##                               
+## Name:         bbox proj4string
+## Class:      matrix         CRS
+## 
+## Known Subclasses: 
+## Class &quot;SpatialPoints&quot;, directly
+## Class &quot;SpatialMultiPoints&quot;, directly
+## Class &quot;SpatialGrid&quot;, directly
+## Class &quot;SpatialLines&quot;, directly
+## Class &quot;SpatialPolygons&quot;, directly
+## Class &quot;SpatialPointsDataFrame&quot;, by class &quot;SpatialPoints&quot;, distance 2
+## Class &quot;SpatialPixels&quot;, by class &quot;SpatialPoints&quot;, distance 2
+## Class &quot;SpatialMultiPointsDataFrame&quot;, by class &quot;SpatialMultiPoints&quot;, distance 2
+## Class &quot;SpatialGridDataFrame&quot;, by class &quot;SpatialGrid&quot;, distance 2
+## Class &quot;SpatialLinesDataFrame&quot;, by class &quot;SpatialLines&quot;, distance 2
+## Class &quot;SpatialPixelsDataFrame&quot;, by class &quot;SpatialPoints&quot;, distance 3
+## Class &quot;SpatialPolygonsDataFrame&quot;, by class &quot;SpatialPolygons&quot;, distance 2</code></pre>
+<ul>
+<li><p>Clases del tipo S4 (definicion formal con componentes
+denominadas slots)</p></li>
+<li><p>Tipo base: <code>Spatial</code></p>
+<ul>
+<li><p><code>bbox</code> (bounding box): matriz con los límites mínimo y máximo de
+las coordenadas (principalmente para representación gráfica;
+normalmente se genera automáticamente).</p></li>
+<li><p><code>proj4string</code>: cadena de texto que define el sistema de
+coordenadas de referencia (realmente objeto tipo <em>CRS,</em>
+coordinate reference system) en formato
+<a href="http://trac.osgeo.org/proj">PROJ.4</a>.</p>
+<ul>
+<li><p><code>CRS(as.character(NA))</code> para indicar no disponible/faltante</p></li>
+<li><p><code>CRS(+proj=longlat)</code> para coordenadas geográficas</p></li>
+<li><p><code>CRS(+proj=longlat +ellps=WGS84)</code> estándar GPS (World
+Geodetic System of 1984)</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="tipos-de-objetos.html#cb93-1" aria-hidden="true" tabindex="-1"></a>xbbox <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb93-2"><a href="tipos-de-objetos.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(xbbox) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>) <span class="co"># Normalmente la bbox se genera automáticamente al crear el objeto</span></span>
+<span id="cb93-3"><a href="tipos-de-objetos.html#cb93-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">Spatial</span>(xbbox, <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="fu">as.character</span>(<span class="cn">NA</span>)))</span>
+<span id="cb93-4"><a href="tipos-de-objetos.html#cb93-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<pre><code>## An object of class &quot;Spatial&quot;
+## Slot &quot;bbox&quot;:
+##      min max
+## [1,]   0   1
+## [2,]   0   1
+## 
+## Slot &quot;proj4string&quot;:
+## CRS arguments: NA</code></pre>
+<p>Los objetos son del tipo S4.
+Los componentes se denominan slots.
+Se acceden con la función <code>slot()</code> o el operador <code>@</code>.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="tipos-de-objetos.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slot</span>(x,<span class="st">&#39;bbox&#39;</span>)</span></code></pre></div>
+<pre><code>##      min max
+## [1,]   0   1
+## [2,]   0   1</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="tipos-de-objetos.html#cb97-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>bbox <span class="do">### en s4 se pone @ en vez de $.</span></span></code></pre></div>
+<pre><code>##      min max
+## [1,]   0   1
+## [2,]   0   1</code></pre>
+<p>El paquete sp dispone también de funciones para acceder/establecer
+los componentes:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="tipos-de-objetos.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bbox</span>(x)</span></code></pre></div>
+<pre><code>##      min max
+## [1,]   0   1
+## [2,]   0   1</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="tipos-de-objetos.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(x) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>) <span class="co"># Importante</span></span></code></pre></div>
+<div id="spatialpoints-y-spatialpointsdataframe" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">A.1.1</span> SpatialPoints y SpatialPointsDataFrame</h3>
+<ul>
+<li><p>Tipo <code>SpatialPoints</code></p>
+<ul>
+<li><p>Slots: <code>coords, bbox, proj4string</code></p></li>
+<li><p>Objeto de datos básico para procesos puntuales.</p></li>
+</ul></li>
+<li><p>Tipo <code>SpatialPointsDataFrame</code></p>
+<ul>
+<li><p>Slots: <code>data, coords.nrs, coords, bbox, proj4string</code></p></li>
+<li><p>Objeto de datos básico para procesos geoestadísticos (y procesos
+puntuales marcados).</p></li>
+</ul></li>
+</ul>
+<div id="ejemplo-spatialpoints" class="section level4" number="7.1.1.1">
+<h4><span class="header-section-number">A.1.1.1</span> Ejemplo SpatialPoints</h4>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="tipos-de-objetos.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/caballa.galicia.RData&quot;</span>)</span>
+<span id="cb102-2"><a href="tipos-de-objetos.html#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(caballa.galicia)  <span class="co"># data.frame(attr(caballa.galicia, &quot;variable.labels&quot;))</span></span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    676 obs. of  12 variables:
+##  $ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
+##  $ x        : num  -9.4 -9.44 -9.44 -9.4 -9.47 ...
+##  $ y        : num  43 43 43 43 42.8 ...
+##  $ fecha    : num  1.32e+10 1.32e+10 1.32e+10 1.32e+10 1.32e+10 ...
+##  $ semana   : num  7 7 7 7 7 7 8 8 8 8 ...
+##  $ mes      : num  2 2 2 2 2 2 2 2 2 2 ...
+##  $ ano      : num  2001 2001 2001 2001 2001 ...
+##  $ cpue     : num  18 240 240 18 118 ...
+##  $ chl_a    : num  NA NA 7.08 7.08 7.08 ...
+##  $ sust_amar: num  NA NA 0.356 0.356 0.356 ...
+##  $ sst      : num  14.2 14.2 16 16 16 16.1 16 15.9 15.9 15.9 ...
+##  $ lcpue    : num  2.89 5.48 5.48 2.89 4.77 ...
+##  - attr(*, &quot;variable.labels&quot;)= Named chr [1:12] &quot;Cuadricula &quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##   ..- attr(*, &quot;names&quot;)= chr [1:12] &quot;id&quot; &quot;x&quot; &quot;y&quot; &quot;fecha&quot; ...
+##  - attr(*, &quot;codepage&quot;)= int 1252</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="tipos-de-objetos.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> caballa.galicia)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="tipos-de-objetos.html#cb105-1" aria-hidden="true" tabindex="-1"></a>spt <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(caballa.galicia[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb105-2"><a href="tipos-de-objetos.html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spt)</span></code></pre></div>
+<pre><code>## Object of class SpatialPoints
+## Coordinates:
+##        min       max
+## x -9.56538 -8.030065
+## y 41.86240 44.010800
+## Is projected: FALSE 
+## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
+## Number of points: 676</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="tipos-de-objetos.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spt)</span></code></pre></div>
+<pre><code>## Formal class &#39;SpatialPoints&#39; [package &quot;sp&quot;] with 3 slots
+##   ..@ coords     : num [1:676, 1:2] -9.4 -9.44 -9.44 -9.4 -9.47 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:676] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   ..@ bbox       : num [1:2, 1:2] -9.57 41.86 -8.03 44.01
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+##   .. .. ..@ projargs: chr &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;
+##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
+<p>Hay muchos métodos (funciones genéricas) implementados para objetos <code>sp</code>:</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="tipos-de-objetos.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(spt)</span></span>
+<span id="cb109-2"><a href="tipos-de-objetos.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spt, <span class="at">axes=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ejemplo-spatialpointsdataframe" class="section level4" number="7.1.1.2">
+<h4><span class="header-section-number">A.1.1.2</span> Ejemplo SpatialPointsDataFrame</h4>
+<p>Importante (para preparar datos):</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="tipos-de-objetos.html#cb110-1" aria-hidden="true" tabindex="-1"></a>sdf1 <span class="ot">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(caballa.galicia[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], caballa.galicia[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb110-2"><a href="tipos-de-objetos.html#cb110-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf1)</span></code></pre></div>
+<pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
+##   ..@ data       :&#39;data.frame&#39;:  676 obs. of  10 variables:
+##   .. ..$ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
+##   .. ..$ fecha    : num [1:676] 1.32e+10 1.32e+10 1.32e+10 1.32e+10 1.32e+10 ...
+##   .. ..$ semana   : num [1:676] 7 7 7 7 7 7 8 8 8 8 ...
+##   .. ..$ mes      : num [1:676] 2 2 2 2 2 2 2 2 2 2 ...
+##   .. ..$ ano      : num [1:676] 2001 2001 2001 2001 2001 ...
+##   .. ..$ cpue     : num [1:676] 18 240 240 18 118 ...
+##   .. ..$ chl_a    : num [1:676] NA NA 7.08 7.08 7.08 ...
+##   .. ..$ sust_amar: num [1:676] NA NA 0.356 0.356 0.356 ...
+##   .. ..$ sst      : num [1:676] 14.2 14.2 16 16 16 16.1 16 15.9 15.9 15.9 ...
+##   .. ..$ lcpue    : num [1:676] 2.89 5.48 5.48 2.89 4.77 ...
+##   ..@ coords.nrs : num(0) 
+##   ..@ coords     : num [1:676, 1:2] -9.4 -9.44 -9.44 -9.4 -9.47 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:676] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   ..@ bbox       : num [1:2, 1:2] -9.57 41.86 -8.03 44.01
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+##   .. .. ..@ projargs: chr &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;
+##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
+<p>Una alernativa normalmente preferible es modificar directamente
+el <code>data.frame</code>:</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="tipos-de-objetos.html#cb112-1" aria-hidden="true" tabindex="-1"></a>sdf <span class="ot">&lt;-</span> caballa.galicia</span>
+<span id="cb112-2"><a href="tipos-de-objetos.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>) <span class="co"># Recomendación</span></span>
+<span id="cb112-3"><a href="tipos-de-objetos.html#cb112-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)  <span class="co"># También sdf@proj4string &lt;- CRS(&quot;+proj=longlat +ellps=WGS84&quot;)</span></span>
+<span id="cb112-4"><a href="tipos-de-objetos.html#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf)</span></code></pre></div>
+<pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
+##   ..@ data       :&#39;data.frame&#39;:  676 obs. of  10 variables:
+##   .. ..$ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
+##   .. ..$ fecha    : num [1:676] 1.32e+10 1.32e+10 1.32e+10 1.32e+10 1.32e+10 ...
+##   .. ..$ semana   : num [1:676] 7 7 7 7 7 7 8 8 8 8 ...
+##   .. ..$ mes      : num [1:676] 2 2 2 2 2 2 2 2 2 2 ...
+##   .. ..$ ano      : num [1:676] 2001 2001 2001 2001 2001 ...
+##   .. ..$ cpue     : num [1:676] 18 240 240 18 118 ...
+##   .. ..$ chl_a    : num [1:676] NA NA 7.08 7.08 7.08 ...
+##   .. ..$ sust_amar: num [1:676] NA NA 0.356 0.356 0.356 ...
+##   .. ..$ sst      : num [1:676] 14.2 14.2 16 16 16 16.1 16 15.9 15.9 15.9 ...
+##   .. ..$ lcpue    : num [1:676] 2.89 5.48 5.48 2.89 4.77 ...
+##   ..@ coords.nrs : int [1:2] 2 3
+##   ..@ coords     : num [1:676, 1:2] -9.4 -9.44 -9.44 -9.4 -9.47 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:676] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   ..@ bbox       : num [1:2, 1:2] -9.57 41.86 -8.03 44.01
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:2] &quot;x&quot; &quot;y&quot;
+##   .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+##   .. .. ..@ projargs: chr &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;
+##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
+<p>Operaciones como en un <code>data.frame</code>.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="tipos-de-objetos.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sdf)</span></code></pre></div>
+<pre><code>##  [1] &quot;id&quot;        &quot;fecha&quot;     &quot;semana&quot;    &quot;mes&quot;       &quot;ano&quot;       &quot;cpue&quot;     
+##  [7] &quot;chl_a&quot;     &quot;sust_amar&quot; &quot;sst&quot;       &quot;lcpue&quot;</code></pre>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="tipos-de-objetos.html#cb116-1" aria-hidden="true" tabindex="-1"></a>sdf<span class="sc">$</span>id  <span class="co"># Equivalente a sdf@data$id </span></span></code></pre></div>
+<pre><code>##   [1] E2 E2 F2 F2 F2 G2 G2 H1 H1 H1 I1 I1 I2 I2 J1 J1 J1 J1 J2 J2 J2 D1 E1 F1 F1
+##  [26] G1 G2 H2 I2 I2 J1 J2 D1 E2 E2 F2 F1 F1 F1 F2 G1 G1 G2 G2 H2 I1 I1 I2 I2 I2
+##  [51] J1 J1 J2 E2 F1 F1 G1 G2 H1 H2 H2 I1 I1 I1 I1 I2 I2 I2 F1 F2 F2 G2 I1 I1 I1
+##  [76] I1 I2 I2 I2 I2 J1 J1 E2 F2 F2 F2 F2 G2 G2 H3 I3 I3 I3 J3 J3 J3 F2 G2 H2 F2
+## [101] G2 G2 H2 I1 I1 I2 I2 J2 B2 B3 C2 C3 C3 E2 F2 F2 G2 H3 I3 B3 B3 C3 C3 C3 C4
+## [126] C4 C4 I2 I2 I3 J2 J2 H2 H2 H2 I2 I2 I2 E2 F2 F2 G2 B2 B3 B3 C3 C3 C3 C4 C4
+## [151] E1 F1 F1 F1 F2 G1 G1 G2 E1 F1 F2 G2 G2 H2 I2 I2 I2 J2 J2 A1 B2 B3 B3 B3 B4
+## [176] B4 C3 I2 I2 J2 J2 I2 J2 I2 J2 I3 J2 J3 A1 A2 A2 B3 B4 B4 B5 C2 C3 C3 C4 D2
+## [201] D3 F1 F2 C2 C2 C3 C3 C3 C4 C4 D4 H2 H2 H3 I3 B2 B3 C2 C2 C3 C3 C3 C3 C4 B2
+## [226] B3 C2 C3 C3 C3 C3 C4 C4 C4 B2 C2 C2 C3 C3 C3 C3 C4 C4 C4 H2 H2 I1 I2 I2 I1
+## [251] I2 I2 I2 I2 I3 J1 J2 J2 J2 J3 B2 B3 B3 B3 B3 C3 C3 C3 C3 C4 C4 C4 I2 I2 I3
+## [276] I3 J2 J2 J3 J3 B2 C3 C3 C4 C4 B2 B2 B3 B3 B3 C3 C3 C3 C4 C4 B2 B2 B3 C3 C3
+## [301] C3 C3 C4 D4 B2 B2 B3 C2 C2 C3 C3 C3 C3 C4 I2 J2 J2 J2 B2 B3 C2 C2 C3 C3 C4
+## [326] I3 J2 J2 J3 B3 B3 B3 B4 B4 C3 C4 C4 B2 B3 C3 C3 C3 C4 C4 B3 C3 C3 C4 C4 C4
+## [351] B3 B3 B3 B4 B4 C4 G2 H1 H2 H2 B3 B3 B4 C4 C4 H2 H2 I2 I2 H2 I2 J2 B3 B3 B4
+## [376] C3 C4 C4 D4 B3 C3 C3 C4 C4 C4 D4 D4 H2 I2 I2 J1 J2 D1 D2 D2 D2 D2 H2 I2 E2
+## [401] F2 F2 F2 E2 E2 F2 F2 E2 F2 F2 F2 G2 B2 B2 B3 B3 B3 C3 C3 C3 C4 C1 C2 C3 C3
+## [426] C4 D1 D2 D4 C1 C2 C2 C3 C3 C4 I2 I2 J1 J1 J2 J2 I3 H2 H3 I2 I2 I2 I2 I2 I3
+## [451] J1 J1 J1 J2 J2 J2 J2 H3 H3 I2 I3 I3 I3 I3 I3 J2 J2 J3 H3 H3 H3 I2 I2 I2 I3
+## [476] I3 I3 J2 J2 G3 G3 H2 H2 H2 H2 H2 H3 G3 H2 H2 H2 E1 F1 E1 F1 E1 F1 G2 H1 H2
+## [501] H2 H3 I3 C2 D1 D1 D1 D2 D2 D2 E2 E2 E2 F2 B1 B2 C2 C2 C3 D1 D1 D1 D2 E2 E2
+## [526] H2 I2 I2 I2 J1 J1 J1 J2 J2 H3 H3 I3 I3 I3 I3 J3 J3 H1 I1 H3 H3 I2 I2 I3 I3
+## [551] I3 I3 J2 J2 I2 I3 J2 H3 H3 I3 I3 I3 I3 J3 J3 H3 I3 I3 I3 J3 J3 H3 H3 I2 I3
+## [576] I3 I3 I3 J3 J3 H3 H3 I2 I3 I3 I3 J2 J2 J3 F1 F2 G2 G2 H1 H2 H2 F1 G1 G2 I1
+## [601] I2 I2 I2 J1 J1 J2 J2 J2 I2 I2 I2 I2 J2 J2 J2 J2 D1 D2 E2 E2 E2 F2 F2 G2 D1
+## [626] D1 D1 D1 D2 D2 E1 E2 E2 F1 G1 G2 G2 F1 G1 G1 G1 G2 G2 G1 G2 H3 I2 I3 I3 J2
+## [651] J2 J3 J3 H3 I3 I3 I3 I3 I3 J2 J3 J3 J3 J3 H3 I2 I3 I3 I3 I3 I3 I3 J3 J3 J3
+## [676] J3
+## 31 Levels: A1 A2 B1 B2 B3 B4 B5 C1 C2 C3 C4 D1 D2 D3 D4 E1 E2 F1 F2 G1 ... J3</code></pre>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="tipos-de-objetos.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb118-2"><a href="tipos-de-objetos.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf[sdf<span class="sc">$</span>id <span class="sc">==</span> <span class="st">&quot;J3&quot;</span>, ], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Importante (para análisis descriptivo):</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="tipos-de-objetos.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sdf[,<span class="fu">c</span>(<span class="st">&quot;cpue&quot;</span>,<span class="st">&quot;lcpue&quot;</span>)])</span></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##        min       max
+## x -9.56538 -8.030065
+## y 41.86240 44.010800
+## Is projected: FALSE 
+## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
+## Number of points: 676
+## Data attributes:
+##       cpue              lcpue        
+##  Min.   :  0.1435   Min.   :-1.9411  
+##  1st Qu.:  1.9559   1st Qu.: 0.6708  
+##  Median :  5.8537   Median : 1.7671  
+##  Mean   : 30.9208   Mean   : 1.9087  
+##  3rd Qu.: 19.5349   3rd Qu.: 2.9722  
+##  Max.   :870.0000   Max.   : 6.7685</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="tipos-de-objetos.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>cpue)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="tipos-de-objetos.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>lcpue)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-11-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tipos-de-objetos.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-11-3.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="spatiallines-y-spatialpolygons" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">A.1.2</span> SpatialLines y SpatialPolygons</h3>
+<ul>
+<li><p>Tipo <code>SpatialLines</code></p>
+<ul>
+<li><p>Basados en <code>Line</code>: <code>coords</code></p></li>
+<li><p>Se combinan objetos <code>Line</code> en listas: <code>lines, bbox, proj4string</code></p></li>
+<li><p>De utilidad principalmente para representaciones gráficas (y
+para generar polígonos).</p></li>
+</ul></li>
+<li><p>Tipo <code>SpatialPolygons</code></p>
+<ul>
+<li><p>Basados en <code>Polygon</code>:
+<code>labpt, area, hole, ringDir, coords</code>(extiende <code>Line</code> de forma
+que la primera y la última línea es la misma)<code>.</code></p></li>
+<li><p>Se combinan objetos <code>Polygon</code> en listas:
+<code>polygons, plotOrder, bbox, proj4string.</code></p></li>
+<li><p>De utilidad principalmente para representaciones gráficas (y
+<code>overlay</code>).</p></li>
+</ul></li>
+<li><p>Se extienden también a <code>Spatial*DataFrame</code> (slot <code>data</code>)</p>
+<ul>
+<li><code>SpatialPolygonsDataFrame</code>: util para procesos reticulares.</li>
+</ul></li>
+</ul>
+<div id="ejemplo-spatiallines" class="section level4" number="7.1.2.1">
+<h4><span class="header-section-number">A.1.2.1</span> Ejemplo SpatialLines</h4>
+<p>El fichero <em>costa.galicia.txt</em> contiene la costa de Galicia en formato Mapgen.
+Descargada del (difunto) <a href="http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html">Coastline Extractor</a></p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="tipos-de-objetos.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools) <span class="co"># Utilidades para convertir datos entre diferentes formatos espaciales</span></span></code></pre></div>
+<pre><code>## Checking rgeos availability: TRUE</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="tipos-de-objetos.html#cb126-1" aria-hidden="true" tabindex="-1"></a>costa.galicia <span class="ot">&lt;-</span> <span class="fu">MapGen2SL</span>(<span class="st">&quot;datos/costa.galicia.txt&quot;</span>, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb126-2"><a href="tipos-de-objetos.html#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-3"><a href="tipos-de-objetos.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(costa.galicia)</span></code></pre></div>
+<pre><code>## Object of class SpatialLines
+## Coordinates:
+##         min       max
+## x -9.305495 -6.500147
+## y 41.500846 43.791944
+## Is projected: FALSE 
+## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="tipos-de-objetos.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
+<span id="cb128-2"><a href="tipos-de-objetos.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(costa.galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ejemplo-spatialpolygonsdataframe" class="section level4" number="7.1.2.2">
+<h4><span class="header-section-number">A.1.2.2</span> Ejemplo SpatialPolygonsDataFrame</h4>
+<p>Los objetos de este tipo se suelen crear a partir de objetos <code>SpatialLines</code>,
+pero hay que asegurarse de que definen adecuadamente un polígono.</p>
+<p>Objetos de este tipo se pueden descargar de
+<a href="http://www.gadm.org">GADM database of Global Administrative Areas</a>.
+Contienen límites administrativos a disintos niveles, e.g.:</p>
+<ul>
+<li><p><code>ESP_adm0.rds</code> límites España e islas</p></li>
+<li><p><code>ESP_adm1.rds</code> límites Autonomías</p></li>
+<li><p><code>ESP_adm2.rds</code> límites Provincias</p></li>
+<li><p><code>ESP_adm3.rds</code> límites Comarcas</p></li>
+<li><p><code>ESP_adm4.rds</code> límites Ayuntamientos</p></li>
+</ul>
+<p>NOTA: Se podrían descargar directamente desde R, e.g.:</p>
+<pre><code>  con &lt;- url(&#39;http://gadm.org/data/rda/ESP_adm1.rds&#39;)
+  gadm &lt;- readRDS(con)
+  close(con)</code></pre>
+<p>Carga de un objeto gadm:</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tipos-de-objetos.html#cb130-1" aria-hidden="true" tabindex="-1"></a>gadm <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;datos/ESP_adm1.rds&quot;</span>) </span>
+<span id="cb130-2"><a href="tipos-de-objetos.html#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gadm)</span></code></pre></div>
+<pre><code>## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##         min       max
+## x -18.16153  4.328195
+## y  27.63736 43.791527
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0]
+## Data attributes:
+##     OBJECTID          ID_0         ISO               NAME_0         
+##  Min.   : 1.00   Min.   :215   Length:18          Length:18         
+##  1st Qu.: 5.25   1st Qu.:215   Class :character   Class :character  
+##  Median : 9.50   Median :215   Mode  :character   Mode  :character  
+##  Mean   : 9.50   Mean   :215                                        
+##  3rd Qu.:13.75   3rd Qu.:215                                        
+##  Max.   :18.00   Max.   :215                                        
+##                                                                     
+##       ID_1          NAME_1             HASC_1              CCN_1    
+##  Min.   : 1.00   Length:18          Length:18          Min.   : NA  
+##  1st Qu.: 5.25   Class :character   Class :character   1st Qu.: NA  
+##  Median : 9.50   Mode  :character   Mode  :character   Median : NA  
+##  Mean   : 9.50                                         Mean   :NaN  
+##  3rd Qu.:13.75                                         3rd Qu.: NA  
+##  Max.   :18.00                                         Max.   : NA  
+##                                                        NA&#39;s   :18   
+##     CCA_1              TYPE_1           ENGTYPE_1          NL_NAME_1        
+##  Length:18          Length:18          Length:18          Length:18         
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##   VARNAME_1        
+##  Length:18         
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
+## </code></pre>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tipos-de-objetos.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gadm)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tipos-de-objetos.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado objeto muy grande: str(gadm)</span></span>
+<span id="cb133-2"><a href="tipos-de-objetos.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mejor emplear str(gadm, 3)</span></span></code></pre></div>
+<p>Extraer autonomía de Galicia:</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="tipos-de-objetos.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gadm)</span></code></pre></div>
+<pre><code>##  [1] &quot;OBJECTID&quot;  &quot;ID_0&quot;      &quot;ISO&quot;       &quot;NAME_0&quot;    &quot;ID_1&quot;      &quot;NAME_1&quot;   
+##  [7] &quot;HASC_1&quot;    &quot;CCN_1&quot;     &quot;CCA_1&quot;     &quot;TYPE_1&quot;    &quot;ENGTYPE_1&quot; &quot;NL_NAME_1&quot;
+## [13] &quot;VARNAME_1&quot;</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="tipos-de-objetos.html#cb136-1" aria-hidden="true" tabindex="-1"></a>galicia <span class="ot">&lt;-</span> gadm[gadm<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Galicia&quot;</span>, ]</span>
+<span id="cb136-2"><a href="tipos-de-objetos.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Es preferible emplear este tipo de objetos a <code>SpatialLines</code>:</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="tipos-de-objetos.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
+<span id="cb137-2"><a href="tipos-de-objetos.html#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="spatialgrid-y-spatialpixels" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">A.1.3</span> SpatialGrid y SpatialPixels</h3>
+<p>Es habitual trabajar con datos espaciales en formato
+rejilla (grid) (e.g. predicciones en geoestadística):</p>
+<ul>
+<li><p>Rejilla (posiciones) definida por un objeto <code>GridTopology</code>:
+<code>cellcentre.offset, cellsize, cells.dim</code></p></li>
+<li><p>Tipos <code>SpatialGrid</code> y <code>SpatialPixels</code>:
+<code>grid, grid.index, coords, bbox, proj4string</code></p></li>
+<li><p>Se extienden también a <code>Spatial*DataFrame</code> (slot <code>data</code>)</p></li>
+<li><p>Los objetos <code>SpatialGrid</code> se corresponden con la rejilla completa:</p></li>
+<li><p>Los objetos <code>SpatialPixels</code> se corresponden con una rejilla
+incompleta</p>
+<ul>
+<li><p><code>coords</code>contiene todas las coordenadas (objetos equivalentes a
+<code>SpatialPoints</code>)</p></li>
+<li><p><code>grid.index</code>indices de la rejilla</p></li>
+</ul></li>
+</ul>
+<div id="ejemplo-spatialgrid" class="section level4" number="7.1.3.1">
+<h4><span class="header-section-number">A.1.3.1</span> Ejemplo SpatialGrid</h4>
+<p>Importante si se utiliza el paquete <code>gstat</code>…</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tipos-de-objetos.html#cb138-1" aria-hidden="true" tabindex="-1"></a>xrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="fl">7.5</span>)</span>
+<span id="cb138-2"><a href="tipos-de-objetos.html#cb138-2" aria-hidden="true" tabindex="-1"></a>yrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">42.25</span>, <span class="dv">44</span>)</span>
+<span id="cb138-3"><a href="tipos-de-objetos.html#cb138-3" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb138-4"><a href="tipos-de-objetos.html#cb138-4" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb138-5"><a href="tipos-de-objetos.html#cb138-5" aria-hidden="true" tabindex="-1"></a>hx <span class="ot">&lt;-</span> <span class="fu">diff</span>(xrange)<span class="sc">/</span>(nx<span class="dv">-1</span>)</span>
+<span id="cb138-6"><a href="tipos-de-objetos.html#cb138-6" aria-hidden="true" tabindex="-1"></a>hy <span class="ot">&lt;-</span> <span class="fu">diff</span>(yrange)<span class="sc">/</span>(ny<span class="dv">-1</span>)</span>
+<span id="cb138-7"><a href="tipos-de-objetos.html#cb138-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-8"><a href="tipos-de-objetos.html#cb138-8" aria-hidden="true" tabindex="-1"></a>gridtop <span class="ot">&lt;-</span> <span class="fu">GridTopology</span>(<span class="at">cellcentre.offset =</span> <span class="fu">c</span>(<span class="fu">min</span>(xrange), <span class="fu">min</span>(yrange)),</span>
+<span id="cb138-9"><a href="tipos-de-objetos.html#cb138-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cellsize =</span> <span class="fu">c</span>(hx, hy), <span class="at">cells.dim =</span> <span class="fu">c</span>(nx, ny))</span>
+<span id="cb138-10"><a href="tipos-de-objetos.html#cb138-10" aria-hidden="true" tabindex="-1"></a>spgrid <span class="ot">&lt;-</span>  <span class="fu">SpatialGrid</span>(gridtop, <span class="at">proj4string =</span> <span class="fu">proj4string</span>(gadm))</span>
+<span id="cb138-11"><a href="tipos-de-objetos.html#cb138-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb138-12"><a href="tipos-de-objetos.html#cb138-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spgrid)</span></code></pre></div>
+<pre><code>## Formal class &#39;SpatialGrid&#39; [package &quot;sp&quot;] with 3 slots
+##   ..@ grid       :Formal class &#39;GridTopology&#39; [package &quot;sp&quot;] with 3 slots
+##   .. .. ..@ cellcentre.offset: num [1:2] -10 42.2
+##   .. .. ..@ cellsize         : num [1:2] 0.0253 0.0177
+##   .. .. ..@ cells.dim        : int [1:2] 100 100
+##   ..@ bbox       : num [1:2, 1:2] -10.01 42.24 -7.49 44.01
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : NULL
+##   .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+##   .. .. ..@ projargs: chr &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
+##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;World Geodetic System 1984\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298.25722&quot;| __truncated__</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tipos-de-objetos.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spgrid, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb140-2"><a href="tipos-de-objetos.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ejemplo-spatialpixels" class="section level4" number="7.1.3.2">
+<h4><span class="header-section-number">A.1.3.2</span> Ejemplo SpatialPixels</h4>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="tipos-de-objetos.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># over: combinación de objetos espaciales</span></span>
+<span id="cb141-2"><a href="tipos-de-objetos.html#cb141-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">over</span>(spgrid, <span class="fu">as</span>(galicia, <span class="st">&quot;SpatialPolygons&quot;</span>))</span>
+<span id="cb141-3"><a href="tipos-de-objetos.html#cb141-3" aria-hidden="true" tabindex="-1"></a>sppix <span class="ot">&lt;-</span> <span class="fu">as</span>(spgrid, <span class="st">&quot;SpatialPixels&quot;</span>)[<span class="fu">is.na</span>(index), ]</span>
+<span id="cb141-4"><a href="tipos-de-objetos.html#cb141-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-5"><a href="tipos-de-objetos.html#cb141-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sppix)</span></code></pre></div>
+<pre><code>## Formal class &#39;SpatialPixels&#39; [package &quot;sp&quot;] with 5 slots
+##   ..@ grid       :Formal class &#39;GridTopology&#39; [package &quot;sp&quot;] with 3 slots
+##   .. .. ..@ cellcentre.offset: num [1:2] -10 42.2
+##   .. .. ..@ cellsize         : num [1:2] 0.0253 0.0177
+##   .. .. ..@ cells.dim        : int [1:2] 100 100
+##   ..@ grid.index : int [1:5631] 1 2 3 4 5 6 7 8 9 10 ...
+##   ..@ coords     : num [1:5631, 1:2] -10 -9.97 -9.95 -9.92 -9.9 ...
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : NULL
+##   .. .. ..$ : chr [1:2] &quot;s1&quot; &quot;s2&quot;
+##   ..@ bbox       : num [1:2, 1:2] -10.01 42.24 -7.49 44.01
+##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. ..$ : chr [1:2] &quot;s1&quot; &quot;s2&quot;
+##   .. .. ..$ : chr [1:2] &quot;min&quot; &quot;max&quot;
+##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
+##   .. .. ..@ projargs: chr &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
+##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;World Geodetic System 1984\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298.25722&quot;| __truncated__</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="tipos-de-objetos.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sppix, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb143-2"><a href="tipos-de-objetos.html#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="11-sp_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="tipos-de-objetos.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTA: puede ser preferible asignar NA&#39;s a variables en SpatialGridDataFrame...</span></span>
+<span id="cb144-2"><a href="tipos-de-objetos.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(spgrid)</span></code></pre></div>
+<pre><code>## 4040 bytes</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="tipos-de-objetos.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(sppix)</span></code></pre></div>
+<pre><code>## 117680 bytes</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="tipos-de-objetos.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Otras funciones:</span></span>
+<span id="cb148-2"><a href="tipos-de-objetos.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as(sppix, &quot;SpatialGrid&quot;) recostruye la rejilla completa</span></span>
+<span id="cb148-3"><a href="tipos-de-objetos.html#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="co"># gridded(ObjetoSpatialPoints) &lt;- TRUE  convierte el objeto SpatialPoints en SpatialPixels</span></span></code></pre></div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro-sp.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="métodos-y-procedimientos-clases-sp.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/11-sp.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["estadistica_espacial.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

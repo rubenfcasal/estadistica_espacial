@@ -1,0 +1,59 @@
+# Procesos espaciales espacio-temporales {#esp-temp}
+
+<!-- 
+---
+title: "Estadística Espacial"
+author: "Análisis estadístico de datos con dependencia (GCED)"
+date: "Curso 2021/2022"
+bibliography: ["packages.bib", "estadistica_espacial.bib"]
+link-citations: yes
+output: 
+  bookdown::html_document2:
+    pandoc_args: ["--number-offset", "0,0"]
+    toc: yes 
+    # mathjax: local            # copia local de MathJax, hay que establecer:
+    # self_contained: false     # las dependencias se guardan en ficheros externos 
+  bookdown::pdf_document2:
+    keep_tex: yes
+    toc: yes 
+---
+
+bookdown::preview_chapter("01-introduccion.Rmd")
+knitr::purl("01-introduccion.Rmd", documentation = 2)
+knitr::spin("01-introduccion.R",knit = FALSE)
+-->
+
+
+
+
+***En preparación...***
+
+Como ya se comentó en el Capítulo 1 se puede pensar en un procesos espacio-temporal como un caso particular de un proceso espacial en el que una de las componentes es el tiempo.
+Sin embargo, para enfatizar el carácter temporal, se utilizará una notación de la forma:
+$$\left\{ Z(\mathbf{s},t):(\mathbf{s},t)\in D\times T\right\}$$
+donde $D\times T\subset \mathbb{R} ^{d} \times \mathbb{R}^{+,0}$, para
+referirse a un proceso espacio-temporal. 
+
+En algunos casos los procesos espacio-temporales son modelados también
+como procesos espaciales multivariantes (e.g. Egbert y Lettenmaier,
+1986; Kyriakidis y Journel, 1999). 
+
+Por ejemplo, se puede considerar una representación de la forma:
+
+$$Z(\mathbf{s},t)=\mathbf{Z}(\mathbf{s})=(Z_{1} (\mathbf{s}), \ldots,Z_{k} (
+\mathbf{s}))^\top,$$
+donde
+$$Z_{i} (\mathbf{s})=Z(\mathbf{s},t_{i} ),\  i=1, \ldots,k.$$ 
+O también:
+$$Z(\mathbf{s},t) = \mathbf{Z}(t) =  \left(Z_{1}(t), \ldots, Z_{n}(t) \right)^\top,$$
+siendo
+$$Z_{j} (t)=Z(\mathbf{s}_{j} ,t),\  j=1, \ldots,n.$$
+Uno de los principales problemas al utilizar estas aproximaciones es que, utilizando los modelos geoestadísticos tradicionales, no es posible la
+predicción en todas las posiciones espacio-temporales sin algún tipo de
+modelado adicional. Por ejemplo, utilizando la representación y los métodos geoestadísticos de predicción espacial multivariante, se pueden obtener en principio superficies de predicción solamente en los k instantes temporales $t_{i} ,\  i=1, \ldots, k$, 
+y no es posible la interpolación temporal sin modelado adicional (ver Sección 5.3.5).
+
+<!-- 
+## Referencias 
+-->
+

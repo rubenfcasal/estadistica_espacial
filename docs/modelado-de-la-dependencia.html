@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>B.3 Modelado de la dependencia | Estadística Espacial con R</title>
+  <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="B.3 Modelado de la dependencia | Estadística Espacial con R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="B.3 Modelado de la dependencia | Estadística Espacial con R" />
+  
+  <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  
+
+<meta name="author" content="Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)" />
+<meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
+
+
+<meta name="date" content="2021-11-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-descriptivo-de-datos-geoestadísticos.html"/>
+<link rel="next" href="predicción-espacial-kriging.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Aprendizaje Estadístico</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
+<li class="chapter" data-level="1" data-path="intro-estesp.html"><a href="intro-estesp.html"><i class="fa fa-check"></i><b>1</b> Introducción: Procesos espaciales y Geoestadística</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="geoestadistica.html"><a href="geoestadistica.html#modelos-clasicos-espaciales"><i class="fa fa-check"></i><b>1.2.1</b> Modelos clásicos y modelos espaciales</a></li>
+<li class="chapter" data-level="1.2.2" data-path="geoestadistica.html"><a href="geoestadistica.html#ventajas-de-la-aproximación-espacial-y-espacio-temporal"><i class="fa fa-check"></i><b>1.2.2</b> Ventajas de la aproximación espacial (y espacio-temporal)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="datos-tipos.html"><a href="datos-tipos.html"><i class="fa fa-check"></i><b>2.1</b> Tipos de datos espaciales</a></li>
+<li class="chapter" data-level="2.2" data-path="sf-intro.html"><a href="sf-intro.html"><i class="fa fa-check"></i><b>2.2</b> Introducción al paquete <strong>sf</strong></a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
+<li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
+<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="vario-muestrales.html"><a href="vario-muestrales.html"><i class="fa fa-check"></i><b>3.1</b> Estimadores muestrales del semivariograma</a></li>
+<li class="chapter" data-level="3.2" data-path="modelos-variog.html"><a href="modelos-variog.html"><i class="fa fa-check"></i><b>3.2</b> Modelos de semivariogramas</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="modelos-variog.html"><a href="modelos-variog.html#modelos-parametricos"><i class="fa fa-check"></i><b>3.2.1</b> Modelos paramétricos isotrópicos</a></li>
+<li class="chapter" data-level="3.2.2" data-path="modelos-variog.html"><a href="modelos-variog.html#anisotropia"><i class="fa fa-check"></i><b>3.2.2</b> Modelado de anisotropía</a></li>
+<li class="chapter" data-level="3.2.3" data-path="modelos-variog.html"><a href="modelos-variog.html#vario-lin-reg"><i class="fa fa-check"></i><b>3.2.3</b> El modelo lineal de regionalización</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>4.1</b> Introducción</a></li>
+<li class="chapter" data-level="4.2" data-path="ksimple.html"><a href="ksimple.html"><i class="fa fa-check"></i><b>4.2</b> Kriging con media conocida: kriging simple</a></li>
+<li class="chapter" data-level="4.3" data-path="kuniversal.html"><a href="kuniversal.html"><i class="fa fa-check"></i><b>4.3</b> Kriging con media desconocida: kriging universal</a></li>
+<li class="chapter" data-level="4.4" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.4</b> Consideraciones acerca de los métodos kriging</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="appendix"><span><b>Apendices</b></span></li>
+<li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html"><i class="fa fa-check"></i><b>A.1</b> Tipos de objetos</a>
+<ul>
+<li class="chapter" data-level="A.1.1" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialpoints-y-spatialpointsdataframe"><i class="fa fa-check"></i><b>A.1.1</b> SpatialPoints y SpatialPointsDataFrame</a></li>
+<li class="chapter" data-level="A.1.2" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatiallines-y-spatialpolygons"><i class="fa fa-check"></i><b>A.1.2</b> SpatialLines y SpatialPolygons</a></li>
+<li class="chapter" data-level="A.1.3" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialgrid-y-spatialpixels"><i class="fa fa-check"></i><b>A.1.3</b> SpatialGrid y SpatialPixels</a></li>
+</ul></li>
+<li class="chapter" data-level="A.2" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html"><i class="fa fa-check"></i><b>A.2</b> Métodos y procedimientos clases sp</a>
+<ul>
+<li class="chapter" data-level="A.2.1" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html#importarexportartransformar"><i class="fa fa-check"></i><b>A.2.1</b> Importar/exportar/transformar</a></li>
+</ul></li>
+<li class="chapter" data-level="A.3" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html"><i class="fa fa-check"></i><b>A.3</b> Representaciones gráficas</a>
+<ul>
+<li class="chapter" data-level="A.3.1" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-estándar"><i class="fa fa-check"></i><b>A.3.1</b> Gráficos estándar</a></li>
+<li class="chapter" data-level="A.3.2" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-lattice-spplot"><i class="fa fa-check"></i><b>A.3.2</b> Gráficos lattice: spplot</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="intro-geoR.html"><a href="intro-geoR.html"><i class="fa fa-check"></i><b>B</b> Introducción al paquete <strong>geoR</strong></a>
+<ul>
+<li class="chapter" data-level="B.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html"><i class="fa fa-check"></i><b>B.1</b> Inicio de una sesión y de carga de datos</a>
+<ul>
+<li class="chapter" data-level="B.1.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#archivos-de-datos"><i class="fa fa-check"></i><b>B.1.1</b> Archivos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="análisis-descriptivo-de-datos-geoestadísticos.html"><a href="análisis-descriptivo-de-datos-geoestadísticos.html"><i class="fa fa-check"></i><b>B.2</b> Análisis descriptivo de datos geoestadísticos</a></li>
+<li class="chapter" data-level="B.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html"><i class="fa fa-check"></i><b>B.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="B.3.1" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#variogramas-empíricos"><i class="fa fa-check"></i><b>B.3.1</b> Variogramas empíricos</a></li>
+<li class="chapter" data-level="B.3.2" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#ajuste-de-un-modelo-de-variograma"><i class="fa fa-check"></i><b>B.3.2</b> Ajuste de un modelo de variograma</a></li>
+<li class="chapter" data-level="B.3.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#inferencia-sobre-el-variograma"><i class="fa fa-check"></i><b>B.3.3</b> Inferencia sobre el variograma</a></li>
+<li class="chapter" data-level="B.3.4" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#estimación-del-variograma-en-procesos-no-estacionarios"><i class="fa fa-check"></i><b>B.3.4</b> Estimación del variograma en procesos no estacionarios</a></li>
+</ul></li>
+<li class="chapter" data-level="B.4" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html"><i class="fa fa-check"></i><b>B.4</b> Predicción espacial (kriging)</a>
+<ul>
+<li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<ul>
+<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Espacial con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelado-de-la-dependencia" class="section level2" number="8.3">
+<h2><span class="header-section-number">B.3</span> Modelado de la dependencia</h2>
+<p>En la primera parte de esta sección consideraremos un proceso espacial sin
+tendencia:</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="modelado-de-la-dependencia.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(s100) <span class="co"># Cargar datos estacionarios</span></span>
+<span id="cb169-2"><a href="modelado-de-la-dependencia.html#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(s100)</span></code></pre></div>
+<pre><code>## Number of data points: 100 
+## 
+## Coordinates summary
+##         Coord.X    Coord.Y
+## min 0.005638006 0.01091027
+## max 0.983920544 0.99124979
+## 
+## Distance summary
+##         min         max 
+## 0.007640962 1.278175109 
+## 
+## Data summary
+##       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
+## -1.1676955  0.2729882  1.1045936  0.9307179  1.6101707  2.8678969 
+## 
+## Other elements in the geodata object
+## [1] &quot;cov.model&quot; &quot;nugget&quot;    &quot;cov.pars&quot;  &quot;kappa&quot;     &quot;lambda&quot;</code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="modelado-de-la-dependencia.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s100)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/plot-s100-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>En el último apartado se tratará el caso general.</p>
+<div id="variogramas-empíricos" class="section level3" number="8.3.1">
+<h3><span class="header-section-number">B.3.1</span> Variogramas empíricos</h3>
+<p>Los variogramas empíricos se calculan utilizando la función <code>variog</code>:</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="modelado-de-la-dependencia.html#cb172-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
+<span id="cb172-2"><a href="modelado-de-la-dependencia.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100))</span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="modelado-de-la-dependencia.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>))</span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<p><img src="12-geor_files/figure-html/plot-variog1-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="modelado-de-la-dependencia.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+<p>La recomendación es considerar solo saltos hasta la mitad de la máxima
+distancia (ver ‘Distance summary’ en resultados del sumario).</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="modelado-de-la-dependencia.html#cb177-1" aria-hidden="true" tabindex="-1"></a>vario <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="modelado-de-la-dependencia.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vario)</span></code></pre></div>
+<pre><code>##  [1] &quot;u&quot;                &quot;v&quot;                &quot;n&quot;                &quot;sd&quot;              
+##  [5] &quot;bins.lim&quot;         &quot;ind.bin&quot;          &quot;var.mark&quot;         &quot;beta.ols&quot;        
+##  [9] &quot;output.type&quot;      &quot;max.dist&quot;         &quot;estimator.type&quot;   &quot;n.data&quot;          
+## [13] &quot;lambda&quot;           &quot;trend&quot;            &quot;pairs.min&quot;        &quot;nugget.tolerance&quot;
+## [17] &quot;direction&quot;        &quot;tolerance&quot;        &quot;uvec&quot;             &quot;call&quot;</code></pre>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="modelado-de-la-dependencia.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(vario)</span></span></code></pre></div>
+<p>NOTA: La componente <code>u</code> contiene los saltos, <code>v</code> las estimaciones del
+semivariograma (semivarianzas) y <code>n</code> el número de aportaciones.</p>
+<p>Los resultados pueden ser nubes de puntos (semivarianzas), valores
+discretizados (binned) o suavizados, dependiendo del parámetro:
+<code>option = c("bin", "cloud", "smooth")</code></p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="modelado-de-la-dependencia.html#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculo de los variogramas empíricos</span></span>
+<span id="cb182-2"><a href="modelado-de-la-dependencia.html#cb182-2" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="modelado-de-la-dependencia.html#cb184-1" aria-hidden="true" tabindex="-1"></a>vario.c <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;cloud&quot;</span>)  <span class="co">#nube</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="modelado-de-la-dependencia.html#cb186-1" aria-hidden="true" tabindex="-1"></a>vario.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)  <span class="co">#discretizado+nube</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="modelado-de-la-dependencia.html#cb188-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;sm&quot;</span>, <span class="at">band=</span><span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="modelado-de-la-dependencia.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Representación gráfica</span></span>
+<span id="cb190-2"><a href="modelado-de-la-dependencia.html#cb190-2" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># Preparar para 4 gráficos por ventana</span></span>
+<span id="cb190-3"><a href="modelado-de-la-dependencia.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Variograma empírico&quot;</span>)</span>
+<span id="cb190-4"><a href="modelado-de-la-dependencia.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.c, <span class="at">main=</span><span class="st">&quot;Nube de puntos variograma&quot;</span>)</span>
+<span id="cb190-5"><a href="modelado-de-la-dependencia.html#cb190-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">&quot;Graficos de cajas&quot;</span>)</span>
+<span id="cb190-6"><a href="modelado-de-la-dependencia.html#cb190-6" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;Gráficos de cajas&quot;</span>) <span class="co"># Corregir fallo del comando anterior</span></span>
+<span id="cb190-7"><a href="modelado-de-la-dependencia.html#cb190-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.s, <span class="at">main=</span><span class="st">&quot;Variograma suavizado&quot;</span>)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/plot-variog2-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="modelado-de-la-dependencia.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co"># Restaurar opciones de gráficos</span></span></code></pre></div>
+<p>Si hay valores atípicos (o la distribución de los datos es asimétrica)
+puede ser preferible utilizar el estimador robusto. Se puede
+calcular este estimador estableciendo <code>estimator.type = "modulus"</code>:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="modelado-de-la-dependencia.html#cb192-1" aria-hidden="true" tabindex="-1"></a>varior.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>)</span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="modelado-de-la-dependencia.html#cb194-1" aria-hidden="true" tabindex="-1"></a>varior.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="modelado-de-la-dependencia.html#cb196-1" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co">#Preparar para 4 gráficos por ventana</span></span>
+<span id="cb196-2"><a href="modelado-de-la-dependencia.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Estimador clásico&quot;</span>)</span>
+<span id="cb196-3"><a href="modelado-de-la-dependencia.html#cb196-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.b, <span class="at">main=</span><span class="st">&quot;Estimador robusto&quot;</span>)</span>
+<span id="cb196-4"><a href="modelado-de-la-dependencia.html#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span>
+<span id="cb196-5"><a href="modelado-de-la-dependencia.html#cb196-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/plot-variog3-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="modelado-de-la-dependencia.html#cb197-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co">#Restaurar opciones de gráficos</span></span></code></pre></div>
+<p>En el caso de anisotropía, también se pueden obtener variogramas direccionales con la función
+<code>variog</code> mediante los argumentos <code>direction</code> y <code>tolerance</code>. Por ejemplo,
+para calcular un variograma en la dirección de 60 grados (con la
+tolerancia angular por defecto de 22.5 grados):</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="modelado-de-la-dependencia.html#cb198-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">direction =</span> pi<span class="sc">/</span><span class="dv">3</span>) <span class="co">#variograma en la dirección de 60 grados</span></span></code></pre></div>
+<pre><code>## variog: computing variogram for direction = 60 degrees (1.047 radians)
+##         tolerance angle = 22.5 degrees (0.393 radians)</code></pre>
+<p>Para estudiar si hay anisotropía, se pueden cálcular de forma rápida variogramas
+direccionales con la función <code>variog4</code>. Por defecto calcula cuatro variogramas
+direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="modelado-de-la-dependencia.html#cb200-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">variog4</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<pre><code>## variog: computing variogram for direction = 0 degrees (0 radians)
+##         tolerance angle = 22.5 degrees (0.393 radians)
+## variog: computing variogram for direction = 45 degrees (0.785 radians)
+##         tolerance angle = 22.5 degrees (0.393 radians)
+## variog: computing variogram for direction = 90 degrees (1.571 radians)
+##         tolerance angle = 22.5 degrees (0.393 radians)
+## variog: computing variogram for direction = 135 degrees (2.356 radians)
+##         tolerance angle = 22.5 degrees (0.393 radians)
+## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="modelado-de-la-dependencia.html#cb202-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb202-2"><a href="modelado-de-la-dependencia.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.60</span>)</span>
+<span id="cb202-3"><a href="modelado-de-la-dependencia.html#cb202-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;direccional, angulo = &quot;</span>, <span class="dv">60</span> <span class="sc">*</span> degree)))</span>
+<span id="cb202-4"><a href="modelado-de-la-dependencia.html#cb202-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.4</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/plot-variog4-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="modelado-de-la-dependencia.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+</div>
+<div id="ajuste-de-un-modelo-de-variograma" class="section level3" number="8.3.2">
+<h3><span class="header-section-number">B.3.2</span> Ajuste de un modelo de variograma</h3>
+<p>Los estimadores empíricos no pueden ser empleados en la práctica (no
+verifican necesariamente las propiedades de un variograma válido), por
+lo que se suele recurrir en la práctica al ajuste de un modelo válido.
+Con el paquete <code>geoR</code> podemos realizar el ajuste:</p>
+<ol style="list-style-type: decimal">
+<li><p>“A ojo”: representando diferentes modelos sobre un variograma
+empírico (usando la función <code>lines.variomodel</code> o la función
+<code>eyefit</code>).</p></li>
+<li><p>Por mínimos cuadrados: ajustando por mínimos cuadrados
+ordinarios (OSL) o ponderados (WLS) al variograma empírico (usando
+la función <code>variofit</code>),</p></li>
+<li><p>Por máxima verosimilitud: estimando por máxima verosimilitud (ML) o
+máxima verosimilitud restringida (REML) los parámetros a partir de
+los datos (utilizando la función <code>likfit</code>),</p></li>
+<li><p>Métodos bayesianos (utilizando la función <code>krige.bayes</code>).</p></li>
+</ol>
+<p>Ejemplo de ajuste “a ojo”:</p>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="modelado-de-la-dependencia.html#cb204-1" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="modelado-de-la-dependencia.html#cb206-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>,<span class="at">option =</span> <span class="st">&quot;smooth&quot;</span>, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">band =</span> <span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="modelado-de-la-dependencia.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
+<span id="cb208-2"><a href="modelado-de-la-dependencia.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.s, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb208-3"><a href="modelado-de-la-dependencia.html#cb208-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb208-4"><a href="modelado-de-la-dependencia.html#cb208-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.3</span>), <span class="at">nugget =</span> <span class="dv">0</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb208-5"><a href="modelado-de-la-dependencia.html#cb208-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fu">c</span>(<span class="st">&quot;empirico&quot;</span>, <span class="st">&quot;suavizado&quot;</span>, <span class="st">&quot;modelo exponencial&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>))</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Otros ajustes:</p>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="modelado-de-la-dependencia.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
+<span id="cb209-2"><a href="modelado-de-la-dependencia.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.3</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb209-3"><a href="modelado-de-la-dependencia.html#cb209-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;mat&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.85</span>,<span class="fl">0.2</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">kappa =</span> <span class="dv">1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>,<span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb209-4"><a href="modelado-de-la-dependencia.html#cb209-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;sph&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.8</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Nota: no hace falta escribir el nombre completo de los parámetros
+(basta con que no dé lugar a confusión).</p>
+<p>En las versiones recientes de <code>geoR</code> está disponible una función para
+realizar el ajuste gráficamente de forma interactiva
+(cuadro de diálogo en tcl/tk):</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="modelado-de-la-dependencia.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eyefit</span>(vario.b)</span></code></pre></div>
+<p>Cuando se utilizan las funciones <code>variofit</code> y <code>likfit</code> para la
+estimación de parámetros, el efecto pepita (nugget) puede ser estimado o
+establecido a un valor fijo. Lo mismo ocurre con los parámetros de
+suavidad, anisotropía y transformación de los datos. También se dispone
+de opciones para incluir una tendencia. Las tendencias pueden ser
+polinomios en función de las coordenadas y/o funciones lineales de otras
+covariables.</p>
+<p>Ejemplos de estimación por mínimos cuadrados (llamadas a <code>variofit</code>):</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="modelado-de-la-dependencia.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="co">#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango =1.5)</span></span>
+<span id="cb211-2"><a href="modelado-de-la-dependencia.html#cb211-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-3"><a href="modelado-de-la-dependencia.html#cb211-3" aria-hidden="true" tabindex="-1"></a>vario.ols <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;equal&quot;</span>)  <span class="co">#ordinarios</span></span></code></pre></div>
+<pre><code>## variofit: covariance model used is matern 
+## variofit: weights used: equal 
+## variofit: minimisation function used: optim</code></pre>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="modelado-de-la-dependencia.html#cb213-1" aria-hidden="true" tabindex="-1"></a>vario.wls <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;cressie&quot;</span>)  <span class="co">#ponderados</span></span></code></pre></div>
+<pre><code>## variofit: covariance model used is matern 
+## variofit: weights used: cressie 
+## variofit: minimisation function used: optim</code></pre>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="modelado-de-la-dependencia.html#cb215-1" aria-hidden="true" tabindex="-1"></a>vario.wls</span></code></pre></div>
+<pre><code>## variofit: model parameters estimated by WLS (weighted least squares):
+## covariance model is: matern with fixed kappa = 0.5 (exponential)
+## parameter estimates:
+##   tausq sigmasq     phi 
+##  0.1955  2.0110  1.4811 
+## Practical Range with cor=0.05 for asymptotic range: 4.437092
+## 
+## variofit: minimised weighted sum of squares = 31.5115</code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="modelado-de-la-dependencia.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.wls)</span></code></pre></div>
+<pre><code>## $pmethod
+## [1] &quot;WLS (weighted least squares)&quot;
+## 
+## $cov.model
+## [1] &quot;matern&quot;
+## 
+## $spatial.component
+##  sigmasq      phi 
+## 2.010972 1.481138 
+## 
+## $spatial.component.extra
+## kappa 
+##   0.5 
+## 
+## $nugget.component
+##     tausq 
+## 0.1955322 
+## 
+## $fix.nugget
+## [1] FALSE
+## 
+## $fix.kappa
+## [1] TRUE
+## 
+## $practicalRange
+## [1] 4.437092
+## 
+## $sum.of.squares
+##   value 
+## 31.5115 
+## 
+## $estimated.pars
+##     tausq   sigmasq       phi 
+## 0.1955322 2.0109718 1.4811376 
+## 
+## $weights
+## [1] &quot;cressie&quot;
+## 
+## $call
+## variofit(vario = vario.b, ini.cov.pars = c(1, 0.5), weights = &quot;cressie&quot;)
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;summary.variomodel&quot;</code></pre>
+<p>Ejemplo de estimación por máxima verosimilitud (llamada a <code>likfit</code>):</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="modelado-de-la-dependencia.html#cb219-1" aria-hidden="true" tabindex="-1"></a>vario.ml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>)) <span class="co">#Modelo exponencial con par ini umbral y escala (1/3 rango)</span></span></code></pre></div>
+<pre><code>## ---------------------------------------------------------------
+## likfit: likelihood maximisation using the function optim.
+## likfit: Use control() to pass additional
+##          arguments for the maximisation function.
+##         For further details see documentation for optim.
+## likfit: It is highly advisable to run this function several
+##         times with different initial values for the parameters.
+## likfit: WARNING: This step can be time demanding!
+## ---------------------------------------------------------------
+## likfit: end of numerical maximisation.</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="modelado-de-la-dependencia.html#cb221-1" aria-hidden="true" tabindex="-1"></a>vario.ml</span></code></pre></div>
+<pre><code>## likfit: estimated model parameters:
+##     beta    tausq  sigmasq      phi 
+## &quot;0.7766&quot; &quot;0.0000&quot; &quot;0.7517&quot; &quot;0.1827&quot; 
+## Practical Range with cor=0.05 for asymptotic range: 0.547383
+## 
+## likfit: maximised log-likelihood = -83.57</code></pre>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="modelado-de-la-dependencia.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.ml)</span></code></pre></div>
+<pre><code>## Summary of the parameter estimation
+## -----------------------------------
+## Estimation method: maximum likelihood 
+## 
+## Parameters of the mean component (trend):
+##   beta 
+## 0.7766 
+## 
+## Parameters of the spatial component:
+##    correlation function: exponential
+##       (estimated) variance parameter sigmasq (partial sill) =  0.7517
+##       (estimated) cor. fct. parameter phi (range parameter)  =  0.1827
+##    anisotropy parameters:
+##       (fixed) anisotropy angle = 0  ( 0 degrees )
+##       (fixed) anisotropy ratio = 1
+## 
+## Parameter of the error component:
+##       (estimated) nugget =  0
+## 
+## Transformation parameter:
+##       (fixed) Box-Cox parameter = 1 (no transformation)
+## 
+## Practical Range with cor=0.05 for asymptotic range: 0.547383
+## 
+## Maximised Likelihood:
+##    log.L n.params      AIC      BIC 
+## &quot;-83.57&quot;      &quot;4&quot;  &quot;175.1&quot;  &quot;185.6&quot; 
+## 
+## non spatial model:
+##    log.L n.params      AIC      BIC 
+## &quot;-125.8&quot;      &quot;2&quot;  &quot;255.6&quot;  &quot;260.8&quot; 
+## 
+## Call:
+## likfit(geodata = s100, ini.cov.pars = c(1, 0.5))</code></pre>
+<p>Ejemplo de estimación por máxima verosimilitud restringida (opción de
+<code>likfit</code>):</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="modelado-de-la-dependencia.html#cb225-1" aria-hidden="true" tabindex="-1"></a>vario.reml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">lik.method =</span> <span class="st">&quot;RML&quot;</span>)</span></code></pre></div>
+<pre><code>## ---------------------------------------------------------------
+## likfit: likelihood maximisation using the function optim.
+## likfit: Use control() to pass additional
+##          arguments for the maximisation function.
+##         For further details see documentation for optim.
+## likfit: It is highly advisable to run this function several
+##         times with different initial values for the parameters.
+## likfit: WARNING: This step can be time demanding!
+## ---------------------------------------------------------------
+## likfit: end of numerical maximisation.</code></pre>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="modelado-de-la-dependencia.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.reml)</span></code></pre></div>
+<pre><code>## Summary of the parameter estimation
+## -----------------------------------
+## Estimation method: restricted maximum likelihood 
+## 
+## Parameters of the mean component (trend):
+##   beta 
+## 0.7478 
+## 
+## Parameters of the spatial component:
+##    correlation function: exponential
+##       (estimated) variance parameter sigmasq (partial sill) =  0.8473
+##       (estimated) cor. fct. parameter phi (range parameter)  =  0.2102
+##    anisotropy parameters:
+##       (fixed) anisotropy angle = 0  ( 0 degrees )
+##       (fixed) anisotropy ratio = 1
+## 
+## Parameter of the error component:
+##       (estimated) nugget =  0
+## 
+## Transformation parameter:
+##       (fixed) Box-Cox parameter = 1 (no transformation)
+## 
+## Practical Range with cor=0.05 for asymptotic range: 0.6296295
+## 
+## Maximised Likelihood:
+##    log.L n.params      AIC      BIC 
+## &quot;-81.53&quot;      &quot;4&quot;  &quot;171.1&quot;  &quot;181.5&quot; 
+## 
+## non spatial model:
+##    log.L n.params      AIC      BIC 
+## &quot;-125.1&quot;      &quot;2&quot;  &quot;254.1&quot;  &quot;259.3&quot; 
+## 
+## Call:
+## likfit(geodata = s100, ini.cov.pars = c(1, 0.5), lik.method = &quot;RML&quot;)</code></pre>
+<p><strong>NOTAS</strong>:</p>
+<ul>
+<li><p>Para fijar el nugget a un valor p.e. 0.15 añadir las opciones:
+<code>fix.nugget = TRUE, nugget = 0.15</code>.</p></li>
+<li><p>Se puede tener en cuenta anisotropía geométrica en los modelos de
+variograma a partir de los parámetros <code>psiA</code> (ángulo, en radianes,
+de la dirección de mayor dependencia espacial i.e. con el
+máximo rango) y <code>psiR</code> (relación, mayor o igual que 1, entre los
+rangos máximo y mínimo). Se pueden fijar a distintos valores o
+estimarlos incluyendo las opciones <code>fix.psiA = FALSE</code> y <code>fix.psiR =     FALSE</code> en las llamadas a las rutinas de ajuste.)</p></li>
+</ul>
+<p>Representación gráfica junto al estimador empírico:</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="modelado-de-la-dependencia.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main =</span> <span class="st">&quot;Estimador empírico y modelos ajustados&quot;</span>)</span>
+<span id="cb229-2"><a href="modelado-de-la-dependencia.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ml, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb229-3"><a href="modelado-de-la-dependencia.html#cb229-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.reml, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb229-4"><a href="modelado-de-la-dependencia.html#cb229-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ols, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb229-5"><a href="modelado-de-la-dependencia.html#cb229-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb229-6"><a href="modelado-de-la-dependencia.html#cb229-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;ML&quot;</span>, <span class="st">&quot;REML&quot;</span>, <span class="st">&quot;OLS&quot;</span>, <span class="st">&quot;WLS&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">2</span>)) </span></code></pre></div>
+<p><img src="12-geor_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="inferencia-sobre-el-variograma" class="section level3" number="8.3.3">
+<h3><span class="header-section-number">B.3.3</span> Inferencia sobre el variograma</h3>
+<p>Se pueden obtener dos tipos de envolventes (envelopes, i.e. valores
+máximos y mínimos aproximados) del variograma empírico mediante
+simulación:</p>
+<ul>
+<li><p>Bajo la hipótesis de que no hay correlación espacial (obtenidos por
+permutaciones aleatorias de los datos sobre las posiciones
+espaciales), para estudiar si hay una dependencia
+espacial “significativa”.</p></li>
+<li><p>Bajo un modelo de variograma, para ilustrar la variabilidad del
+variograma empírico.</p></li>
+</ul>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="modelado-de-la-dependencia.html#cb230-1" aria-hidden="true" tabindex="-1"></a>env.indep <span class="ot">&lt;-</span> <span class="fu">variog.mc.env</span>(s100, <span class="at">obj.var =</span> vario.b)</span></code></pre></div>
+<pre><code>## variog.env: generating 99 simulations by permutating data values
+## variog.env: computing the empirical variogram for the 99 simulations
+## variog.env: computing the envelops</code></pre>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="modelado-de-la-dependencia.html#cb232-1" aria-hidden="true" tabindex="-1"></a>env.model <span class="ot">&lt;-</span> <span class="fu">variog.model.env</span>(s100, <span class="at">obj.var =</span> vario.b, <span class="at">model =</span> vario.wls)</span></code></pre></div>
+<pre><code>## variog.env: generating 99 simulations (with  100 points each) using the function grf
+## variog.env: adding the mean or trend
+## variog.env: computing the empirical variogram for the 99 simulations
+## variog.env: computing the envelops</code></pre>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="modelado-de-la-dependencia.html#cb234-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb234-2"><a href="modelado-de-la-dependencia.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.indep)</span>
+<span id="cb234-3"><a href="modelado-de-la-dependencia.html#cb234-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.model)</span>
+<span id="cb234-4"><a href="modelado-de-la-dependencia.html#cb234-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<p><img src="12-geor_files/figure-html/plot-variog-env-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="modelado-de-la-dependencia.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)     </span></code></pre></div>
+<p>Para estudiar si hay una dependencia espacial “significativa” se puede
+emplear también la rutina <code>sm.variogram</code> del paquete <code>sm</code>.
+Estableciendo <code>model = "independent"</code>
+devuelve un p-valor para contrastar la hipótesis nula de independencia
+(i.e. se acepta que hay una dependencia espacial si <span class="math inline">\(p \leq \alpha = 0.05\)</span>)
+y un gráfico en el que se muestra el estimador empírico robusto, un estimador
+suavizado y una región de confianza para el variograma suponiendo que el
+proceso es independiente (i.e. consideraríamos que hay dependencia
+espacial si el variograma suavizado no está contenido en esa región).</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="modelado-de-la-dependencia.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sm)</span></code></pre></div>
+<pre><code>## Package &#39;sm&#39;, version 2.2-5.6: type help(sm) for summary information</code></pre>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="modelado-de-la-dependencia.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sm.variogram</span>(s100<span class="sc">$</span>coords, s100<span class="sc">$</span>data, <span class="at">model =</span> <span class="st">&quot;independent&quot;</span>)</span></code></pre></div>
+<pre><code>## Test of spatial independence: p =  0.024</code></pre>
+<p><img src="12-geor_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><strong>Nota</strong>: Se puede realizar contrastes adicionales estableciendo el parámetro <code>model</code>
+a <code>"isotropic"</code> o <code>"stationary"</code>.</p>
+</div>
+<div id="estimación-del-variograma-en-procesos-no-estacionarios" class="section level3" number="8.3.4">
+<h3><span class="header-section-number">B.3.4</span> Estimación del variograma en procesos no estacionarios</h3>
+<p>Cuando el proceso no es estacionario (no se puede emplear directamente los
+estimadores empíricos) hay que eliminar la tendencia para estimar el variograma:</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="modelado-de-la-dependencia.html#cb240-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
+<span id="cb240-2"><a href="modelado-de-la-dependencia.html#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Supone que el proceso es estacionario</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="modelado-de-la-dependencia.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">trend =</span> <span class="sc">~</span>coords, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Asume una tendencia lineal en las coordenadas</span></span></code></pre></div>
+<pre><code>## variog: computing omnidirectional variogram</code></pre>
+<p><img src="12-geor_files/figure-html/plot-variog-wolf-1.png" width="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="modelado-de-la-dependencia.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-descriptivo-de-datos-geoestadísticos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="predicción-espacial-kriging.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/12-geor.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["estadistica_espacial.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

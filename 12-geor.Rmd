@@ -1,0 +1,564 @@
+# Introducción al paquete **geoR** {#intro-geoR}
+
+<!-- 
+---
+title: "Estadística Espacial"
+author: "Análisis estadístico de datos con dependencia (GCED)"
+date: "Curso 2021/2022"
+bibliography: ["packages.bib", "estadistica_espacial.bib"]
+link-citations: yes
+output: 
+  bookdown::html_document2:
+    pandoc_args: ["--number-offset", "8,0"]
+    toc: yes 
+    # mathjax: local            # copia local de MathJax, hay que establecer:
+    # self_contained: false     # las dependencias se guardan en ficheros externos 
+  bookdown::pdf_document2:
+    keep_tex: yes
+    toc: yes 
+---
+
+bookdown::preview_chapter("12-geor.Rmd")
+knitr::purl("12-geor.Rmd", documentation = 2)
+knitr::spin("12-geor.R",knit = FALSE)
+
+Pendiente:
+image.xxx add
+-->
+
+```{r , child = '_global_options.Rmd'}
+```
+
+
+El paquete [`geoR`](http://www.leg.ufpr.br/geoR) proporciona herramientas para el análisis de datos
+geoestadísticos en `R` 
+(otra alternativa es el paquete [`gstat`](http://r-spatial.github.io/gstat), por ejemplo...). 
+A continuación se ilustran algunas de las capacidades de este paquete.
+
+
+## Inicio de una sesión y de carga de datos
+
+Después de iniciar la sesión R, cargar `geoR` con el comando `library` (o
+`require`). Si el paquete se carga correctamente aparece un mensaje.
+
+```{r }
+library(geoR)
+```
+
+
+### Archivos de datos
+
+Normalmente, los datos se almacenan como un objeto (una lista) de la
+clase `geodata`. Un objeto de esta clase contiene obligatoriamente dos
+elementos: 
+
+-  `$coords`: las coordenadas de las posiciones de los datos.
+    
+-  `$data`: los valores observados de la variables. 
+
+Opcionalmente pueden tener otros elementos, como covariables 
+y coordenadas de las fronteras de la zona de estudio.
+
+
+Hay algunos conjuntos de datos incluidos en el paquete de distribución.
+
+```{r }
+# data()                    # lista todos los conjuntos de datos disponibles
+# data(package = "geoR")    # lista los conjuntos de datos en el paquete geoR
+
+data(wolfcamp)              # carga el archivo de datos wolfcamp
+summary(wolfcamp)
+```
+
+
+Se pueden importar directamente un archivo de datos en formato texto:
+
+```{r eval=FALSE}
+ncep <- read.geodata('ncep.txt', header = FALSE, coords.col = 1:2, data.col = 4)
+# plot(ncep)
+# summary(ncep)
+```
+
+
+También se puede convertir un `data.frame` a un objeto `geodata`:
+
+```{r eval=FALSE}
+ncep.df <- read.table('ncep.txt', header = FALSE)
+names(ncep.df) <- c('x', 'y', 't', 'z')
+# str(ncep.df)
+# Nota: los datos son espacio-temporales, pero geoR sólo admite datos 2D
+
+datgeo <- as.geodata(ncep.df, coords.col = 1:2, data.col = 4)
+# plot(datgeo)
+# summary(datgeo)
+```
+
+
+O objetos de datos espaciales (entre ellos los compatibles del paquete `sp`), 
+por ejemplo el siguiente código crea un objeto `SpatialPointsDataFrame`
+y lo convierte a `geodata`:
+
+```{r eval=FALSE}
+library(sp)
+load("caballa.galicia.RData")
+coordinates(caballa.galicia) <- c("x","y")
+proj4string(caballa.galicia) <- CRS("+proj=longlat +ellps=WGS84")
+
+datgeo <- as.geodata(caballa.galicia["lcpue"])
+# Problemas con coordenadas duplicadas  (ver ?duplicated)
+# plot(datgeo)
+# summary(datgeo)     
+```
+
+En la documentación de las funciones `as.geodata` y `read.geodata` 
+hay más información sobre cómo importar/convertir datos.
+
+
+
+## Análisis descriptivo de datos geoestadísticos
+
+Como se mostró anteriormente, el método `summary` proporciona un breve resumen 
+descriptivo de los datos (ver `?summary.geodata`).
+
+La función `plot()` genera por defecto gráficos de los
+valores en las posiciones espaciales (distinguiendo según cuartiles),
+los datos frente a las coordenadas y un histograma de los datos:
+
+```{r plot-geo1, fig.dim = c(12, 12), out.width = "90%"}
+plot(wolfcamp)
+```
+
+Los gráficos de dispersión de los datos frente a las coordenadas nos pueden ayudar
+a determinar si hay una tendencia. También, en lugar del histograma, 
+nos puede interesar un gráfico de dispersión 3D
+
+```{r plot-geo2, fig.dim = c(12, 12), out.width = "90%"}
+plot(wolfcamp, lowess = TRUE, scatter3d = TRUE) 
+```
+
+Si se asume que hay una tendencia puede interesar eliminarla:
+
+```{r plot-geo3, fig.dim = c(12, 12), out.width = "90%"}
+plot(wolfcamp, trend=~coords)
+```
+
+El comando `points(geodata)` (función `points.geodata`) genera un gráfico con
+las posiciones de los datos (y por defecto con el tamaño de los puntos proporcional
+al valor):
+
+```{r }
+points(wolfcamp)
+```
+
+Se pueden establecer los tamaños de los puntos, simbolos y colores a
+partir de los valores de los datos. Por ejemplo, para los puntos, empleando el argumento:
+`pt.divide = c("data.proportional", "rank.proportional", "quintiles",` 
+`              "quartiles", "deciles", "equal")`.
+
+```{r }
+points(wolfcamp, col = "gray", pt.divide = "equal")
+```
+
+
+## Modelado de la dependencia
+
+En la primera parte de esta sección consideraremos un proceso espacial sin
+tendencia:
+
+```{r plot-s100, fig.dim = c(12, 12), out.width = "90%"}
+data(s100) # Cargar datos estacionarios
+summary(s100)
+plot(s100)
+```
+
+En el último apartado se tratará el caso general.
+
+
+### Variogramas empíricos
+
+Los variogramas empíricos se calculan utilizando la función `variog`:
+
+```{r plot-variog1, fig.dim = c(12, 6), out.width = "90%"}
+oldpar <- par(mfrow=c(1,2)) 
+plot(variog(s100))
+plot(variog(s100, max.dist = 0.6))
+par(oldpar)
+```
+
+La recomendación es considerar solo saltos hasta la mitad de la máxima 
+distancia (ver 'Distance summary' en resultados del sumario).
+
+```{r }
+vario <- variog(s100, max.dist = 0.6)
+names(vario)
+# str(vario)
+```
+
+NOTA: La componente `u` contiene los saltos, `v` las estimaciones del
+semivariograma (semivarianzas) y `n` el número de aportaciones.
+
+Los resultados pueden ser nubes de puntos (semivarianzas), valores 
+discretizados (binned) o suavizados, dependiendo del parámetro:
+`option = c("bin", "cloud", "smooth")`
+
+```{r plot-variog2, fig.dim = c(12, 12), out.width = "90%"}
+# Calculo de los variogramas empíricos
+vario.b <- variog(s100, max.dist = 0.6) #discretizado
+vario.c <- variog(s100, max.dist=0.6, op="cloud")  #nube
+vario.bc <- variog(s100, max.dist=0.6, bin.cloud=TRUE)  #discretizado+nube
+vario.s <- variog(s100, max.dist=0.6, op="sm", band=0.2)  #suavizado
+
+# Representación gráfica
+oldpar<-par(mfrow=c(2,2)) # Preparar para 4 gráficos por ventana
+plot(vario.b, main="Variograma empírico")
+plot(vario.c, main="Nube de puntos variograma")
+plot(vario.bc, bin.cloud=TRUE, main="Graficos de cajas")
+title("Gráficos de cajas") # Corregir fallo del comando anterior
+plot(vario.s, main="Variograma suavizado")
+par(oldpar) # Restaurar opciones de gráficos
+```
+
+Si hay valores atípicos (o la distribución de los datos es asimétrica)
+puede ser preferible utilizar el estimador robusto. Se puede 
+calcular este estimador estableciendo `estimator.type = "modulus"`:
+
+```{r plot-variog3, fig.dim = c(12, 12), out.width = "90%"}
+varior.b <- variog(s100, estimator.type = "modulus", max.dist=0.6)
+varior.bc <- variog(s100, estimator.type = "modulus", max.dist=0.6, bin.cloud=TRUE)
+oldpar<-par(mfrow=c(2,2)) #Preparar para 4 gráficos por ventana
+plot(vario.b, main="Estimador clásico")
+plot(varior.b, main="Estimador robusto")
+plot(vario.bc, bin.cloud=TRUE)
+plot(varior.bc, bin.cloud=TRUE)
+par(oldpar) #Restaurar opciones de gráficos
+```
+
+En el caso de anisotropía, también se pueden obtener variogramas direccionales con la función
+`variog` mediante los argumentos `direction` y `tolerance`. Por ejemplo,
+para calcular un variograma en la dirección de 60 grados (con la
+tolerancia angular por defecto de 22.5 grados):
+
+```{r }
+vario.60 <- variog(s100, max.dist = 0.6, direction = pi/3) #variograma en la dirección de 60 grados
+```
+
+Para estudiar si hay anisotropía, se pueden cálcular de forma rápida variogramas 
+direccionales con la función `variog4`. Por defecto calcula cuatro variogramas 
+direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:
+
+```{r plot-variog4, fig.dim = c(12, 6), out.width = "90%"}
+vario.4 <- variog4(s100, max.dist = 0.6)
+
+oldpar <- par(mfrow=c(1,2))
+plot(vario.60)
+title(main = expression(paste("direccional, angulo = ", 60 * degree)))
+plot(vario.4, lwd = 2)
+par(oldpar)
+```
+
+
+
+### Ajuste de un modelo de variograma
+
+Los estimadores empíricos no pueden ser empleados en la práctica (no
+verifican necesariamente las propiedades de un variograma válido), por
+lo que se suele recurrir en la práctica al ajuste de un modelo válido.
+Con el paquete `geoR` podemos realizar el ajuste:
+
+1.  "A ojo": representando diferentes modelos sobre un variograma
+    empírico (usando la función `lines.variomodel` o la función
+    `eyefit`).
+
+2.  Por mínimos cuadrados: ajustando por mínimos cuadrados
+    ordinarios (OSL) o ponderados (WLS) al variograma empírico (usando
+    la función `variofit`),
+
+3.  Por máxima verosimilitud: estimando por máxima verosimilitud (ML) o
+    máxima verosimilitud restringida (REML) los parámetros a partir de
+    los datos (utilizando la función `likfit`),
+
+4.  Métodos bayesianos (utilizando la función `krige.bayes`).
+
+Ejemplo de ajuste "a ojo":
+
+
+```{r }
+vario.b <- variog(s100, max.dist=0.6) #discretizado
+vario.s <- variog(s100, max.dist=0.6,option = "smooth", kernel = "normal", band = 0.2)  #suavizado
+plot(vario.b)
+lines(vario.s, type = "l", lty = 2)
+
+lines.variomodel(cov.model = "exp", cov.pars = c(1,0.3), nugget = 0, max.dist = 0.6, lwd = 3)
+legend(0.3, 0.3, c("empirico", "suavizado", "modelo exponencial"), lty = c(1, 2, 1), lwd = c(1, 1, 3))
+```
+
+Otros ajustes:
+
+```{r }
+plot(vario.b)
+lines.variomodel(cov.model = "exp", cov.pars = c(0.9,0.3), nug = 0.1, max.dist = 0.6)
+lines.variomodel(cov.model = "mat", cov.pars = c(0.85,0.2), nug = 0.1, kappa = 1, max.dist = 0.6,lty = 2)
+lines.variomodel(cov.model = "sph", cov.pars = c(0.8,0.8), nug = 0.1, max.dist = 0.6, lwd = 2)
+```
+
+Nota: no hace falta escribir el nombre completo de los parámetros
+(basta con que no dé lugar a confusión).
+
+En las versiones recientes de `geoR` está disponible una función para 
+realizar el ajuste gráficamente de forma interactiva 
+(cuadro de diálogo en tcl/tk):
+
+```{r , eval = FALSE}
+
+eyefit(vario.b)
+```
+
+Cuando se utilizan las funciones `variofit` y `likfit` para la
+estimación de parámetros, el efecto pepita (nugget) puede ser estimado o
+establecido a un valor fijo. Lo mismo ocurre con los parámetros de
+suavidad, anisotropía y transformación de los datos. También se dispone
+de opciones para incluir una tendencia. Las tendencias pueden ser
+polinomios en función de las coordenadas y/o funciones lineales de otras
+covariables.
+
+Ejemplos de estimación por mínimos cuadrados (llamadas a `variofit`):
+
+```{r }
+#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango =1.5)
+
+vario.ols <- variofit(vario.b, ini = c(1, 0.5), weights = "equal")  #ordinarios
+vario.wls <- variofit(vario.b, ini = c(1, 0.5), weights = "cressie")  #ponderados
+vario.wls
+summary(vario.wls)
+```
+
+Ejemplo de estimación por máxima verosimilitud (llamada a `likfit`):
+
+```{r }
+vario.ml <- likfit(s100, ini = c(1, 0.5)) #Modelo exponencial con par ini umbral y escala (1/3 rango)
+vario.ml
+summary(vario.ml)
+```
+
+Ejemplo de estimación por máxima verosimilitud restringida (opción de
+`likfit`):
+
+```{r }
+vario.reml <- likfit(s100, ini = c(1, 0.5), lik.method = "RML")
+summary(vario.reml)
+```
+
+**NOTAS**:
+
+-   Para fijar el nugget a un valor p.e. 0.15 añadir las opciones:
+    `fix.nugget = TRUE, nugget = 0.15`.
+
+-   Se puede tener en cuenta anisotropía geométrica en los modelos de
+    variograma a partir de los parámetros `psiA` (ángulo, en radianes,
+    de la dirección de mayor dependencia espacial i.e. con el
+    máximo rango) y `psiR` (relación, mayor o igual que 1, entre los
+    rangos máximo y mínimo). Se pueden fijar a distintos valores o
+    estimarlos incluyendo las opciones `fix.psiA = FALSE` y `fix.psiR =
+    FALSE` en las llamadas a las rutinas de ajuste.)
+
+Representación gráfica junto al estimador empírico:
+
+```{r }
+plot(vario.b, main = "Estimador empírico y modelos ajustados")
+lines(vario.ml, max.dist = 0.6)
+lines(vario.reml, lwd = 2, max.dist = 0.6)
+lines(vario.ols, lty = 2, max.dist = 0.6)
+lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
+legend(0.3, 0.3, legend = c("ML", "REML", "OLS", "WLS"), lty = c(1, 1, 2, 2), lwd = c(1, 2,1, 2)) 
+```
+
+
+### Inferencia sobre el variograma
+
+Se pueden obtener dos tipos de envolventes (envelopes, i.e. valores
+máximos y mínimos aproximados) del variograma empírico mediante
+simulación:
+
+-   Bajo la hipótesis de que no hay correlación espacial (obtenidos por
+    permutaciones aleatorias de los datos sobre las posiciones
+    espaciales), para estudiar si hay una dependencia
+    espacial "significativa".
+
+-   Bajo un modelo de variograma, para ilustrar la variabilidad del
+    variograma empírico.
+
+```{r plot-variog-env, fig.dim = c(12, 6), out.width = "90%"}
+env.indep <- variog.mc.env(s100, obj.var = vario.b)
+env.model <- variog.model.env(s100, obj.var = vario.b, model = vario.wls)
+
+oldpar <- par(mfrow = c(1, 2))
+plot(vario.b, envelope = env.indep)
+plot(vario.b, envelope = env.model)
+lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
+par(oldpar) 	
+```
+
+Para estudiar si hay una dependencia espacial "significativa" se puede
+emplear también la rutina `sm.variogram` del paquete `sm`. 
+Estableciendo `model = "independent"` 
+devuelve un p-valor para contrastar la hipótesis nula de independencia
+(i.e. se acepta que hay una dependencia espacial si $p \leq \alpha = 0.05$) 
+y un gráfico en el que se muestra el estimador empírico robusto, un estimador
+suavizado y una región de confianza para el variograma suponiendo que el
+proceso es independiente (i.e. consideraríamos que hay dependencia 
+espacial si el variograma suavizado no está contenido en esa región).
+
+```{r }
+library(sm)
+sm.variogram(s100$coords, s100$data, model = "independent")
+```
+
+**Nota**: Se puede realizar contrastes adicionales estableciendo el parámetro `model`
+a `"isotropic"` o `"stationary"`.
+
+
+### Estimación del variograma en procesos no estacionarios
+
+Cuando el proceso no es estacionario (no se puede emplear directamente los
+estimadores empíricos) hay que eliminar la tendencia para estimar el variograma:
+
+```{r plot-variog-wolf, fig.dim = c(12, 6), out.width = "80%"}
+oldpar <- par(mfrow=c(1,2)) 
+plot(variog(wolfcamp, max.dist = 200)) # Supone que el proceso es estacionario
+plot(variog(wolfcamp, trend = ~coords, max.dist = 200)) # Asume una tendencia lineal en las coordenadas
+par(oldpar)
+```
+
+
+## Predicción espacial (kriging)
+
+El paquete `geoR` dispone de opciones para los métodos kriging
+tradicionales, que dependiendo de las suposiciones acerca de la función
+de tendencia se clasifican en:
+
+-   *Kriging simple* (**KS**): media conocida
+
+-   *Kriging ordinario* (**KO**): se supone que la media es constante
+    y desconocida.
+
+-   *Kriging universal* (**KU**): también denominado kriging con modelo de
+    tendencia, se supone que la media es una combinación
+    lineal (desconocida) de las coordenadas o de otras
+    variables explicativas.
+
+Existen también opciones adicionales para kriging trans-normal (con
+transformaciones Box-Cox para aproximarse a la normalidad y
+transformación de nuevo de resultados a la escala original manteniendo
+insesgadez). También admite modelos de variograma geométricamente
+anisotrópicos.
+
+Para obtener una rejilla discreta de predicción puede ser de utilidad la
+función `expand.grid`:
+
+```{r }
+# Rejilla regular 51x51 en cuadrado unidad
+xx <- seq(0, 1, l = 51)
+yy <- seq(0, 1, l = 51)
+pred.grid <- expand.grid(x = xx, y = yy) 
+plot(s100$coords, pch = 20, asp = 1)
+points(pred.grid, pch = 3, cex = 0.2)
+```
+
+El comando para realizar kriging ordinario con variograma `vario.wls`
+sería:
+
+```{r }
+ko.wls <- krige.conv(s100, loc = pred.grid, krige = krige.control(obj.m = vario.wls))
+```
+
+El resultado es una lista incluyendo predicciones (`ko.wls$predict`) y
+varianzas kriging (`ko.wls$krige.var`):
+
+```{r }
+names(ko.wls)
+```
+
+Para ver todas las opciones de kriging disponibles ejecutar
+`?krige.control`. Para kriging con vecindario local (archivos de datos
+grandes) se puede utilizar la función `ksline`.
+
+Para representar las superficies se podría utilizar la función `image()`, 
+aunque la última versión del método `image.kriging()` puede fallar al añadir 
+elementos (por lo menos en RMarkdown; tampoco es compatible con `par(mfrow)`):
+
+```{r , fig.dim=c(6.3,7)}
+# oldpar <- par(mfrow = c(1, 2)) 
+# image.kriging no es compatible con mfrow en últimas versiones
+image(ko.wls, coords.data=s100$coords, main = "Superficie de predicciones")
+contour(ko.wls, add = TRUE) #añadir gráfico de contorno
+
+image(ko.wls, coords.data=s100$coords, values = sqrt(ko.wls$krige.var), main = "Superficie de err. std. kriging") 
+contour(ko.wls, values = sqrt(ko.wls$krige.var), add = TRUE)
+# par(oldpar)
+```
+
+Otras opciones:
+
+```{r }
+contour(ko.wls,filled = TRUE)
+
+fcol <- topo.colors(10)[cut(matrix(ko.wls$pred,nrow=51,ncol=51)[-1,-1],10,include.lowest=TRUE)]
+persp(ko.wls, theta=-60, phi=40, col=fcol)
+
+if(!require(plot3D)) 
+  stop('Required pakage `plot3D` not installed.') # install.packages('plot3D')
+
+persp3D(xx, yy, matrix(ko.wls$predict, nrow = length(xx)), theta=-60, phi=40)
+
+if(!require(npsp)) {
+  cat("Required pakage `npsp` not installed!\n")   
+  cat("On windows, run `install.packages('https://github.com/rubenfcasal/npsp/releases/download/v0.7-8/npsp_0.7-8.zip', repos = NULL)`\n")  
+} else  
+  spersp(xx, yy, ko.wls$predict, theta=-60, phi=40)
+```
+
+
+### Validación cruzada
+
+Para verificar si un modelo (de tendencia y variograma) describe adecuadamente 
+la variabilidad espacial de los datos (p.e. para comparar modelos), se emplea
+normalmente la técnica de validación cruzada, función `xvalid` en `geoR`.
+Por defecto la validación se realiza sobre los datos eliminando cada
+observación (y utilizando las restantes para predecir), aunque se puede
+utilizar un conjunto diferente de posiciones (o de datos) mediante el
+argumento `location.xvalid` (y `data.xvalid`).
+
+En el caso de procesos estacionarios permitiría diagnosticar si el modelo de 
+variograma describe adecuadamente la dependencia espacial de los datos:
+
+
+```{r }
+xv.wls <- xvalid(s100, model = vario.wls)
+summary(xv.wls)
+
+xv.reml <- xvalid(s100, model = vario.reml)
+summary(xv.reml)
+```
+
+Por defecto la función `plot` (`plot.xvalid`) muestra 10 gráficos
+diferentes (para más información ejecutar `?plot.xvalid`), a grosso modo
+los cinco primeros se corresponden con residuos simples (valores
+observados menos predicciones) y los siguientes con residuos
+estandarizados (dividiendo por la raíz cuadrada de la varianza de
+predicción).
+
+```{r plot-xvalid, fig.dim = c(12, 6), out.width = "100%"}
+oldpar <- par(mfrow = c(2, 5), mar = c(bottom = 4.5, left = 4, top = 2, right = 2))
+plot(xv.wls, ask = FALSE)
+par(oldpar)
+
+# plot(xv.reml)
+```
+
+**NOTA**: Para re-estimar los parámetros del modelo cada vez que se
+elimina una observación (i.e. validar el procedimiento de estimación)
+añadir la opción `reest = TRUE` (puede requerir mucho tiempo de
+computación).
+
+
+

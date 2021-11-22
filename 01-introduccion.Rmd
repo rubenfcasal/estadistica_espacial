@@ -1,0 +1,529 @@
+# Introducción: Procesos espaciales y Geoestadística {#intro-estesp}
+
+<!-- 
+---
+title: "Estadística Espacial"
+author: "Análisis estadístico de datos con dependencia (GCED)"
+date: "Curso 2021/2022"
+bibliography: ["packages.bib", "estadistica_espacial.bib"]
+link-citations: yes
+output: 
+  bookdown::html_document2:
+    pandoc_args: ["--number-offset", "0,0"]
+    toc: yes 
+    # mathjax: local            # copia local de MathJax, hay que establecer:
+    # self_contained: false     # las dependencias se guardan en ficheros externos 
+  bookdown::pdf_document2:
+    keep_tex: yes
+    toc: yes 
+---
+
+bookdown::preview_chapter("01-introduccion.Rmd")
+knitr::purl("01-introduccion.Rmd", documentation = 2)
+knitr::spin("01-introduccion.R",knit = FALSE)
+-->
+
+```{r , child = '_global_options.Rmd'}
+```
+
+Es bien sabido que al utilizar en la práctica métodos estadísticos no siempre es adecuado suponer que las observaciones del fenómeno de interés han sido tomadas bajo condiciones idénticas e independientes unas de otras (i.e. que los datos son independientes e idénticamente distribuidos). 
+Esta falta de homogeneidad en los datos suele ser modelada a través de la suposición de media no constante (por ejemplo suponiendo que ésta es una combinación lineal de ciertas variables explicativas) pero con la consideración de que los errores son independientes e idénticamente distribuidos. 
+Sin embargo, esta suposición puede influir crucialmente en la inferencia; pudiendo ser en ocasiones preferible la suposición más realista de errores correlados. 
+
+Frecuentemente los datos tienen una componente espacial y/o temporal asociada a ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más semejantes que aquellos que están más alejados; en cuyo caso no deben ser modelados como estadísticamente independientes, siendo más conveniente emplear modelos que exploten adecuadamente dicha componente espacial o espacio-temporal.
+De forma natural surge la hipótesis de que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos, por lo que se puede pensar en la presencia de una dependencia espacial o espacio-temporal.
+Esto da lugar al concepto de *proceso espacial o espacio-temporal* (Sección \@ref(proc-esp)).
+La *geoestadística* (Sección \@ref(geoestadistica)) es una de las ramas de la estadística que se centra en el estudio de procesos de este tipo.
+
+La metodología espacial y espacio-temporal ha sido utilizada de forma creciente (especialmente durante los últimos 50 años) para resolver problemas en muchos campos. 
+En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, astronomía, proceso de imágenes, experimentos agrícolas, etc. 
+En estas disciplinas la metodología espacial puede ser de ayuda en alguna o en muchas etapas del estudio, desde el diseño inicial del muestreo hasta la representación final de los resultados obtenidos (p.e. para la generación de mapas o animaciones). 
+
+
+## Procesos espaciales {#proc-esp}
+
+Supongamos que $Z(\mathbf{s})$ es un valor aleatorio en la posición espacial $\mathbf{s} \in \mathbb{R}^{d}$.
+Entonces, si $\mathbf{s}$ varía dentro del conjunto índice $D\subset \mathbb{R}^{d}$ se obtiene el proceso espacial:
+$$\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}$$ 
+(también se suele denominar función aleatoria, campo espacial aleatorio o variable regionalizada). 
+Una realización del proceso espacial se denotará por $\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}$, pero normalmente solo se observará $\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}$ (una realización parcial) en $n$ posiciones espaciales.
+
+Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de las suposiciones acerca del dominio $D$: 
+
+-   **Procesos geoestadísticos** (índice espacial continuo): 
+    $D$ es un subconjunto fijo que contiene un rectángulo $d$-dimensional de volumen 
+    positivo. El proceso puede ser observado de forma continua dentro del dominio.
+    Un ejemplo claro sería la temperatura, aunque normalmente solo se dispone de datos en
+    estaciones meteorológicas fijas, se podría observar en cualquier posición 
+    (y por tanto tiene sentido predecirla). `r latexfig("aquifer")`
+
+    ```{r aquifer, echo=FALSE, fig.cap="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (procedentes de un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." }
+    old.par <- par(mar = c(bottom = 5, left = 4, top = 2, right = 2))
+    load("datos/aquifer.RData")
+    with(aquifer, plot3D::points2D(lon, lat, colvar = head/100,         
+          pch = 16, cex = 1.5, xlab = "Longitud", ylab = "Latitud", 
+          clab = "nivel piezométrico (cientos de pies)", 
+          colkey = list(side.clab = 4), asp = 1)
+    )
+    par(old.par)    
+    ```
+
+-   **Procesos reticulares/regionales** (índice espacial discreto):
+    $D$ es un conjunto numerable de posiciones o regiones. El proceso solo puede ser 
+    observado en determinadas posiciones. Es habitual que los datos se correspondan 
+    con agregaciones (totales o valores medios) de una determinada zona (por ejemplo, 
+    países, provincias, ayuntamientos, zonas sanitarias...). Son muy comunes en 
+    econometría o epidemiología. `r latexfig("mortalidad")`
+
+    ```{r mortalidad, echo=FALSE, warning=FALSE, fig.dim = c(8, 6), fig.cap="Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856))." }
+    # Cargar mapa de España y mortalidad
+    library(mapSpain) # install.packages("mapSpain")
+    
+    CCAA_sf <- esp_get_ccaa()
+    Can <- esp_get_can_box()
+    
+    mortalidad <- read.csv2("datos/mortalidad.csv")
+    mortalidad$incremento <- with(mortalidad, 
+                                  100*(mort.2020 - mort.2019)/mort.2019)
+    CCAA_sf <- merge(CCAA_sf, mortalidad)
+    
+    # Plot with ggplot
+    library(ggplot2)
+    
+    ggplot(CCAA_sf) +
+      geom_sf(aes(fill = incremento),
+        color = "grey70",
+        lwd = .3
+      ) +
+      geom_sf(data = Can, color = "grey70") +
+      geom_sf_label(aes(label = paste0(round(incremento, 1), "%")),
+        fill = "white", alpha = 0.5,
+        size = 3,
+        label.size = 0
+      ) +
+      scale_fill_gradientn(
+        colors = hcl.colors(10, "Blues", rev = TRUE),
+        n.breaks = 10,
+        labels = function(x) {
+          sprintf("%1.1f%%", x)
+        },
+        guide = guide_legend(title = "Incremento")
+      ) +
+      theme_void() +
+      theme(legend.position = c(0.1, 0.6))  
+    ```
+    
+-   **Procesos/patrones puntuales** (índice espacial aleatorio):
+    $D$ es un proceso puntual en $\mathbb{R}^{d}$. Las posiciones en las que se 
+    observa el proceso son aleatorias. En muchas casos interesa únicamente la posición
+    donde se observa el evento de interés (por ejemplo la posición en la que creció 
+    un árbol de una determinada especie). En el caso general, además de la posición 
+    se podría observar alguna otra característica (una marca; por ejemplo la altura o 
+    el diámetro del árbol), es lo que se conoce como *proceso puntual marcado*. 
+    Este tipo de datos son habituales en biología, ecología, criminología, etc. 
+    `r latexfig("cholera")`
+    
+    ```{r cholera, echo=FALSE, fig.cap="Mapa (de John Snow) del brote de cólera de 1854 en Londres." }
+    old.par <- par(mar = c(bottom = 2, left = 0, top = 2, right = 0))
+    plot(cholera::fatalities[-1], asp = 1, pch = 16, 
+         axes= FALSE, frame.plot = FALSE)
+    cholera::addPump(col = "darkgray")
+    cholera::addRoads()
+    par(old.par)    
+    ```
+        
+
+Nos centraremos en el caso de procesos geoestadísticos (también denominados procesos espaciales continuos). 
+El caso de posiciones espaciales discretas se considerará como resultado de la discretización de un proceso continuo. 
+Esto sería válido también para el caso espacio-temporal, por ejemplo podríamos considerar posiciones de la forma $\mathbf{s}=(s_{1} , \ldots,s_{d-1} ,t) \in \mathbb{R}^{d-1} \times \mathbb{R}^{+,0}$, donde $\mathbb{R}^{+,0} = \left\{ t \in \mathbb{R} : t \geq 0 \right\}$. 
+Por tanto, las definiciones y métodos para procesos espaciales son en principio aplicables también al caso espacio-temporal. 
+Sin embargo, la componente temporal presenta diferencias respecto a la componente espacial...
+
+### Paquetes de R {#paquetes-r}
+
+<!-- 
+Para poder aplicar en la práctica cualquier método de estadística espacial resulta casi imprescindible disponer de software adecuado.  
+-->
+
+En R hay disponibles una gran cantidad de paquetes para el análisis estadístico de datos espaciales (ver por ejemplo [CRAN Task View: Analysis of Spatial Data](http://cran.r-project.org/web/views/Spatial.html)).
+Entre ellos podríamos destacar:
+
+-   Procesos geoestadísticos: `gstat`, `geoR`, `geoRglm`, `fields`,
+    `spBayes`, `RandomFields`, `VR:spatial`, `sgeostat`, `vardiag`, `npsp`...
+
+-   Procesos reticulares/regionales: `spdep`, `DCluster`, `spgwr`,
+    `ade4`...
+
+-   Procesos puntuales: `spatstat`, `VR:spatial`, `splancs`...
+
+Algunos de estos paquetes son la referencia para el análisis de este tipo de datos,
+aunque también están disponibles otros, como por ejemplo  `maptools`, `geosphere`, `tmap`, `mapsf`, `leaflet`, `mapview`, `mapdeck`, `ggmap`, `rgrass7`, `RSAGA`, `RPyGeo`, `RQGIS` o `r-arcgis`, que implementan herramientas adicionales y permiten, por ejemplo, generar gráficos interactivos o interactuar con sistemas externos de información geográfica (GIS).
+
+En todos estos paquetes se trabajan con similares tipos de datos (espaciales y espacio-temporales) por lo que se han desarrollado paquetes que facilitan su manejo.
+Entre ellos destacan el paquete `r citepkg("sp")` [Classes and methods for spatial data, @Pebesma2005, ver @Bivand2013] y el paquete `r citepkg("sf", "https://r-spatial.github.io/sf")` [Simple Features for R, @Pebesma2018, ver @Pebesma2021]. 
+Otros paquetes para la manipulación de datos que pueden ser de interés son: `r citepkg("raster")`, `r citepkg("terra")`, `r citepkg("starts", "https://r-spatial.github.io/stars")`, `r citepkg("rgdal")` y `r citepkg("rgeos")`, entre otros.
+En la Sección \@ref(datos-tipos) se incluye información adicional sobre estos paquetes.
+
+En estos apuntes emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice B) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice A se incluye una breve introducción a las clases `sp` para datos espaciales).
+
+<!-- 
+Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
+-->
+
+
+## Geoestadística {#geoestadistica}
+
+La geoestadística (Matheron 1962) surgió como una mezcla de varias disciplinas: ingeniería de minas, geología, matemáticas y estadística, para dar respuesta a problemas como, por ejemplo, el de la estimación de los recursos de una explotación minera (se desarrolló principalmente a partir de los años 80). 
+La diferencia (ventaja) respecto a otras aproximaciones es que, además de tener en cuenta la tendencia espacial (variación de gran escala), también tiene en cuenta la correlación espacial (variación de pequeña escala). 
+Otros métodos sin embargo, sólo incluyen la variación de larga escala y suponen que los errores son independientes (Sección \@ref(modelos-clasicos-espaciales)). 
+Hoy en día podemos decir que la geoestadística es la rama de la estadística espacial que estudia los procesos con índice espacial continuo. 
+
+Uno de los problemas iniciales más importantes de la geoestadística fue la predicción de la riqueza de un bloque minero a partir de una muestra observada. 
+A este proceso Matheron (1963) lo denominó kriging[^1], y también predicción espacial lineal óptima (estos métodos de predicción se muestran en el Capítulo 4). 
+
+[^1]: D. G. Krige fue un ingeniero de minas de Sudáfrica que desarrollo 
+    en los años 50 métodos empíricos para determinar la distribución de
+    la riqueza de un mineral a partir de valores observados. 
+    Sin embargo la formulación de la predicción espacial lineal óptima no 
+    procede del trabajo de Krige. 
+    Al mismo tiempo que la geoestadística se desarrollaba en la ingeniería 
+    de minas por Matheron en Francia, la misma idea se desarrollaba en la 
+    meteorología por L.S. Gandin en la antigua Unión Soviética. 
+    El nombre que Gandin le dio a esta aproximación fue análisis objetivo 
+    y utilizó la terminología de interpolación óptima en lugar de kriging. 
+    Para más detalles sobre el origen del kriging ver p.e. Cressie (1990). 
+
+
+El modelo general habitualmente considerado en geoestadística considera que el proceso se descompone en *variabilidad de gran escala* y *variabilidad de pequeña escala*:
+\begin{equation}
+  Z(\mathbf{s}) = \mu(\mathbf{s}) + \varepsilon(\mathbf{s}),
+  (\#eq:modelogeneral)
+\end{equation}
+<!-- \@ref(eq:modelogeneral) -->
+donde:
+
+-  $\mu(\mathbf{s}) = E \left( Z(\mathbf{s}) \right)$ es la tendencia (función de regresión, determinística).
+
+-  $\varepsilon(\mathbf{s})$ es un proceso de error de media cero que incorpora la dependencia espacial.
+
+Como en condiciones normales únicamente se dispone de una realización parcial del proceso, se suelen asumir hipótesis adicionales de estacionariedad sobre el proceso de error $\varepsilon(\mathbf{s})$ para hacer posible la inferencia.
+En la Sección \@ref(procesos-estacionarios) se definen los principales tipos de estacionariedad habitualmente considerados en geoestadística y se introducen dos funciones relacionadas con procesos estacionarios, el covariograma y el variograma. 
+Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección 2.2.
+
+<!-- 
+Se podrían considerar un modelo aún más general heterocedástico (ver Fernández-Casal *et al.*, 2017). 
+-->
+
+
+### Modelos clásicos y modelos espaciales {#modelos-clasicos-espaciales}
+
+En general, cuando se considera que la componente espacial (o espacio-temporal) puede ser importante en el modelado y el análisis de los datos es necesaria una aproximación estadística distinta a la tradicionalmente usada. 
+
+Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal. 
+Si $\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}$ es un proceso espacial, podemos suponer que:
+$$Z(\mathbf{s})=\sum\limits_{j=0}^{p}x_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,$$
+(un caso particular del modelo general \@ref(eq:modelogeneral)), donde $\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}$ es un vector desconocido, $\left\{ x_{j} (\cdot):j=0, \ldots,p\right\}$ un conjunto de variables explicativas (típicamente $x_0(\cdot)=1$) y $\varepsilon(\cdot)$ un proceso de media cero incorrelado (i.e. $Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0$ si $\mathbf{u}\neq \mathbf{v}$) con $Var(\varepsilon (\mathbf{s}))=\sigma^{2}$.
+
+Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la *variación de gran escala* $\boldsymbol{\beta}$, a partir de los datos observados en un conjunto de posiciones espaciales $\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}$.
+Bajo las hipótesis anteriores:
+$$\mathbf{Z} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},$$ 
+siendo $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}$, $\mathbf{X}$ una matriz $n\times (p+1)$ con $X_{ij}=x_{j-1}(\mathbf{s}_{i})$ y $\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}$; y el estimador lineal insesgado de $\boldsymbol{\beta}$ más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, *ordinary least squares*):
+\begin{equation} 
+  \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
+  (\#eq:beta-ols)
+\end{equation}
+<!-- \@ref(eq:beta-ols) -->
+con $$Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(\mathbf{X}^{\top}\mathbf{X})^{-1}.$$
+
+Sin embargo la suposición de que los errores son independientes e idénticamente distribuidos influye crucialmente en la inferencia. 
+En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
+$$Var\left( \boldsymbol{\varepsilon} \right) =\Sigma,$$
+obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de $\boldsymbol{\beta}$ es el estimador de mínimos cuadrados generalizados (GLS, *generalized least squares*):
+\begin{equation} 
+  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\Sigma^{-1} \mathbf{Z}.
+  (\#eq:beta-gls)
+\end{equation}
+<!-- \@ref(eq:beta-gls) -->
+
+Si $\Sigma=\sigma^{2} \mathbf{I}_{n}$, siendo $\mathbf{I}_{n}$ la matriz identidad $n\times n$, los estimadores \@ref(eq:beta-ols) y \@ref(eq:beta-gls) coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes. 
+Puede verse fácilmente que en el caso general:
+$$Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1}, \\
+Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\Sigma\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},$$
+resultando además que $Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )$ es una matriz semidefinida positiva (e.g. Searle, 1971, Sección 3.3). 
+
+En muchos casos el objetivo final es la predicción del proceso en una posición espacial $\mathbf{s}_{0}$:
+$$Z(\mathbf{s}_{0} )=\mathbf{x}^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),$$ 
+donde $\mathbf{x}=\left( x_{0} (\mathbf{s}_{0} ), \ldots,x_{p} (\mathbf{s}_{0})\right)^{\top}$. 
+Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}^{\top}\hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
+En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
+$$\hat{Z} (\mathbf{s}_{0})=\mathbf{x^{\top}}\hat{\boldsymbol{\beta}}_{gls},$$ 
+sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
+\begin{equation} 
+  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
+  (\#eq:predictor-kriging)
+\end{equation}
+<!-- \@ref(eq:predictor-kriging) -->
+(el denominado predictor del *kriging universal*, Sección 4.X), siendo 
+$$\mathbf{c} = \left( Cov\left( \varepsilon (\mathbf{s}_{1} ),\varepsilon (\mathbf{s}_{0} )\right), \ldots, Cov\left( \varepsilon (\mathbf{s}_{n} ),\varepsilon (\mathbf{s}_{0} )\right) \right)^{\top},$$
+y la diferencia $Var( \hat{Z} (\mathbf{s}_{0} ) ) - Var( \tilde{Z} (\mathbf{s}_{0} ) ) \ge 0$ puede ser significativamente mayor que cero^[Por ejemplo, para un caso particular, Goldberger (1962, pp.374-375) observó que la mejora en la predicción puede llegar a ser del 50\%. En Cressie (1993, Sección 1.3) se muestran también otros ejemplos del efecto de la presencia de correlación en la estimación.] (si la dependencia espacial no es muy débil). 
+Naturalmente, si se ignora por completo la dependencia y se emplea únicamente el estimador $\hat{\boldsymbol{\beta}}_{ols}$ disminuye aún más la eficiencia de las predicciones.
+
+Teniendo en cuenta los resultados anteriores podemos afirmar que al explotar la dependencia presente en los datos el incremento en eficiencia puede ser importante. 
+Sin embargo el principal inconveniente es que en la práctica normalmente la matriz $\Sigma$ y el vector $\mathbf{c}$ son desconocidos. 
+El procedimiento habitual, para evitar la estimación de $n+n(n+1)/2$ parámetros adicionales a partir del
+conjunto de $n$ observaciones, suele ser la elección de un modelo paramétrico adecuado:
+$$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )\equiv Cov\left( \varepsilon (\mathbf{u}),\varepsilon (\mathbf{v})\right),$$
+i.e. suponer que $\Sigma \equiv \Sigma\left( \boldsymbol{\theta}\right)$ y $\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)$. 
+Una hipótesis natural es suponer que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos; por tanto es normal pensar en errores espacialmente correlados. 
+Por ejemplo, podemos considerar:
+$$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )=\sigma^{2} \rho^{\left\| \mathbf{u}-\mathbf{v}\right\| },$$
+con $\sigma^{2} \geq 0$ y $0<\rho <1$. 
+De esta forma, si $\hat{\boldsymbol{\theta}}$ es un estimador de $\boldsymbol{\theta}$, podemos obtener por ejemplo una aproximación del predictor óptimo de $Z(\mathbf{s}_{0} )$ sustituyendo en \@ref(eq:predictor-kriging) $\Sigma(\boldsymbol{\theta})$ por $\Sigma(\hat{\boldsymbol{\theta}} )$ y $\mathbf{c}(\boldsymbol{\theta})$ por $\mathbf{c}(\hat{\boldsymbol{\theta}} )$.
+
+
+### Ventajas de la aproximación espacial (y espacio-temporal)
+
+Algunos de los beneficios de utilizar modelos espaciales para caracterizar y explotar la dependencia espacial de un conjunto de datos son los siguientes: 
+
+* Modelos más generales: en la mayoría de los casos, los modelos clásicos no espaciales son un caso particular de un modelo espacial.
+
+* Estimaciones más eficientes: de la tendencia, de los efectos de variables explicativas, de promedios regionales...
+
+* Mejora de las predicciones: más eficientes, con propiedades de extrapolación más estables...
+
+* La variación espacial no explicada en la estructura de la media debe ser absorbida por la estructura del error, por lo que un modelo que incorpore la dependencia espacial puede decirse que esta protegido frente a una mala especificación de este tipo. Esto en muchos casos tiene como resultado una simplificación en la especificación de la tendencia; en general los modelos con dependencia espacial suelen tener una descripción más parsimoniosa (en ocasiones con muchos menos parámetros) que los clásicos modelos de superficie de tendencia.
+
+## Procesos espaciales estacionarios {#procesos-estacionarios}
+
+Supongamos que $\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}$  es un proceso geoestadístico.
+Este proceso aleatorio se puede caracterizar a través de las funciones de distribución finito-dimensionales:
+$$F_{\mathbf{s}_1, \ldots, \mathbf{s}_m}(z_1, \ldots, z_m)
+= P\left(Z(\mathbf{s}_1)\leq z_1 , \ldots,Z(\mathbf{s}_m)\leq z_m \right)$$
+(o de las funciones de densidad correspondientes $f_{\mathbf{s}_1, \ldots, \mathbf{s}_m}(z_1, \ldots, z_m)$.
+Por ejemplo, el proceso se dice normal (o gaussiano) si para cada posible conjunto de $m \in \mathbb{N}$ posiciones espaciales, $\{\mathbf{s}_1, \ldots, \mathbf{s}_m\}$, su función de distribución $F_{\mathbf{s}_1, \ldots, \mathbf{s}_m}$ es normal (gaussiana).
+
+Como ya se comentó en la Sección \@ref(proc-esp), en general no se puede disponer de una realización completa del proceso $Z(\cdot)$ y solamente se observan valores en unas posiciones espaciales conocidas $\left\{ \mathbf{s}_1, \ldots, \mathbf{s}_{n} \right\}$ (que por lo general van a ser irregulares). 
+Por tanto es necesario hacer algunas suposiciones acerca del proceso de forma que sea posible la inferencia sobre el mismo. 
+Lo habitual es asumir algún tipo de estacionariedad del proceso (o del proceso de error, suponiendo que el proceso no tiene media constante y sigue el modelo general \@ref(eq:modelogeneral)).
+
+El proceso $Z(\cdot)$ se dice *estrictamente estacionario* si al trasladar (en cualquier dirección) una configuración cualquiera de posiciones espaciales la distribución conjunta no varia:
+$$F_{\mathbf{s}_1 +\mathbf{h}, \ldots,\mathbf{s}_m +\mathbf{h}}(z_1, \ldots, z_m) = F_{\mathbf{s}_1, \ldots, \mathbf{s}_m}(z_1, \ldots, z_m),\ \forall \mathbf{h}\in D,\ \forall m\geq 1.$$
+
+El proceso $Z(\cdot)$ se dice *estacionario de segundo orden* (también proceso estacionario homogéneo o débilmente estacionario) si tiene media constante y la covarianza entre dos posiciones depende únicamente del salto entre ellas:
+
+-   $E(Z(\mathbf{s}))=\mu,\ \forall \mathbf{s}\in D$.
+
+-   $Cov(Z(\mathbf{s}_1), Z(\mathbf{s}_2)) = C(\mathbf{s}_1 -\mathbf{s}_2),\ \forall \mathbf{s}_1 ,\mathbf{s}_2 \in D$.
+
+La función $C(\cdot)$ se denomina *covariograma* (también autocovariograma o función de covarianzas).
+Si además $C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)$ (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es *isotrópico* (en caso contrario se dice que es *anisotrópico*; \@ref(anisotropia)).
+
+Si un proceso es estrictamente estacionario y $Var(Z(\mathbf{s}))$ es finita, entonces es estacionario de segundo orden. 
+Además, como es bien conocido, en el caso de procesos normales ambas propiedades son equivalentes (ya que están caracterizados por su media y covarianza).
+
+En algunos casos en lugar del covariograma se utiliza el correlograma:
+$$\rho (\mathbf{h}) = \dfrac{C(\mathbf{h})}{C(\mathbf{0})} \in \left[-1,+1\right],$$
+suponiendo que $C(\mathbf{0}) = Var(Z(\mathbf{s})) >0$.
+Sin embargo lo habitual es modelar la dependencia espacial a través del variograma (principalmente por sus ventajas en la estimación; Sección \@ref(vario-muestrales)), definido a continuación.
+
+Se dice que el proceso es *intrínsecamente estacionario* (también proceso espacial de incrementos estacionarios u homogéneos) si:
+
+-   $E(Z(\mathbf{s}))=\mu,\ \forall \mathbf{s}\in D$.
+
+-   $Var(Z(\mathbf{s}_1)-Z(\mathbf{s}_2)) = 2\gamma (\mathbf{s}_1 - \mathbf{s}_2),\ \forall \mathbf{s}_1 ,\mathbf{s}_2 \in D$.
+
+La función $2\gamma (\cdot)$ se denomina *variograma* y $\gamma (\cdot)$ *semivariograma*. 
+Al igual que en el caso anterior, si además $\gamma(\mathbf{h}) \equiv \gamma(\left\| \mathbf{h}\right\|)$ (sólo depende de la distancia) se dice que el variograma es isotrópico.
+
+La clase de procesos intrínsecamente estacionarios es más general que la clase de procesos estacionarios de segundo orden. 
+Si un proceso estacionario de segundo orden tiene covariograma $C(\cdot)$, como:
+$$\begin{aligned}
+Var(Z(\mathbf{s}_1)-Z(\mathbf{s}_2)) &= Var(Z(\mathbf{s}_1)) + Var(Z(\mathbf{s}_2))-2Cov(Z(\mathbf{s}_1),Z(\mathbf{s}_2)) \\
+&=2\left(C(\mathbf{0})-C(\mathbf{s}_1 -\mathbf{s}_2)\right),
+\end{aligned}$$
+entonces su semivariograma viene dado por:
+$$\gamma (\mathbf{h}) = C(\mathbf{0})-C(\mathbf{h}),$$
+y por tanto es un proceso intrínsecamente estacionario. 
+El reciproco en general no es cierto (por ejemplo el caso de un [movimiento browniano](https://es.wikipedia.org/wiki/Movimiento_browniano#Matem%C3%A1ticas)), aunque sí se verifica en muchos casos.
+Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente).
+
+Si el variograma está acotado y:
+$$\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty }\gamma(\mathbf{h})=\sigma^2,$$
+entonces^[Suponiendo que $\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty } C(\mathbf{h})=0$.] podemos obtener el covariograma correspondiente como:
+$$C(\mathbf{h})=\sigma^2-\gamma (\mathbf{h}).$$
+A $\sigma^{2} = C(\mathbf{0})$ se le denomina *umbral* (o *meseta*) del semivariograma.
+La relación entre el semivariograma y el covariograma se ilustra en la Figura \@ref(fig:var-gen).
+
+Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia^[Además de poder interpretar su influencia en la predicción espacial (Sección 4.X), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \@ref(modelos-parametricos)).], entre ellas destacarían el *efecto pepita* (o *nugget*) y el *rango* (o *alcance*).
+La Figura \@ref(fig:var-gen) ilustra las distintas características del semivariograma.
+
+
+```{r var-gen, echo=FALSE, fig.dim = c(9, 6), out.width = "80%", fig.cap="Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características."}
+old.par <- par(mar = c(bottom = 5, left = 6, top = 1, right = 1))
+# Variograma teórico
+mod.svar <- "spherical"
+nugget <- 0.2
+sill <- 1
+range <- 0.6
+kappa <- 0.5
+# Saltos
+maxlag <- 0.8
+nlags <- 200
+lags <- seq(0, maxlag, len = nlags + 1)[-1]
+# geoR
+cov.pars <- c(sill - nugget, range) # c(sill - nugget, range/3)
+if (any(mod.svar == c("linear", "power"))) {
+  if (mod.svar == "linear") cov.pars[2] <- 1
+  svar <- nugget + cov.pars[1] * (lags^cov.pars[2])
+} else {
+  covar <- drop(geoR::cov.spatial(lags, cov.model = mod.svar, 
+                            kappa = kappa, cov.pars = cov.pars))
+  svar <- sill - covar
+}
+# Representar
+plot(lags, svar, type = 'l', lwd = 2, ylim = c(0, 1.05*sill), xlim = c(0, 0.8), 
+     xlab = "", ylab = "", xaxt="n", yaxt="n")
+mtext(expression(gamma(h)), side = 2, las = 1, line = 3, cex = 1.25)
+mtext("h", side = 1, line = 2, cex = 1.25)
+axis(1, c(0, range), c("0", "a"))
+axis(2, c(0, nugget, sill-nugget, sill), 
+     expression(0, c[0], sigma^2- c[0], sigma^2), las = 2)
+lines(lags, covar, type = 'l', lwd = 1, lty =2) # covariograma
+points(0, sill, pch = 16, cex = 1)
+points(0, 0, pch = 16, cex = 1)
+abline(h = sill, lwd = 1, lty = 3) # varianza
+abline(h = 0, lwd = 1, lty = 3)
+abline(v = 0, lwd = 1, lty = 3)
+abline(v = range, lwd = 1, lty = 3)
+par(old.par)
+```
+
+Siempre se verifica que $\gamma (\mathbf{0})=0$, sin embargo puede ser que:
+$$\lim \limits_{\mathbf{h}\rightarrow \mathbf{0}} \gamma(\mathbf{h}) = c_0 > 0.$$
+entonces $c_0$ se denomina *efecto pepita* (o *nugget*)^[El origen de esta denominación esta relacionado con la terminología minera. En algunos yacimientos de metal, como por ejemplo en el caso del oro, el mineral suele obtenerse como pepitas de material puro y estas pepitas normalmente son más pequeñas que el tamaño de la unidad de muestreo (lo que produce una variabilidad adicional en la muestra).]. 
+Además, si $\sigma^{2}$ es el umbral del semivariograma (suponiendo que existe), a $\sigma ^{2} -c_0$ se le denomina *umbral parcial*.
+
+Las propiedades de continuidad (y derivabilidad) del variograma (o el covariograma) en el origen están relacionadas con las propiedades de continuidad (y diferenciabilidad) en media cuadrática del proceso $Z(\cdot)$ (ver e.g. Chilès y Delfiner, 1999, Sección 2.3.1). 
+Por ejemplo, el proceso es continuo en media cuadrática si y sólo si su variograma (covariograma) es continuo en el origen. Entonces la presencia de efecto nugget indica que (en teoría) el proceso no es continuo y por tanto altamente irregular.
+
+La proporción del efecto nugget en el umbral total $c_0 /\sigma^{2}$ proporciona mucha información acerca del grado de dependencia espacial presente en los datos. 
+Por ejemplo, en el caso en que toda la variabilidad es efecto nugget (i.e. $\gamma (\mathbf{h})=c_0$, $\forall \mathbf{h}\neq \mathbf{0}$) entonces $Z(\mathbf{s}_1)$ y $Z(\mathbf{s}_2)$ son incorrelados $\forall \mathbf{s}_1 ,\mathbf{s}_2 \in D$ independientemente de lo cerca que estén (el proceso $Z(\cdot)$ es ruido blanco).
+Por tanto podemos pensar en $c_0 /\sigma^{2}$ como la proporción de "variabilidad independiente", aunque en la práctica típicamente no se dispone de información sobre el variograma a distancias menores de $\min \left\{ \left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| :1\leq i<j\leq n\right\}$ (la estimación de $c_0$ se obtiene normalmente extrapolando un variograma experimental cerca del origen).
+
+Si $\sigma ^{2}$ es el umbral del semivariograma (suponiendo que existe), se define el *rango* (o alcance) del semivariograma en la dirección $\mathbf{e}_0 \in \mathbb{R}^{d}$ con $\left\| \mathbf{e}_0 \right\| = 1$, como el mínimo salto en esa dirección en el que se alcanza el umbral:
+$$a_0 =\min \left\{ a:\gamma (a\left( 1+\varepsilon \right) \mathbf{e}_0 )=\sigma ^{2} , \forall \varepsilon >0\right\}.$$
+El rango en la dirección $\mathbf{e}_0$ puede interpretarse como el salto $h$ a partir del cual no hay correlación entre $Z(\mathbf{s})$ y $Z(\mathbf{s}\pm h\mathbf{e}_0)$, por tanto está íntimamente ligado a la noción de "zona de influencia" (y tiene un papel importante en la determinación de criterios de vecindad). 
+En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el *rango práctico*, definido como el mínimo salto en el que se alcanza el 95\% del umbral.
+
+
+El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso. 
+En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección \@ref(vario-muestrales); Cressie, 1993, Sección 2.4.1). 
+No obstante, en muchos casos los modelos de variograma se obtienen a partir de modelos de covariograma.
+
+###  Propiedades elementales del covariograma y del variograma {#propiedades-elementales}
+
+El variograma y el covariograma deben verificar ciertas propiedades que sus estimadores no siempre verifican, a continuación se detallan algunas de ellas.
+
+Si $Z(\cdot)$ es un proceso estacionario de segundo orden con covariograma $C(\cdot)$,
+entonces se verifica que $C(\mathbf{0}) = Var( Z(\mathbf{s}) ) \geq 0$, es una función par $C(\mathbf{h})=C(-\mathbf{h})$, y por la desigualdad de Cauchy-Schwarz $\left| C(\mathbf{h})\right| \leq C(\mathbf{0})$.
+Además, el covariograma debe ser semidefinido positivo, es decir:
+$$\sum\limits_{i=1}^{m} \sum\limits_{j=1}^{m} a_i a_j C(\mathbf{s}_i-\mathbf{s}_j) \geq 0  \\
+\forall m\geq 1,\ \forall \mathbf{s}_i \in D,\ \forall a_i \in \mathbb{R};\ i=1, \ldots,m,$$ 
+ya que:
+$$\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}a_i a_j C(\mathbf{s}_i -\mathbf{s}_j) = Var\left\{\sum\limits_{i=1}^{m}a_i Z(\mathbf{s}_i) \right\}$$ 
+La condición es necesaria y suficiente para que exista un proceso estacionario de segundo orden con covariograma $C(\cdot)$ (se puede construir un proceso normal multivariante con covarianzas definidas por $C(\cdot)$). 
+Por tanto la clase de covariogramas válidos en $\mathbb{R}^d$ es equivalente a la clase de funciones semidefinidas positivas en $\mathbb{R}^d$.
+
+Algunas propiedades adicionales que verifican los covariogramas son las siguientes:
+
+1. Si $C(\cdot)$ es un covariograma válido en $\mathbb{R}^d$, entonces $aC(\cdot)$, $\forall a\geq 0$, es
+también un covariograma válido en $\mathbb{R}^d$.
+
+2. Si $C_1 (\cdot)$ y $C_2 (\cdot)$ son covariogramas válidos en $\mathbb{R}^d$, entonces $C_1 (\cdot) + C_2 (\cdot)$ es un
+covariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso $Z(\cdot)$ se obtiene como suma de dos procesos estacionarios de segundo orden independientes: $Z(\mathbf{s})=Z_1 (\mathbf{s})Z_2 (\mathbf{s})$, con covariogramas $C_1 (\cdot)$ y $C_2 (\cdot)$ respectivamente. 
+
+3. Si $C_1 (\cdot)$ y $C_2 (\cdot)$ son covariogramas válidos en $\mathbb{R}^d$, entonces $C(\cdot) = C_1 (\cdot)C_2 (\cdot)$
+es un covariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.
+
+6. Un covariograma isotrópico válido en $\mathbb{R}^d$ es también un covariograma isotrópico válido en $\mathbb{R}^m$, $\forall m\leq d$ (el recíproco no es en general cierto, ver p.e. Cressie, 1993, p. 84).
+
+
+Si $\gamma (\cdot)$ es el semivariograma de un proceso intrínsecamente estacionario $Z(\cdot)$, entonces se verifica que $\gamma (\mathbf{0})=0$, $\gamma (\mathbf{h})\geq 0$ y $\gamma (\mathbf{h})=\gamma (-\mathbf{h})$.
+El semivariograma debe ser además condicionalmente semidefinido negativo, es decir:
+$$\sum\limits_{i=1}^{m}\sum\limits_{j=1}^{m}a_i a_j \gamma(\mathbf{s}_i -\mathbf{s}_j) \leq 0  \\
+\forall m\geq 1,\forall \mathbf{s}_i \in D,\forall a_i \in \mathbb{R};i=1, \ldots,m,\text{tales que } \sum\limits_{i=1}^{m}a_i = 0.$$
+Esta condición es necesaria pero no suficiente (aunque pocas condiciones adicionales son necesarias para que el recíproco sea cierto; ver Cressie, 1993, Sección 3.5.2). 
+
+Algunas propiedades adicionales que verifica un variograma son las siguientes:
+
+1. Si $\gamma (\cdot)$ es un semivariograma válido en $\mathbb{R}^d$, entonces $a\gamma (\cdot)$, $\forall a\geq 0$, es también un semivariograma válido en $\mathbb{R}^d$.
+
+2. Si $\gamma_1 (\cdot)$ y $\gamma_2 (\cdot)$ son semivariogramas válidos en $\mathbb{R}^d$, entonces $\gamma_1 (\cdot)+\gamma_2 (\cdot)$, es también un semivariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso $Z(\cdot)$ se obtiene como suma de dos procesos intrínsecamente estacionarios independientes: $Z(\mathbf{s})=Z_1 (\mathbf{s})+Z_2 (\mathbf{s})$, con semivariogramas $\gamma_1 (\cdot)$ y $\gamma_2 (\cdot)$ respectivamente.
+
+3. Un variograma isotrópico válido en $\mathbb{R}^d$ es también un variograma isotrópico válido en $\mathbb{R}^m$, $\forall m\leq d$.
+
+Se suelen emplear estas propiedades para la obtención de modelos de variograma válidos, como por ejemplo en el caso de la anisotropía zonal (Sección \@ref(anisotropia)) o del modelo lineal de (co)regionalización (secciones \@ref(vario-lin-reg) y 5.X).
+
+
+### Procesos agregados {#procesos-agregados}
+
+En algunos casos los datos pueden ser agregaciones espaciales en lugar de observaciones puntuales (e incluso observaciones sobre distintos soportes) o, por ejemplo, puede ser de interés la estimación de medias espaciales a partir de datos puntuales. 
+Estas agregaciones pueden ser modeladas como el promedio de un proceso puntual, lo que permite deducir fácilmente las relaciones entre covariogramas y variogramas vinculados a diferentes soportes.
+
+Supongamos que el proceso espacial $Z(\cdot)$ definido sobre $D\subset \mathbb{R} ^{d}$ es integrable en media cuadrática.
+Entonces, si $B\subset D$ es un subconjunto acotado e integrable con $\left| B\right| =\int_B d\mathbf{s} > 0$, se puede definir el proceso espacial agregado (también se denomina regularizado) como:
+$$Z(B)\equiv \dfrac{1}{\left| B\right| } \int_{B}Z(\mathbf{s})d\mathbf{s}.$$ 
+
+Si por ejemplo el proceso puntual es intrínsecamente estacionario con semivariograma $\gamma (\cdot)$, entonces a partir del variograma puntual podemos obtener el variograma del proceso agregado:
+
+$$\begin{aligned}
+Var\left( Z(B_1)-Z(B_2)\right) = & -\dfrac{1}{\left| B_1 \right| ^{2} } 
+\int_{B_1 }\int_{B_1 }\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}   \\
+  & -\dfrac{1}{\left| B_2 \right|^{2} } \int_{B_2}\int_{B_2}\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}   \\
+ & +\dfrac{1}{\left| B_1 \right| \left| B_2 \right| } \int_{B_1 }\int_{B_2} 2\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}. 
+\end{aligned}$$
+
+Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en estos apuntes pueden ser extendidos para el caso de distintos soportes (por ejemplo el *block kriging* descrito en la Sección 4.X).
+Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el *modifiable areal unit problem*, MAUP).
+Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
+
+
+## Objetivos y pasos {#objetivos-esquema} 
+
+A partir de los valores observados  $\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\}$ (o $\{Z(B_1), \ldots, Z(B_n)\}$), los objetivos suelen ser:
+
+-   Obtener predicciones (kriging) $\hat{Z}(\mathbf{s}_0)$ (o $\hat{Z}(B_0)$).
+    
+-   Realizar inferencias (estimación, contrastes) sobre las componentes 
+    del modelo $\hat{\mu}(\cdot)$, $\hat{\gamma}(\cdot)$.
+
+-   Obtención de mapas de riesgo $P({Z}(\mathbf{s}_0)\geq c)$.
+
+-   Realizar inferencias sobre la distribución (condicional) de la respuesta
+    en nuevas localizaciones...
+    
+
+En cualquier caso en primer lugar habría que estimar las componentes del modelo: la tendencia $\mu(\mathbf{s})$ y el semivariograma $\gamma(\mathbf{h})$.
+La aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico consiste en los siguientes pasos:
+
+1.  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo 2).
+
+2.  Estimación de los parámetros del modelo (proceso iterativo; Capítulo 3):
+
+    1.  Estimar y eliminar la tendencia.
+
+    2.  Modelar la dependencia (ajustar un modelo de variograma) a partir de los residuos.
+
+3.  Validación del modelo (Sección 4.X) o reformulación del mismo.
+
+4.  Empleo del modelo aceptado (Capítulo 4).
+
+
+<!-- 
+## Referencias
+
+Pendiente: añadir bibliografía bibtex y referencias paquetes
+-->
+
+
+

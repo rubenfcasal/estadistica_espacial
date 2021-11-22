@@ -1,0 +1,442 @@
+# (APPENDIX) Apendices {-} 
+
+# Introducción al paquete **sp** {#intro-sp}
+
+<!-- 
+---
+title: "Estadística Espacial"
+author: "Análisis estadístico de datos con dependencia (GCED)"
+date: "Curso 2021/2022"
+bibliography: ["packages.bib", "estadistica_espacial.bib"]
+link-citations: yes
+output: 
+  bookdown::html_document2:
+    pandoc_args: ["--number-offset", "0,0"]
+    toc: yes 
+    # mathjax: local            # copia local de MathJax, hay que establecer:
+    # self_contained: false     # las dependencias se guardan en ficheros externos 
+  bookdown::pdf_document2:
+    keep_tex: yes
+    toc: yes 
+---
+
+bookdown::preview_chapter("08-sp.Rmd")
+knitr::purl("08-sp.Rmd", documentation = 2)
+knitr::spin("08-sp.R",knit = FALSE)
+-->
+
+```{r , child = '_global_options.Rmd'}
+```
+
+
+El paquete `r citepkg("sp")` [Classes and methods for spatial data; @Pebesma2005] implementa objetos y métodos para datos espaciales...
+
+Introducción, para más detalles ver @Bivand2013... 
+https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html
+
+## Tipos de objetos
+
+````{r }
+# Librería sp:classes and methods for spatial data
+library(sp) # install.packages('sp')
+
+# Tipos de objetos
+getClass("Spatial")
+````
+
+
+-   Clases del tipo S4 (definicion formal con componentes
+    denominadas slots)
+
+-   Tipo base: `Spatial`
+
+    -   `bbox` (bounding box): matriz con los límites mínimo y máximo de
+        las coordenadas (principalmente para representación gráfica;
+        normalmente se genera automáticamente).
+
+    -   `proj4string`: cadena de texto que define el sistema de
+        coordenadas de referencia (realmente objeto tipo *CRS,*
+        coordinate reference system) en formato 
+        [PROJ.4](http://trac.osgeo.org/proj).
+
+        -   `CRS(as.character(NA))` para indicar no disponible/faltante
+
+        -   `CRS(+proj=longlat)` para coordenadas geográficas
+
+        -   `CRS(+proj=longlat +ellps=WGS84)` estándar GPS (World
+            Geodetic System of 1984)
+            
+````{r }
+xbbox <- matrix( c(0,0,1,1), ncol=2)
+colnames(xbbox) <- c("min", "max") # Normalmente la bbox se genera automáticamente al crear el objeto
+x <- Spatial(xbbox, proj4string = CRS(as.character(NA)))
+x
+````
+
+Los objetos son del tipo S4. 
+Los componentes se denominan slots.
+Se acceden con la función `slot()` o el operador `@`.
+
+````{r }
+slot(x,'bbox')
+x@bbox ### en s4 se pone @ en vez de $.
+````
+
+El paquete sp dispone también de funciones para acceder/establecer 
+los componentes:
+
+````{r }
+bbox(x)
+proj4string(x) <- CRS("+proj=longlat +ellps=WGS84") # Importante
+````
+
+
+### SpatialPoints y SpatialPointsDataFrame
+
+-   Tipo `SpatialPoints`
+
+    -   Slots: `coords, bbox, proj4string `
+
+    -   Objeto de datos básico para procesos puntuales.
+
+-   Tipo `SpatialPointsDataFrame`
+
+    -   Slots: `data, coords.nrs, coords, bbox, proj4string`
+
+    -   Objeto de datos básico para procesos geoestadísticos (y procesos
+        puntuales marcados).
+ 
+#### Ejemplo SpatialPoints              
+
+````{r }
+load("datos/caballa.galicia.RData")
+str(caballa.galicia)  # data.frame(attr(caballa.galicia, "variable.labels"))
+plot(y~x, data = caballa.galicia)
+
+spt <- SpatialPoints(caballa.galicia[,c("x","y")], proj4string = CRS("+proj=longlat +ellps=WGS84"))
+summary(spt)
+str(spt)
+````
+
+Hay muchos métodos (funciones genéricas) implementados para objetos `sp`:
+
+````{r }
+# plot(spt)
+plot(spt, axes=TRUE)
+````
+
+ 
+#### Ejemplo SpatialPointsDataFrame 
+             
+Importante (para preparar datos):
+
+````{r }
+sdf1 <- SpatialPointsDataFrame(caballa.galicia[,c(2,3)], caballa.galicia[,-c(2,3)], proj4string = CRS("+proj=longlat +ellps=WGS84"))
+str(sdf1)
+````
+
+Una alernativa normalmente preferible es modificar directamente 
+el `data.frame`:
+
+````{r }
+sdf <- caballa.galicia
+coordinates(sdf) <- c("x", "y") # Recomendación
+proj4string(sdf) <- CRS("+proj=longlat +ellps=WGS84")  # También sdf@proj4string <- CRS("+proj=longlat +ellps=WGS84")
+str(sdf)
+````
+
+Operaciones como en un `data.frame`.
+
+````{r }
+names(sdf)
+sdf$id  # Equivalente a sdf@data$id 
+
+plot(sdf, axes = TRUE)
+plot(sdf[sdf$id == "J3", ], col = "red", add = TRUE)
+````
+
+Importante (para análisis descriptivo):
+
+````{r }
+summary(sdf[,c("cpue","lcpue")])
+hist(sdf$cpue)
+hist(sdf$lcpue)
+
+spplot(sdf, "lcpue")
+````
+
+
+### SpatialLines y SpatialPolygons
+
+-   Tipo `SpatialLines`
+
+    -   Basados en `Line`: `coords`
+
+    -   Se combinan objetos `Line` en listas: `lines, bbox, proj4string`
+
+    -   De utilidad principalmente para representaciones gráficas (y
+        para generar polígonos).
+
+-   Tipo `SpatialPolygons`
+
+    -   Basados en `Polygon`:
+        `labpt, area, hole, ringDir, coords`(extiende `Line` de forma
+        que la primera y la última línea es la misma)`.`
+
+    -   Se combinan objetos `Polygon` en listas:
+        `polygons, plotOrder, bbox, proj4string.`
+
+    -   De utilidad principalmente para representaciones gráficas (y
+        `overlay`).
+
+-   Se extienden también a `Spatial*DataFrame` (slot `data`)
+
+    -   `SpatialPolygonsDataFrame`: util para procesos reticulares.
+ 
+#### Ejemplo SpatialLines
+              
+El fichero *costa.galicia.txt* contiene la costa de Galicia en formato Mapgen.
+Descargada del (difunto) [Coastline Extractor](http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html)
+
+````{r }
+library(maptools) # Utilidades para convertir datos entre diferentes formatos espaciales
+
+costa.galicia <- MapGen2SL("datos/costa.galicia.txt", CRS("+proj=longlat +ellps=WGS84"))
+
+summary(costa.galicia)
+
+plot(sdf, axes=TRUE)
+plot(costa.galicia, add=TRUE)
+````
+
+ 
+#### Ejemplo SpatialPolygonsDataFrame  
+
+Los objetos de este tipo se suelen crear a partir de objetos `SpatialLines`,
+pero hay que asegurarse de que definen adecuadamente un polígono.
+
+Objetos de este tipo se pueden descargar de 
+[GADM database of Global Administrative Areas](http://www.gadm.org).
+Contienen límites administrativos a disintos niveles, e.g.:
+
+-   `ESP_adm0.rds` límites España e islas
+
+-   `ESP_adm1.rds` límites Autonomías
+
+-   `ESP_adm2.rds` límites Provincias
+
+-   `ESP_adm3.rds` límites Comarcas
+
+-   `ESP_adm4.rds` límites Ayuntamientos
+
+NOTA: Se podrían descargar directamente desde R, e.g.:
+```
+  con <- url('http://gadm.org/data/rda/ESP_adm1.rds')
+  gadm <- readRDS(con)
+  close(con)
+```
+  
+Carga de un objeto gadm:
+
+````{r }
+gadm <- readRDS("datos/ESP_adm1.rds") 
+summary(gadm)
+plot(gadm)
+# Cuidado objeto muy grande: str(gadm)
+# Mejor emplear str(gadm, 3)
+````
+
+Extraer autonomía de Galicia:
+
+````{r }
+names(gadm)
+galicia <- gadm[gadm$NAME_1 == "Galicia", ]
+plot(galicia)
+````
+
+Es preferible emplear este tipo de objetos a `SpatialLines`:
+
+````{r }
+plot(sdf, axes=TRUE)
+plot(galicia, add=TRUE)
+````
+
+
+### SpatialGrid y SpatialPixels
+
+Es habitual trabajar con datos espaciales en formato
+rejilla (grid) (e.g. predicciones en geoestadística):
+
+-   Rejilla (posiciones) definida por un objeto `GridTopology`:
+    `cellcentre.offset, cellsize, cells.dim`
+
+-   Tipos `SpatialGrid` y `SpatialPixels`:
+    `grid, grid.index, coords, bbox, proj4string`
+
+-   Se extienden también a `Spatial*DataFrame` (slot `data`)
+
+-   Los objetos `SpatialGrid` se corresponden con la rejilla completa:
+
+-   Los objetos `SpatialPixels` se corresponden con una rejilla
+    incompleta
+
+    -   `coords `contiene todas las coordenadas (objetos equivalentes a
+        `SpatialPoints`)
+
+    -   `grid.index `indices de la rejilla
+ 
+#### Ejemplo SpatialGrid  
+
+Importante si se utiliza el paquete `gstat`...
+
+````{r }
+xrange <- c(-10, -7.5)
+yrange <- c(42.25, 44)
+nx <- 100
+ny <- 100
+hx <- diff(xrange)/(nx-1)
+hy <- diff(yrange)/(ny-1)
+
+gridtop <- GridTopology(cellcentre.offset = c(min(xrange), min(yrange)),
+                        cellsize = c(hx, hy), cells.dim = c(nx, ny))
+spgrid <-  SpatialGrid(gridtop, proj4string = proj4string(gadm))
+
+str(spgrid)
+
+plot(spgrid, axes = TRUE)
+plot(galicia, add = TRUE)
+````
+
+ 
+#### Ejemplo SpatialPixels
+
+````{r }
+# over: combinación de objetos espaciales
+index <- over(spgrid, as(galicia, "SpatialPolygons"))
+sppix <- as(spgrid, "SpatialPixels")[is.na(index), ]
+
+str(sppix)
+
+plot(sppix, axes = TRUE)
+plot(galicia, add = TRUE)
+
+# NOTA: puede ser preferible asignar NA's a variables en SpatialGridDataFrame...
+object.size(spgrid)
+object.size(sppix)
+
+# Otras funciones:
+# as(sppix, "SpatialGrid") recostruye la rejilla completa
+# gridded(ObjetoSpatialPoints) <- TRUE  convierte el objeto SpatialPoints en SpatialPixels
+````
+
+
+## Métodos y procedimientos clases sp
+
+Método  |  Descripción
+-----------  |  ------------------------------------------------------------------------
+`[`  |  selecciona elementos espaciales (puntos, líneas, polígonos, filas/columnas de una rejilla) y/o variables.
+`$, [[`  |  obtiene, establece o agrega variables (columnas).
+`coordinates`  |  obtiene o establece (creando objetos sp) coordenadas.
+`as(obj, clase)`  |  convierte un objeto a una clase.
+`over, overlay`  |  combina objetos espaciales.
+`spsample`  |  muestrea puntos dentro de una región (rectangular, polígono, línea o rejilla).
+
+### Importar/exportar/transformar
+
+A través de R (paquetes que emplean sp) es fácil exportar datos a otras aplicaciones
+(e.g. [Google Earth](http://plotkml.r-forge.r-project.org)).
+
+Ejemplo importación: 
+
+Datos descargados en formato NetCDF ([Network Common Data Form](http://www.opengeospatial.org/standards/netcdf))
+de [NOAA Optimum Interpolated Sea Surface Temperature V2 (OISST)](http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.html)
+y procesados con *[NOAA_OISST_extraction_v2.R](datos/NOAA_OISST_extraction_v2.R)*:
+
+````{r }
+load("datos/sstsp.RData") # SST 15-04-2012 
+jet.colors <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F", "yellow", "#FF7F00", "red", "#7F0000"))
+image(sstsp, col = jet.colors(128), axes = TRUE)
+title(attr(sstsp@data, "label"))
+
+# Ejemplo importar datos de otros paquetes:
+library(maps)
+library(maptools)
+world <- map("world", fill = TRUE, plot = FALSE)   # Hay un mapa con mayor resolución en mapdata::worldHires
+world_pol <- map2SpatialPolygons(world, world$names, CRS("+proj=longlat +ellps=WGS84"))
+plot(world_pol, col = 'white', add = TRUE) 
+````
+
+
+## Representaciones gráficas
+
+### Gráficos estándar
+
+````{r }
+plot(sdf, axes = TRUE, pch = 1)
+plot(galicia, add = TRUE)
+````
+
+Color en función de una variable categórica:
+
+````{r }
+sdf$ano <- factor(sdf$ano)   # convertir año a factor
+colores <- c("blue", "yellow", "red")
+color <- colores[as.numeric(sdf$ano)]
+plot(sdf, axes = TRUE, col = color, pch = 19)
+legend("topleft", fill = colores, legend = levels(sdf$ano), bty = "n")
+plot(galicia, add = TRUE)
+````
+
+Usando p.e. la función classIntervals del paquete classInt
+se puede establecer los colores en función de una variable continua:
+
+````{r }
+library(classInt) # install.packages('classInt')
+
+class.int <- classIntervals(sdf$lcpue, n = 5, style = "quantile")
+pal <- c("blue", "red")
+# plot(class.int, pal = pal)
+
+class.col <- findColours(class.int, pal = pal)
+
+plot(sdf, col = class.col, pch = 19)
+legend("topleft", fill = attr(class.col, "palette"), 
+       legend = names(attr(class.col, "table")), bty = "n")
+plot(galicia, add = TRUE)
+
+# methods(image) para rejillas
+# ver tambien splot, simage,... en library(npsp)
+````
+
+
+### Gráficos lattice: spplot
+
+-   Ventajas: "Ideales" para las clases sp (para gráfico automáticos...)
+
+-   Inconveniente: los gráficos lattice requieren mayor tiempo de aprendizaje (dificultades para personalizarlos...)
+
+
+````{r }
+library(lattice)
+
+spplot(sdf, "lcpue", main = "CPUE (escala logarítmica)", 
+       col.regions = topo.colors(6), cuts=5)
+
+bubble(sdf, "cpue", main = "CPUE") 
+````
+
+Añadir perfil de Galicia:
+
+````{r }
+sp.layout <- list("sp.polygons", galicia)   # Para añadir elementos se utiliza el parámetro sp.layout
+spplot(sdf, "lcpue", main = "CPUE (escala logarítmica)", 
+       col.regions = topo.colors(6), cuts = 5, sp.layout = sp.layout )
+
+````
+
+Alternativamente gráficos ggplot (`r citepkg("ggplot2", "https://ggplot2.tidyverse.org")`) con el paquete `r citepkg("ggspatial", "https://paleolimbot.github.io/ggspatial")`... 
+
+<!-- 
+## Referencias 
+-->
+
