@@ -26,7 +26,7 @@ install.packages(setdiff(pkgs, installed.packages()[,"Package"]), dependencies =
 # install.packages(pkgs, dependencies = TRUE) # Instala todos...
 ```
 
-Además, para geoestadística no paramétrica se empleará el paquete `r citepkg("npsp", "https://rubenfcasal.github.io/npsp")` ***no disponible actualmente en CRAN*** (aunque esperamos que vuelva a estarlo pronto... incluyendo soporte para el paquete `sf`).
+Además, para geoestadística no paramétrica se empleará el paquete [`npsp`](https://rubenfcasal.github.io/npsp) ***no disponible actualmente en CRAN*** (aunque esperamos que vuelva a estarlo pronto... incluyendo soporte para el paquete `sf`).
 Se puede instalar la versión de desarrollo en GitHub, siguiendo las instrucciones de la [web](https://rubenfcasal.github.io/npsp/#installation):
 ``` r
 # install.packages("devtools")
