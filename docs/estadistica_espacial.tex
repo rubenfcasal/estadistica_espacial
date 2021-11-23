@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-11-22}
+\date{2021-11-23}
 
 \begin{document}
 \maketitle
@@ -192,12 +192,12 @@
 \chapter*{Prólogo}\label{pruxf3logo}}
 \addcontentsline{toc}{chapter}{Prólogo}
 
-La versión actual del libro \textbf{\emph{se está desarrollando}} principalmente como apoyo la docencia de la segunda parte de la signatura de \href{https://guiadocente.udc.es/guia_docent/index.php?centre=614\&ensenyament=614G02\&assignatura=614G02022\&idioma=cast}{Análisis estadístico de datos con dependencia} del \href{https://estudos.udc.es/es/study/start/614G02V01}{Grado en Ciencia e Ingeniería de Datos} de la \href{https://www.udc.es}{UDC}.
+La versión actual del libro \textbf{\emph{se está desarrollando}} principalmente como apoyo a la docencia de la última parte de la asignatura de \href{https://guiadocente.udc.es/guia_docent/index.php?centre=614\&ensenyament=614G02\&assignatura=614G02022\&idioma=cast}{Análisis estadístico de datos con dependencia} del \href{https://estudos.udc.es/es/study/start/614G02V01}{Grado en Ciencia e Ingeniería de Datos} de la \href{https://www.udc.es}{UDC}.
 El objetivo es que (futuras versiones del libro con contenidos adicionales) también resulte de utilidad para la docencia de la asignatura de \href{http://eamo.usc.es/pub/mte/index.php?option=com_content\&view=article\&id=2202\&idm=15\&a\%C3\%B1o=2021}{Estadística Espacial} del \href{http://eio.usc.es/pub/mte}{Máster interuniversitario en Técnicas Estadísticas}).
 
-La teoría de este libro está basada en gran parte en la tesis doctoral:
+La teoría en este libro está basada en gran parte en la tesis doctoral:
 
-Fernández Casal, R. (2003). \href{https://rubenfcasal.github.io/files/Geoestadistica_espacio-temporal.pdf}{\emph{Geoestadística espacio-temporal: modelos flexibles de variogramas anisotrópicos no separables}}. Tesis doctoral, Universidad de Santiago de Compostela,
+Fernández Casal, R. (2003). \href{https://rubenfcasal.github.io/files/Geoestadistica_espacio-temporal.pdf}{\emph{Geoestadística espacio-temporal: modelos flexibles de variogramas anisotrópicos no separables}}. Tesis doctoral, Universidad de Santiago de Compostela.
 
 donde se puede encontrar información adicional.
 
@@ -209,14 +209,14 @@ Se puede acceder a la versión en línea a través del siguiente enlace:
 donde puede descargarse en formato \href{https://rubenfcasal.github.io/estadistica_espacial/estadistica_espacial.pdf}{pdf}.
 
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
-\href{https://CRAN.R-project.org/package=sf}{\texttt{sf}}, \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}}, \href{https://CRAN.R-project.org/package=starts}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=gstat}{\texttt{gstat}}, \href{https://CRAN.R-project.org/package=geoR}{\texttt{geoR}}, \href{https://CRAN.R-project.org/package=spacetime}{\texttt{spacetime}}, \href{https://CRAN.R-project.org/package=sm}{\texttt{sm}}, \href{https://CRAN.R-project.org/package=fields}{\texttt{fields}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}}, \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, \href{https://CRAN.R-project.org/package=maps}{\texttt{maps}}, \href{https://CRAN.R-project.org/package=maptools}{\texttt{maptools}}, \href{https://CRAN.R-project.org/package=ggplot2}{\texttt{ggplot2}}, \href{https://CRAN.R-project.org/package=plot3D}{\texttt{plot3D}}, \href{https://CRAN.R-project.org/package=lattice}{\texttt{lattice}}, \href{https://CRAN.R-project.org/package=classInt}{\texttt{classInt}}, \href{https://CRAN.R-project.org/package=viridis}{\texttt{viridis}}, \href{https://CRAN.R-project.org/package=dplyr}{\texttt{dplyr}}, \href{https://CRAN.R-project.org/package=mapSpain}{\texttt{mapSpain}}, \href{https://CRAN.R-project.org/package=mapview}{\texttt{mapview}}, \href{https://CRAN.R-project.org/package=tmap}{\texttt{tmap}}, \href{https://CRAN.R-project.org/package=mapview}{\texttt{mapview}}, \href{https://CRAN.R-project.org/package=osmdata}{\texttt{osmdata}}, \href{https://CRAN.R-project.org/package=rnaturalearth}{\texttt{rnaturalearth}}, \href{https://CRAN.R-project.org/package=ncdf}{\texttt{ncdf}}, \href{https://CRAN.R-project.org/package=quadprog}{\texttt{quadprog}}, \href{https://CRAN.R-project.org/package=spam}{\texttt{spam}}, \href{https://CRAN.R-project.org/package=DEoptim}{\texttt{DEoptim}}.
+\href{https://CRAN.R-project.org/package=sf}{\texttt{sf}}, \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}}, \href{https://CRAN.R-project.org/package=starts}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=gstat}{\texttt{gstat}}, \href{https://CRAN.R-project.org/package=geoR}{\texttt{geoR}}, \href{https://CRAN.R-project.org/package=spacetime}{\texttt{spacetime}}, \href{https://CRAN.R-project.org/package=sm}{\texttt{sm}}, \href{https://CRAN.R-project.org/package=fields}{\texttt{fields}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}}, \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, \href{https://CRAN.R-project.org/package=maps}{\texttt{maps}}, \href{https://CRAN.R-project.org/package=maptools}{\texttt{maptools}}, \href{https://CRAN.R-project.org/package=ggplot2}{\texttt{ggplot2}}, \href{https://CRAN.R-project.org/package=plot3D}{\texttt{plot3D}}, \href{https://CRAN.R-project.org/package=lattice}{\texttt{lattice}}, \href{https://CRAN.R-project.org/package=classInt}{\texttt{classInt}}, \href{https://CRAN.R-project.org/package=viridis}{\texttt{viridis}}, \href{https://CRAN.R-project.org/package=dplyr}{\texttt{dplyr}}, \href{https://CRAN.R-project.org/package=mapSpain}{\texttt{mapSpain}}, \href{https://CRAN.R-project.org/package=tmap}{\texttt{tmap}}, \href{https://CRAN.R-project.org/package=mapview}{\texttt{mapview}}, \href{https://CRAN.R-project.org/package=osmdata}{\texttt{osmdata}}, \href{https://CRAN.R-project.org/package=rnaturalearth}{\texttt{rnaturalearth}}, \href{https://CRAN.R-project.org/package=ncdf}{\texttt{ncdf}}, \href{https://CRAN.R-project.org/package=quadprog}{\texttt{quadprog}}, \href{https://CRAN.R-project.org/package=spam}{\texttt{spam}}, \href{https://CRAN.R-project.org/package=DEoptim}{\texttt{DEoptim}}.
 Por ejemplo mediante los siguientes comandos:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pkgs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"sf"}\NormalTok{, }\StringTok{"sp"}\NormalTok{, }\StringTok{"starts"}\NormalTok{, }\StringTok{"gstat"}\NormalTok{, }\StringTok{"geoR"}\NormalTok{, }\StringTok{"spacetime"}\NormalTok{, }\StringTok{"sm"}\NormalTok{, }\StringTok{"fields"}\NormalTok{, }
           \StringTok{"rgdal"}\NormalTok{, }\StringTok{"rgeos"}\NormalTok{, }\StringTok{"maps"}\NormalTok{, }\StringTok{"maptools"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"plot3D"}\NormalTok{, }\StringTok{"lattice"}\NormalTok{, }
-          \StringTok{"classInt"}\NormalTok{, }\StringTok{"viridis"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"mapSpain"}\NormalTok{, }\StringTok{"mapview"}\NormalTok{, }\StringTok{"tmap"}\NormalTok{, }\StringTok{"mapview"}\NormalTok{, }
+          \StringTok{"classInt"}\NormalTok{, }\StringTok{"viridis"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"mapSpain"}\NormalTok{, }\StringTok{"tmap"}\NormalTok{, }\StringTok{"mapview"}\NormalTok{, }
           \StringTok{"osmdata"}\NormalTok{, }\StringTok{"rnaturalearth"}\NormalTok{, }\StringTok{"ncdf"}\NormalTok{, }\StringTok{"quadprog"}\NormalTok{, }\StringTok{"spam"}\NormalTok{, }\StringTok{"DEoptim"}\NormalTok{ )}
 
 \FunctionTok{install.packages}\NormalTok{(}\FunctionTok{setdiff}\NormalTok{(pkgs, }\FunctionTok{installed.packages}\NormalTok{()[,}\StringTok{"Package"}\NormalTok{]), }\AttributeTok{dependencies =} \ConstantTok{TRUE}\NormalTok{)}
@@ -231,7 +231,7 @@ Si aparecen errores (normalmente debidos a incompatibilidades con versiones ya i
 \end{Highlighting}
 \end{Shaded}
 
-Además, para geoestadística no paramétrica se empleará el paquete \href{https://rubenfcasal.github.io/npsp}{\texttt{npsp}} \textbf{\emph{no disponible actualmente en CRAN}} (aunque esperamos que vuelva a estarlo pronto\ldots, incluyendo soporte para el paquete \texttt{sf}).
+Además, para geoestadística no paramétrica se empleará el paquete \href{https://rubenfcasal.github.io/npsp}{\texttt{npsp}} \textbf{\emph{no disponible actualmente en CRAN}} (aunque esperamos que vuelva a estarlo pronto\ldots{} incluyendo soporte para el paquete \texttt{sf}).
 Se puede instalar la versión de desarrollo en GitHub, siguiendo las instrucciones de la \href{https://rubenfcasal.github.io/npsp/\#installation}{web}:
 
 \begin{Shaded}
@@ -241,9 +241,9 @@ Se puede instalar la versión de desarrollo en GitHub, siguiendo las instruccion
 \end{Highlighting}
 \end{Shaded}
 
-Aunque al necesitar compilación los usuarios de Windows necesitan tener instalado previamente la versión adecuada de \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools}, y los usuarios de OS X \href{https://apps.apple.com/us/app/xcode/id497799835}{Xcode}
+Aunque al necesitar compilación los usuarios de Windows deben tener instalado previamente la versión adecuada de \href{https://cran.r-project.org/bin/windows/Rtools/}{Rtools}, y \href{https://apps.apple.com/us/app/xcode/id497799835}{Xcode} los usuarios de OS X
 (para lo que se pueden seguir los pasos descritos \href{https://rubenfcasal.github.io/post/instalacion-de-r}{aquí}).
-Alternativamente, los usuarios de Windows (con una versión de R 4.X.X) pueden instalar este paquete ya compilado con el siguiente código:
+Alternativamente, los usuarios de Windows (con una versión 4.X.X de R) pueden instalar este paquete ya compilado con el siguiente código:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1430,7 +1430,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp"
+## [1] "C:/Program Files/R/R-4.1.0/library/sf/shape/nc.shp"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1441,7 +1441,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 
 \begin{verbatim}
 ## Reading layer `nc' from data source 
-##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
+##   `C:\Program Files\R\R-4.1.0\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -2021,7 +2021,7 @@ Estableciendo \texttt{model\ =\ "independent"} devuelve un p-valor para contrast
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -2608,7 +2608,8 @@ Introducción, para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand 
 ## [2,]   0   1
 ## 
 ## Slot "proj4string":
-## CRS arguments: NA
+## Coordinate Reference System:
+## Deprecated Proj.4 representation: NA
 \end{verbatim}
 
 Los objetos son del tipo S4.
@@ -4378,7 +4379,7 @@ espacial si el variograma suavizado no está contenido en esa región).
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -4589,7 +4590,7 @@ Otras opciones:
 
 \begin{verbatim}
 ##  Package npsp: Nonparametric Spatial Statistics,
-##  version 0.7-8 (built on 2021-05-10).
+##  version 0.7-9 (built on 2021-05-17).
 ##  Copyright (C) R. Fernandez-Casal 2012-2021.
 ##  Type `help(npsp)` for an overview of the package or
 ##  visit https://rubenfcasal.github.io/npsp.
