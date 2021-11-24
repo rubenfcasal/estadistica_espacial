@@ -55,17 +55,17 @@ Dependiendo de las suposiciones acerca de la función de tendencia $\mu(\cdot)$,
   Además se asume que por lo menos existe el variograma y es conocido.
   
 3. *Kriging universal* (KU; también denominado kriging con modelo de tendencia): se supone que la media es desconocida y no constante, pero
-que es una combinación lineal (desconocida) de $p+1$ funciones (o variables explicativas) conocidas $\left\{ x_{j} (\cdot):j=0, \ldots,p\right\}$:
-  $$\mu(\mathbf{s})=\sum\limits_{j=0}^{p}x_{j} (\mathbf{s})\beta_{j}$$
-  donde $?=(\beta_{0} , \ldots,\beta_{p} )^\top \in \mathbb{R}^{p+1}$ es un vector desconocido. 
-  Se asume también que por lo menos existe el variograma y es conocido^[Siempre que una de las funciones explicativas sea idénticamente 1, p.e. $x_{0} (\cdot)\equiv 1$, en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma.].
+que es una combinación lineal (desconocida) de $p+1$ funciones (o variables explicativas) conocidas $\left\{ x_j(\cdot) : j = 0, \ldots, p \right\}$:
+  $$\mu(\mathbf{s})=\sum\limits_{j=0}^{p}x_j (\mathbf{s})\beta_j$$
+  donde $\boldsymbol{\beta} = (\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}$ es un vector desconocido. 
+  Se asume también que por lo menos existe el variograma y es conocido^[Siempre que una de las funciones explicativas sea idénticamente 1, p.e. $x_{0}(\cdot) \equiv 1$, en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma.].
 
 Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele
 pensar en el KO como un método distinto al KU, principalmente por ciertos inconvenientes que presenta este último; ver Sección 4.X.X).
 
 ## Kriging con media conocida: kriging simple {#ksimple}
 
-## Kriging con media desconocida: kriging universal {#kuniversal}
+## Kriging con media desconocida: kriging universal y kriging residual {#kuniversal}
 
 ## Consideraciones acerca de los métodos kriging {#consideraciones-kriging}
 
