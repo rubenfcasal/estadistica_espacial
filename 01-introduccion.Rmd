@@ -28,7 +28,7 @@ knitr::spin("01-introduccion.R",knit = FALSE)
 
 Es bien sabido que al utilizar en la práctica métodos estadísticos no siempre es adecuado suponer que las observaciones del fenómeno de interés han sido tomadas bajo condiciones idénticas e independientes unas de otras (i.e. que los datos son independientes e idénticamente distribuidos). 
 Esta falta de homogeneidad en los datos suele ser modelada a través de la suposición de media no constante (por ejemplo suponiendo que ésta es una combinación lineal de ciertas variables explicativas) pero con la consideración de que los errores son independientes e idénticamente distribuidos. 
-Sin embargo, esta suposición puede influir crucialmente en la inferencia; pudiendo ser en ocasiones preferible la suposición más realista de errores correlados. 
+Sin embargo, esta suposición puede influir crucialmente en la inferencia (e.g. ver [enlace](https://rubenfcasal.github.io/post/diagnosis-de-la-independencia/)), siendo en ocasiones preferible la suposición más realista de errores correlados. 
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más semejantes que aquellos que están más alejados; en cuyo caso no deben ser modelados como estadísticamente independientes, siendo más conveniente emplear modelos que exploten adecuadamente dicha componente espacial o espacio-temporal.
 De forma natural surge la hipótesis de que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos, por lo que se puede pensar en la presencia de una dependencia espacial o espacio-temporal.
@@ -164,7 +164,7 @@ Entre ellos destacan el paquete `r citepkg("sp")` [Classes and methods for spati
 Otros paquetes para la manipulación de datos que pueden ser de interés son: `r citepkg("raster")`, `r citepkg("terra")`, `r citepkg("starts", "https://r-spatial.github.io/stars")`, `r citepkg("rgdal")` y `r citepkg("rgeos")`, entre otros.
 En la Sección \@ref(datos-tipos) se incluye información adicional sobre estos paquetes.
 
-En estos apuntes emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice B) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice A se incluye una breve introducción a las clases `sp` para datos espaciales).
+En estos apuntes emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
 
 <!-- 
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
@@ -179,9 +179,9 @@ Otros métodos sin embargo, sólo incluyen la variación de larga escala y supon
 Hoy en día podemos decir que la geoestadística es la rama de la estadística espacial que estudia los procesos con índice espacial continuo. 
 
 Uno de los problemas iniciales más importantes de la geoestadística fue la predicción de la riqueza de un bloque minero a partir de una muestra observada. 
-A este proceso Matheron (1963) lo denominó kriging[^1], y también predicción espacial lineal óptima (estos métodos de predicción se muestran en el Capítulo 4). 
+A este proceso Matheron (1963) lo denominó kriging[^1], y también predicción espacial lineal óptima (estos métodos de predicción se muestran en el Capítulo \@ref(kriging)). 
 
-[^1]: D. G. Krige fue un ingeniero de minas de Sudáfrica que desarrollo 
+[^1]: D. G. Krige fue un ingeniero de minas de Sudáfrica que desarrolló 
     en los años 50 métodos empíricos para determinar la distribución de
     la riqueza de un mineral a partir de valores observados. 
     Sin embargo la formulación de la predicción espacial lineal óptima no 
@@ -198,8 +198,7 @@ El modelo general habitualmente considerado en geoestadística considera que el 
 \begin{equation}
   Z(\mathbf{s}) = \mu(\mathbf{s}) + \varepsilon(\mathbf{s}),
   (\#eq:modelogeneral)
-\end{equation}
-<!-- \@ref(eq:modelogeneral) -->
+\end{equation} <!-- \@ref(eq:modelogeneral) -->
 donde:
 
 -  $\mu(\mathbf{s}) = E \left( Z(\mathbf{s}) \right)$ es la tendencia (función de regresión, determinística).
@@ -506,9 +505,9 @@ A partir de los valores observados  $\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\
 En cualquier caso en primer lugar habría que estimar las componentes del modelo: la tendencia $\mu(\mathbf{s})$ y el semivariograma $\gamma(\mathbf{h})$.
 La aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico consiste en los siguientes pasos:
 
-1.  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo 2).
+1.  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo \@ref(datos)).
 
-2.  Estimación de los parámetros del modelo (proceso iterativo; Capítulo 3):
+2.  Estimación de los parámetros del modelo (proceso iterativo; Capítulo \@ref(modelado)):
 
     1.  Estimar y eliminar la tendencia.
 
@@ -516,8 +515,32 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 
 3.  Validación del modelo (Sección 4.X) o reformulación del mismo.
 
-4.  Empleo del modelo aceptado (Capítulo 4).
+4.  Empleo del modelo aceptado (Capítulo \@ref(kriging)).
 
+
+Como ya se comentó, emplearemos el paquete `r citepkg("gstat", "https://r-spatial.github.io/gstat")` en este proceso.
+
+
+## El paquete **gstat**
+
+El paquete `r citepkg("gstat", "https://r-spatial.github.io/gstat")` permite la modelización geoestadística (univariante, Capítulo \@ref(modelado), y multivariante, Capítulo \@ref(multivar)), espacial y espacio-temporal (Capítulo \@ref(esp-temp)), incluyendo predicción y simulación (Capítulo \@ref(kriging) y secciones 5.X y 6.X). 
+
+```{r message=TRUE}
+library(gstat)
+```
+
+Este paquete implementa su propia estructura de datos (S3, basada en `data.frame`) pero también es compatible con los objetos `Spatial*` del paquete `sp` (Apéndice \@ref(intro-sp)) y los objetos de datos de los paquetes `sf` y `stars` (Capítulo \@ref(datos)).
+
+Para más información se pueden consultar la [referencia](https://r-spatial.github.io/gstat/reference/index.html), las viñetas del paquete:
+
+* [The meuse data set: a tutorial for the gstat R package](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf),
+* [Spatio-Temporal Geostatistics using gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf),
+* [Introduction to Spatio-Temporal Variography](https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf),
+
+el blog [r-spatial](https://r-spatial.org/) o las correspondientes publicaciones ([Pebesma, 2004](http://www.sciencedirect.com/science/article/pii/S0098300404000676); [Gräler, Pebesma y Heuvelink, 2016](https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf)).
+
+Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre ([Pebesma y Wesseling, 1998](http://www.sciencedirect.com/science/article/pii/S0098300497000824); basado en la librería [GSLIB](http://www.gslib.com), Deutsch y Journel, 1992).
+Puede resultar de interés consultar el [manual original](http://www.gstat.org/gstat.pdf) para información adicional sobre los detalles computacionales.
 
 <!-- 
 ## Referencias

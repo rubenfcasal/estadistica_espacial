@@ -17,7 +17,7 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Apéndice \@ref(intro-geoR)
 bookdown::preview_chapter("12-geor.Rmd")
 knitr::purl("12-geor.Rmd", documentation = 2)
 knitr::spin("12-geor.R",knit = FALSE)

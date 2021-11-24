@@ -17,7 +17,7 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Capítulo \@ref(kriging)
 bookdown::preview_chapter("04-kriging.Rmd")
 knitr::purl("04-kriging.Rmd", documentation = 2)
 knitr::spin("04-kriging.R",knit = FALSE)
@@ -28,7 +28,7 @@ knitr::spin("04-kriging.R",knit = FALSE)
 
 ***En preparación...***
 
-En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging^[Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.] (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo 5). 
+En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging^[Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.] (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \@ref(multivar)). 
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).
 
 ## Introducción {#introducción}

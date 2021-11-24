@@ -17,7 +17,7 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Capítulo \@ref(modelado)
 bookdown::preview_chapter("03-modelado.Rmd")
 knitr::purl("03-modelado.Rmd", documentation = 2)
 knitr::spin("03-modelado.R",knit = FALSE)

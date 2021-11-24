@@ -19,7 +19,7 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Apéndice \@ref(intro-sp)
 bookdown::preview_chapter("08-sp.Rmd")
 knitr::purl("08-sp.Rmd", documentation = 2)
 knitr::spin("08-sp.R",knit = FALSE)
