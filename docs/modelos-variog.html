@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-23" />
+<meta name="date" content="2021-11-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +34,7 @@
   
 <link rel="prev" href="vario-muestrales.html"/>
 <link rel="next" href="ajuste-variog.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,14 +54,14 @@
 
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
 <script src="libs/datatables-binding-0.19/datatables.js"></script>
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -225,7 +225,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="4.1" data-path="introducción.html"><a href="introducción.html"><i class="fa fa-check"></i><b>4.1</b> Introducción</a></li>
 <li class="chapter" data-level="4.2" data-path="ksimple.html"><a href="ksimple.html"><i class="fa fa-check"></i><b>4.2</b> Kriging con media conocida: kriging simple</a></li>
-<li class="chapter" data-level="4.3" data-path="kuniversal.html"><a href="kuniversal.html"><i class="fa fa-check"></i><b>4.3</b> Kriging con media desconocida: kriging universal</a></li>
+<li class="chapter" data-level="4.3" data-path="kuniversal.html"><a href="kuniversal.html"><i class="fa fa-check"></i><b>4.3</b> Kriging con media desconocida: kriging universal y kriging residual</a></li>
 <li class="chapter" data-level="4.4" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.4</b> Consideraciones acerca de los métodos kriging</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -465,7 +465,7 @@ Los tipos de anisotropía habitualmente considerados son:</p>
 </ul>
 <p>La anisotropía geométrica se puede corregir mediante una transformación lineal del vector de salto <span class="math inline">\(\mathbf{h}\)</span>:
 <span class="math display">\[\gamma(\mathbf{h})=\gamma ^{0} \left( \left\| \mathbf{A}\mathbf{h}\right\| \right) ,\forall \mathbf{h}\in \mathbb{R}^{d},\]</span>
-siendo <span class="math inline">\(\mathbf{A}\)</span> una matriz cuadrada <span class="math inline">\(d\times d\)</span> y <span class="math inline">\(\gamma ^{0} (\cdot)\)</span> un semivariograma isotrópico<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>.
+siendo <span class="math inline">\(\mathbf{A}\)</span> una matriz cuadrada <span class="math inline">\(d\times d\)</span> y <span class="math inline">\(\gamma ^{0} (\cdot)\)</span> un semivariograma isotrópico<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.
 En este caso se dice que el variograma es <em>geométricamente anisotrópico</em>.
 Por ejemplo, en el caso bidimensional, se suelen considerar una matriz de la forma:
 <span class="math display">\[\mathbf{A}=\left( 
@@ -544,8 +544,8 @@ Este tipo de modelos se utilizan habitualmente en geoestadística espacio-tempor
 </div>
 <div class="footnotes">
 <hr />
-<ol start="10">
-<li id="fn10"><p>Esta idea (que el espacio euclídeo no es apropiado para medir distancias entre posiciones espaciales pero una transformación lineal de él sí) ha sido también generalizada para el caso de deformaciones no lineales del espacio. Por ejemplo, Sampson y Guttorp (1992) consideraron transformaciones no lineales obtenidas mediante técnicas de escalamiento óptimo multidimensional.<a href="modelos-variog.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<ol start="11">
+<li id="fn11"><p>Esta idea (que el espacio euclídeo no es apropiado para medir distancias entre posiciones espaciales pero una transformación lineal de él sí) ha sido también generalizada para el caso de deformaciones no lineales del espacio. Por ejemplo, Sampson y Guttorp (1992) consideraron transformaciones no lineales obtenidas mediante técnicas de escalamiento óptimo multidimensional.<a href="modelos-variog.html#fnref11" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

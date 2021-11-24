@@ -132,7 +132,7 @@ Admite los 17 tipos de geometrías simples del estándar, pero de forma completa
 | ---------------- | -------------------------------------------------- | ---------------- |
 | `POINT`, `MULTIPOINT` | Punto o conjunto de puntos | `st_point()`, `st_multipoint()` |
 | `LINESTRING`, `MULTILINESTRING` | Línea o conjunto de líneas | `st_linestring()`, `st_multilinestring()` |
-| `POLYGON`, `MULTIPOLYGON` | Polígono (secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros) o conjunto de polígonos | `st_polygon()`, `st_multipolygon()` |
+| `POLYGON`, `MULTIPOLYGON` | Polígono^[Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.] o conjunto de polígonos | `st_polygon()`, `st_multipolygon()` |
 | `GEOMETRYCOLLECTION` | Conjunto de geometrías de los tipos anteriores | `st_geometrycollection()` |
 
 Las geometrías se imprimen empleando la representación *well-known text* (WKT) del estándar (se exportan empleando la representación *well-known binary*, WKB).
@@ -158,6 +158,20 @@ cprov
 
 Esta forma de proceder puede resultar de interés cuando se construyen geometrías tipo líneas o polígonos, pero en el caso de datos puntuales (las observaciones habituales en geoestadística), resulta mucho más cómodo emplear un `data.frame` que incluya las coordenadas en columnas y convertirlo a un objeto `sf` mediante la función `st_as_sf()`.
 
+---
+
+```{exercise, label="sfc", name="Creación de una columna de geometrías"}
+Crear una geometría (un objeto `sfc`) formada por: dos puntos en las posiciones 
+(1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices 
+{(0,0), (6,0), (6,6), (0,6), (0,0)} y con un agujero con vértices {(2,2), (2,4), 
+(4,4), (4,2), (2,2)} (NOTA: consultar la ayuda `?st`, puede resultar cómodo emplear 
+`matrix(... , ncol = 2, byrow = TRUE)`).
+
+```
+<!-- \@ref(exr:sfc) -->
+
+---
+
 Como ejemplo consideraremos el conjunto de datos `meuse` del paquete `sp` que contiene concentraciones de metales pesados, junto con otras variables del terreno, en una zona de inundación del río Meuse (cerca de Stein, Holanda)^[Empleado en la [viñeta](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf) del paquete `gstat` con el paquete `sp`.] `r citefig("meuse-sf")`.
 
 ```{r meuse-sf, fig.cap="Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`)."}
@@ -179,7 +193,7 @@ str(meuse.grid)
 meuse_grid <- st_as_sf(meuse.grid, coords = c("x", "y"), 
                        crs = 28992, agr = "constant")
 # Almacenar
-save(meuse_sf, meuse_riv, meuse_grid, file = "datos/st_meuse.RData")
+# save(meuse_sf, meuse_riv, meuse_grid, file = "datos/st_meuse.RData")
 
 # Representar
 plot(meuse_sf["zinc"], pch = 16, cex = 1.5, main = "",
@@ -188,6 +202,16 @@ plot(meuse_riv, col = "lightblue", add = TRUE)
 plot(st_geometry(meuse_grid), pch = 3, cex = 0.2, col = "lightgray", add = TRUE)
 ```
 
+---
+
+```{exercise, label="aquifer1", name="Creación y representación de datos espaciales"}
+Cargar los datos del acuífero Wolfcamp (*aquifer.RData*), generar el correspondiente
+objeto `sf` y representarlo mostrando los ejes.
+
+```
+<!-- \@ref(exr:aquifer1) -->
+
+---
 
 ### Sistemas de referencia de coordenadas {#crs}
 
@@ -414,7 +438,7 @@ Muchos incluyen conjuntos de datos espaciales y otros implementan interfaces a b
 Algunos de ellos son los siguientes:
 
 * `r citepkg("rnaturalearth", "https://docs.ropensci.org/rnaturalearth/")`: permite importar una gran cantidad de datos vectoriales y rasterizados de [Natural Earth](http://www.naturalearthdata.com), incluyendo datos administrativos/culturales (fronteras de países, aeropuertos, carreteras, vías férreas...) y físicos (costas, lagos...). 
-* `r citepkg("giscoR", "https://ec.europa.eu/eurostat/web/gisco")`: permite importar datos de [Eurostat - GISCO]() (*Geographic Information System of the COmmission*). 
+* `r citepkg("giscoR", "https://ropengov.github.io/giscoR/")`: permite importar datos de [Eurostat - GISCO](https://ec.europa.eu/eurostat/web/gisco) (*Geographic Information System of the COmmission*). 
 * `r citepkg("mapSpain", "https://ropenspain.github.io/mapSpain")`: permite importar límites administrativos de España (CCAA, provincias, municipios...).
 * `r citepkg("osmdata")`: permite importar "pequeños" conjuntos de datos de [OpenStreetMap](https://www.openstreetmap.org) (OSM).
 * `r citepkg("osmextract")`:  permite importar grandes conjuntos de datos de OSM.
@@ -538,6 +562,19 @@ Operaciones binarias con resultado numérico o [lógico](https://r-spatial.githu
 El resultado de las operaciones lógicas es una matriz dispersa (de clase `sgbp`, *sparse geometry binary predicate*), que se puede convertir a una matriz densa con `as.matrix()`.
 
 
+
+```{exercise, label="aquifer2", name="Creación de rejilla de predicción"}
+
+Continuando con los datos del Ejercicio \@ref(exr:aquifer1), generar un buffer 
+(`st_buffer()`) de radio 40 en torno a las posiciones espaciales, a partir de él crear 
+una rejilla vectorial (`st_make_grid(..., what = "centers")`) de dimensiones 
+50 por 50 e intersecarla con el buffer. Representar todos los objetos.
+
+```
+<!-- \@ref(exr:aquifer2) -->
+
+---
+
 ## Análisis exploratorio de datos espaciales {#sp-eda}
 
 Como se comentó en la Sección \@ref(objetivos-esquema), el primer paso para estimar las componentes del modelo, la tendencia $\mu(\mathbf{s})$ y el semivariograma $\gamma(\mathbf{h})$, es realizar un análisis exploratorio de los datos.
@@ -584,6 +621,23 @@ par(old.par)
 En este caso concreto parece que una tendencia lineal es adecuada.
 
 <!-- hist(residuals(lm)) -->
+
+---
+
+```{exercise, label="descriptiva", name="Creación de rejilla de predicción"}
+
+Realizar un análisis descriptivo del conjunto de datos `s100` del paquete `geoR` 
+(que contiene una simulación de un proceso espacial estacionario, sin tendencia;
+ver Sección \@ref(vario-muestrales)).
+
+Realizar un análisis descriptivo del conjunto de datos `meuse_sf` (almacenado en
+el archivo *st_meuse.RData*) considerando únicamente las variables que comparte
+con la rejilla `meuse_grid`.
+
+```
+<!-- \@ref(exr:descriptiva) -->
+
+---
 
 Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección \@ref(vario-muestrales).
 

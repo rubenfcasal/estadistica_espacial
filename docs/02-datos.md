@@ -251,7 +251,7 @@ Admite los 17 tipos de geometrías simples del estándar, pero de forma completa
 | ---------------- | -------------------------------------------------- | ---------------- |
 | `POINT`, `MULTIPOINT` | Punto o conjunto de puntos | `st_point()`, `st_multipoint()` |
 | `LINESTRING`, `MULTILINESTRING` | Línea o conjunto de líneas | `st_linestring()`, `st_multilinestring()` |
-| `POLYGON`, `MULTIPOLYGON` | Polígono (secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros) o conjunto de polígonos | `st_polygon()`, `st_multipolygon()` |
+| `POLYGON`, `MULTIPOLYGON` | Polígono^[Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.] o conjunto de polígonos | `st_polygon()`, `st_multipolygon()` |
 | `GEOMETRYCOLLECTION` | Conjunto de geometrías de los tipos anteriores | `st_geometrycollection()` |
 
 Las geometrías se imprimen empleando la representación *well-known text* (WKT) del estándar (se exportan empleando la representación *well-known binary*, WKB).
@@ -295,6 +295,20 @@ cprov
 ```
 
 Esta forma de proceder puede resultar de interés cuando se construyen geometrías tipo líneas o polígonos, pero en el caso de datos puntuales (las observaciones habituales en geoestadística), resulta mucho más cómodo emplear un `data.frame` que incluya las coordenadas en columnas y convertirlo a un objeto `sf` mediante la función `st_as_sf()`.
+
+---
+
+\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-117-110-97-32-99-111-108-117-109-110-97-32-100-101-32-103-101-111-109-101-116-114-237-97-115-93-}\fi{}
+<span class="exercise" id="exr:sfc"><strong>(\#exr:sfc)  \iffalse (Creación de una columna de geometrías) \fi{} </strong></span>Crear una geometría (un objeto `sfc`) formada por: dos puntos en las posiciones 
+(1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices 
+{(0,0), (6,0), (6,6), (0,6), (0,0)} y con un agujero con vértices {(2,2), (2,4), 
+(4,4), (4,2), (2,2)} (NOTA: consultar la ayuda `?st`, puede resultar cómodo emplear 
+`matrix(... , ncol = 2, byrow = TRUE)`).
+
+\EndKnitrBlock{exercise}
+<!-- \@ref(exr:sfc) -->
+
+---
 
 Como ejemplo consideraremos el conjunto de datos `meuse` del paquete `sp` que contiene concentraciones de metales pesados, junto con otras variables del terreno, en una zona de inundación del río Meuse (cerca de Stein, Holanda)^[Empleado en la [viñeta](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf) del paquete `gstat` con el paquete `sp`.] (ver Figura \@ref(fig:meuse-sf)).
 
@@ -360,7 +374,7 @@ str(meuse.grid)
 meuse_grid <- st_as_sf(meuse.grid, coords = c("x", "y"), 
                        crs = 28992, agr = "constant")
 # Almacenar
-save(meuse_sf, meuse_riv, meuse_grid, file = "datos/st_meuse.RData")
+# save(meuse_sf, meuse_riv, meuse_grid, file = "datos/st_meuse.RData")
 
 # Representar
 plot(meuse_sf["zinc"], pch = 16, cex = 1.5, main = "",
@@ -369,11 +383,25 @@ plot(meuse_riv, col = "lightblue", add = TRUE)
 plot(st_geometry(meuse_grid), pch = 3, cex = 0.2, col = "lightgray", add = TRUE)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/meuse-sf-1.png" alt="Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`)." width="70%" />
-<p class="caption">(\#fig:meuse-sf)Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`).</p>
-</div>
+\begin{figure}[!htb]
 
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/meuse-sf-1} 
+
+}
+
+\caption{Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`).}(\#fig:meuse-sf)
+\end{figure}
+
+---
+
+\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-121-32-114-101-112-114-101-115-101-110-116-97-99-105-243-110-32-100-101-32-100-97-116-111-115-32-101-115-112-97-99-105-97-108-101-115-93-}\fi{}
+<span class="exercise" id="exr:aquifer1"><strong>(\#exr:aquifer1)  \iffalse (Creación y representación de datos espaciales) \fi{} </strong></span>Cargar los datos del acuífero Wolfcamp (*aquifer.RData*), generar el correspondiente
+objeto `sf` y representarlo mostrando los ejes.
+
+\EndKnitrBlock{exercise}
+<!-- \@ref(exr:aquifer1) -->
+
+---
 
 ### Sistemas de referencia de coordenadas {#crs}
 
@@ -387,10 +415,14 @@ En general se consideran dos tipos de CRS:
     
     La rejilla correspondiente a un conjunto de paralelos y meridianos se denomina *gratícula* (ver `st_graticule()`).
     
-    <div class="figure" style="text-align: center">
-    <img src="images/Latitud_y_Longitud.svg" alt="Coordenadas geográficas en la superficie terrestre (Fuente Wikimedia Commons)." width="85%" />
-    <p class="caption">(\#fig:latlon)Coordenadas geográficas en la superficie terrestre (Fuente Wikimedia Commons).</p>
-    </div>
+    \begin{figure}[!htb]
+    
+    {\centering \includegraphics[width=0.85\linewidth]{images/Latitud_y_Longitud} 
+    
+    }
+    
+    \caption{Coordenadas geográficas en la superficie terrestre (Fuente Wikimedia Commons).}(\#fig:latlon)
+    \end{figure}
 <!-- 
 [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Latitud_y_Longitud_en_la_Tierra.svg) 
 https://upload.wikimedia.org/wikipedia/commons/5/58/Latitud_y_Longitud_en_la_Tierra.svg
@@ -515,11 +547,15 @@ ggplot(CCAA_sf) +
   theme_void()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/dplyr-ggplot-1.png" alt="Ejemplo de gráfico generado empleando los paquetes `dplyr` y `ggplot2`." width="70%" />
-<p class="caption">(\#fig:dplyr-ggplot)Ejemplo de gráfico generado empleando los paquetes `dplyr` y `ggplot2`.</p>
-</div>
+\begin{figure}[!htb]
 
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/dplyr-ggplot-1} 
+
+}
+
+\caption{Ejemplo de gráfico generado empleando los paquetes `dplyr` y `ggplot2`.}(\#fig:dplyr-ggplot)
+\end{figure}
+[Figura \@ref(fig:dplyr-ggplot)]
 
 Sin embargo, en estos apuntes se supone que no se está familiarizado con estas herramientas y se evitará su uso (aunque pueden resultar más cómodas después de su aprendizaje).
 Para una introducción a [`dplyr`](https://dplyr.tidyverse.org), ver por ejemplo la viñeta [Introduction to dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/dplyr.html),
@@ -569,10 +605,14 @@ plot(nc[c("SID74", "SID79")], pal = viridis, border = 'grey70', logz = TRUE,
      key.pos = 1, key.width = lcm(1.2), key.length = 0.8) 
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/multi-plot-sf-1.png" alt="Ejemplo de gráfico con múltiples atributos (con colores personalizados y leyenda común, en escala logarítmica personalizada)." width="70%" />
-<p class="caption">(\#fig:multi-plot-sf)Ejemplo de gráfico con múltiples atributos (con colores personalizados y leyenda común, en escala logarítmica personalizada).</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/multi-plot-sf-1} 
+
+}
+
+\caption{Ejemplo de gráfico con múltiples atributos (con colores personalizados y leyenda común, en escala logarítmica personalizada).}(\#fig:multi-plot-sf)
+\end{figure}
 
 <!-- 
 Pendiente:
@@ -589,10 +629,14 @@ library(tmap)
 tm_shape(nc) + tm_polygons("SID79")
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/tmap-plot-1.png" alt="Ejemplo de mapa estático creado con `tmap`." width="70%" />
-<p class="caption">(\#fig:tmap-plot)Ejemplo de mapa estático creado con `tmap`.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/tmap-plot-1} 
+
+}
+
+\caption{Ejemplo de mapa estático creado con `tmap`.}(\#fig:tmap-plot)
+\end{figure}
 
 Aunque puede crear mapas interactivos, en páginas html, utilizando el paquete [`leaflet`](https://rstudio.github.io/leaflet) (interfaz a la librería JavaScript [Leaflet ](https://leafletjs.com)), implementando también leyendas, ventanas emergentes al pulsar con el ratón en las características y soporte para datos rasterizados.
 
@@ -663,7 +707,7 @@ file
 ```
 
 ```
-## [1] "C:/Program Files/R/R-4.1.0/library/sf/shape/nc.shp"
+## [1] "C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp"
 ```
 
 ```r
@@ -672,7 +716,7 @@ nc_sf <- st_read(file)
 
 ```
 ## Reading layer `nc' from data source 
-##   `C:\Program Files\R\R-4.1.0\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
+##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -700,22 +744,14 @@ str(drivers)
 ##  $ vsi      : logi  TRUE FALSE TRUE FALSE TRUE TRUE ...
 ```
 
-<div class="figure" style="text-align: center">
 
-```{=html}
-<div id="htmlwidget-593e0ed7af784ce85190" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-593e0ed7af784ce85190">{"x":{"filter":"none","vertical":false,"data":[["ESRIC","FITS","PCIDSK","netCDF","PDS4","VICAR","JP2OpenJPEG","JPEG2000","PDF","MBTiles","BAG","EEDA","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","LVBAG","OGR_SDTS","S57","DGN","OGR_VRT","REC","Memory","BNA","CSV","GML","GPX","KML","GeoJSON","GeoJSONSeq","ESRIJSON","TopoJSON","OGR_GMT","GPKG","SQLite","ODBC","WAsP","PGeo","MSSQLSpatial","PostgreSQL","MySQL","OpenFileGDB","XPlane","DXF","CAD","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","VFK","PGDUMP","OSM","GPSBabel","SUA","OpenAir","OGR_PDS","WFS","OAPIF","HTF","AeronavFAA","Geomedia","EDIGEO","SVG","CouchDB","Cloudant","Idrisi","ARCGEN","SEGUKOOA","SEGY","XLS","ODS","XLSX","Elasticsearch","Walk","Carto","AmigoCloud","SXF","Selafin","JML","PLSCENES","CSW","VDV","MVT","NGW","MapML","TIGER","AVCBin","AVCE00","HTTP"],["Esri Compact Cache","Flexible Image Transport System","PCIDSK Database File","Network Common Data Format","NASA Planetary Data System 4","MIPL VICAR file","JPEG-2000 driver based on OpenJPEG library","JPEG-2000 part 1 (ISO/IEC 15444-1), based on Jasper library","Geospatial PDF","MBTiles","Bathymetry Attributed Grid","Earth Engine Data API","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","Kadaster LV BAG Extract 2.0","SDTS","IHO S-57 (ENC)","Microstation DGN","VRT - Virtual Datasource","EPIInfo .REC ","Memory","Atlas BNA","Comma Separated Value (.csv)","Geography Markup Language (GML)","GPX","Keyhole Markup Language (KML)","GeoJSON","GeoJSON Sequence","ESRIJSON","TopoJSON","GMT ASCII Vectors (.gmt)","GeoPackage","SQLite / Spatialite","ODBC","WAsP .map format","ESRI Personal GeoDatabase","Microsoft SQL Server Spatial Database","PostgreSQL/PostGIS","MySQL","ESRI FileGDB","X-Plane/Flightgear aeronautical data","AutoCAD DXF","AutoCAD Driver","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","Czech Cadastral Exchange Data Format","PostgreSQL SQL dump","OpenStreetMap XML and PBF","GPSBabel","Tim Newport-Peace's Special Use Airspace Format","OpenAir","Planetary Data Systems TABLE","OGC WFS (Web Feature Service)","OGC API - Features","Hydrographic Transfer Vector","Aeronav FAA","Geomedia .mdb","French EDIGEO exchange format","Scalable Vector Graphics","CouchDB / GeoCouch","Cloudant / CouchDB","Idrisi Vector (.vct)","Arc/Info Generate","SEG-P1 / UKOOA P1/90","SEG-Y","MS Excel format","Open Document/ LibreOffice / OpenOffice Spreadsheet ","MS Office Open XML spreadsheet","Elastic Search","Walk","Carto","AmigoCloud","Storage and eXchange Format","Selafin","OpenJUMP JML","Planet Labs Scenes API","OGC CSW (Catalog  Service for the Web)","VDV-451/VDV-452/INTREST Data Format","Mapbox Vector Tiles","NextGIS Web","MapML","U.S. Census TIGER/Line","Arc/Info Binary Coverage","Arc/Info E00 (ASCII) Coverage","HTTP Fetching Wrapper"],[false,true,true,true,true,true,false,false,true,true,true,false,false,true,true,false,false,false,true,true,false,false,true,true,true,true,true,true,true,true,false,false,true,true,true,true,true,false,true,true,true,false,false,true,false,true,true,true,true,false,true,false,true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,true,true,true,false,true,true,false,true,true,false,false,true,true,true,true,true,false,false,false],[false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[true,true,true,true,true,true,true,true,true,true,true,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true,false,false,false,false,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,false,true,false,true,true,true,true,false,true,true,false,true,true,true,true,true,true,true,true,true,false,false,true,true,true,true,true,true,true,true,true,true,true,true,false,true,false,false,false,false,true,true,true,true,true,true,true,true,false,true,true,false,true,true,true,true,false,true,true,false,true,true,false,false,true,true,true,true,false,true,true,false,false,false,false,true,true,true,false,false,true,true,false,true,true,true,true,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>name<\/th>\n      <th>long_name<\/th>\n      <th>write<\/th>\n      <th>copy<\/th>\n      <th>is_raster<\/th>\n      <th>is_vector<\/th>\n      <th>vsi<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-left","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-```
-
-<p class="caption">(\#fig:drivers-gdal-table)Listado de drivers en la instalación de GDAL`.</p>
-</div>
 
 Además, se han desarrollado una gran cantidad de paquetes de R que permiten acceder directamente desde R a datos espaciales. 
 Muchos incluyen conjuntos de datos espaciales y otros implementan interfaces a bases de datos espaciales o geoportales disponibles en Internet.
 Algunos de ellos son los siguientes:
 
 * [`rnaturalearth`](https://docs.ropensci.org/rnaturalearth/): permite importar una gran cantidad de datos vectoriales y rasterizados de [Natural Earth](http://www.naturalearthdata.com), incluyendo datos administrativos/culturales (fronteras de países, aeropuertos, carreteras, vías férreas...) y físicos (costas, lagos...). 
-* [`giscoR`](https://ec.europa.eu/eurostat/web/gisco): permite importar datos de [Eurostat - GISCO]() (*Geographic Information System of the COmmission*). 
+* [`giscoR`](https://ropengov.github.io/giscoR/): permite importar datos de [Eurostat - GISCO](https://ec.europa.eu/eurostat/web/gisco) (*Geographic Information System of the COmmission*). 
 * [`mapSpain`](https://ropenspain.github.io/mapSpain): permite importar límites administrativos de España (CCAA, provincias, municipios...).
 * [`osmdata`](https://CRAN.R-project.org/package=osmdata): permite importar "pequeños" conjuntos de datos de [OpenStreetMap](https://www.openstreetmap.org) (OSM).
 * [`osmextract`](https://CRAN.R-project.org/package=osmextract):  permite importar grandes conjuntos de datos de OSM.
@@ -742,11 +778,15 @@ osm_coru <- opq('A Coruña') %>%
 plot(st_geometry(osm_coru$osm_lines), main = "", 
      xlim = c(-8.45, -8.38), ylim = c(43.32, 43.39))
 ```
+[Figura \@ref(fig:osmdata)]
+\begin{figure}[!htb]
 
-<div class="figure" style="text-align: center">
-<img src="images/osmdata-1.png" alt="Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`)." width="70%" />
-<p class="caption">(\#fig:osmdata-plot)Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).</p>
-</div>
+{\centering \includegraphics[width=0.7\linewidth]{images/osmdata-1} 
+
+}
+
+\caption{Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).}(\#fig:osmdata-plot)
+\end{figure}
 
 También están disponibles una gran cantidad de páginas web y geoportales desde donde es posible descargar datos espaciales (algo que se puede hacer directamente desde R).
 Algunas de ellas son:
@@ -797,10 +837,14 @@ grat <- st_graticule(world_pop2, lon = seq(-180, 180, by = 20), lat = seq(-90, 9
 plot(grat[1], col = 'darkgray', add = TRUE)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/transform-1.png" alt="Mapa de la población estimada por paises (en escala logarítmica), datos sin proyectar (izquierda) y con proyección de Mollweide (derecha)." width="100%" />
-<p class="caption">(\#fig:transform)Mapa de la población estimada por paises (en escala logarítmica), datos sin proyectar (izquierda) y con proyección de Mollweide (derecha).</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=1\linewidth]{02-datos_files/figure-latex/transform-1} 
+
+}
+
+\caption{Mapa de la población estimada por paises (en escala logarítmica), datos sin proyectar (izquierda) y con proyección de Mollweide (derecha).}(\#fig:transform)
+\end{figure}
 
 ```r
 par(par_old)
@@ -850,6 +894,19 @@ Operaciones binarias con resultado numérico o [lógico](https://r-spatial.githu
 El resultado de las operaciones lógicas es una matriz dispersa (de clase `sgbp`, *sparse geometry binary predicate*), que se puede convertir a una matriz densa con `as.matrix()`.
 
 
+
+\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
+<span class="exercise" id="exr:aquifer2"><strong>(\#exr:aquifer2)  \iffalse (Creación de rejilla de predicción) \fi{} </strong></span>
+Continuando con los datos del Ejercicio \@ref(exr:aquifer1), generar un buffer 
+(`st_buffer()`) de radio 40 en torno a las posiciones espaciales, a partir de él crear 
+una rejilla vectorial (`st_make_grid(..., what = "centers")`) de dimensiones 
+50 por 50 e intersecarla con el buffer. Representar todos los objetos.
+
+\EndKnitrBlock{exercise}
+<!-- \@ref(exr:aquifer2) -->
+
+---
+
 ## Análisis exploratorio de datos espaciales {#sp-eda}
 
 Como se comentó en la Sección \@ref(objetivos-esquema), el primer paso para estimar las componentes del modelo, la tendencia $\mu(\mathbf{s})$ y el semivariograma $\gamma(\mathbf{h})$, es realizar un análisis exploratorio de los datos.
@@ -892,10 +949,14 @@ hist(z, xlab = "piezometric-head", main = "", freq = FALSE)
 lines(density(z), col = 'blue')
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/hist-aquifer-1.png" alt="Distribución del nivel del agua subterránea en el acuífero Wolfcamp." width="70%" />
-<p class="caption">(\#fig:hist-aquifer)Distribución del nivel del agua subterránea en el acuífero Wolfcamp.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/hist-aquifer-1} 
+
+}
+
+\caption{Distribución del nivel del agua subterránea en el acuífero Wolfcamp.}(\#fig:hist-aquifer)
+\end{figure}
 
 En un segundo paso se podría tener en cuenta las coordenadas espaciales.
 Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa 
@@ -906,10 +967,14 @@ algún patrón claro (lo que nos haría sospechar que la tendencia no es constan
 plot(aquifer_sf, pch = 20, cex = 3, breaks = "quantile", nbreaks = 4)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/plot-aquifer-1.png" alt="Distribución espacial de las observaciones del nivel del agua subterránea en el acuífero Wolfcamp." width="70%" />
-<p class="caption">(\#fig:plot-aquifer)Distribución espacial de las observaciones del nivel del agua subterránea en el acuífero Wolfcamp.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/plot-aquifer-1} 
+
+}
+
+\caption{Distribución espacial de las observaciones del nivel del agua subterránea en el acuífero Wolfcamp.}(\#fig:plot-aquifer)
+\end{figure}
 
 Gráficos de dispersión de la respuesta frente a las coordenadas nos pueden ayudar a determinar si hay una tendencia (al estilo de las funciones `geoR::plot.geodata()` o `npsp::scattersplot()`):
 
@@ -923,10 +988,14 @@ plot(coord[, 2], z, xlab = "y", ylab = "z")
 lines(lowess(coord[, 2], z), lty = 2, lwd = 2, col = 'blue')
 ```
 
-<div class="figure" style="text-align: center">
-<img src="02-datos_files/figure-html/scattersplot-1.png" alt="Gráficos de dispersión del nivel del agua subterránea frente a coordenadas (acuífero Wolfcamp)." width="90%" />
-<p class="caption">(\#fig:scattersplot)Gráficos de dispersión del nivel del agua subterránea frente a coordenadas (acuífero Wolfcamp).</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.9\linewidth]{02-datos_files/figure-latex/scattersplot-1} 
+
+}
+
+\caption{Gráficos de dispersión del nivel del agua subterránea frente a coordenadas (acuífero Wolfcamp).}(\#fig:scattersplot)
+\end{figure}
 
 ```r
 par(old.par)
@@ -935,6 +1004,23 @@ par(old.par)
 En este caso concreto parece que una tendencia lineal es adecuada.
 
 <!-- hist(residuals(lm)) -->
+
+---
+
+\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
+<span class="exercise" id="exr:descriptiva"><strong>(\#exr:descriptiva)  \iffalse (Creación de rejilla de predicción) \fi{} </strong></span>
+Realizar un análisis descriptivo del conjunto de datos `s100` del paquete `geoR` 
+(que contiene una simulación de un proceso espacial estacionario, sin tendencia;
+ver Sección \@ref(vario-muestrales)).
+
+Realizar un análisis descriptivo del conjunto de datos `meuse_sf` (almacenado en
+el archivo *st_meuse.RData*) considerando únicamente las variables que comparte
+con la rejilla `meuse_grid`.
+
+\EndKnitrBlock{exercise}
+<!-- \@ref(exr:descriptiva) -->
+
+---
 
 Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección \@ref(vario-muestrales).
 

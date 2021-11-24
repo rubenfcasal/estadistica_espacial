@@ -179,8 +179,25 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-11-23}
+\date{2021-11-24}
 
+\usepackage{amsthm}
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{lemma}{Lema}[chapter]
+\newtheorem{corollary}{Corolario}[chapter]
+\newtheorem{proposition}{Proposición}[chapter]
+\newtheorem{conjecture}{Algoritmo}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Ejemplo}[chapter]
+\theoremstyle{definition}
+\newtheorem{exercise}{Ejercicio}[chapter]
+\theoremstyle{definition}
+\newtheorem{hypothesis}{Hypothesis}[chapter]
+\theoremstyle{remark}
+\newtheorem*{remark}{Nota: }
+\newtheorem*{solution}{Solución}
 \begin{document}
 \maketitle
 
@@ -204,7 +221,7 @@ donde se puede encontrar información adicional.
 Este libro ha sido escrito en \href{http://rmarkdown.rstudio.com}{R-Markdown} empleando el paquete \href{https://bookdown.org/yihui/bookdown/}{\texttt{bookdown}} y está disponible en el repositorio Github: \href{https://github.com/rubenfcasal/estadistica_espacial}{rubenfcasal/estadistica\_espacial}.
 Se puede acceder a la versión en línea a través del siguiente enlace:
 
-\url{https://rubenfcasal.github.io/estadistica_espacial}.
+\url{https://rubenfcasal.github.io/estadistica_espacial} (también \url{https://bit.ly/estadistica_espacial}).
 
 donde puede descargarse en formato \href{https://rubenfcasal.github.io/estadistica_espacial/estadistica_espacial.pdf}{pdf}.
 
@@ -953,7 +970,7 @@ Tipo & Description & Creación \\
 \endhead
 \texttt{POINT}, \texttt{MULTIPOINT} & Punto o conjunto de puntos & \texttt{st\_point()}, \texttt{st\_multipoint()} \\
 \texttt{LINESTRING}, \texttt{MULTILINESTRING} & Línea o conjunto de líneas & \texttt{st\_linestring()}, \texttt{st\_multilinestring()} \\
-\texttt{POLYGON}, \texttt{MULTIPOLYGON} & Polígono (secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros) o conjunto de polígonos & \texttt{st\_polygon()}, \texttt{st\_multipolygon()} \\
+\texttt{POLYGON}, \texttt{MULTIPOLYGON} & Polígono\footnote{Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.} o conjunto de polígonos & \texttt{st\_polygon()}, \texttt{st\_multipolygon()} \\
 \texttt{GEOMETRYCOLLECTION} & Conjunto de geometrías de los tipos anteriores & \texttt{st\_geometrycollection()} \\
 \bottomrule
 \end{longtable}
@@ -1001,6 +1018,18 @@ Posteriormente se puede crear un objeto \texttt{sf} mediante la función \texttt
 \end{verbatim}
 
 Esta forma de proceder puede resultar de interés cuando se construyen geometrías tipo líneas o polígonos, pero en el caso de datos puntuales (las observaciones habituales en geoestadística), resulta mucho más cómodo emplear un \texttt{data.frame} que incluya las coordenadas en columnas y convertirlo a un objeto \texttt{sf} mediante la función \texttt{st\_as\_sf()}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{exercise}[Creación de una columna de geometrías]
+\protect\hypertarget{exr:sfc}{}{\label{exr:sfc} \iffalse (Creación de una columna de geometrías) \fi{} }Crear una geometría (un objeto \texttt{sfc}) formada por: dos puntos en las posiciones
+(1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices
+\{(0,0), (6,0), (6,6), (0,6), (0,0)\} y con un agujero con vértices \{(2,2), (2,4),
+(4,4), (4,2), (2,2)\} (NOTA: consultar la ayuda \texttt{?st}, puede resultar cómodo emplear
+\texttt{matrix(...\ ,\ ncol\ =\ 2,\ byrow\ =\ TRUE)}).
+\end{exercise}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \texttt{sp} que contiene concentraciones de metales pesados, junto con otras variables del terreno, en una zona de inundación del río Meuse (cerca de Stein, Holanda)\footnote{Empleado en la \href{https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf}{viñeta} del paquete \texttt{gstat} con el paquete \texttt{sp}.} (ver Figura \ref{fig:meuse-sf}).
 
@@ -1072,7 +1101,7 @@ Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \tex
 \NormalTok{meuse\_grid }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(meuse.grid, }\AttributeTok{coords =} \FunctionTok{c}\NormalTok{(}\StringTok{"x"}\NormalTok{, }\StringTok{"y"}\NormalTok{), }
                        \AttributeTok{crs =} \DecValTok{28992}\NormalTok{, }\AttributeTok{agr =} \StringTok{"constant"}\NormalTok{)}
 \CommentTok{\# Almacenar}
-\FunctionTok{save}\NormalTok{(meuse\_sf, meuse\_riv, meuse\_grid, }\AttributeTok{file =} \StringTok{"datos/st\_meuse.RData"}\NormalTok{)}
+\CommentTok{\# save(meuse\_sf, meuse\_riv, meuse\_grid, file = "datos/st\_meuse.RData")}
 
 \CommentTok{\# Representar}
 \FunctionTok{plot}\NormalTok{(meuse\_sf[}\StringTok{"zinc"}\NormalTok{], }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.5}\NormalTok{, }\AttributeTok{main =} \StringTok{""}\NormalTok{,}
@@ -1090,6 +1119,15 @@ Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \tex
 
 \caption{Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`).}\label{fig:meuse-sf}
 \end{figure}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{exercise}[Creación y representación de datos espaciales]
+\protect\hypertarget{exr:aquifer1}{}{\label{exr:aquifer1} \iffalse (Creación y representación de datos espaciales) \fi{} }Cargar los datos del acuífero Wolfcamp (\emph{aquifer.RData}), generar el correspondiente
+objeto \texttt{sf} y representarlo mostrando los ejes.
+\end{exercise}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{crs}{%
 \subsection{Sistemas de referencia de coordenadas}\label{crs}}
@@ -1430,7 +1468,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Program Files/R/R-4.1.0/library/sf/shape/nc.shp"
+## [1] "C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1441,7 +1479,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 
 \begin{verbatim}
 ## Reading layer `nc' from data source 
-##   `C:\Program Files\R\R-4.1.0\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
+##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -1479,7 +1517,7 @@ Algunos de ellos son los siguientes:
 \item
   \href{https://docs.ropensci.org/rnaturalearth/}{\texttt{rnaturalearth}}: permite importar una gran cantidad de datos vectoriales y rasterizados de \href{http://www.naturalearthdata.com}{Natural Earth}, incluyendo datos administrativos/culturales (fronteras de países, aeropuertos, carreteras, vías férreas\ldots) y físicos (costas, lagos\ldots).
 \item
-  \href{https://ec.europa.eu/eurostat/web/gisco}{\texttt{giscoR}}: permite importar datos de \href{}{Eurostat - GISCO} (\emph{Geographic Information System of the COmmission}).
+  \href{https://ropengov.github.io/giscoR/}{\texttt{giscoR}}: permite importar datos de \href{https://ec.europa.eu/eurostat/web/gisco}{Eurostat - GISCO} (\emph{Geographic Information System of the COmmission}).
 \item
   \href{https://ropenspain.github.io/mapSpain}{\texttt{mapSpain}}: permite importar límites administrativos de España (CCAA, provincias, municipios\ldots).
 \item
@@ -1674,6 +1712,16 @@ Operaciones binarias con resultado numérico o \href{https://r-spatial.github.io
 
 El resultado de las operaciones lógicas es una matriz dispersa (de clase \texttt{sgbp}, \emph{sparse geometry binary predicate}), que se puede convertir a una matriz densa con \texttt{as.matrix()}.
 
+\begin{exercise}[Creación de rejilla de predicción]
+\protect\hypertarget{exr:aquifer2}{}{\label{exr:aquifer2} \iffalse (Creación de rejilla de predicción) \fi{} }
+Continuando con los datos del Ejercicio \ref{exr:aquifer1}, generar un buffer
+(\texttt{st\_buffer()}) de radio 40 en torno a las posiciones espaciales, a partir de él crear
+una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones
+50 por 50 e intersecarla con el buffer. Representar todos los objetos.
+\end{exercise}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
 \hypertarget{sp-eda}{%
 \section{Análisis exploratorio de datos espaciales}\label{sp-eda}}
 
@@ -1779,6 +1827,21 @@ Gráficos de dispersión de la respuesta frente a las coordenadas nos pueden ayu
 \end{Shaded}
 
 En este caso concreto parece que una tendencia lineal es adecuada.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{exercise}[Creación de rejilla de predicción]
+\protect\hypertarget{exr:descriptiva}{}{\label{exr:descriptiva} \iffalse (Creación de rejilla de predicción) \fi{} }
+Realizar un análisis descriptivo del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
+(que contiene una simulación de un proceso espacial estacionario, sin tendencia;
+ver Sección \ref{vario-muestrales}).
+
+Realizar un análisis descriptivo del conjunto de datos \texttt{meuse\_sf} (almacenado en
+el archivo \emph{st\_meuse.RData}) considerando únicamente las variables que comparte
+con la rejilla \texttt{meuse\_grid}.
+\end{exercise}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección \ref{vario-muestrales}.
 
@@ -2021,7 +2084,7 @@ Estableciendo \texttt{model\ =\ "independent"} devuelve un p-valor para contrast
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.7: type help(sm) for summary information
+## Package 'sm', version 2.2-5.6: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -2455,10 +2518,10 @@ Dependiendo de las suposiciones acerca de la función de tendencia \(\mu(\cdot)\
   Además se asume que por lo menos existe el variograma y es conocido.
 \item
   \emph{Kriging universal} (KU; también denominado kriging con modelo de tendencia): se supone que la media es desconocida y no constante, pero
-  que es una combinación lineal (desconocida) de \(p+1\) funciones (o variables explicativas) conocidas \(\left\{ x_{j} (\cdot):j=0, \ldots,p\right\}\):
-  \[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}x_{j} (\mathbf{s})\beta_{j}\]
-  donde \(?=(\beta_{0} , \ldots,\beta_{p} )^\top \in \mathbb{R}^{p+1}\) es un vector desconocido.
-  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, p.e. \(x_{0} (\cdot)\equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma.}.
+  que es una combinación lineal (desconocida) de \(p+1\) funciones (o variables explicativas) conocidas \(\left\{ x_j(\cdot) : j = 0, \ldots, p \right\}\):
+  \[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}x_j (\mathbf{s})\beta_j\]
+  donde \(\boldsymbol{\beta} = (\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}\) es un vector desconocido.
+  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, p.e. \(x_{0}(\cdot) \equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma.}.
 \end{enumerate}
 
 Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele
@@ -2468,7 +2531,7 @@ pensar en el KO como un método distinto al KU, principalmente por ciertos incon
 \section{Kriging con media conocida: kriging simple}\label{ksimple}}
 
 \hypertarget{kuniversal}{%
-\section{Kriging con media desconocida: kriging universal}\label{kuniversal}}
+\section{Kriging con media desconocida: kriging universal y kriging residual}\label{kuniversal}}
 
 \hypertarget{consideraciones-kriging}{%
 \section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}}
@@ -2608,8 +2671,7 @@ Introducción, para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand 
 ## [2,]   0   1
 ## 
 ## Slot "proj4string":
-## Coordinate Reference System:
-## Deprecated Proj.4 representation: NA
+## CRS arguments: NA
 \end{verbatim}
 
 Los objetos son del tipo S4.
@@ -4379,7 +4441,7 @@ espacial si el variograma suavizado no está contenido en esa región).
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.7: type help(sm) for summary information
+## Package 'sm', version 2.2-5.6: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -4590,7 +4652,7 @@ Otras opciones:
 
 \begin{verbatim}
 ##  Package npsp: Nonparametric Spatial Statistics,
-##  version 0.7-9 (built on 2021-05-17).
+##  version 0.7-8 (built on 2021-05-10).
 ##  Copyright (C) R. Fernandez-Casal 2012-2021.
 ##  Type `help(npsp)` for an overview of the package or
 ##  visit https://rubenfcasal.github.io/npsp.
