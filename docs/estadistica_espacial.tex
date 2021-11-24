@@ -282,7 +282,7 @@ Este obra está bajo una licencia de \href{https://creativecommons.org/licenses/
 
 Es bien sabido que al utilizar en la práctica métodos estadísticos no siempre es adecuado suponer que las observaciones del fenómeno de interés han sido tomadas bajo condiciones idénticas e independientes unas de otras (i.e.~que los datos son independientes e idénticamente distribuidos).
 Esta falta de homogeneidad en los datos suele ser modelada a través de la suposición de media no constante (por ejemplo suponiendo que ésta es una combinación lineal de ciertas variables explicativas) pero con la consideración de que los errores son independientes e idénticamente distribuidos.
-Sin embargo, esta suposición puede influir crucialmente en la inferencia; pudiendo ser en ocasiones preferible la suposición más realista de errores correlados.
+Sin embargo, esta suposición puede influir crucialmente en la inferencia (e.g.~ver \href{https://rubenfcasal.github.io/post/diagnosis-de-la-independencia/}{enlace}), siendo en ocasiones preferible la suposición más realista de errores correlados.
 
 Frecuentemente los datos tienen una componente espacial y/o temporal asociada a ellos y es de esperar que datos cercanos en el espacio o en el tiempo sean más semejantes que aquellos que están más alejados; en cuyo caso no deben ser modelados como estadísticamente independientes, siendo más conveniente emplear modelos que exploten adecuadamente dicha componente espacial o espacio-temporal.
 De forma natural surge la hipótesis de que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos, por lo que se puede pensar en la presencia de una dependencia espacial o espacio-temporal.
@@ -389,7 +389,7 @@ Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\te
 Otros paquetes para la manipulación de datos que pueden ser de interés son: \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}}, \href{https://r-spatial.github.io/stars}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, entre otros.
 En la Sección \ref{datos-tipos} se incluye información adicional sobre estos paquetes.
 
-En estos apuntes emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice B) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice A se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
+En estos apuntes emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice \ref{intro-geoR}) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
 
 \hypertarget{geoestadistica}{%
 \section{Geoestadística}\label{geoestadistica}}
@@ -400,7 +400,7 @@ Otros métodos sin embargo, sólo incluyen la variación de larga escala y supon
 Hoy en día podemos decir que la geoestadística es la rama de la estadística espacial que estudia los procesos con índice espacial continuo.
 
 Uno de los problemas iniciales más importantes de la geoestadística fue la predicción de la riqueza de un bloque minero a partir de una muestra observada.
-A este proceso Matheron (1963) lo denominó kriging\footnote{D. G. Krige fue un ingeniero de minas de Sudáfrica que desarrollo
+A este proceso Matheron (1963) lo denominó kriging\footnote{D. G. Krige fue un ingeniero de minas de Sudáfrica que desarrolló
   en los años 50 métodos empíricos para determinar la distribución de
   la riqueza de un mineral a partir de valores observados.
   Sin embargo la formulación de la predicción espacial lineal óptima no
@@ -410,7 +410,7 @@ A este proceso Matheron (1963) lo denominó kriging\footnote{D. G. Krige fue un 
   meteorología por L.S. Gandin en la antigua Unión Soviética.
   El nombre que Gandin le dio a esta aproximación fue análisis objetivo
   y utilizó la terminología de interpolación óptima en lugar de kriging.
-  Para más detalles sobre el origen del kriging ver p.e. Cressie (1990).}, y también predicción espacial lineal óptima (estos métodos de predicción se muestran en el Capítulo 4).
+  Para más detalles sobre el origen del kriging ver p.e. Cressie (1990).}, y también predicción espacial lineal óptima (estos métodos de predicción se muestran en el Capítulo \ref{kriging}).
 
 El modelo general habitualmente considerado en geoestadística considera que el proceso se descompone en \emph{variabilidad de gran escala} y \emph{variabilidad de pequeña escala}:
 \begin{equation}
@@ -709,9 +709,9 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \item
-  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo 2).
+  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo \ref{datos}).
 \item
-  Estimación de los parámetros del modelo (proceso iterativo; Capítulo 3):
+  Estimación de los parámetros del modelo (proceso iterativo; Capítulo \ref{modelado}):
 
   \begin{enumerate}
   \def\labelenumii{\arabic{enumii}.}
@@ -723,8 +723,40 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 \item
   Validación del modelo (Sección 4.X) o reformulación del mismo.
 \item
-  Empleo del modelo aceptado (Capítulo 4).
+  Empleo del modelo aceptado (Capítulo \ref{kriging}).
 \end{enumerate}
+
+Como ya se comentó, emplearemos el paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} en este proceso.
+
+\hypertarget{el-paquete-gstat}{%
+\section{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{el-paquete-gstat}}
+
+El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo \ref{modelado}, y multivariante, Capítulo \ref{multivar}), espacial y espacio-temporal (Capítulo \ref{esp-temp}), incluyendo predicción y simulación (Capítulo \ref{kriging} y secciones 5.X y 6.X).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gstat)}
+\end{Highlighting}
+\end{Shaded}
+
+Este paquete implementa su propia estructura de datos (S3, basada en \texttt{data.frame}) pero también es compatible con los objetos \texttt{Spatial*} del paquete \texttt{sp} (Apéndice \ref{intro-sp}) y los objetos de datos de los paquetes \texttt{sf} y \texttt{stars} (Capítulo \ref{datos}).
+
+Para más información se pueden consultar la \href{https://r-spatial.github.io/gstat/reference/index.html}{referencia}, las viñetas del paquete:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf}{The meuse data set: a tutorial for the gstat R package},
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf}{Spatio-Temporal Geostatistics using gstat},
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf}{Introduction to Spatio-Temporal Variography},
+\end{itemize}
+
+el blog \href{https://r-spatial.org/}{r-spatial} o las correspondientes publicaciones (\href{http://www.sciencedirect.com/science/article/pii/S0098300404000676}{Pebesma, 2004}; \href{https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf}{Gräler, Pebesma y Heuvelink, 2016}).
+
+Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (\href{http://www.sciencedirect.com/science/article/pii/S0098300497000824}{Pebesma y Wesseling, 1998}; basado en la librería \href{http://www.gslib.com}{GSLIB}, Deutsch y Journel, 1992).
+Puede resultar de interés consultar el \href{http://www.gstat.org/gstat.pdf}{manual original} para información adicional sobre los detalles computacionales.
 
 \hypertarget{datos}{%
 \chapter{Datos espaciales}\label{datos}}
@@ -796,7 +828,7 @@ El paquete \texttt{sp} tiene un soporte limitado para datos ráster, este es uno
 El paquete \texttt{sf} no implementa datos ráster (y tiene un soporte muy limitado para rejillas de datos), para manejar este tipo de datos se complementa con el paquete \href{https://r-spatial.github.io/stars}{\texttt{starts}} (Spatiotemporal Arrays: Raster and Vector Datacubes).
 Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones \href{https://keen-swartz-3146c4.netlify.app/sf.html\#raster-to-vector}{7.5} y \href{https://keen-swartz-3146c4.netlify.app/sf.html\#warp}{7.7} de \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}).
 
-En este capítulo emplearemos el paquete \texttt{sf} para la manipulación de datos espaciales, aunque en el Apéndice A se incluye una breve introducción a las clases \texttt{sp}, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
+En este capítulo emplearemos el paquete \texttt{sf} para la manipulación de datos espaciales, aunque en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp}, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
 
 \hypertarget{sf-intro}{%
 \section{\texorpdfstring{Introducción al paquete \textbf{sf}}{Introducción al paquete sf}}\label{sf-intro}}
@@ -1557,7 +1589,7 @@ Algunos de ellos son los siguientes:
 \end{Highlighting}
 \end{Shaded}
 
-{[}Figura \ref{fig:osmdata}{]}
+{[}Figura \ref{fig:osm-coru-plot}{]}
 
 \begin{figure}[!htb]
 
@@ -1565,7 +1597,7 @@ Algunos de ellos son los siguientes:
 
 }
 
-\caption{Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).}\label{fig:osmdata-plot}
+\caption{Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).}\label{fig:osm-coru-plot}
 \end{figure}
 
 También están disponibles una gran cantidad de páginas web y geoportales desde donde es posible descargar datos espaciales (algo que se puede hacer directamente desde R).
@@ -1712,8 +1744,10 @@ Operaciones binarias con resultado numérico o \href{https://r-spatial.github.io
 
 El resultado de las operaciones lógicas es una matriz dispersa (de clase \texttt{sgbp}, \emph{sparse geometry binary predicate}), que se puede convertir a una matriz densa con \texttt{as.matrix()}.
 
-\begin{exercise}[Creación de rejilla de predicción]
-\protect\hypertarget{exr:aquifer2}{}{\label{exr:aquifer2} \iffalse (Creación de rejilla de predicción) \fi{} }
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{exercise}[Creación de una rejilla de predicción]
+\protect\hypertarget{exr:aquifer2}{}{\label{exr:aquifer2} \iffalse (Creación de una rejilla de predicción) \fi{} }
 Continuando con los datos del Ejercicio \ref{exr:aquifer1}, generar un buffer
 (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones espaciales, a partir de él crear
 una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones
@@ -1830,50 +1864,30 @@ En este caso concreto parece que una tendencia lineal es adecuada.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{exercise}[Creación de rejilla de predicción]
-\protect\hypertarget{exr:descriptiva}{}{\label{exr:descriptiva} \iffalse (Creación de rejilla de predicción) \fi{} }
-Realizar un análisis descriptivo del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
+\begin{exercise}[Análisis exploratorio de la tendencia]
+\protect\hypertarget{exr:descriptiva}{}{\label{exr:descriptiva} \iffalse (Análisis exploratorio de la tendencia) \fi{} }
+Realizar un análisis exploratorio del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
 (que contiene una simulación de un proceso espacial estacionario, sin tendencia;
 ver Sección \ref{vario-muestrales}).
+\end{exercise}
 
-Realizar un análisis descriptivo del conjunto de datos \texttt{meuse\_sf} (almacenado en
-el archivo \emph{st\_meuse.RData}) considerando únicamente las variables que comparte
-con la rejilla \texttt{meuse\_grid}.
+\begin{exercise}[Análisis exploratorio con variables explicativas]
+\protect\hypertarget{exr:descriptiva2}{}{\label{exr:descriptiva2} \iffalse (Análisis exploratorio con variables explicativas) \fi{} }
+Realizar un análisis exploratorio del conjunto de datos \texttt{meuse\_sf} (almacenado en
+el archivo \emph{st\_meuse.RData}; ver Figura @cite(fig:meuse-sf)) considerando como
+respuesta la concentración de zinc y como variables explicativas, además de las
+coordenadas espaciales, las variables que comparte con la rejilla \texttt{meuse\_grid}
+(y que se podrían emplear en la predicción kriging; Capítulo \ref{kriging})
+
+Realizar también un análisis exploratorio multivariante, considerando la respuesta
+y el resto de variables explicativas (que podrían considerarse realizaciones de
+otros procesos espaciales y emplearlas para predicción multivariante, cokriging;
+Capítulo \ref{multivar}).
 \end{exercise}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección \ref{vario-muestrales}.
-
-\hypertarget{el-paquete-gstat}{%
-\section{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{el-paquete-gstat}}
-
-El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo 3, y multivariante, Capítulo 5), espacial y espacio-temporal (Capítulo 6), incluyendo predicción y simulación (Capítulo 4 y secciones 5.X y 6.X).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(gstat)}
-\end{Highlighting}
-\end{Shaded}
-
-Este paquete implementa su propia estructura de datos (S3, basada en \texttt{data.frame}) pero también es compatible con los objetos \texttt{Spatial*} del paquete \texttt{sp} y los objetos de datos de los paquetes \texttt{sf} y \texttt{stars}.
-
-Para más información se pueden consultar la \href{https://r-spatial.github.io/gstat/reference/index.html}{referencia}, las viñetas del paquete:
-
-\begin{itemize}
-\tightlist
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf}{The meuse data set: a tutorial for the gstat R package},
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf}{Spatio-Temporal Geostatistics using gstat},
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf}{Introduction to Spatio-Temporal Variography},
-\end{itemize}
-
-el blog \href{https://r-spatial.org/}{r-spatial} o las correspondientes publicaciones (\href{http://www.sciencedirect.com/science/article/pii/S0098300404000676}{Pebesma, 2004}; \href{https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf}{Gräler, Pebesma y Heuvelink, 2016}).
-
-Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (\href{http://www.sciencedirect.com/science/article/pii/S0098300497000824}{Pebesma y Wesseling, 1998}; basado en la librería \href{http://www.gslib.com}{GSLIB}, Deutsch y Journel, 1992).
-Puede resultar de interés consultar el \href{http://www.gstat.org/gstat.pdf}{manual original} para información adicional sobre los detalles computacionales.
+Para el análisis exploratorio de la dependencia se suelen emplear las semivarianzas muestrales o los estimadores experimentales del variograma, como se describe en la Sección \ref{vario-muestrales}.
 
 \hypertarget{modelado}{%
 \chapter{Modelado de procesos geoestadísticos}\label{modelado}}
@@ -2484,7 +2498,7 @@ Otra alternativa sería asumir normalidad y estimar ambos componentes de forma c
 
 \textbf{\emph{En preparación\ldots{}}}
 
-En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.} (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo 5).
+En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.} (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).
 
 \hypertarget{introducciuxf3n}{%

@@ -186,6 +186,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -202,7 +203,6 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
-<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
 <ul>
@@ -311,13 +311,13 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Capítulo \@ref(kriging)
 bookdown::preview_chapter("04-kriging.Rmd")
 knitr::purl("04-kriging.Rmd", documentation = 2)
 knitr::spin("04-kriging.R",knit = FALSE)
 -->
 <p><strong><em>En preparación…</em></strong></p>
-<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo 5).
+<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo <a href="multivar.html#multivar">5</a>).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).</p>
 </div>
 <div class="footnotes">

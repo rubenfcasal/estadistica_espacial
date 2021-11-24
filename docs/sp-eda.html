@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="operaciones-datos.html"/>
-<link rel="next" href="el-paquete-gstat.html"/>
+<link rel="next" href="modelado.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -186,6 +186,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -202,7 +203,6 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
-<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
 <ul>
@@ -302,20 +302,20 @@ Si además la distribución es aproximadamente normal (después de eliminar la t
 máxima verosimilitud (Sección <a href="ajuste-variog.html#ml-fit">3.3.2</a>).
 Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida
 (aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="sp-eda.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
-<span id="cb54-2"><a href="sp-eda.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(aquifer)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="sp-eda.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
+<span id="cb55-2"><a href="sp-eda.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(aquifer)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    85 obs. of  3 variables:
 ##  $ lon : num  42.78 -27.4 -1.16 -18.62 96.47 ...
 ##  $ lat : num  127.6 90.8 84.9 76.5 64.6 ...
 ##  $ head: num  1464 2553 2158 2455 1756 ...</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="sp-eda.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb56-2"><a href="sp-eda.html#cb56-2" aria-hidden="true" tabindex="-1"></a>aquifer_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(aquifer, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
-<span id="cb56-3"><a href="sp-eda.html#cb56-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> aquifer_sf<span class="sc">$</span>head<span class="sc">/</span><span class="dv">100</span></span>
-<span id="cb56-4"><a href="sp-eda.html#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="sp-eda.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb57-2"><a href="sp-eda.html#cb57-2" aria-hidden="true" tabindex="-1"></a>aquifer_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(aquifer, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
+<span id="cb57-3"><a href="sp-eda.html#cb57-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> aquifer_sf<span class="sc">$</span>head<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb57-4"><a href="sp-eda.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(z)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   10.24   15.48   17.97   20.02   25.40   35.71</code></pre>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="sp-eda.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(z, <span class="at">xlab =</span> <span class="st">&quot;piezometric-head&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-2"><a href="sp-eda.html#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(z), <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="sp-eda.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(z, <span class="at">xlab =</span> <span class="st">&quot;piezometric-head&quot;</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb59-2"><a href="sp-eda.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(z), <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:hist-aquifer"></span>
 <img src="02-datos_files/figure-html/hist-aquifer-1.png" alt="Distribución del nivel del agua subterránea en el acuífero Wolfcamp." width="70%" />
 <p class="caption">
@@ -325,7 +325,7 @@ Figura 2.9: Distribución del nivel del agua subterránea en el acuífero Wolfca
 <p>En un segundo paso se podría tener en cuenta las coordenadas espaciales.
 Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa
 algún patrón claro (lo que nos haría sospechar que la tendencia no es constante).</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="sp-eda.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aquifer_sf, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">nbreaks =</span> <span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="sp-eda.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aquifer_sf, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">3</span>, <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">nbreaks =</span> <span class="dv">4</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:plot-aquifer"></span>
 <img src="02-datos_files/figure-html/plot-aquifer-1.png" alt="Distribución espacial de las observaciones del nivel del agua subterránea en el acuífero Wolfcamp." width="70%" />
 <p class="caption">
@@ -333,35 +333,46 @@ Figura 2.10: Distribución espacial de las observaciones del nivel del agua subt
 </p>
 </div>
 <p>Gráficos de dispersión de la respuesta frente a las coordenadas nos pueden ayudar a determinar si hay una tendencia (al estilo de las funciones <code>geoR::plot.geodata()</code> o <code>npsp::scattersplot()</code>):</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="sp-eda.html#cb60-1" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(aquifer_sf)</span>
-<span id="cb60-2"><a href="sp-eda.html#cb60-2" aria-hidden="true" tabindex="-1"></a>old.par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">omd =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="fl">0.01</span>, <span class="fl">0.95</span>))</span>
-<span id="cb60-3"><a href="sp-eda.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord[, <span class="dv">1</span>], z, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;z&quot;</span>)</span>
-<span id="cb60-4"><a href="sp-eda.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(coord[, <span class="dv">1</span>], z), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span>
-<span id="cb60-5"><a href="sp-eda.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord[, <span class="dv">2</span>], z, <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;z&quot;</span>)</span>
-<span id="cb60-6"><a href="sp-eda.html#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(coord[, <span class="dv">2</span>], z), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="sp-eda.html#cb61-1" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(aquifer_sf)</span>
+<span id="cb61-2"><a href="sp-eda.html#cb61-2" aria-hidden="true" tabindex="-1"></a>old.par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">omd =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.95</span>, <span class="fl">0.01</span>, <span class="fl">0.95</span>))</span>
+<span id="cb61-3"><a href="sp-eda.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord[, <span class="dv">1</span>], z, <span class="at">xlab =</span> <span class="st">&quot;x&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;z&quot;</span>)</span>
+<span id="cb61-4"><a href="sp-eda.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(coord[, <span class="dv">1</span>], z), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb61-5"><a href="sp-eda.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(coord[, <span class="dv">2</span>], z, <span class="at">xlab =</span> <span class="st">&quot;y&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;z&quot;</span>)</span>
+<span id="cb61-6"><a href="sp-eda.html#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(coord[, <span class="dv">2</span>], z), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&#39;blue&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:scattersplot"></span>
 <img src="02-datos_files/figure-html/scattersplot-1.png" alt="Gráficos de dispersión del nivel del agua subterránea frente a coordenadas (acuífero Wolfcamp)." width="90%" />
 <p class="caption">
 Figura 2.11: Gráficos de dispersión del nivel del agua subterránea frente a coordenadas (acuífero Wolfcamp).
 </p>
 </div>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="sp-eda.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old.par)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="sp-eda.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old.par)</span></code></pre></div>
 <p>En este caso concreto parece que una tendencia lineal es adecuada.</p>
 <!-- hist(residuals(lm)) -->
 <hr />
 
 <div class="exercise">
-<p><span id="exr:descriptiva" class="exercise"><strong>Ejercicio 2.4  (Creación de rejilla de predicción)  </strong></span>
-Realizar un análisis descriptivo del conjunto de datos <code>s100</code> del paquete <code>geoR</code>
+<p><span id="exr:descriptiva" class="exercise"><strong>Ejercicio 2.4  (Análisis exploratorio de la tendencia)  </strong></span>
+Realizar un análisis exploratorio del conjunto de datos <code>s100</code> del paquete <code>geoR</code>
 (que contiene una simulación de un proceso espacial estacionario, sin tendencia;
 ver Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>).</p>
-<p>Realizar un análisis descriptivo del conjunto de datos <code>meuse_sf</code> (almacenado en
-el archivo <em>st_meuse.RData</em>) considerando únicamente las variables que comparte
-con la rejilla <code>meuse_grid</code>.</p>
 </div>
 <!-- \@ref(exr:descriptiva) -->
+
+<div class="exercise">
+<p><span id="exr:descriptiva2" class="exercise"><strong>Ejercicio 2.5  (Análisis exploratorio con variables explicativas)  </strong></span>
+Realizar un análisis exploratorio del conjunto de datos <code>meuse_sf</code> (almacenado en
+el archivo <em>st_meuse.RData</em>; ver Figura @cite(fig:meuse-sf)) considerando como
+respuesta la concentración de zinc y como variables explicativas, además de las
+coordenadas espaciales, las variables que comparte con la rejilla <code>meuse_grid</code>
+(y que se podrían emplear en la predicción kriging; Capítulo <a href="kriging.html#kriging">4</a>)</p>
+<p>Realizar también un análisis exploratorio multivariante, considerando la respuesta
+y el resto de variables explicativas (que podrían considerarse realizaciones de
+otros procesos espaciales y emplearlas para predicción multivariante, cokriging;
+Capítulo <a href="multivar.html#multivar">5</a>).</p>
+</div>
+<!-- \@ref(exr:descriptiva2) -->
 <hr />
-<p>Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>.</p>
+<p>Para el análisis exploratorio de la dependencia se suelen emplear las semivarianzas muestrales o los estimadores experimentales del variograma, como se describe en la Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>.</p>
 <!-- 
 cargar datos meuse
 generar variables explicativas en intersección
@@ -370,14 +381,19 @@ alternativa cokriging
 Pendiente:
 Detección de atípicos 
 -->
+<!-- 
+## Referencias 
+-->
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="operaciones-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="el-paquete-gstat.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelado.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

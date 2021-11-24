@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="procesos-estacionarios.html"/>
-<link rel="next" href="datos.html"/>
+<link rel="next" href="el-paquete-gstat.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -186,6 +186,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -202,7 +203,6 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
-<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
 <ul>
@@ -306,30 +306,24 @@ en nuevas localizaciones…</p></li>
 <p>En cualquier caso en primer lugar habría que estimar las componentes del modelo: la tendencia <span class="math inline">\(\mu(\mathbf{s})\)</span> y el semivariograma <span class="math inline">\(\gamma(\mathbf{h})\)</span>.
 La aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico consiste en los siguientes pasos:</p>
 <ol style="list-style-type: decimal">
-<li><p>Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo 2).</p></li>
-<li><p>Estimación de los parámetros del modelo (proceso iterativo; Capítulo 3):</p>
+<li><p>Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo <a href="datos.html#datos">2</a>).</p></li>
+<li><p>Estimación de los parámetros del modelo (proceso iterativo; Capítulo <a href="modelado.html#modelado">3</a>):</p>
 <ol style="list-style-type: decimal">
 <li><p>Estimar y eliminar la tendencia.</p></li>
 <li><p>Modelar la dependencia (ajustar un modelo de variograma) a partir de los residuos.</p></li>
 </ol></li>
 <li><p>Validación del modelo (Sección 4.X) o reformulación del mismo.</p></li>
-<li><p>Empleo del modelo aceptado (Capítulo 4).</p></li>
+<li><p>Empleo del modelo aceptado (Capítulo <a href="kriging.html#kriging">4</a>).</p></li>
 </ol>
-<!-- 
-## Referencias
-
-Pendiente: añadir bibliografía bibtex y referencias paquetes
--->
-
+<p>Como ya se comentó, emplearemos el paquete <a href="https://r-spatial.github.io/gstat"><code>gstat</code></a> en este proceso.</p>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="procesos-estacionarios.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="el-paquete-gstat.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -186,6 +186,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -202,7 +203,6 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
-<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
 <ul>
@@ -298,9 +298,9 @@ div.csl-indent {
 Estos métodos suelen ser la forma más rápida de generar gráficos básicos (estáticos), pero también se pueden emplear otros paquetes como <a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a> (Sección <a href="sf-intro.html#tidyverse-sf">2.2.2</a>), <a href="https://r-tmap.github.io/tmap"><code>tmap</code></a>, <a href="https://riatelab.github.io/mapsf"><code>mapsf</code></a>, <a href="https://rstudio.github.io/leaflet"><code>leaflet</code></a>, <a href="https://r-spatial.github.io/mapview"><code>mapview</code></a>, <a href="https://symbolixau.github.io/mapdeck"><code>mapdeck</code></a> o <a href="https://github.com/dkahle/ggmap"><code>ggmap</code></a>, para generar mapas más avanzados, incluyendo mapas dinámicos.
 Para una introducción a las posibilidades gráficas con el paquete <code>sf</code> se puede consultar la viñeta <a href="https://r-spatial.github.io/sf/articles/sf5.html"><em>Plotting Simple Features</em></a>.</p>
 <p>El método <code>plot()</code> es de la forma:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="representación-de-datos-espaciales.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, ..., max.plot, <span class="at">pal =</span> <span class="cn">NULL</span>, nbreaks, <span class="at">breaks =</span> <span class="st">&quot;pretty&quot;</span>, </span>
-<span id="cb38-2"><a href="representación-de-datos-espaciales.html#cb38-2" aria-hidden="true" tabindex="-1"></a>     key.pos, key.length, key.width, <span class="at">extent =</span> x, <span class="at">axes =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb38-3"><a href="representación-de-datos-espaciales.html#cb38-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> NA_crs_, <span class="at">col_graticule =</span> <span class="st">&quot;grey&quot;</span>, border, <span class="at">reset =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="representación-de-datos-espaciales.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, ..., max.plot, <span class="at">pal =</span> <span class="cn">NULL</span>, nbreaks, <span class="at">breaks =</span> <span class="st">&quot;pretty&quot;</span>, </span>
+<span id="cb39-2"><a href="representación-de-datos-espaciales.html#cb39-2" aria-hidden="true" tabindex="-1"></a>     key.pos, key.length, key.width, <span class="at">extent =</span> x, <span class="at">axes =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb39-3"><a href="representación-de-datos-espaciales.html#cb39-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">graticule =</span> NA_crs_, <span class="at">col_graticule =</span> <span class="st">&quot;grey&quot;</span>, border, <span class="at">reset =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <ul>
 <li><code>x</code>: objeto de tipo <code>sf</code> o <code>sfc</code>.</li>
 <li><code>max.plot</code>: número máximo de atributos que se representarán.</li>
@@ -318,10 +318,10 @@ Para una introducción a las posibilidades gráficas con el paquete <code>sf</co
 <li><code>...</code>: otros parámetros gráficos (ver <code>?plot.default</code> y <code>?par</code>).</li>
 </ul>
 <p>Ejemplo:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="representación-de-datos-espaciales.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb39-2"><a href="representación-de-datos-espaciales.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nc[<span class="fu">c</span>(<span class="st">&quot;SID74&quot;</span>, <span class="st">&quot;SID79&quot;</span>)], <span class="at">pal =</span> viridis, <span class="at">border =</span> <span class="st">&#39;grey70&#39;</span>, <span class="at">logz =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb39-3"><a href="representación-de-datos-espaciales.html#cb39-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="at">len =</span> <span class="dv">9</span>), <span class="at">at =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>), </span>
-<span id="cb39-4"><a href="representación-de-datos-espaciales.html#cb39-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos =</span> <span class="dv">1</span>, <span class="at">key.width =</span> <span class="fu">lcm</span>(<span class="fl">1.2</span>), <span class="at">key.length =</span> <span class="fl">0.8</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="representación-de-datos-espaciales.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb40-2"><a href="representación-de-datos-espaciales.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nc[<span class="fu">c</span>(<span class="st">&quot;SID74&quot;</span>, <span class="st">&quot;SID79&quot;</span>)], <span class="at">pal =</span> viridis, <span class="at">border =</span> <span class="st">&#39;grey70&#39;</span>, <span class="at">logz =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb40-3"><a href="representación-de-datos-espaciales.html#cb40-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="at">len =</span> <span class="dv">9</span>), <span class="at">at =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>), </span>
+<span id="cb40-4"><a href="representación-de-datos-espaciales.html#cb40-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">key.pos =</span> <span class="dv">1</span>, <span class="at">key.width =</span> <span class="fu">lcm</span>(<span class="fl">1.2</span>), <span class="at">key.length =</span> <span class="fl">0.8</span>) </span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:multi-plot-sf"></span>
 <img src="02-datos_files/figure-html/multi-plot-sf-1.png" alt="Ejemplo de gráfico con múltiples atributos (con colores personalizados y leyenda común, en escala logarítmica personalizada)." width="70%" />
 <p class="caption">
@@ -335,8 +335,8 @@ https://geocompr.robinlovelace.net/spatial-class.html#base-args
 -->
 <p>El paquete <a href="https://r-tmap.github.io/tmap"><code>tmap</code></a> permite generar mapas temáticos con una gramática similar a la de <code>ggplot2</code> pero enfocada a mapas.
 Por defecto crea mapas estáticos (<code>tmap_mode("plot")</code>):</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="representación-de-datos-espaciales.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
-<span id="cb40-2"><a href="representación-de-datos-espaciales.html#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(nc) <span class="sc">+</span> <span class="fu">tm_polygons</span>(<span class="st">&quot;SID79&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="representación-de-datos-espaciales.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb41-2"><a href="representación-de-datos-espaciales.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(nc) <span class="sc">+</span> <span class="fu">tm_polygons</span>(<span class="st">&quot;SID79&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:tmap-plot"></span>
 <img src="02-datos_files/figure-html/tmap-plot-1.png" alt="Ejemplo de mapa estático creado con `tmap`." width="70%" />
 <p class="caption">
@@ -344,14 +344,14 @@ Figura 2.5: Ejemplo de mapa estático creado con <code>tmap</code>.
 </p>
 </div>
 <p>Aunque puede crear mapas interactivos, en páginas html, utilizando el paquete <a href="https://rstudio.github.io/leaflet"><code>leaflet</code></a> (interfaz a la librería JavaScript <a href="https://leafletjs.com">Leaflet</a>), implementando también leyendas, ventanas emergentes al pulsar con el ratón en las características y soporte para datos rasterizados.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="representación-de-datos-espaciales.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;view&quot;</span>)</span>
-<span id="cb41-2"><a href="representación-de-datos-espaciales.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_last</span>()</span>
-<span id="cb41-3"><a href="representación-de-datos-espaciales.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error en bookdown</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="representación-de-datos-espaciales.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_mode</span>(<span class="st">&quot;view&quot;</span>)</span>
+<span id="cb42-2"><a href="representación-de-datos-espaciales.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_last</span>()</span>
+<span id="cb42-3"><a href="representación-de-datos-espaciales.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error en bookdown</span></span></code></pre></div>
 <p>Para más información ver el capítulo <a href="https://geocompr.robinlovelace.net/adv-map.html#adv-map">Making maps with R</a> del libro <a href="https://geocompr.robinlovelace.net">Geocomputation with R</a>, la <a href="https://r-tmap.github.io/tmap/articles/tmap-getstarted.html">viñeta</a> del paquete, o el borrador del libro <a href="https://r-tmap.github.io">Elegant and informative maps with tmap</a>.</p>
 <p>El paquete <a href="https://r-spatial.github.io/mapview"><code>mapview</code></a> también permite crear mapas interactivos utilizando el paquete <a href="https://rstudio.github.io/leaflet"><code>leaflet</code></a> (con funcionalidades añadidas) o el paquete <a href="https://symbolixau.github.io/mapdeck"><code>mapdeck</code></a> (diseñado para grandes conjuntos de datos espaciales).</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="representación-de-datos-espaciales.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
-<span id="cb42-2"><a href="representación-de-datos-espaciales.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(nc, <span class="at">zcol =</span> <span class="st">&quot;SID79&quot;</span>)</span>
-<span id="cb42-3"><a href="representación-de-datos-espaciales.html#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error en bookdown</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="representación-de-datos-espaciales.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb43-2"><a href="representación-de-datos-espaciales.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(nc, <span class="at">zcol =</span> <span class="st">&quot;SID79&quot;</span>)</span>
+<span id="cb43-3"><a href="representación-de-datos-espaciales.html#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Error en bookdown</span></span></code></pre></div>
 <p>Para más información ver las <a href="https://r-spatial.github.io/mapview/articles/articles/mapview_01-basics.html">viñetas</a> del paquete.</p>
 <!-- 
 PENDIENTE: tmap y mapview ERROR en bookdown:

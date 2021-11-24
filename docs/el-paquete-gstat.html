@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.6 El paquete gstat | Estadística Espacial con R</title>
+  <title>1.5 El paquete gstat | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.6 El paquete gstat | Estadística Espacial con R" />
+  <meta property="og:title" content="1.5 El paquete gstat | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.6 El paquete gstat | Estadística Espacial con R" />
+  <meta name="twitter:title" content="1.5 El paquete gstat | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sp-eda.html"/>
-<link rel="next" href="modelado.html"/>
+<link rel="prev" href="objetivos-esquema.html"/>
+<link rel="next" href="datos.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -186,6 +186,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
+<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -202,7 +203,6 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
-<li class="chapter" data-level="2.6" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>2.6</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>3</b> Modelado de procesos geoestadísticos</a>
 <ul>
@@ -292,12 +292,11 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="el-paquete-gstat" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> El paquete <strong>gstat</strong></h2>
-<!-- Mover a introducción del siguiente capítulo? -->
-<p>El paquete <a href="https://r-spatial.github.io/gstat"><code>gstat</code></a> permite la modelización geoestadística (univariante, Capítulo 3, y multivariante, Capítulo 5), espacial y espacio-temporal (Capítulo 6), incluyendo predicción y simulación (Capítulo 4 y secciones 5.X y 6.X).</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="el-paquete-gstat.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code></pre></div>
-<p>Este paquete implementa su propia estructura de datos (S3, basada en <code>data.frame</code>) pero también es compatible con los objetos <code>Spatial*</code> del paquete <code>sp</code> y los objetos de datos de los paquetes <code>sf</code> y <code>stars</code>.</p>
+<div id="el-paquete-gstat" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> El paquete <strong>gstat</strong></h2>
+<p>El paquete <a href="https://r-spatial.github.io/gstat"><code>gstat</code></a> permite la modelización geoestadística (univariante, Capítulo <a href="modelado.html#modelado">3</a>, y multivariante, Capítulo <a href="multivar.html#multivar">5</a>), espacial y espacio-temporal (Capítulo <a href="esp-temp.html#esp-temp">6</a>), incluyendo predicción y simulación (Capítulo <a href="kriging.html#kriging">4</a> y secciones 5.X y 6.X).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="el-paquete-gstat.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code></pre></div>
+<p>Este paquete implementa su propia estructura de datos (S3, basada en <code>data.frame</code>) pero también es compatible con los objetos <code>Spatial*</code> del paquete <code>sp</code> (Apéndice <a href="intro-sp.html#intro-sp">A</a>) y los objetos de datos de los paquetes <code>sf</code> y <code>stars</code> (Capítulo <a href="datos.html#datos">2</a>).</p>
 <p>Para más información se pueden consultar la <a href="https://r-spatial.github.io/gstat/reference/index.html">referencia</a>, las viñetas del paquete:</p>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf">The meuse data set: a tutorial for the gstat R package</a>,</li>
@@ -308,7 +307,9 @@ div.csl-indent {
 <p>Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (<a href="http://www.sciencedirect.com/science/article/pii/S0098300497000824">Pebesma y Wesseling, 1998</a>; basado en la librería <a href="http://www.gslib.com">GSLIB</a>, Deutsch y Journel, 1992).
 Puede resultar de interés consultar el <a href="http://www.gstat.org/gstat.pdf">manual original</a> para información adicional sobre los detalles computacionales.</p>
 <!-- 
-## Referencias 
+## Referencias
+
+Pendiente: añadir bibliografía bibtex y referencias paquetes
 -->
 
 </div>
@@ -318,8 +319,8 @@ Puede resultar de interés consultar el <a href="http://www.gstat.org/gstat.pdf"
           </div>
         </div>
       </div>
-<a href="sp-eda.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="modelado.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="objetivos-esquema.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -350,7 +351,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/02-datos.Rmd",
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/01-introduccion.Rmd",
 "text": "Edit"
 },
 "history": {

@@ -17,7 +17,7 @@ output:
     keep_tex: yes
     toc: yes 
 ---
-
+Capítulo \@ref(datos)
 bookdown::preview_chapter("02-datos.Rmd")
 knitr::purl("02-datos.Rmd", documentation = 2)
 knitr::spin("02-datos.R",knit = FALSE)
@@ -77,7 +77,7 @@ El paquete `sp` tiene un soporte limitado para datos ráster, este es uno de los
 El paquete `sf` no implementa datos ráster (y tiene un soporte muy limitado para rejillas de datos), para manejar este tipo de datos se complementa con el paquete [`starts`](https://r-spatial.github.io/stars) (Spatiotemporal Arrays: Raster and Vector Datacubes).
 Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones [7.5](https://keen-swartz-3146c4.netlify.app/sf.html#raster-to-vector) y [7.7](https://keen-swartz-3146c4.netlify.app/sf.html#warp) de @Pebesma2021.
 
-En este capítulo emplearemos el paquete `sf` <!--y puntualmente el paquete `stars` --> para la manipulación de datos espaciales, aunque en el Apéndice A se incluye una breve introducción a las clases `sp`, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
+En este capítulo emplearemos el paquete `sf` <!--y puntualmente el paquete `stars` --> para la manipulación de datos espaciales, aunque en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp`, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
 
 <!-- 
 Pendiente:
@@ -766,7 +766,6 @@ Algunos de ellos son los siguientes:
 * [`maptools`](https://CRAN.R-project.org/package=maptools),[`spData`](https://CRAN.R-project.org/package=spData),[`spDataLarge`](https://CRAN.R-project.org/package=spDataLarge),[`getlandsat`](https://CRAN.R-project.org/package=getlandsat)...
 
 
-
 ```r
 library(osmdata) 
 # Cuidado: descarga mucha información
@@ -778,14 +777,14 @@ osm_coru <- opq('A Coruña') %>%
 plot(st_geometry(osm_coru$osm_lines), main = "", 
      xlim = c(-8.45, -8.38), ylim = c(43.32, 43.39))
 ```
-[Figura \@ref(fig:osmdata)]
+[Figura \@ref(fig:osm-coru-plot)]
 \begin{figure}[!htb]
 
 {\centering \includegraphics[width=0.7\linewidth]{images/osmdata-1} 
 
 }
 
-\caption{Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).}(\#fig:osmdata-plot)
+\caption{Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`).}(\#fig:osm-coru-plot)
 \end{figure}
 
 También están disponibles una gran cantidad de páginas web y geoportales desde donde es posible descargar datos espaciales (algo que se puede hacer directamente desde R).
@@ -800,8 +799,7 @@ Algunas de ellas son:
 * [Copernicus Open Access Hub](https://scihub.copernicus.eu): *Europe's eyes on Earth*.
 
 
-<!-- 
-https://geocompr.robinlovelace.net/read-write.html -->
+<!-- Ver https://geocompr.robinlovelace.net/read-write.html -->
 
 
 ### Operaciones con geometrías
@@ -850,13 +848,6 @@ plot(grat[1], col = 'darkgray', add = TRUE)
 par(par_old)
 ```
 
-<!-- 
-Pendiente:
-Crear rejilla para predicción
-Meuse? buffer, eliminar río?
-Galicia ejemplo sp?
-aquifer?
--->
 
 Operaciones [binarias](https://r-spatial.github.io/sf/reference/geos_binary_ops.html) (operan sobre dos conjuntos de geometrías simples) con resultado geométrico:
 
@@ -893,10 +884,10 @@ Operaciones binarias con resultado numérico o [lógico](https://r-spatial.githu
 
 El resultado de las operaciones lógicas es una matriz dispersa (de clase `sgbp`, *sparse geometry binary predicate*), que se puede convertir a una matriz densa con `as.matrix()`.
 
+---
 
-
-\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
-<span class="exercise" id="exr:aquifer2"><strong>(\#exr:aquifer2)  \iffalse (Creación de rejilla de predicción) \fi{} </strong></span>
+\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-117-110-97-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
+<span class="exercise" id="exr:aquifer2"><strong>(\#exr:aquifer2)  \iffalse (Creación de una rejilla de predicción) \fi{} </strong></span>
 Continuando con los datos del Ejercicio \@ref(exr:aquifer1), generar un buffer 
 (`st_buffer()`) de radio 40 en torno a las posiciones espaciales, a partir de él crear 
 una rejilla vectorial (`st_make_grid(..., what = "centers")`) de dimensiones 
@@ -1007,22 +998,34 @@ En este caso concreto parece que una tendencia lineal es adecuada.
 
 ---
 
-\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
-<span class="exercise" id="exr:descriptiva"><strong>(\#exr:descriptiva)  \iffalse (Creación de rejilla de predicción) \fi{} </strong></span>
-Realizar un análisis descriptivo del conjunto de datos `s100` del paquete `geoR` 
+\BeginKnitrBlock{exercise}\iffalse{-91-65-110-225-108-105-115-105-115-32-101-120-112-108-111-114-97-116-111-114-105-111-32-100-101-32-108-97-32-116-101-110-100-101-110-99-105-97-93-}\fi{}
+<span class="exercise" id="exr:descriptiva"><strong>(\#exr:descriptiva)  \iffalse (Análisis exploratorio de la tendencia) \fi{} </strong></span>
+Realizar un análisis exploratorio del conjunto de datos `s100` del paquete `geoR` 
 (que contiene una simulación de un proceso espacial estacionario, sin tendencia;
 ver Sección \@ref(vario-muestrales)).
-
-Realizar un análisis descriptivo del conjunto de datos `meuse_sf` (almacenado en
-el archivo *st_meuse.RData*) considerando únicamente las variables que comparte
-con la rejilla `meuse_grid`.
 
 \EndKnitrBlock{exercise}
 <!-- \@ref(exr:descriptiva) -->
 
+\BeginKnitrBlock{exercise}\iffalse{-91-65-110-225-108-105-115-105-115-32-101-120-112-108-111-114-97-116-111-114-105-111-32-99-111-110-32-118-97-114-105-97-98-108-101-115-32-101-120-112-108-105-99-97-116-105-118-97-115-93-}\fi{}
+<span class="exercise" id="exr:descriptiva2"><strong>(\#exr:descriptiva2)  \iffalse (Análisis exploratorio con variables explicativas) \fi{} </strong></span>
+Realizar un análisis exploratorio del conjunto de datos `meuse_sf` (almacenado en
+el archivo *st_meuse.RData*; ver Figura \@cite(fig:meuse-sf)) considerando como 
+respuesta la concentración de zinc y como variables explicativas, además de las 
+coordenadas espaciales, las variables que comparte con la rejilla `meuse_grid` 
+(y que se podrían emplear en la predicción kriging; Capítulo \@ref(kriging))
+
+Realizar también un análisis exploratorio multivariante, considerando la respuesta
+y el resto de variables explicativas (que podrían considerarse realizaciones de 
+otros procesos espaciales y emplearlas para predicción multivariante, cokriging;
+Capítulo \@ref(multivar)).
+
+\EndKnitrBlock{exercise}
+<!-- \@ref(exr:descriptiva2) -->
+
 ---
 
-Para el análisis descriptivo de la dependencia se suelen emplear las semivarianzas o los estimadores experimentales del variograma, como se describe en la Sección \@ref(vario-muestrales).
+Para el análisis exploratorio de la dependencia se suelen emplear las semivarianzas muestrales o los estimadores experimentales del variograma, como se describe en la Sección \@ref(vario-muestrales).
 
 <!-- 
 cargar datos meuse
@@ -1032,32 +1035,6 @@ alternativa cokriging
 Pendiente:
 Detección de atípicos 
 -->
-
-
-## El paquete **gstat**
-
-<!-- Mover a introducción del siguiente capítulo? -->
-
-El paquete [`gstat`](https://r-spatial.github.io/gstat) permite la modelización geoestadística (univariante, Capítulo 3, y multivariante, Capítulo 5), espacial y espacio-temporal (Capítulo 6), incluyendo predicción y simulación (Capítulo 4 y secciones 5.X y 6.X). 
-
-
-```r
-library(gstat)
-```
-
-Este paquete implementa su propia estructura de datos (S3, basada en `data.frame`) pero también es compatible con los objetos `Spatial*` del paquete `sp` y los objetos de datos de los paquetes `sf` y `stars`.
-
-Para más información se pueden consultar la [referencia](https://r-spatial.github.io/gstat/reference/index.html), las viñetas del paquete:
-
-* [The meuse data set: a tutorial for the gstat R package](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf),
-* [Spatio-Temporal Geostatistics using gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf),
-* [Introduction to Spatio-Temporal Variography](https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf),
-
-el blog [r-spatial](https://r-spatial.org/) o las correspondientes publicaciones ([Pebesma, 2004](http://www.sciencedirect.com/science/article/pii/S0098300404000676); [Gräler, Pebesma y Heuvelink, 2016](https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf)).
-
-Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre ([Pebesma y Wesseling, 1998](http://www.sciencedirect.com/science/article/pii/S0098300497000824); basado en la librería [GSLIB](http://www.gslib.com), Deutsch y Journel, 1992).
-Puede resultar de interés consultar el [manual original](http://www.gstat.org/gstat.pdf) para información adicional sobre los detalles computacionales.
-
 
 <!-- 
 ## Referencias 
