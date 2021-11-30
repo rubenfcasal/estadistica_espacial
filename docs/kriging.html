@@ -25,14 +25,14 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-24" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"/>
+<link rel="prev" href="ajuste-variog.html"/>
 <link rel="next" href="introducción.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -165,7 +165,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Aprendizaje Estadístico</a></li>
+<li><a href="./">Estadística Espacial con R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
@@ -216,10 +216,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
-<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -317,13 +317,13 @@ knitr::purl("04-kriging.Rmd", documentation = 2)
 knitr::spin("04-kriging.R",knit = FALSE)
 -->
 <p><strong><em>En preparación…</em></strong></p>
-<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo <a href="multivar.html#multivar">5</a>).
+<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo <a href="multivar.html#multivar">5</a>).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).</p>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="12">
-<li id="fn12"><p>Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.<a href="kriging.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<ol start="14">
+<li id="fn14"><p>Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.<a href="kriging.html#fnref14" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -331,7 +331,7 @@ Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1
           </div>
         </div>
       </div>
-<a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ajuste-variog.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="introducción.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

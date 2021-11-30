@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-24" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -165,7 +165,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Aprendizaje Estadístico</a></li>
+<li><a href="./">Estadística Espacial con R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
@@ -216,10 +216,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
-<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -299,7 +299,7 @@ div.csl-indent {
 Sería deseable que su distribución fuese aproximadamente simétrica (de forma que los métodos
 basados en mínimos cuadrados sean adecuados).
 Si además la distribución es aproximadamente normal (después de eliminar la tendencia) tendría sentido emplear métodos basados en
-máxima verosimilitud (Sección <a href="ajuste-variog.html#ml-fit">3.3.2</a>).
+máxima verosimilitud (Sección <a href="ajuste-variog.html#ml-fit">3.3.3</a>).
 Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida
 (aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="sp-eda.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
@@ -361,10 +361,10 @@ ver Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>).</p>
 <div class="exercise">
 <p><span id="exr:descriptiva2" class="exercise"><strong>Ejercicio 2.5  (Análisis exploratorio con variables explicativas)  </strong></span>
 Realizar un análisis exploratorio del conjunto de datos <code>meuse_sf</code> (almacenado en
-el archivo <em>st_meuse.RData</em>; ver Figura @cite(fig:meuse-sf)) considerando como
+el archivo <em>st_meuse.RData</em>; ver Figura <a href="sf-intro.html#fig:meuse-sf">2.1</a>) considerando como
 respuesta la concentración de zinc y como variables explicativas, además de las
 coordenadas espaciales, las variables que comparte con la rejilla <code>meuse_grid</code>
-(y que se podrían emplear en la predicción kriging; Capítulo <a href="kriging.html#kriging">4</a>)</p>
+(y que se podrían emplear en la predicción kriging; Capítulo <a href="kriging.html#kriging">4</a>).</p>
 <p>Realizar también un análisis exploratorio multivariante, considerando la respuesta
 y el resto de variables explicativas (que podrían considerarse realizaciones de
 otros procesos espaciales y emplearlas para predicción multivariante, cokriging;

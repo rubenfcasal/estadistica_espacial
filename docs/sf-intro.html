@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-24" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -165,7 +165,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Aprendizaje Estadístico</a></li>
+<li><a href="./">Estadística Espacial con R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
@@ -216,10 +216,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
-<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -555,7 +555,7 @@ https://upload.wikimedia.org/wikipedia/commons/5/58/Latitud_y_Longitud_en_la_Tie
 </ul>
 <p>En <code>sf</code> se emplea la librería <a href="http://proj.org/">PRØJ</a> para definir el CRS y convertir coordenadas en distintos sistemas<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>.
 Para obtener o establecer el CRS se puede emplear la función <code>st_crs()</code>.
-Se puede especificar mediante una cadena de texto que admita <a href="https://gdal.org/tutorials/osr_api_tut.html">GDAL</a> (por ejemplo <code>"WGS84"</code>, que se corresponde con el <em>World Geodetic System 1984</em>), que típicamente es de la forma ESTÁNDAR:CÓDIGO.
+Se puede especificar mediante una cadena de texto que admita <a href="https://gdal.org/tutorials/osr_api_tut.html">GDAL</a> (por ejemplo <code>"WGS84"</code>, que se corresponde con el <em>World Geodetic System 1984</em>), que típicamente es de la forma ESTÁNDAR:CÓDIGO (también puede ser una cadena de texto <em>PROJ.4</em>).
 El estándar más empleado es el <a href="https://epsg.org">EPSG</a> (<em>European Petroleum Survey Group</em>), y es que que da por hecho el paquete <code>sf</code> cuando se especifica el CRS mediante un número.
 También admite el estándar <a href="http://www.opengeospatial.org/standards/wkt-crs">OGC WKT</a> (<em>Open Geospatial Consortium well-known text</em>) que es el que emplea internamente, pero resulta complicado manejar en la práctica.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="sf-intro.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>)</span></code></pre></div>
@@ -643,7 +643,7 @@ De todos modos habrá que emplear un sistema de coordenadas que permita calcular
 Figura 2.3: Ejemplo de gráfico generado empleando los paquetes <code>dplyr</code> y <code>ggplot2</code>.
 </p>
 </div>
-<p>Sin embargo, en estos apuntes se supone que no se está familiarizado con estas herramientas y se evitará su uso (aunque pueden resultar más cómodas después de su aprendizaje).
+<p>Sin embargo, en este libro se supone que no se está familiarizado con estas herramientas y se evitará su uso (aunque pueden resultar más cómodas después de su aprendizaje).
 Para una introducción a <a href="https://dplyr.tidyverse.org"><code>dplyr</code></a>, ver por ejemplo la viñeta <a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/dplyr.html">Introduction to dplyr</a>,
 el <a href="http://r4ds.had.co.nz/transform.html">Capítulo 5</a> del libro <a href="http://r4ds.had.co.nz">R for Data Science</a> o el <a href="https://gltaboada.github.io/tgdbook/dplyr.html">Capítulo 4</a> de los apuntes <a href="https://gltaboada.github.io/tgdbook">Prácticas de Tecnologías de Gestión y Manipulación de Datos</a>.</p>
 <p>No obstante, en ciertas ocasiones emplearemos el operador <em>pipe</em> <code>%&gt;%</code> (tubería, redirección) por comodidad.
@@ -657,7 +657,7 @@ Por ejemplo <code>segundo(primero(datos))</code> se traduce en <code>datos %&gt;
 <ol start="6">
 <li id="fn6"><p>Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.<a href="sf-intro.html#fnref6" class="footnote-back">↩︎</a></p></li>
 <li id="fn7"><p>Empleado en la <a href="https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf">viñeta</a> del paquete <code>gstat</code> con el paquete <code>sp</code>.<a href="sf-intro.html#fnref7" class="footnote-back">↩︎</a></p></li>
-<li id="fn8"><p>El paquete <code>sf</code> admite las últimas versiones PROJ 5 y 6, incluyendo el formato WKT-2 de 2019, mientras que el paquete <code>sp</code> está diseñado para cadenas <em>PROJ.4 string</em> que se recomiendan abandonar (las últimas versiones permiten añadir una cadena WKT2 como <code>comment</code>).<a href="sf-intro.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>El paquete <code>sf</code> admite las últimas versiones PROJ 5 y 6, incluyendo el formato WKT-2 de 2019, mientras que el paquete <code>sp</code> está diseñado para cadenas de texto <em>PROJ.4</em> que se recomiendan abandonar (las últimas versiones permiten añadir una cadena WKT2 como <code>comment</code>).<a href="sf-intro.html#fnref8" class="footnote-back">↩︎</a></p></li>
 <li id="fn9"><p>Algo que ya hace de forma automática el paquete <code>gstat</code>.<a href="sf-intro.html#fnref9" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

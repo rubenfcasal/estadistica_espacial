@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-24" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -165,7 +165,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Aprendizaje Estadístico</a></li>
+<li><a href="./">Estadística Espacial con R</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Prólogo</a></li>
@@ -216,10 +216,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>3.3</b> Ajuste de un modelo válido</a>
 <ul>
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
-<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.2</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.3</b> Comentarios sobre los distintos métodos</a></li>
+<li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
+<li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
+<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><a href="modelado-conjunto-de-la-tendencia-y-del-variograma.html"><i class="fa fa-check"></i><b>3.4</b> Modelado conjunto de la tendencia y del variograma</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -298,7 +298,7 @@ div.csl-indent {
 Entonces, si <span class="math inline">\(\mathbf{s}\)</span> varía dentro del conjunto índice <span class="math inline">\(D\subset \mathbb{R}^{d}\)</span> se obtiene el proceso espacial:
 <span class="math display">\[\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}\]</span>
 (también se suele denominar función aleatoria, campo espacial aleatorio o variable regionalizada).
-Una realización del proceso espacial se denotará por <span class="math inline">\(\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}\)</span>, pero normalmente solo se observará <span class="math inline">\(\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}\)</span> (una realización parcial) en <span class="math inline">\(n\)</span> posiciones espaciales.</p>
+Una realización del proceso espacial se denotará por <span class="math inline">\(\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}\)</span>, pero normalmente solo se observará <span class="math inline">\(\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}\)</span>, una realización parcial en <span class="math inline">\(n\)</span> posiciones espaciales.</p>
 <p>Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de las suposiciones acerca del dominio <span class="math inline">\(D\)</span>:</p>
 <ul>
 <li><p><strong>Procesos geoestadísticos</strong> (índice espacial continuo):
@@ -308,9 +308,9 @@ Un ejemplo claro sería la temperatura, aunque normalmente solo se dispone de da
 estaciones meteorológicas fijas, se podría observar en cualquier posición
 (y por tanto tiene sentido predecirla).</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:aquifer"></span>
-<img src="01-introduccion_files/figure-html/aquifer-1.png" alt="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (procedentes de un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." width="70%" />
+<img src="01-introduccion_files/figure-html/aquifer-1.png" alt="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." width="70%" />
 <p class="caption">
-Figura 1.1: Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (procedentes de un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).
+Figura 1.1: Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).
 </p>
 </div></li>
 <li><p><strong>Procesos reticulares/regionales</strong> (índice espacial discreto):
@@ -365,7 +365,7 @@ aunque también están disponibles otros, como por ejemplo <code>maptools</code>
 Entre ellos destacan el paquete <a href="https://CRAN.R-project.org/package=sp"><code>sp</code></a> <span class="citation"><a href="#ref-Bivand2013" role="doc-biblioref">Bivand et al.</a> (<a href="#ref-Bivand2013" role="doc-biblioref">2013</a>)</span> y el paquete <a href="https://r-spatial.github.io/sf"><code>sf</code></a> <span class="citation"><a href="#ref-Pebesma2021" role="doc-biblioref">E. Pebesma y Bivand</a> (<a href="#ref-Pebesma2021" role="doc-biblioref">2021</a>)</span>.
 Otros paquetes para la manipulación de datos que pueden ser de interés son: <a href="https://CRAN.R-project.org/package=raster"><code>raster</code></a>, <a href="https://CRAN.R-project.org/package=terra"><code>terra</code></a>, <a href="https://r-spatial.github.io/stars"><code>starts</code></a>, <a href="https://CRAN.R-project.org/package=rgdal"><code>rgdal</code></a> y <a href="https://CRAN.R-project.org/package=rgeos"><code>rgeos</code></a>, entre otros.
 En la Sección <a href="datos-tipos.html#datos-tipos">2.1</a> se incluye información adicional sobre estos paquetes.</p>
-<p>En estos apuntes emplearemos principalmente el paquete <code>gstat</code> para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete <code>geoR</code> en el Apéndice <a href="intro-geoR.html#intro-geoR">B</a>) y el paquete <code>sf</code> para la manipulación de datos espaciales (en el Apéndice <a href="intro-sp.html#intro-sp">A</a> se incluye una breve introducción a las clases <code>sp</code> para datos espaciales).</p>
+<p>En este libro emplearemos principalmente el paquete <code>gstat</code> para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete <code>geoR</code> en el Apéndice <a href="intro-geoR.html#intro-geoR">B</a>) y el paquete <code>sf</code> para la manipulación de datos espaciales (en el Apéndice <a href="intro-sp.html#intro-sp">A</a> se incluye una breve introducción a las clases <code>sp</code> para datos espaciales).</p>
 <!-- 
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
 -->

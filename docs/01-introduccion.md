@@ -46,7 +46,7 @@ Supongamos que $Z(\mathbf{s})$ es un valor aleatorio en la posición espacial $\
 Entonces, si $\mathbf{s}$ varía dentro del conjunto índice $D\subset \mathbb{R}^{d}$ se obtiene el proceso espacial:
 $$\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}$$ 
 (también se suele denominar función aleatoria, campo espacial aleatorio o variable regionalizada). 
-Una realización del proceso espacial se denotará por $\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}$, pero normalmente solo se observará $\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}$ (una realización parcial) en $n$ posiciones espaciales.
+Una realización del proceso espacial se denotará por $\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}$, pero normalmente solo se observará $\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}$, una realización parcial en $n$ posiciones espaciales.
 
 Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de las suposiciones acerca del dominio $D$: 
 
@@ -55,32 +55,24 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     positivo. El proceso puede ser observado de forma continua dentro del dominio.
     Un ejemplo claro sería la temperatura, aunque normalmente solo se dispone de datos en
     estaciones meteorológicas fijas, se podría observar en cualquier posición 
-    (y por tanto tiene sentido predecirla). [Figura \@ref(fig:aquifer)]
+    (y por tanto tiene sentido predecirla). 
 
-    \begin{figure}[!htb]
-    
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/aquifer-1} 
-    
-    }
-    
-    \caption{Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (procedentes de un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).}(\#fig:aquifer)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/aquifer-1.png" alt="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." width="70%" />
+    <p class="caption">(\#fig:aquifer)Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).</p>
+    </div>
 
 -   **Procesos reticulares/regionales** (índice espacial discreto):
     $D$ es un conjunto numerable de posiciones o regiones. El proceso solo puede ser 
     observado en determinadas posiciones. Es habitual que los datos se correspondan 
     con agregaciones (totales o valores medios) de una determinada zona (por ejemplo, 
     países, provincias, ayuntamientos, zonas sanitarias...). Son muy comunes en 
-    econometría o epidemiología. [Figura \@ref(fig:mortalidad)]
+    econometría o epidemiología. 
 
-    \begin{figure}[!htb]
-    
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/mortalidad-1} 
-    
-    }
-    
-    \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856)).}(\#fig:mortalidad)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/mortalidad-1.png" alt="Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856))." width="70%" />
+    <p class="caption">(\#fig:mortalidad)Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856)).</p>
+    </div>
     
 -   **Procesos/patrones puntuales** (índice espacial aleatorio):
     $D$ es un proceso puntual en $\mathbb{R}^{d}$. Las posiciones en las que se 
@@ -90,16 +82,12 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     se podría observar alguna otra característica (una marca; por ejemplo la altura o 
     el diámetro del árbol), es lo que se conoce como *proceso puntual marcado*. 
     Este tipo de datos son habituales en biología, ecología, criminología, etc. 
-    [Figura \@ref(fig:cholera)]
     
-    \begin{figure}[!htb]
     
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/cholera-1} 
-    
-    }
-    
-    \caption{Mapa (de John Snow) del brote de cólera de 1854 en Londres.}(\#fig:cholera)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/cholera-1.png" alt="Mapa (de John Snow) del brote de cólera de 1854 en Londres." width="70%" />
+    <p class="caption">(\#fig:cholera)Mapa (de John Snow) del brote de cólera de 1854 en Londres.</p>
+    </div>
         
 
 Nos centraremos en el caso de procesos geoestadísticos (también denominados procesos espaciales continuos). 
@@ -133,7 +121,7 @@ Entre ellos destacan el paquete [`sp`](https://CRAN.R-project.org/package=sp) [C
 Otros paquetes para la manipulación de datos que pueden ser de interés son: [`raster`](https://CRAN.R-project.org/package=raster), [`terra`](https://CRAN.R-project.org/package=terra), [`starts`](https://r-spatial.github.io/stars), [`rgdal`](https://CRAN.R-project.org/package=rgdal) y [`rgeos`](https://CRAN.R-project.org/package=rgeos), entre otros.
 En la Sección \@ref(datos-tipos) se incluye información adicional sobre estos paquetes.
 
-En estos apuntes emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
+En este libro emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
 
 <!-- 
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
@@ -326,14 +314,10 @@ Además del umbral, hay otras características geométricas del variograma (o de
 La Figura \@ref(fig:var-gen) ilustra las distintas características del semivariograma.
 
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.8\linewidth]{01-introduccion_files/figure-latex/var-gen-1} 
-
-}
-
-\caption{Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características.}(\#fig:var-gen)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="01-introduccion_files/figure-html/var-gen-1.png" alt="Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características." width="80%" />
+<p class="caption">(\#fig:var-gen)Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características.</p>
+</div>
 
 Siempre se verifica que $\gamma (\mathbf{0})=0$, sin embargo puede ser que:
 $$\lim \limits_{\mathbf{h}\rightarrow \mathbf{0}} \gamma(\mathbf{h}) = c_0 > 0.$$
@@ -420,7 +404,7 @@ Var\left( Z(B_1)-Z(B_2)\right) = & -\dfrac{1}{\left| B_1 \right| ^{2} }
  & +\dfrac{1}{\left| B_1 \right| \left| B_2 \right| } \int_{B_1 }\int_{B_2} 2\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}. 
 \end{aligned}$$
 
-Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en estos apuntes pueden ser extendidos para el caso de distintos soportes (por ejemplo el *block kriging* descrito en la Sección 4.X).
+Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el *block kriging* descrito en la Sección 4.X).
 Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el *modifiable areal unit problem*, MAUP).
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
