@@ -46,7 +46,7 @@ Supongamos que $Z(\mathbf{s})$ es un valor aleatorio en la posición espacial $\
 Entonces, si $\mathbf{s}$ varía dentro del conjunto índice $D\subset \mathbb{R}^{d}$ se obtiene el proceso espacial:
 $$\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}$$ 
 (también se suele denominar función aleatoria, campo espacial aleatorio o variable regionalizada). 
-Una realización del proceso espacial se denotará por $\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}$, pero normalmente solo se observará $\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}$ (una realización parcial) en $n$ posiciones espaciales.
+Una realización del proceso espacial se denotará por $\left\{ z(\mathbf{s}) : \mathbf{s} \in D \right\}$, pero normalmente solo se observará $\{z(\mathbf{s}_1), z(\mathbf{s}_2), \ldots, z(\mathbf{s}_n)\}$, una realización parcial en $n$ posiciones espaciales.
 
 Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de las suposiciones acerca del dominio $D$: 
 
@@ -57,7 +57,7 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     estaciones meteorológicas fijas, se podría observar en cualquier posición 
     (y por tanto tiene sentido predecirla). `r latexfig("aquifer")`
 
-    ```{r aquifer, echo=FALSE, fig.cap="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (procedentes de un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." }
+    ```{r aquifer, echo=FALSE, fig.cap="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." }
     old.par <- par(mar = c(bottom = 5, left = 4, top = 2, right = 2))
     load("datos/aquifer.RData")
     with(aquifer, plot3D::points2D(lon, lat, colvar = head/100,         
@@ -164,7 +164,7 @@ Entre ellos destacan el paquete `r citepkg("sp")` [Classes and methods for spati
 Otros paquetes para la manipulación de datos que pueden ser de interés son: `r citepkg("raster")`, `r citepkg("terra")`, `r citepkg("starts", "https://r-spatial.github.io/stars")`, `r citepkg("rgdal")` y `r citepkg("rgeos")`, entre otros.
 En la Sección \@ref(datos-tipos) se incluye información adicional sobre estos paquetes.
 
-En estos apuntes emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
+En este libro emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
 
 <!-- 
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
@@ -482,7 +482,7 @@ Var\left( Z(B_1)-Z(B_2)\right) = & -\dfrac{1}{\left| B_1 \right| ^{2} }
  & +\dfrac{1}{\left| B_1 \right| \left| B_2 \right| } \int_{B_1 }\int_{B_2} 2\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}. 
 \end{aligned}$$
 
-Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en estos apuntes pueden ser extendidos para el caso de distintos soportes (por ejemplo el *block kriging* descrito en la Sección 4.X).
+Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el *block kriging* descrito en la Sección 4.X).
 Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el *modifiable areal unit problem*, MAUP).
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
