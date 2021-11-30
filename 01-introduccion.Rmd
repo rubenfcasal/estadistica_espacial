@@ -220,13 +220,13 @@ En general, cuando se considera que la componente espacial (o espacio-temporal) 
 
 Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal. 
 Si $\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}$ es un proceso espacial, podemos suponer que:
-$$Z(\mathbf{s})=\sum\limits_{j=0}^{p}x_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,$$
-(un caso particular del modelo general \@ref(eq:modelogeneral)), donde $\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}$ es un vector desconocido, $\left\{ x_{j} (\cdot):j=0, \ldots,p\right\}$ un conjunto de variables explicativas (típicamente $x_0(\cdot)=1$) y $\varepsilon(\cdot)$ un proceso de media cero incorrelado (i.e. $Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0$ si $\mathbf{u}\neq \mathbf{v}$) con $Var(\varepsilon (\mathbf{s}))=\sigma^{2}$.
+$$Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,$$
+(un caso particular del modelo general \@ref(eq:modelogeneral)), donde $\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}$ es un vector desconocido, $\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}$ un conjunto de variables explicativas (típicamente $X_0(\cdot)=1$) y $\varepsilon(\cdot)$ un proceso de media cero incorrelado (i.e. $Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0$ si $\mathbf{u}\neq \mathbf{v}$) con $Var(\varepsilon (\mathbf{s}))=\sigma^{2}$.
 
 Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la *variación de gran escala* $\boldsymbol{\beta}$, a partir de los datos observados en un conjunto de posiciones espaciales $\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}$.
 Bajo las hipótesis anteriores:
 $$\mathbf{Z} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},$$ 
-siendo $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}$, $\mathbf{X}$ una matriz $n\times (p+1)$ con $X_{ij}=x_{j-1}(\mathbf{s}_{i})$ y $\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}$; y el estimador lineal insesgado de $\boldsymbol{\beta}$ más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, *ordinary least squares*):
+siendo $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}$, $\mathbf{X}$ una matriz $n\times (p+1)$ con $X_{ij}=X_{j-1}(\mathbf{s}_{i})$ y $\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}$; y el estimador lineal insesgado de $\boldsymbol{\beta}$ más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, *ordinary least squares*):
 \begin{equation} 
   \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
   (\#eq:beta-ols)
@@ -251,14 +251,14 @@ Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^
 resultando además que $Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )$ es una matriz semidefinida positiva (e.g. Searle, 1971, Sección 3.3). 
 
 En muchos casos el objetivo final es la predicción del proceso en una posición espacial $\mathbf{s}_{0}$:
-$$Z(\mathbf{s}_{0} )=\mathbf{x}^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),$$ 
-donde $\mathbf{x}=\left( x_{0} (\mathbf{s}_{0} ), \ldots,x_{p} (\mathbf{s}_{0})\right)^{\top}$. 
-Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}^{\top}\hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
+$$Z(\mathbf{s}_{0} )=\mathbf{x}_0^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),$$ 
+donde $\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0})\right)^{\top}$. 
+Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
 $$\hat{Z} (\mathbf{s}_{0})=\mathbf{x^{\top}}\hat{\boldsymbol{\beta}}_{gls},$$ 
 sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
 \begin{equation} 
-  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
+  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   (\#eq:predictor-kriging)
 \end{equation}
 <!-- \@ref(eq:predictor-kriging) -->
@@ -270,14 +270,14 @@ Naturalmente, si se ignora por completo la dependencia y se emplea únicamente e
 Teniendo en cuenta los resultados anteriores podemos afirmar que al explotar la dependencia presente en los datos el incremento en eficiencia puede ser importante. 
 Sin embargo el principal inconveniente es que en la práctica normalmente la matriz $\Sigma$ y el vector $\mathbf{c}$ son desconocidos. 
 El procedimiento habitual, para evitar la estimación de $n+n(n+1)/2$ parámetros adicionales a partir del
-conjunto de $n$ observaciones, suele ser la elección de un modelo paramétrico adecuado:
+conjunto de $n$ observaciones, suele ser la elección de un modelo paramétrico adecuado (ver Sección \@ref(modelos-parametricos)):
 $$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )\equiv Cov\left( \varepsilon (\mathbf{u}),\varepsilon (\mathbf{v})\right),$$
 i.e. suponer que $\Sigma \equiv \Sigma\left( \boldsymbol{\theta}\right)$ y $\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)$. 
 Una hipótesis natural es suponer que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos; por tanto es normal pensar en errores espacialmente correlados. 
 Por ejemplo, podemos considerar:
 $$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )=\sigma^{2} \rho^{\left\| \mathbf{u}-\mathbf{v}\right\| },$$
 con $\sigma^{2} \geq 0$ y $0<\rho <1$. 
-De esta forma, si $\hat{\boldsymbol{\theta}}$ es un estimador de $\boldsymbol{\theta}$, podemos obtener por ejemplo una aproximación del predictor óptimo de $Z(\mathbf{s}_{0} )$ sustituyendo en \@ref(eq:predictor-kriging) $\Sigma(\boldsymbol{\theta})$ por $\Sigma(\hat{\boldsymbol{\theta}} )$ y $\mathbf{c}(\boldsymbol{\theta})$ por $\mathbf{c}(\hat{\boldsymbol{\theta}} )$.
+De esta forma, si $\hat{\boldsymbol{\theta}}$ es un estimador de $\boldsymbol{\theta}$ (ver Sección \@ref(ajuste-variog)), podemos obtener por ejemplo una aproximación del predictor óptimo de $Z(\mathbf{s}_{0} )$ sustituyendo en \@ref(eq:predictor-kriging) $\Sigma(\boldsymbol{\theta})$ por $\Sigma(\hat{\boldsymbol{\theta}} )$ y $\mathbf{c}(\boldsymbol{\theta})$ por $\mathbf{c}(\hat{\boldsymbol{\theta}} )$.
 
 
 ### Ventajas de la aproximación espacial (y espacio-temporal)
