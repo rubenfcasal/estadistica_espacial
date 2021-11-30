@@ -159,7 +159,9 @@ los datos frente a las coordenadas y un histograma de los datos:
 plot(wolfcamp)
 ```
 
-<img src="12-geor_files/figure-html/plot-geo1-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo1-1} \end{center}
 
 Los gráficos de dispersión de los datos frente a las coordenadas nos pueden ayudar
 a determinar si hay una tendencia. También, en lugar del histograma, 
@@ -170,7 +172,9 @@ nos puede interesar un gráfico de dispersión 3D
 plot(wolfcamp, lowess = TRUE, scatter3d = TRUE) 
 ```
 
-<img src="12-geor_files/figure-html/plot-geo2-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo2-1} \end{center}
 
 Si se asume que hay una tendencia puede interesar eliminarla:
 
@@ -179,7 +183,9 @@ Si se asume que hay una tendencia puede interesar eliminarla:
 plot(wolfcamp, trend=~coords)
 ```
 
-<img src="12-geor_files/figure-html/plot-geo3-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo3-1} \end{center}
 
 El comando `points(geodata)` (función `points.geodata`) genera un gráfico con
 las posiciones de los datos (y por defecto con el tamaño de los puntos proporcional
@@ -190,7 +196,9 @@ al valor):
 points(wolfcamp)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 Se pueden establecer los tamaños de los puntos, simbolos y colores a
 partir de los valores de los datos. Por ejemplo, para los puntos, empleando el argumento:
@@ -202,7 +210,9 @@ partir de los valores de los datos. Por ejemplo, para los puntos, empleando el a
 points(wolfcamp, col = "gray", pt.divide = "equal")
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 
 ## Modelado de la dependencia
@@ -240,7 +250,9 @@ summary(s100)
 plot(s100)
 ```
 
-<img src="12-geor_files/figure-html/plot-s100-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-s100-1} \end{center}
 
 En el último apartado se tratará el caso general.
 
@@ -267,7 +279,9 @@ plot(variog(s100, max.dist = 0.6))
 ## variog: computing omnidirectional variogram
 ```
 
-<img src="12-geor_files/figure-html/plot-variog1-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog1-1} \end{center}
 
 ```r
 par(oldpar)
@@ -352,7 +366,9 @@ title("Gráficos de cajas") # Corregir fallo del comando anterior
 plot(vario.s, main="Variograma suavizado")
 ```
 
-<img src="12-geor_files/figure-html/plot-variog2-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog2-1} \end{center}
 
 ```r
 par(oldpar) # Restaurar opciones de gráficos
@@ -387,7 +403,9 @@ plot(vario.bc, bin.cloud=TRUE)
 plot(varior.bc, bin.cloud=TRUE)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog3-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog3-1} \end{center}
 
 ```r
 par(oldpar) #Restaurar opciones de gráficos
@@ -436,7 +454,9 @@ title(main = expression(paste("direccional, angulo = ", 60 * degree)))
 plot(vario.4, lwd = 2)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog4-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog4-1} \end{center}
 
 ```r
 par(oldpar)
@@ -493,7 +513,9 @@ lines.variomodel(cov.model = "exp", cov.pars = c(1,0.3), nugget = 0, max.dist = 
 legend(0.3, 0.3, c("empirico", "suavizado", "modelo exponencial"), lty = c(1, 2, 1), lwd = c(1, 1, 3))
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 Otros ajustes:
 
@@ -505,7 +527,9 @@ lines.variomodel(cov.model = "mat", cov.pars = c(0.85,0.2), nug = 0.1, kappa = 1
 lines.variomodel(cov.model = "sph", cov.pars = c(0.8,0.8), nug = 0.1, max.dist = 0.6, lwd = 2)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 Nota: no hace falta escribir el nombre completo de los parámetros
 (basta con que no dé lugar a confusión).
@@ -778,7 +802,9 @@ lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
 legend(0.3, 0.3, legend = c("ML", "REML", "OLS", "WLS"), lty = c(1, 1, 2, 2), lwd = c(1, 2,1, 2)) 
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 
 ### Inferencia sobre el variograma
@@ -824,7 +850,9 @@ plot(vario.b, envelope = env.model)
 lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog-env-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog-env-1} \end{center}
 
 ```r
 par(oldpar) 	
@@ -857,7 +885,9 @@ sm.variogram(s100$coords, s100$data, model = "independent")
 ## Test of spatial independence: p =  0.024
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 **Nota**: Se puede realizar contrastes adicionales estableciendo el parámetro `model`
 a `"isotropic"` o `"stationary"`.
@@ -886,7 +916,9 @@ plot(variog(wolfcamp, trend = ~coords, max.dist = 200)) # Asume una tendencia li
 ## variog: computing omnidirectional variogram
 ```
 
-<img src="12-geor_files/figure-html/plot-variog-wolf-1.png" width="80%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.8\linewidth]{12-geor_files/figure-latex/plot-variog-wolf-1} \end{center}
 
 ```r
 par(oldpar)
@@ -928,7 +960,9 @@ plot(s100$coords, pch = 20, asp = 1)
 points(pred.grid, pch = 3, cex = 0.2)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 El comando para realizar kriging ordinario con variograma `vario.wls`
 sería:
@@ -972,14 +1006,18 @@ image(ko.wls, coords.data=s100$coords, main = "Superficie de predicciones")
 contour(ko.wls, add = TRUE) #añadir gráfico de contorno
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-22-1} \end{center}
 
 ```r
 image(ko.wls, coords.data=s100$coords, values = sqrt(ko.wls$krige.var), main = "Superficie de err. std. kriging") 
 contour(ko.wls, values = sqrt(ko.wls$krige.var), add = TRUE)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-22-2.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-22-2} \end{center}
 
 ```r
 # par(oldpar)
@@ -992,14 +1030,18 @@ Otras opciones:
 contour(ko.wls,filled = TRUE)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 ```r
 fcol <- topo.colors(10)[cut(matrix(ko.wls$pred,nrow=51,ncol=51)[-1,-1],10,include.lowest=TRUE)]
 persp(ko.wls, theta=-60, phi=40, col=fcol)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-2.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-2} \end{center}
 
 ```r
 if(!require(plot3D)) 
@@ -1014,7 +1056,9 @@ if(!require(plot3D))
 persp3D(xx, yy, matrix(ko.wls$predict, nrow = length(xx)), theta=-60, phi=40)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-3.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-3} \end{center}
 
 ```r
 if(!require(npsp)) {
@@ -1047,7 +1091,9 @@ if(!require(npsp)) {
 ##     binning
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-4.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-4} \end{center}
 
 
 ### Validación cruzada
@@ -1126,7 +1172,9 @@ oldpar <- par(mfrow = c(2, 5), mar = c(bottom = 4.5, left = 4, top = 2, right = 
 plot(xv.wls, ask = FALSE)
 ```
 
-<img src="12-geor_files/figure-html/plot-xvalid-1.png" width="100%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth]{12-geor_files/figure-latex/plot-xvalid-1} \end{center}
 
 ```r
 par(oldpar)
