@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -353,7 +353,7 @@ empíricas o robustas (<code>cressie = TRUE</code>), además de otras posibilida
 <span id="cb67-6"><a href="vario-muestrales.html#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="co"># maxlag &lt;- 0.5*sqrt(sum(diff(matrix(st_bbox(datos), nrow = 2, byrow = TRUE))^2))</span></span>
 <span id="cb67-7"><a href="vario-muestrales.html#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vario)</span></code></pre></div>
 <pre><code>## [1] &quot;np&quot;      &quot;dist&quot;    &quot;gamma&quot;   &quot;dir.hor&quot; &quot;dir.ver&quot; &quot;id&quot;</code></pre>
-<p>NOTA: La componente <code>dist</code> contiene los saltos, <code>gamma</code> las estimaciones del semivariograma (semivarianzas) y <code>np</code> el número de aportaciones.</p>
+<p>En el resultado, la componente <code>dist</code> contiene los saltos, <code>gamma</code> las estimaciones del semivariograma (o las semivarianzas) y <code>np</code> el número de aportaciones.</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="vario-muestrales.html#cb69-1" aria-hidden="true" tabindex="-1"></a>rvario.cloud <span class="ot">&lt;-</span> <span class="fu">variogram</span>(z <span class="sc">~</span> <span class="dv">1</span>, datos, <span class="at">cloud =</span> <span class="cn">TRUE</span>, <span class="at">cressie =</span> <span class="cn">TRUE</span>, <span class="at">cutoff =</span> <span class="fl">0.6</span>)</span>
 <span id="cb69-2"><a href="vario-muestrales.html#cb69-2" aria-hidden="true" tabindex="-1"></a>rvario <span class="ot">&lt;-</span> <span class="fu">variogram</span>(z <span class="sc">~</span> <span class="dv">1</span>, datos, <span class="at">cloud =</span> <span class="cn">FALSE</span>, <span class="at">cressie =</span> <span class="cn">TRUE</span>, <span class="at">cutoff =</span> <span class="fl">0.6</span>)</span>
 <span id="cb69-3"><a href="vario-muestrales.html#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Representar</span></span>
@@ -368,7 +368,7 @@ empíricas o robustas (<code>cressie = TRUE</code>), además de otras posibilida
 <span id="cb69-12"><a href="vario-muestrales.html#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(rvario, <span class="fu">points</span>(dist, gamma, <span class="at">pch =</span> <span class="dv">19</span>))</span></code></pre></div>
 <p><img src="03-modelado_files/figure-html/vario-rvario-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="vario-muestrales.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
-<p>Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (robustas, con una distribución más próxima a la normalidad):</p>
+<p>Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad):</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="vario-muestrales.html#cb71-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(rvario.cloud)</span>
 <span id="cb71-2"><a href="vario-muestrales.html#cb71-2" aria-hidden="true" tabindex="-1"></a>boundaries <span class="ot">&lt;-</span> <span class="fu">attr</span>(rvario, <span class="st">&quot;boundaries&quot;</span>)</span>
 <span id="cb71-3"><a href="vario-muestrales.html#cb71-3" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>lag <span class="ot">&lt;-</span> <span class="fu">cut</span>(res<span class="sc">$</span>dist, <span class="at">breaks =</span> boundaries, <span class="at">labels =</span> <span class="fu">seq_len</span>(<span class="fu">length</span>(boundaries)<span class="sc">-</span><span class="dv">1</span>))</span>
@@ -391,7 +391,12 @@ Estableciendo <code>model = "independent"</code> devuelve un p-valor para contra
 <pre><code>## Package &#39;sm&#39;, version 2.2-5.6: type help(sm) for summary information</code></pre>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="vario-muestrales.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sm.variogram</span>(s100<span class="sc">$</span>coords, s100<span class="sc">$</span>data, <span class="at">model =</span> <span class="st">&quot;independent&quot;</span>)</span></code></pre></div>
 <pre><code>## Test of spatial independence: p =  0.024</code></pre>
-<p><img src="03-modelado_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sm-variogram"></span>
+<img src="03-modelado_files/figure-html/sm-variogram-1.png" alt="Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente." width="70%" />
+<p class="caption">
+Figura 3.1: Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.
+</p>
+</div>
 <!-- Además de realizar el contraste, genera un gráfico con el estimador y una envolvente (*envelope*, i.e. valores máximos y mínimos aproximados por simulación), obtenida mediante permutaciones aleatorias de los datos sobre las posiciones espaciales (si las estimaciones están dentro de la envolvente indicaría que aparentemente no hay correlación espacial). -->
 <p>También se puede realizar contrastes adicionales estableciendo el parámetro <code>model</code> a <code>"isotropic"</code> o <code>"stationary"</code>.</p>
 </div>

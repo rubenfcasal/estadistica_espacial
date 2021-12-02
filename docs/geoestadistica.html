@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -321,7 +321,10 @@ Se podrían considerar un modelo aún más general heterocedástico (ver Fernán
 <p>En general, cuando se considera que la componente espacial (o espacio-temporal) puede ser importante en el modelado y el análisis de los datos es necesaria una aproximación estadística distinta a la tradicionalmente usada.</p>
 <p>Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal.
 Si <span class="math inline">\(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}\)</span> es un proceso espacial, podemos suponer que:
-<span class="math display">\[Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,\]</span>
+<span class="math display" id="eq:modelolineal">\[\begin{equation}
+  Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,
+  \tag{1.2}
+\end{equation}\]</span> <!-- \@ref(eq:modelolineal) -->
 (un caso particular del modelo general <a href="geoestadistica.html#eq:modelogeneral">(1.1)</a>), donde <span class="math inline">\(\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}\)</span> es un vector desconocido, <span class="math inline">\(\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}\)</span> un conjunto de variables explicativas (típicamente <span class="math inline">\(X_0(\cdot)=1\)</span>) y <span class="math inline">\(\varepsilon(\cdot)\)</span> un proceso de media cero incorrelado (i.e. <span class="math inline">\(Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0\)</span> si <span class="math inline">\(\mathbf{u}\neq \mathbf{v}\)</span>) con <span class="math inline">\(Var(\varepsilon (\mathbf{s}))=\sigma^{2}\)</span>.</p>
 <p>Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la <em>variación de gran escala</em> <span class="math inline">\(\boldsymbol{\beta}\)</span>, a partir de los datos observados en un conjunto de posiciones espaciales <span class="math inline">\(\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}\)</span>.
 Bajo las hipótesis anteriores:
@@ -329,34 +332,34 @@ Bajo las hipótesis anteriores:
 siendo <span class="math inline">\(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}\)</span>, <span class="math inline">\(\mathbf{X}\)</span> una matriz <span class="math inline">\(n\times (p+1)\)</span> con <span class="math inline">\(X_{ij}=X_{j-1}(\mathbf{s}_{i})\)</span> y <span class="math inline">\(\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}\)</span>; y el estimador lineal insesgado de <span class="math inline">\(\boldsymbol{\beta}\)</span> más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, <em>ordinary least squares</em>):
 <span class="math display" id="eq:beta-ols">\[\begin{equation} 
   \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
-  \tag{1.2}
+  \tag{1.3}
 \end{equation}\]</span>
 <!-- \@ref(eq:beta-ols) -->
 con <span class="math display">\[Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(\mathbf{X}^{\top}\mathbf{X})^{-1}.\]</span></p>
 <p>Sin embargo la suposición de que los errores son independientes e idénticamente distribuidos influye crucialmente en la inferencia.
 En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
-<span class="math display">\[Var\left( \boldsymbol{\varepsilon} \right) =\Sigma,\]</span>
+<span class="math display">\[Var\left( \boldsymbol{\varepsilon} \right) =\boldsymbol{\Sigma},\]</span>
 obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de <span class="math inline">\(\boldsymbol{\beta}\)</span> es el estimador de mínimos cuadrados generalizados (GLS, <em>generalized least squares</em>):
 <span class="math display" id="eq:beta-gls">\[\begin{equation} 
-  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\Sigma^{-1} \mathbf{Z}.
-  \tag{1.3}
+  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z}.
+  \tag{1.4}
 \end{equation}\]</span>
 <!-- \@ref(eq:beta-gls) --></p>
-<p>Si <span class="math inline">\(\Sigma=\sigma^{2} \mathbf{I}_{n}\)</span>, siendo <span class="math inline">\(\mathbf{I}_{n}\)</span> la matriz identidad <span class="math inline">\(n\times n\)</span>, los estimadores <a href="geoestadistica.html#eq:beta-ols">(1.2)</a> y <a href="geoestadistica.html#eq:beta-gls">(1.3)</a> coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes.
+<p>Si <span class="math inline">\(\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}\)</span>, siendo <span class="math inline">\(\mathbf{I}_{n}\)</span> la matriz identidad <span class="math inline">\(n\times n\)</span>, los estimadores <a href="geoestadistica.html#eq:beta-ols">(1.3)</a> y <a href="geoestadistica.html#eq:beta-gls">(1.4)</a> coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes.
 Puede verse fácilmente que en el caso general:
-<span class="math display">\[Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1}, \\
-Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\Sigma\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},\]</span>
+<span class="math display">\[Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}, \\
+Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\boldsymbol{\Sigma}\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},\]</span>
 resultando además que <span class="math inline">\(Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )\)</span> es una matriz semidefinida positiva (e.g. Searle, 1971, Sección 3.3).</p>
 <p>En muchos casos el objetivo final es la predicción del proceso en una posición espacial <span class="math inline">\(\mathbf{s}_{0}\)</span>:
 <span class="math display">\[Z(\mathbf{s}_{0} )=\mathbf{x}_0^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),\]</span>
 donde <span class="math inline">\(\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0})\right)^{\top}\)</span>.
-Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia <span class="math inline">\(\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{ols}\)</span> (el predictor óptimo de un error independiente sería cero).
+Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia <span class="math inline">\(\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{ols}\)</span> (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
-<span class="math display">\[\hat{Z} (\mathbf{s}_{0})=\mathbf{x^{\top}}\hat{\boldsymbol{\beta}}_{gls},\]</span>
+<span class="math display">\[\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},\]</span>
 sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
 <span class="math display" id="eq:predictor-kriging">\[\begin{equation} 
-  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
-  \tag{1.4}
+  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
+  \tag{1.5}
 \end{equation}\]</span>
 <!-- \@ref(eq:predictor-kriging) -->
 (el denominado predictor del <em>kriging universal</em>, Sección 4.X), siendo
@@ -364,16 +367,16 @@ sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 19
 y la diferencia <span class="math inline">\(Var( \hat{Z} (\mathbf{s}_{0} ) ) - Var( \tilde{Z} (\mathbf{s}_{0} ) ) \ge 0\)</span> puede ser significativamente mayor que cero<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> (si la dependencia espacial no es muy débil).
 Naturalmente, si se ignora por completo la dependencia y se emplea únicamente el estimador <span class="math inline">\(\hat{\boldsymbol{\beta}}_{ols}\)</span> disminuye aún más la eficiencia de las predicciones.</p>
 <p>Teniendo en cuenta los resultados anteriores podemos afirmar que al explotar la dependencia presente en los datos el incremento en eficiencia puede ser importante.
-Sin embargo el principal inconveniente es que en la práctica normalmente la matriz <span class="math inline">\(\Sigma\)</span> y el vector <span class="math inline">\(\mathbf{c}\)</span> son desconocidos.
+Sin embargo el principal inconveniente es que en la práctica normalmente la matriz <span class="math inline">\(\boldsymbol{\Sigma}\)</span> y el vector <span class="math inline">\(\mathbf{c}\)</span> son desconocidos.
 El procedimiento habitual, para evitar la estimación de <span class="math inline">\(n+n(n+1)/2\)</span> parámetros adicionales a partir del
 conjunto de <span class="math inline">\(n\)</span> observaciones, suele ser la elección de un modelo paramétrico adecuado (ver Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>):
 <span class="math display">\[C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )\equiv Cov\left( \varepsilon (\mathbf{u}),\varepsilon (\mathbf{v})\right),\]</span>
-i.e. suponer que <span class="math inline">\(\Sigma \equiv \Sigma\left( \boldsymbol{\theta}\right)\)</span> y <span class="math inline">\(\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)\)</span>.
+i.e. suponer que <span class="math inline">\(\boldsymbol{\Sigma} \equiv \boldsymbol{\Sigma}\left( \boldsymbol{\theta}\right)\)</span> y <span class="math inline">\(\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)\)</span>.
 Una hipótesis natural es suponer que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos; por tanto es normal pensar en errores espacialmente correlados.
 Por ejemplo, podemos considerar:
 <span class="math display">\[C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )=\sigma^{2} \rho^{\left\| \mathbf{u}-\mathbf{v}\right\| },\]</span>
 con <span class="math inline">\(\sigma^{2} \geq 0\)</span> y <span class="math inline">\(0&lt;\rho &lt;1\)</span>.
-De esta forma, si <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es un estimador de <span class="math inline">\(\boldsymbol{\theta}\)</span> (ver Sección <a href="ajuste-variog.html#ajuste-variog">3.3</a>), podemos obtener por ejemplo una aproximación del predictor óptimo de <span class="math inline">\(Z(\mathbf{s}_{0} )\)</span> sustituyendo en <a href="geoestadistica.html#eq:predictor-kriging">(1.4)</a> <span class="math inline">\(\Sigma(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\Sigma(\hat{\boldsymbol{\theta}} )\)</span> y <span class="math inline">\(\mathbf{c}(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\mathbf{c}(\hat{\boldsymbol{\theta}} )\)</span>.</p>
+De esta forma, si <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es un estimador de <span class="math inline">\(\boldsymbol{\theta}\)</span> (ver Sección <a href="ajuste-variog.html#ajuste-variog">3.3</a>), podemos obtener por ejemplo una aproximación del predictor óptimo de <span class="math inline">\(Z(\mathbf{s}_{0} )\)</span> sustituyendo en <a href="geoestadistica.html#eq:predictor-kriging">(1.5)</a> <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\boldsymbol{\Sigma}(\hat{\boldsymbol{\theta}} )\)</span> y <span class="math inline">\(\mathbf{c}(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\mathbf{c}(\hat{\boldsymbol{\theta}} )\)</span>.</p>
 </div>
 <div id="ventajas-de-la-aproximación-espacial-y-espacio-temporal" class="section level3" number="1.2.2">
 <h3><span class="header-section-number">1.2.2</span> Ventajas de la aproximación espacial (y espacio-temporal)</h3>

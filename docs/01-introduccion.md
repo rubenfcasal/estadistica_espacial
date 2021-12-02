@@ -189,7 +189,10 @@ En general, cuando se considera que la componente espacial (o espacio-temporal) 
 
 Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal. 
 Si $\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}$ es un proceso espacial, podemos suponer que:
-$$Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,$$
+\begin{equation}
+  Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,
+  (\#eq:modelolineal)
+\end{equation} <!-- \@ref(eq:modelolineal) -->
 (un caso particular del modelo general \@ref(eq:modelogeneral)), donde $\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}$ es un vector desconocido, $\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}$ un conjunto de variables explicativas (típicamente $X_0(\cdot)=1$) y $\varepsilon(\cdot)$ un proceso de media cero incorrelado (i.e. $Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0$ si $\mathbf{u}\neq \mathbf{v}$) con $Var(\varepsilon (\mathbf{s}))=\sigma^{2}$.
 
 Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la *variación de gran escala* $\boldsymbol{\beta}$, a partir de los datos observados en un conjunto de posiciones espaciales $\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}$.
@@ -205,29 +208,29 @@ con $$Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(\mathbf{X}^{\top}\mathbf{X}
 
 Sin embargo la suposición de que los errores son independientes e idénticamente distribuidos influye crucialmente en la inferencia. 
 En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
-$$Var\left( \boldsymbol{\varepsilon} \right) =\Sigma,$$
+$$Var\left( \boldsymbol{\varepsilon} \right) =\boldsymbol{\Sigma},$$
 obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de $\boldsymbol{\beta}$ es el estimador de mínimos cuadrados generalizados (GLS, *generalized least squares*):
 \begin{equation} 
-  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\Sigma^{-1} \mathbf{Z}.
+  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z}.
   (\#eq:beta-gls)
 \end{equation}
 <!-- \@ref(eq:beta-gls) -->
 
-Si $\Sigma=\sigma^{2} \mathbf{I}_{n}$, siendo $\mathbf{I}_{n}$ la matriz identidad $n\times n$, los estimadores \@ref(eq:beta-ols) y \@ref(eq:beta-gls) coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes. 
+Si $\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}$, siendo $\mathbf{I}_{n}$ la matriz identidad $n\times n$, los estimadores \@ref(eq:beta-ols) y \@ref(eq:beta-gls) coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes. 
 Puede verse fácilmente que en el caso general:
-$$Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1}, \\
-Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\Sigma\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},$$
+$$Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}, \\
+Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\boldsymbol{\Sigma}\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},$$
 resultando además que $Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )$ es una matriz semidefinida positiva (e.g. Searle, 1971, Sección 3.3). 
 
 En muchos casos el objetivo final es la predicción del proceso en una posición espacial $\mathbf{s}_{0}$:
 $$Z(\mathbf{s}_{0} )=\mathbf{x}_0^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),$$ 
 donde $\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0})\right)^{\top}$. 
-Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
+Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
-$$\hat{Z} (\mathbf{s}_{0})=\mathbf{x^{\top}}\hat{\boldsymbol{\beta}}_{gls},$$ 
+$$\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},$$ 
 sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
 \begin{equation} 
-  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
+  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   (\#eq:predictor-kriging)
 \end{equation}
 <!-- \@ref(eq:predictor-kriging) -->
@@ -237,16 +240,16 @@ y la diferencia $Var( \hat{Z} (\mathbf{s}_{0} ) ) - Var( \tilde{Z} (\mathbf{s}_{
 Naturalmente, si se ignora por completo la dependencia y se emplea únicamente el estimador $\hat{\boldsymbol{\beta}}_{ols}$ disminuye aún más la eficiencia de las predicciones.
 
 Teniendo en cuenta los resultados anteriores podemos afirmar que al explotar la dependencia presente en los datos el incremento en eficiencia puede ser importante. 
-Sin embargo el principal inconveniente es que en la práctica normalmente la matriz $\Sigma$ y el vector $\mathbf{c}$ son desconocidos. 
+Sin embargo el principal inconveniente es que en la práctica normalmente la matriz $\boldsymbol{\Sigma}$ y el vector $\mathbf{c}$ son desconocidos. 
 El procedimiento habitual, para evitar la estimación de $n+n(n+1)/2$ parámetros adicionales a partir del
 conjunto de $n$ observaciones, suele ser la elección de un modelo paramétrico adecuado (ver Sección \@ref(modelos-parametricos)):
 $$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )\equiv Cov\left( \varepsilon (\mathbf{u}),\varepsilon (\mathbf{v})\right),$$
-i.e. suponer que $\Sigma \equiv \Sigma\left( \boldsymbol{\theta}\right)$ y $\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)$. 
+i.e. suponer que $\boldsymbol{\Sigma} \equiv \boldsymbol{\Sigma}\left( \boldsymbol{\theta}\right)$ y $\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)$. 
 Una hipótesis natural es suponer que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos; por tanto es normal pensar en errores espacialmente correlados. 
 Por ejemplo, podemos considerar:
 $$C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )=\sigma^{2} \rho^{\left\| \mathbf{u}-\mathbf{v}\right\| },$$
 con $\sigma^{2} \geq 0$ y $0<\rho <1$. 
-De esta forma, si $\hat{\boldsymbol{\theta}}$ es un estimador de $\boldsymbol{\theta}$ (ver Sección \@ref(ajuste-variog)), podemos obtener por ejemplo una aproximación del predictor óptimo de $Z(\mathbf{s}_{0} )$ sustituyendo en \@ref(eq:predictor-kriging) $\Sigma(\boldsymbol{\theta})$ por $\Sigma(\hat{\boldsymbol{\theta}} )$ y $\mathbf{c}(\boldsymbol{\theta})$ por $\mathbf{c}(\hat{\boldsymbol{\theta}} )$.
+De esta forma, si $\hat{\boldsymbol{\theta}}$ es un estimador de $\boldsymbol{\theta}$ (ver Sección \@ref(ajuste-variog)), podemos obtener por ejemplo una aproximación del predictor óptimo de $Z(\mathbf{s}_{0} )$ sustituyendo en \@ref(eq:predictor-kriging) $\boldsymbol{\Sigma}(\boldsymbol{\theta})$ por $\boldsymbol{\Sigma}(\hat{\boldsymbol{\theta}} )$ y $\mathbf{c}(\boldsymbol{\theta})$ por $\mathbf{c}(\hat{\boldsymbol{\theta}} )$.
 
 
 ### Ventajas de la aproximación espacial (y espacio-temporal)
@@ -350,7 +353,7 @@ Por tanto podemos pensar en $c_0 /\sigma^{2}$ como la proporción de "variabilid
 Si $\sigma ^{2}$ es el umbral del semivariograma (suponiendo que existe), se define el *rango* (o alcance) del semivariograma en la dirección $\mathbf{e}_0 \in \mathbb{R}^{d}$ con $\left\| \mathbf{e}_0 \right\| = 1$, como el mínimo salto en esa dirección en el que se alcanza el umbral:
 $$a_0 =\min \left\{ a:\gamma (a\left( 1+\varepsilon \right) \mathbf{e}_0 )=\sigma ^{2} , \forall \varepsilon >0\right\}.$$
 El rango en la dirección $\mathbf{e}_0$ puede interpretarse como el salto $h$ a partir del cual no hay correlación entre $Z(\mathbf{s})$ y $Z(\mathbf{s}\pm h\mathbf{e}_0)$, por tanto está íntimamente ligado a la noción de "zona de influencia" (y tiene un papel importante en la determinación de criterios de vecindad). 
-En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el *rango práctico*, definido como el mínimo salto en el que se alcanza el 95\% del umbral.
+En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el *rango práctico*, definido como el mínimo salto en el que se alcanza el 95\% del umbral parcial.
 
 
 El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso. 
@@ -377,7 +380,7 @@ Algunas propiedades adicionales que verifican los covariogramas son las siguient
 también un covariograma válido en $\mathbb{R}^d$.
 
 2. Si $C_1 (\cdot)$ y $C_2 (\cdot)$ son covariogramas válidos en $\mathbb{R}^d$, entonces $C_1 (\cdot) + C_2 (\cdot)$ es un
-covariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso $Z(\cdot)$ se obtiene como suma de dos procesos estacionarios de segundo orden independientes: $Z(\mathbf{s})=Z_1 (\mathbf{s})Z_2 (\mathbf{s})$, con covariogramas $C_1 (\cdot)$ y $C_2 (\cdot)$ respectivamente. 
+covariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso $Z(\cdot)$ se obtiene como suma de dos procesos estacionarios de segundo orden independientes: $Z(\mathbf{s})=Z_1 (\mathbf{s}) + Z_2 (\mathbf{s})$, con covariogramas $C_1 (\cdot)$ y $C_2 (\cdot)$ respectivamente. 
 
 3. Si $C_1 (\cdot)$ y $C_2 (\cdot)$ son covariogramas válidos en $\mathbb{R}^d$, entonces $C(\cdot) = C_1 (\cdot)C_2 (\cdot)$
 es un covariograma válido en $\mathbb{R}^d$. Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.

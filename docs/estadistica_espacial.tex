@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-11-30}
+\date{2021-12-03}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -437,7 +437,10 @@ En general, cuando se considera que la componente espacial (o espacio-temporal) 
 
 Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal.
 Si \(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}\) es un proceso espacial, podemos suponer que:
-\[Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,\]
+\begin{equation}
+  Z(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} +\varepsilon(\mathbf{s}),\ \mathbf{s}\in D,
+  \label{eq:modelolineal}
+\end{equation}
 (un caso particular del modelo general \eqref{eq:modelogeneral}), donde \(\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}\) es un vector desconocido, \(\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}\) un conjunto de variables explicativas (típicamente \(X_0(\cdot)=1\)) y \(\varepsilon(\cdot)\) un proceso de media cero incorrelado (i.e.~\(Cov(\varepsilon (\mathbf{u}),\varepsilon (\mathbf{v}))=0\) si \(\mathbf{u}\neq \mathbf{v}\)) con \(Var(\varepsilon (\mathbf{s}))=\sigma^{2}\).
 
 Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la \emph{variación de gran escala} \(\boldsymbol{\beta}\), a partir de los datos observados en un conjunto de posiciones espaciales \(\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}\).
@@ -452,28 +455,28 @@ con \[Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(\mathbf{X}^{\top}\mathbf{X}
 
 Sin embargo la suposición de que los errores son independientes e idénticamente distribuidos influye crucialmente en la inferencia.
 En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
-\[Var\left( \boldsymbol{\varepsilon} \right) =\Sigma,\]
+\[Var\left( \boldsymbol{\varepsilon} \right) =\boldsymbol{\Sigma},\]
 obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de \(\boldsymbol{\beta}\) es el estimador de mínimos cuadrados generalizados (GLS, \emph{generalized least squares}):
 \begin{equation} 
-  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\Sigma^{-1} \mathbf{Z}.
+  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z}.
   \label{eq:beta-gls}
 \end{equation}
 
-Si \(\Sigma=\sigma^{2} \mathbf{I}_{n}\), siendo \(\mathbf{I}_{n}\) la matriz identidad \(n\times n\), los estimadores \eqref{eq:beta-ols} y \eqref{eq:beta-gls} coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes.
+Si \(\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}\), siendo \(\mathbf{I}_{n}\) la matriz identidad \(n\times n\), los estimadores \eqref{eq:beta-ols} y \eqref{eq:beta-gls} coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes.
 Puede verse fácilmente que en el caso general:
-\[Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\Sigma^{-1} \mathbf{X})^{-1}, \\
-Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\Sigma\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},\]
+\[Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}, \\
+Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\boldsymbol{\Sigma}\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},\]
 resultando además que \(Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )\) es una matriz semidefinida positiva (e.g.~Searle, 1971, Sección 3.3).
 
 En muchos casos el objetivo final es la predicción del proceso en una posición espacial \(\mathbf{s}_{0}\):
 \[Z(\mathbf{s}_{0} )=\mathbf{x}_0^{\top}\boldsymbol{\beta}+\varepsilon (\mathbf{s}_{0} ),\]
 donde \(\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0})\right)^{\top}\).
-Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia \(\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{ols}\) (el predictor óptimo de un error independiente sería cero).
+Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia \(\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{ols}\) (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
-\[\hat{Z} (\mathbf{s}_{0})=\mathbf{x^{\top}}\hat{\boldsymbol{\beta}}_{gls},\]
+\[\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},\]
 sin embargo no es el predictor lineal óptimo. Puede verse (e.g.~Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
 \begin{equation} 
-  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \Sigma^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
+  \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   \label{eq:predictor-kriging}
 \end{equation}
 (el denominado predictor del \emph{kriging universal}, Sección 4.X), siendo
@@ -482,16 +485,16 @@ y la diferencia \(Var( \hat{Z} (\mathbf{s}_{0} ) ) - Var( \tilde{Z} (\mathbf{s}_
 Naturalmente, si se ignora por completo la dependencia y se emplea únicamente el estimador \(\hat{\boldsymbol{\beta}}_{ols}\) disminuye aún más la eficiencia de las predicciones.
 
 Teniendo en cuenta los resultados anteriores podemos afirmar que al explotar la dependencia presente en los datos el incremento en eficiencia puede ser importante.
-Sin embargo el principal inconveniente es que en la práctica normalmente la matriz \(\Sigma\) y el vector \(\mathbf{c}\) son desconocidos.
+Sin embargo el principal inconveniente es que en la práctica normalmente la matriz \(\boldsymbol{\Sigma}\) y el vector \(\mathbf{c}\) son desconocidos.
 El procedimiento habitual, para evitar la estimación de \(n+n(n+1)/2\) parámetros adicionales a partir del
 conjunto de \(n\) observaciones, suele ser la elección de un modelo paramétrico adecuado (ver Sección \ref{modelos-parametricos}):
 \[C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )\equiv Cov\left( \varepsilon (\mathbf{u}),\varepsilon (\mathbf{v})\right),\]
-i.e.~suponer que \(\Sigma \equiv \Sigma\left( \boldsymbol{\theta}\right)\) y \(\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)\).
+i.e.~suponer que \(\boldsymbol{\Sigma} \equiv \boldsymbol{\Sigma}\left( \boldsymbol{\theta}\right)\) y \(\mathbf{c}\equiv \mathbf{c}\left( \boldsymbol{\theta}\right)\).
 Una hipótesis natural es suponer que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos; por tanto es normal pensar en errores espacialmente correlados.
 Por ejemplo, podemos considerar:
 \[C(\mathbf{u},\mathbf{v}\left| \boldsymbol{\theta}\right. )=\sigma^{2} \rho^{\left\| \mathbf{u}-\mathbf{v}\right\| },\]
 con \(\sigma^{2} \geq 0\) y \(0<\rho <1\).
-De esta forma, si \(\hat{\boldsymbol{\theta}}\) es un estimador de \(\boldsymbol{\theta}\) (ver Sección \ref{ajuste-variog}), podemos obtener por ejemplo una aproximación del predictor óptimo de \(Z(\mathbf{s}_{0} )\) sustituyendo en \eqref{eq:predictor-kriging} \(\Sigma(\boldsymbol{\theta})\) por \(\Sigma(\hat{\boldsymbol{\theta}} )\) y \(\mathbf{c}(\boldsymbol{\theta})\) por \(\mathbf{c}(\hat{\boldsymbol{\theta}} )\).
+De esta forma, si \(\hat{\boldsymbol{\theta}}\) es un estimador de \(\boldsymbol{\theta}\) (ver Sección \ref{ajuste-variog}), podemos obtener por ejemplo una aproximación del predictor óptimo de \(Z(\mathbf{s}_{0} )\) sustituyendo en \eqref{eq:predictor-kriging} \(\boldsymbol{\Sigma}(\boldsymbol{\theta})\) por \(\boldsymbol{\Sigma}(\hat{\boldsymbol{\theta}} )\) y \(\mathbf{c}(\boldsymbol{\theta})\) por \(\mathbf{c}(\hat{\boldsymbol{\theta}} )\).
 
 \hypertarget{ventajas-de-la-aproximaciuxf3n-espacial-y-espacio-temporal}{%
 \subsection{Ventajas de la aproximación espacial (y espacio-temporal)}\label{ventajas-de-la-aproximaciuxf3n-espacial-y-espacio-temporal}}
@@ -604,7 +607,7 @@ Por tanto podemos pensar en \(c_0 /\sigma^{2}\) como la proporción de ``variabi
 Si \(\sigma ^{2}\) es el umbral del semivariograma (suponiendo que existe), se define el \emph{rango} (o alcance) del semivariograma en la dirección \(\mathbf{e}_0 \in \mathbb{R}^{d}\) con \(\left\| \mathbf{e}_0 \right\| = 1\), como el mínimo salto en esa dirección en el que se alcanza el umbral:
 \[a_0 =\min \left\{ a:\gamma (a\left( 1+\varepsilon \right) \mathbf{e}_0 )=\sigma ^{2} , \forall \varepsilon >0\right\}.\]
 El rango en la dirección \(\mathbf{e}_0\) puede interpretarse como el salto \(h\) a partir del cual no hay correlación entre \(Z(\mathbf{s})\) y \(Z(\mathbf{s}\pm h\mathbf{e}_0)\), por tanto está íntimamente ligado a la noción de ``zona de influencia'' (y tiene un papel importante en la determinación de criterios de vecindad).
-En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el \emph{rango práctico}, definido como el mínimo salto en el que se alcanza el 95\% del umbral.
+En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el \emph{rango práctico}, definido como el mínimo salto en el que se alcanza el 95\% del umbral parcial.
 
 El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso.
 En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección \ref{vario-muestrales}; Cressie, 1993, Sección 2.4.1).
@@ -634,7 +637,7 @@ Algunas propiedades adicionales que verifican los covariogramas son las siguient
   también un covariograma válido en \(\mathbb{R}^d\).
 \item
   Si \(C_1 (\cdot)\) y \(C_2 (\cdot)\) son covariogramas válidos en \(\mathbb{R}^d\), entonces \(C_1 (\cdot) + C_2 (\cdot)\) es un
-  covariograma válido en \(\mathbb{R}^d\). Lo que equivale a suponer que el proceso \(Z(\cdot)\) se obtiene como suma de dos procesos estacionarios de segundo orden independientes: \(Z(\mathbf{s})=Z_1 (\mathbf{s})Z_2 (\mathbf{s})\), con covariogramas \(C_1 (\cdot)\) y \(C_2 (\cdot)\) respectivamente.
+  covariograma válido en \(\mathbb{R}^d\). Lo que equivale a suponer que el proceso \(Z(\cdot)\) se obtiene como suma de dos procesos estacionarios de segundo orden independientes: \(Z(\mathbf{s})=Z_1 (\mathbf{s}) + Z_2 (\mathbf{s})\), con covariogramas \(C_1 (\cdot)\) y \(C_2 (\cdot)\) respectivamente.
 \item
   Si \(C_1 (\cdot)\) y \(C_2 (\cdot)\) son covariogramas válidos en \(\mathbb{R}^d\), entonces \(C(\cdot) = C_1 (\cdot)C_2 (\cdot)\)
   es un covariograma válido en \(\mathbb{R}^d\). Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.
@@ -1896,8 +1899,6 @@ Para el análisis exploratorio de la dependencia se suelen emplear las semivaria
 \hypertarget{modelado}{%
 \chapter{Modelado de procesos geoestadísticos}\label{modelado}}
 
-\textbf{\emph{En preparación\ldots{}}}
-
 Como se comentó en la Sección \ref{objetivos-esquema} la aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico, es decir, estimar la tendencia \(\mu(\mathbf{s})\) y el semivariograma \(\gamma(\mathbf{h})\), consiste en los siguientes pasos:
 
 \begin{enumerate}
@@ -2044,7 +2045,7 @@ En primer lugar emplearemos el conjunto de datos \texttt{s100} del paquete \text
 ## [1] "np"      "dist"    "gamma"   "dir.hor" "dir.ver" "id"
 \end{verbatim}
 
-NOTA: La componente \texttt{dist} contiene los saltos, \texttt{gamma} las estimaciones del semivariograma (semivarianzas) y \texttt{np} el número de aportaciones.
+En el resultado, la componente \texttt{dist} contiene los saltos, \texttt{gamma} las estimaciones del semivariograma (o las semivarianzas) y \texttt{np} el número de aportaciones.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2071,7 +2072,7 @@ NOTA: La componente \texttt{dist} contiene los saltos, \texttt{gamma} las estima
 \end{Highlighting}
 \end{Shaded}
 
-Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (robustas, con una distribución más próxima a la normalidad):
+Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad):
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2136,7 +2137,14 @@ Estableciendo \texttt{model\ =\ "independent"} devuelve un p-valor para contrast
 ## Test of spatial independence: p =  0.024
 \end{verbatim}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-7-1} \end{center}
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/sm-variogram-1} 
+
+}
+
+\caption{Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.}\label{fig:sm-variogram}
+\end{figure}
 
 También se puede realizar contrastes adicionales estableciendo el parámetro \texttt{model} a \texttt{"isotropic"} o \texttt{"stationary"}.
 
@@ -2151,7 +2159,7 @@ Estos modelos son empleados también en ciertos casos como estructuras básicas 
 \hypertarget{modelos-parametricos}{%
 \subsection{Modelos paramétricos isotrópicos}\label{modelos-parametricos}}
 
-A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, sección 2.5.1).
+A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
 En la notación utilizada en las parametrizaciones \(c_{0} \geq 0\) representa el efecto nugget, \(c_1 \geq 0\) el umbral parcial (en el caso de variogramas acotados, con \(\sigma^2= c_0 + c_1\)) y \(a>0\) el rango (si existe) o el parámetro de escala.
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro \(a\) representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95\% del umbral parcial.
 En la Figura \ref{fig:show-vgms} se tienen algunos ejemplos de las formas de algunos de
@@ -2369,10 +2377,10 @@ La función \texttt{show.vgms()} genera gráficos con los distintos modelos (por
 \hypertarget{anisotropia}{%
 \subsection{Modelado de anisotropía}\label{anisotropia}}
 
-La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección XX).
+La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección \ref{modelos-parametricos}).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial.
-En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, sección 2.5.2, o Goovaerts, 1997, sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
+En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
 
 Cuando el variograma es función de la dirección además de la magnitud del salto, se dice que el variograma es anisotrópico (no isotrópico).
 Los tipos de anisotropía habitualmente considerados son:
@@ -2384,7 +2392,7 @@ Los tipos de anisotropía habitualmente considerados son:
 \item
   \emph{Anisotropía zonal}: cuando el umbral del semivariograma varía con la dirección (también se denomina anisotropía estratificada).
 \item
-  Combinación de las anteriores.
+  \emph{Anisotropía mixta}: combinación de las anteriores.
 \end{itemize}
 
 La anisotropía geométrica se puede corregir mediante una transformación lineal del vector de salto \(\mathbf{h}\):
@@ -2451,7 +2459,7 @@ Ejemplo:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-10-1} \end{center}
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros ``zonales'' que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto).
 Por ejemplo, en el caso bidimensional, si \(\phi\) es la dirección de mayor varianza se suele considerar una combinación de la forma:
@@ -2480,7 +2488,7 @@ Además, cada modelo básico puede incorporar algún tipo de anisotropía (Secci
 siendo \(\mathbf{A}_{k} ,k=0,\ldots,q\) matrices \(d\times d\).
 De esta forma los modelos pueden ser lo suficientemente flexibles como para modelar la mayoría de situaciones que se pueden presentar en la práctica.
 Sin embargo, es difícil establecer un procedimiento automático (o semi-automático) para la selección y el ajuste de este tipo de modelos.
-Esto provoca que el proceso normalmente se realice en la práctica de forma interactiva por el usuario y utilizando principalmente herramientas gráficas\footnote{Ver por ejemplo Goovaerts (1997, sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.}; siendo por tanto poco recomendables para algunos casos.
+Esto provoca que el proceso normalmente se realice en la práctica de forma interactiva por el usuario y utilizando principalmente herramientas gráficas\footnote{Ver por ejemplo Goovaerts (1997, Sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.}; siendo por tanto poco recomendables para algunos casos.
 En primer lugar hay que especificar el número y tipo de estructuras básicas, y en segundo lugar (aunque se suele hacer en la práctica de forma simultánea) está el problema de la estimación de los parámetros, donde puede ser especialmente complicado la determinación de los rangos y los parámetros de anisotropía de los distintos componentes (es de esperar que aparezcan problemas en la optimización).
 
 En \texttt{gstat} se pueden definir modelos de este tipo empleando el parámetro \texttt{add.to} de la función \texttt{vgm()}.
@@ -2511,7 +2519,7 @@ En \texttt{gstat} se pueden definir modelos de este tipo empleando el parámetro
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-11-1} \end{center}
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 \hypertarget{ajuste-variog}{%
 \section{Ajuste de un modelo válido}\label{ajuste-variog}}
@@ -2546,11 +2554,11 @@ depender de \(\boldsymbol{\theta}\), considerando alguno de los siguientes casos
   con \(w_{i}(\boldsymbol{\theta})\geq 0\), \(i=1,\ldots,K\).
   Normalmente se suele tomar estos pesos inversamente proporcionales a \(Var(\hat{\gamma}(\mathbf{h}_{i}))\).
 \item
-  Mínimos cuadrados generalizados (GLS): \(\mathbf{V}(\boldsymbol{\theta})=\Sigma_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})^{-1}\),
+  Mínimos cuadrados generalizados (GLS): \(\mathbf{V}(\boldsymbol{\theta})=\boldsymbol{\Sigma}_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})^{-1}\),
   la inversa de la matriz de covarianzas (asintótica) de \(\hat{\boldsymbol{\gamma}}\) obtenida suponiendo que el variograma teórico es \(2\gamma(\mathbf{h};\boldsymbol{\theta})\).
 \end{itemize}
 
-Es importante señalar que al utilizar el criterio GLS el cálculo de la matriz de covarianzas \(\Sigma_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})\) generalmente no resulta fácil (por ejemplo en Cressie 1993, p.~96, se tienen las expresiones para el estimador empírico y el estimador robusto, suponiendo normalidad).
+Es importante señalar que al utilizar el criterio GLS el cálculo de la matriz de covarianzas \(\boldsymbol{\Sigma}_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})\) generalmente no resulta fácil (por ejemplo en Cressie 1993, p.~96, se tienen las expresiones para el estimador empírico y el estimador robusto, suponiendo normalidad).
 Esto produce que la minimización de la función objetivo \eqref{eq:ls-obj} sea computacionalmente prohibitiva en muchos casos.
 El método de mínimos cuadrados ponderados puede verse como un compromiso entre la eficiencia del método de GLS y la simplicidad del método de OLS.
 Además, suponiendo normalidad y que el variograma teórico es \(2\gamma(\mathbf{h};\boldsymbol{\theta})\), Cressie (1985) probó que:
@@ -2653,7 +2661,7 @@ Como ejemplo, a continuación se ajusta un modelo exponencial al variograma emp�
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-13-1} \end{center}
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2702,11 +2710,16 @@ Sin embargo, actualmente solo admite datos tipo \texttt{Spatial*} del paquete \t
 \subsection{Modelado del variograma en procesos no estacionarios}\label{trend-fit}}
 
 Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección \ref{vario-muestrales}.
-Por ejemplo, considerando el modelo lineal de la Sección \ref{modelos-clasicos-espaciales} (el modelo del \emph{kriging universal}, Sección 4.X), tendríamos que:
+Por ejemplo, considerando el modelo lineal \eqref{eq:modelolineal} de la Sección \ref{modelos-clasicos-espaciales} (el modelo del \emph{kriging universal}, Sección 4.X; que emplearemos en el resto de este capítulo), tendríamos que:
 \[E(Z(\mathbf{s}_1)-Z(\mathbf{s}_{2}))^2 =2\gamma(\mathbf{s}_1
 -\mathbf{s}_{2}) + \left( \sum\limits_{j=0}^{p}\beta_{j}  \left( X_{j}
 (\mathbf{s}_1)-X_{j}(\mathbf{s}_{2})\right) \right)^2.\]
-El procedimiento habitual en geoestadística es eliminar la tendencia y estimar el variograma a partir de los residuos.
+Muchas veces, cuando las estimaciones experimentales del semivariograma aparentan no estar acotadas (e.g.~Figura \ref{fig:aquifer-var-trend} izquierda), es debido a que la tendencia no está especificada correctamente.
+
+El procedimiento habitual en geoestadística es eliminar la tendencia y estimar el variograma a partir de los residuos. Por ejemplo, en este caso, podríamos considerar los residuos de un ajuste OLS de la tendencia:
+\[\mathbf{r}_{ols} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n}
+- (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top} \right)\mathbf{Z}.\]
+Esto se puede hacer con la función \texttt{variogram()} del paquete \texttt{gstat} especificando la fórmula del modelo como primer argumento (ver Figura \ref{fig:aquifer-var-trend} derecha).
 
 Como ejemplo consideraremos los datos del acuífero Wolfcamp:
 
@@ -2719,16 +2732,23 @@ Como ejemplo consideraremos los datos del acuífero Wolfcamp:
 \CommentTok{\# maxlag \textless{}{-} 0.5*sqrt(sum(diff(matrix(st\_bbox(aquifer\_sf), nrow = 2, byrow = TRUE))\^{}2))}
 
 \NormalTok{vario.est }\OtherTok{\textless{}{-}} \FunctionTok{variogram}\NormalTok{(head }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, aquifer\_sf, }\AttributeTok{cutoff =} \DecValTok{150}\NormalTok{)}
-\NormalTok{vario.trend }\OtherTok{\textless{}{-}} \FunctionTok{variogram}\NormalTok{(head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, aquifer\_sf, }\AttributeTok{cutoff =} \DecValTok{150}\NormalTok{)    }
+\NormalTok{vario.resid }\OtherTok{\textless{}{-}} \FunctionTok{variogram}\NormalTok{(head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, aquifer\_sf, }\AttributeTok{cutoff =} \DecValTok{150}\NormalTok{)    }
 \NormalTok{oldpar }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
 \CommentTok{\# plot(vario.est) \# no compatible con mfrow}
 \FunctionTok{with}\NormalTok{(vario.est,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
-\CommentTok{\# plot(vario.trend)}
-\FunctionTok{with}\NormalTok{(vario.trend,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
+\CommentTok{\# plot(vario.resid)}
+\FunctionTok{with}\NormalTok{(vario.resid,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/aquifer-var-trend-1} \end{center}
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/aquifer-var-trend-1} 
+
+}
+
+\caption{Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.}\label{fig:aquifer-var-trend}
+\end{figure}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2740,10 +2760,10 @@ El ajuste por WLS se puede realizar también con la función \texttt{fit.variogr
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# modelo \textless{}{-} vgm(psill = 3, model = "Sph", range = 75, nugget = 0) }
 \NormalTok{modelo }\OtherTok{\textless{}{-}} \FunctionTok{vgm}\NormalTok{(}\AttributeTok{model =} \StringTok{"Sph"}\NormalTok{, }\AttributeTok{nugget =} \ConstantTok{NA}\NormalTok{) }\CommentTok{\# Valores iniciales por defecto}
-\NormalTok{fit.trend }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario.trend, modelo, }\AttributeTok{fit.method =} \DecValTok{2}\NormalTok{)}
-\NormalTok{fit.trend}
+\CommentTok{\# modelo \textless{}{-} vgm(psill = 3, model = "Sph", range = 75, nugget = 0) }
+\NormalTok{fit.resid }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario.resid, modelo, }\AttributeTok{fit.method =} \DecValTok{2}\NormalTok{)}
+\NormalTok{fit.resid}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2756,38 +2776,195 @@ El ajuste por WLS se puede realizar también con la función \texttt{fit.variogr
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Cuidado con plot.variogramModel() si se pretende añadir elementos}
-\CommentTok{\# plot(fit.trend, cutoff = 150, ylim = c(0, 4.5))}
-\CommentTok{\# with(vario.trend,  points(dist, gamma))}
-\FunctionTok{with}\NormalTok{(vario.trend, }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }
-                       \AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{)))}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.trend, }\AttributeTok{maxdist =} \DecValTok{150}\NormalTok{))}
+\CommentTok{\# plot(fit.resid, cutoff = 150, ylim = c(0, 4.5))}
+\CommentTok{\# with(vario.resid,  points(dist, gamma))}
+\FunctionTok{with}\NormalTok{(vario.resid, }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{, }
+                       \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{150}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{)))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.resid, }\AttributeTok{maxdist =} \DecValTok{150}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-16-1} \end{center}
+\begin{figure}[!htb]
 
-Si no se puede asumir que la tendencia es constante, para poder estimarla de forma eficiente sería necesario conocer la dependencia (i.e.~conocer \(\gamma(\cdot)\)), que dependería a su vez de la estimación de la tendencia.
-Para solventar este problema circular Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de \(?\), estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia.
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/aquifer-var-fit-1} 
+
+}
+
+\caption{Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.}\label{fig:aquifer-var-fit}
+\end{figure}
+
+Sin embargo, para poder estimar la tendencia de forma eficiente sería necesario conocer la dependencia (i.e.~conocer \(\gamma(\cdot)\)), que dependería a su vez de la estimación de la tendencia.
+Para solventar este problema circular, Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de \(\boldsymbol{\theta}\), estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia.
 En la práctica este procedimiento suele converger en pocas iteraciones (normalmente menos de 5).
-En el paquete \texttt{gstat} solo se realiza una iteración (se reestimará la tendencia empleando GLS al calcular las predicciones kriging).
+Sin embargo, en el paquete \texttt{gstat} solo se realiza una iteración (se reestimará la tendencia empleando GLS al calcular las predicciones kriging).
 
-Función \texttt{gls()} del paquete \texttt{nlme}.
+En el caso de variogramas no acotados, el proceso \(\varepsilon(\cdot)\) no sería estacionario de segundo orden, no está disponible la matriz \(\boldsymbol{\Sigma}\) y en principio sería imposible emplear GLS para estimar la tendencia.
+Sin embargo, normalmente se suele trabajar en un dominio acotado \(D\) y podemos encontrar una constante positiva \(A\) tal que \(C^{\ast }(\mathbf{h})= A-\gamma(\mathbf{h})\geq 0,\forall \mathbf{h}\in D\) (y por tanto esta función es un covariograma válido en ese dominio).
+La función \(C^{\ast }(\mathbf{h})\) se suele denominar \emph{pseudo-covariograma} (o covarianza localmente equivalente; ver p.e. Chilès y Delfiner, 1999, Sección 4.6.2).
+Si utilizamos \(C^{\ast }(\mathbf{h})\) en lugar del covariograma en la estimación de la media (o en las ecuaciones del predictor del KU), la constante \emph{A} se cancela y obtenemos los mismos resultados (sin embargo las varianzas si que dependen de esta constante).
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{gls}\NormalTok{(model, data, correlation, weights, method, control, ...)}
-\end{Highlighting}
-\end{Shaded}
+Adicionalmente, habría que tener en cuenta también que la variabilidad de los residuos no es la de los errores teóricos (algo que normalmente se ignora).
+Para ilustrar este problema supongamos que el proceso de error \(\varepsilon(\cdot)\) es estacionario de segundo orden con covariograma conocido \(C(\cdot)\) de forma que podemos calcular el estimador lineal óptimo de \(\boldsymbol{\beta}\):
+\[\hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z} = \mathbf{P}_{gls}\mathbf{Z},\]
+siendo \(\mathbf{P}_{gls}\) la matriz de proyección.
+Empleando este estimador obtenemos el vector de residuos:
+\[\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},\]
+cuya matriz de varianzas-covarianzas resulta ser:
+\[\begin{aligned}
+Var(\mathbf{r}) &=(\mathbf{I}_{n} -\mathbf{P}_{gls})\boldsymbol{\Sigma}(\mathbf{I}_{n}
+-\mathbf{P}_{gls})^\top  \\
+& = \boldsymbol{\Sigma} - \mathbf{X}(\mathbf{X}^\top\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}
+\mathbf{X}^\top.
+\end{aligned}\]
+De donde se deduce que si utilizamos directamente los residuos, incluso procediendo de la forma más eficiente, se introduce un sesgo en la estimación de la dependencia espacial.
+Explícitamente, si denotamos por \(\hat{\mu}(\mathbf{s})\) la estimación GLS de la tendencia, puede verse que:
+\[\begin{aligned}
+C_{\mathbf{r}}(\mathbf{s}_{i} ,\mathbf{s}_{j}) &= Cov\left(Z(\mathbf{s}_{i})-\hat{\mu}(\mathbf{s}_{i}), Z(\mathbf{s}_{j} ) - \hat{\mu}(\mathbf{s}_{j})\right) \\
+&= C(\mathbf{s}_{i} -\mathbf{s}_{j}) - Cov(\hat{\mu}(\mathbf{s}_{i} ), \hat{\mu}(\mathbf{s}_{j})),
+\end{aligned}\]
+y expresado en función del semivariograma:
+\[\gamma_{\mathbf{r}}(\mathbf{s}_{i} ,\mathbf{s}_{j}) = \gamma
+(\mathbf{s}_{i} -\mathbf{s}_{j})-\frac{1}{2} Var(\hat{\mu}
+(\mathbf{s}_{i})-\hat{\mu}(\mathbf{s}_{j})).\]
 
-Problema sesgo variograma\ldots{}
+Por tanto al utilizar alguno de los estimadores mostrados anteriormente con los residuos estimados obtenemos estimaciones sesgadas del semivariograma teórico.
+Matheron (1971, pp.~152-155) ya notó que, por lo general, el sesgo del estimador del semivariograma es pequeño en los saltos próximos al origen, pero más sustancial en saltos grandes\footnote{Para un caso particular, Cressie (1993, pp.~166-167) observó que los residuos basados en el estimador GLS dan lugar a un estimador del variograma con sesgo negativo y cuadrático en h.}.
+Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver p.e. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).
 
-Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la Sección \ref{ml-fit}.
+En cuanto a las consecuencias de que el estimador del variograma no sea insesgado en el kriging universal, hay que tener en cuenta que:
+
+\begin{itemize}
+\tightlist
+\item
+  Al ajustar un modelo de variograma por mínimos cuadrados ponderados o generalizados (Sección \ref{ls-fit}), automáticamente los saltos pequeños reciben mayor peso en el ajuste.
+\item
+  Además si la predicción espacial se lleva a cabo con un criterio de vecindad, el variograma sólo es evaluado en saltos pequeños, donde se tiene una buena estimación y un buen ajuste.
+\item
+  También hay que tener en cuenta el resultado de Stein (1988), i.e.~para una predicción eficiente generalmente sólo es necesario capturar la conducta del variograma cerca del origen
+\end{itemize}
+
+Por lo anterior, el desencanto con el kriging universal ha sido prematuro, el efecto del sesgo del estimador del variograma sobre el predictor del kriging universal es pequeño.
+Sin embargo la varianza del kriging universal se ve más afectada y es menor de lo que debería ser (para más detalles ver Cressie, 1993, pp.~296-299).
+Adicionalmente se han propuesto alternativas a los métodos de ajuste basados en mínimos cuadrados que tienen en cuenta el sesgo en la estimación del variograma (e.g.~Beckers y Bogaert, 1998; Fernandez-Casal y Francisco-Fernandez, 2014, función \href{https://rubenfcasal.github.io/npsp/reference/np.svar.html}{\texttt{npsp::np.svariso.corr()}}).
+
+Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la siguiente sección (que también tienen problemas de sesgo).
 
 \hypertarget{ml-fit}{%
 \subsection{Estimación por máxima verosimilitud}\label{ml-fit}}
 
+La estimación por máxima verosimilitud (\emph{maximum likelihood}, ML) es un método muy conocido en inferencia estadística paramétrica, aunque su uso en geoestadística ha sido relativamente reciente (a partir de mediados de los 80).
+Además la estimación ML tiene una conexión directa con la estimación Bayesiana (e.g.~Handcock y Wallis, 1994) y el empleo de estas herramientas en estadística espacial ha experimentado un notable aumento en los últimos años (e.g.~\href{https://spacetimewithr.org/}{Wikle et al., 2019}; \href{https://www.paulamoraga.com/book-geospatial/}{Moraga, 2020}).
+
+Si suponemos que la distribución de los datos es normal:
+\[\mathbf{Z}\sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},\boldsymbol{\Sigma}),\]
+donde \(\boldsymbol{\Sigma}=\boldsymbol{\Sigma}(\boldsymbol{\theta})\) (utilizando la notación de secciones anteriores), se puede deducir fácilmente la expresión de la función de verosimilitud y obtener las estimaciones de los parámetros buscando los valores que la maximizan.
+
+En este caso, la función de densidad de los datos es:
+\[f(\mathbf{z})=(2\pi )^{-\frac{n}{2} } \left| \boldsymbol{\Sigma} \right|^{-\frac{1}{2} }
+\exp \left\{ -\dfrac{1}{2}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})\right\}.\]
+Además en la mayoría de los casos podemos reparametrizar el covariograma\footnote{Por ejemplo en el caso de los semivariogramas mostrados en la Sección \ref{modelos-parametricos}, si \(c_{0}\) es el efecto nugget y \(c_1\) el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) \(\sigma^2 =c_{0} +c_1\) y la proporción de nugget en el umbral total \(c_{0}^{\ast} =c_{0} /(c_{0} +c_1)\) (lo que equivale a suponer en las expresiones del covariograma que \(c_1 =1\) y \(0 \leq c_{0} \leq 1\)).} de forma que:
+\[\boldsymbol{\Sigma}=\sigma^2 \mathbf{V}(\boldsymbol{\theta}),\]
+siendo \(\sigma^2\) la varianza desconocida (o umbral total), y se obtiene que la expresión del logaritmo negativo de la función de verosimilitud (\emph{negative log likelihood}, NLL) es:
+\[\begin{aligned}
+\mathcal{L}(\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2 \left| \mathbf{Z} \right.) & = \dfrac{n}{2} \ln (2\pi) + \dfrac{n}{2} \ln(\sigma^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta}) \right|  \\
+& + \ \dfrac{1}{2\sigma^2 }(\mathbf{Z}-\mathbf{X}\boldsymbol{\beta})^\top \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\boldsymbol{\beta}),
+\end{aligned}\]
+donde \(\left| \mathbf{V}(\boldsymbol{\theta})\right|\) denota el determinante de la matriz \(\mathbf{V}(\boldsymbol{\theta})\).
+Las estimaciones de los parámetros \((\boldsymbol{\theta}, \boldsymbol{\beta}, \sigma^2)\) se obtendrán minimizando el NLL.
+Un resultado bien conocido es que el mínimo se obtiene, independientemente de \(\boldsymbol{\theta}\), para:
+\begin{equation} 
+  \begin{aligned}
+  \hat{\boldsymbol{\beta}} & =(\mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1} \mathbf{X})^{-1} \mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1} \mathbf{Z}, \\
+  \hat{\sigma }^2 & =\dfrac{1}{n}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top
+  \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}).
+  \end{aligned}
+  \label{eq:estimadores-ml}
+\end{equation}
+Por tanto la función a minimizar respecto a \(\boldsymbol{\theta}\) es:
+\[\mathcal{L}(\boldsymbol{\theta}\left| \mathbf{Z}\right. )=\mathcal{L}(\hat{\boldsymbol{\beta}} ,\boldsymbol{\theta},\hat{\sigma }^2 \left|
+\mathbf{Z}\right. ) = \dfrac{n}{2} \ln (2\pi ) + \dfrac{n}{2} \ln (\hat{\sigma
+}^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right| +\dfrac{n}{2}.\]
+Para ello es necesario utilizar algoritmos de minimización no lineal multidimensional.
+Además está el problema de la posible multimodalidad de esta función (ver p.e. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
+Si \(\hat{\boldsymbol{\theta}}\) es la estimación de \(\boldsymbol{\theta}\) obtenida al resolver este problema, sustituyendo en \eqref{eq:estimadores-ml} se obtienen las estimaciones del resto de parámetros\footnote{El comportamiento asintótico (bajo dominio creciente) de estos estimadores ha sido estudiado por Mardia y Marshal (1984), dando condiciones (no muy fáciles de chequear en la práctica) para su consistencia y normalidad asintótica (ver también Cressie, 1993, Sección 7.3.1).}.
+
+Uno de los principales problemas de la estimación ML es que los estimadores de \(\sigma^2\) y \(\boldsymbol{\theta}\) pueden tener un sesgo considerable (especialmente cuando la tendencia no es constante), algo que es bastante conocido en la estimación de la varianza con datos independientes.
+Este problema se puede resolver (por lo menos en parte) utilizando una variante de este método.
+
+El método de máxima verosimilitud restringida (\emph{restricted maximum likelihood}, REML) se basa en la idea de filtrar los datos de forma que la distribución conjunta no dependa de \(\boldsymbol{\beta}\).
+Se trata de maximizar la verosimilitud de \(m=n-p-1\) contrastes de error linealmente independientes:
+\[\mathbf{Y}=\boldsymbol{\Lambda}\mathbf{Z},\]
+siendo \(\boldsymbol{\Lambda}\) una matriz \(m\times n\) de rango \(m\) y tal que \(\boldsymbol{\Lambda}\mathbf{X}=\mathbf{0}\) (i.e.~\(E(\mathbf{Y}) = \mathbf{0}\)).
+Estas combinaciones lineales también se denominan habitualmente \emph{incrementos generalizados} y, asumiendo normalidad, su distribución no depende de \(\boldsymbol{\beta}\):
+\[\mathbf{Y}\sim \mathcal{N}(\mathbf{0},\boldsymbol{\Lambda}\boldsymbol{\Sigma}\boldsymbol{\Lambda}^\top).\]
+De forma análoga al caso anterior podríamos obtener la correspondiente función de verosimilitud. Además, Harville (1974) demostró que las verosimilitudes de distintos incrementos generalizados son iguales salvo una constante y que se pueden obtener expresiones simplificadas
+seleccionando la matriz \(\boldsymbol{\Lambda}\) de forma que \(\boldsymbol{\Lambda}^\top \boldsymbol{\Lambda}=\mathbf{I}_{n} -\mathbf{X}(\mathbf{X^\top}\mathbf{X})^{-1} \mathbf{X}^\top\) y \(\boldsymbol{\Lambda}\boldsymbol{\Lambda}^\top =\mathbf{I}_{m}\), obteniéndose la siguiente expresión para el NLL:
+
+\[\begin{aligned}
+\mathcal{L}(\boldsymbol{\theta}\left| \mathbf{Y}\right. ) 
+& = \dfrac{m}{2} \ln (2\pi ) + \dfrac{m}{2} \ln (\hat{\sigma}_{Y}^2) -\dfrac{1}{2} \left| \mathbf{X}^\top\mathbf{X}\right|  \\
+& + \ \dfrac{1}{2} \left| \mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1}
+\mathbf{X}\right| +\dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right|
++\dfrac{m}{2} ,\end{aligned}\]
+siendo:
+\[\hat{\sigma }_{Y}^2 =\dfrac{1}{m}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}
+)^\top \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}).\]
+
+En general se da por hecho que la estimación REML mejora, a veces significativamente, los resultados obtenidos con la estimación ML (sobre todo si \(p\) es grande comparado con \(n\)).
+En numerosos estudios de simulación (e.g.~Zimmerman y Zimmerman, 1991; Fernández-Casal et al., 2003b) se ha observado que el sesgo en las estimaciones de los parámetros del variograma es en general menor.
+
+En \texttt{gstat} el ajuste mediante REML se podría realizar empleando la función:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fit.variogram.reml}\NormalTok{(formula, locations, data, model, }\AttributeTok{degree =} \DecValTok{0}\NormalTok{, ...)}
+\end{Highlighting}
+\end{Shaded}
+
+Sin embargo, aparentemente \textbf{\emph{el método no está bien implementado}} (emplea \texttt{formula} para un ajuste OLS y después, en el código C interno, considera una tendencia polinómica en las coordenadas determinada por \texttt{degree}), actualmente solo admite datos tipo \texttt{Spatial*} del paquete \texttt{sp} y además es habitual que aparezcan problemas computacionales, por lo que no se recomendaría su uso.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{vgm}\NormalTok{(}\AttributeTok{psill =} \DecValTok{3}\NormalTok{, }\AttributeTok{model =} \StringTok{"Sph"}\NormalTok{, }\AttributeTok{range =} \DecValTok{75}\NormalTok{, }\AttributeTok{nugget =} \DecValTok{0}\NormalTok{)}
+\FunctionTok{fit.variogram.reml}\NormalTok{(head }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =} \FunctionTok{as}\NormalTok{(aquifer\_sf, }\StringTok{"Spatial"}\NormalTok{), }\AttributeTok{model =}\NormalTok{ model, }\AttributeTok{degree =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   model      psill range
+## 1   Nug -0.7976219     0
+## 2   Sph 12.5397527    75
+\end{verbatim}
+
+Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt{geoR} (ver Sección \ref{ajuste-de-un-modelo-de-variograma} del apéndice) y también se podría emplear el paquete \texttt{nlme}.
+
 \hypertarget{comentarios-sobre-los-distintos-muxe9todos}{%
-\subsection{Comentarios sobre los distintos métodos}\label{comentarios-sobre-los-distintos-muxe9todos}}
+\section{Comentarios sobre los distintos métodos}\label{comentarios-sobre-los-distintos-muxe9todos}}
+
+Podemos afirmar que los métodos de estimación basados en mínimos cuadrados son los utilizados con mayor frecuencia en geoestadística.
+Por el contrario la estimación por máxima verosimilitud ha sido objeto de debate, con numerosos comentarios en la literatura a favor (e.g.~Pardo-Igúzquiza, 1998) y en contra (e.g.~Ripley, 1988) de este tipo de métodos.
+
+Una ventaja de los métodos de máxima verosimilitud es que permiten estimar de forma conjunta \(\boldsymbol{\beta}\) y \(\boldsymbol{\theta}\) directamente de los datos (y no es necesario calcular estimaciones piloto del variograma).
+Los problemas numéricos relacionados con este tipo de estimación se pueden resolver en la práctica utilizando por ejemplo algoritmos genéticos;
+aunque el tiempo de computación aumenta notablemente cuando el número de datos es grande (algo que también ocurre con el método GLS).
+Sin embargo, uno de los principales inconvenientes normalmente achacados a estos métodos es que la hipótesis de normalidad es difícil (o más bien imposible) de chequear en la práctica a partir de una única realización parcial del proceso.
+Otro problema que también se debe tener en cuenta al utilizar estos métodos es su falta de robustez cuando hay valores atípicos (outliers) en los datos.
+
+No obstante es de esperar que las estimaciones obtenidas con los métodos de máxima verosimilitud sean más eficientes cuando la distribución de los datos se aproxima a la normalidad y el modelo paramétrico está especificado correctamente (especialmente con la estimación REML); aunque no está claro si esta mejora es realmente significativa comparada con otros métodos más sencillos como el de WLS.
+De hecho, bajo la hipótesis de normalidad, Zimmerman y Zimmerman (1991) observaron, al comparar mediante simulación las estimaciones obtenidas utilizando
+distintos métodos (entre ellos ML, REML, OLS, WLS y GLS), que el método de WLS era a veces el mejor procedimiento y nunca resultaba malo (considerando el sesgo, el error en media cuadrática y la cobertura del intervalo de predicción al 95\%).
+Además, los métodos de mínimos cuadrados sólo utilizan la estructura asintótica de segundo orden del estimador piloto (no es necesario hacer suposiciones sobre la distribución completa de los datos), por lo que resultan ser más robustos que los de máxima verosimilitud cuando no se conoce por completo la distribución de \(Z\) (e.g.~Carroll y Ruppert, 1982) y son adecuados incluso cuando la distribución de los datos no es normal (aunque en ese caso pueden no ser los óptimos).
+Los comentarios anteriores, además de su fácil implementación, justifican que el método WLS sea el preferible para muchos autores.
+
+Por otra parte, si se asume un modelo paramétrico habrá que asegurarse en la práctica de que esa suposición es adecuada.
+Diblasi y Bowman (2001) propusieron un método basado en la estimación no paramétrica para contrastar si el variograma teórico de un proceso estacionario es constante (i.e.~si no hay dependencia espacial; ver Figura \ref{fig:sm-variogram}).
+Posteriormente Maglione y Diblasi (2004) propusieron contrastes de hipótesis para verificar si un determinado modelo paramétrico semivariograma es apropiado (ver también Bowman y Crujeiras, 2013).
+Para evitar posibles problemas relacionados con la mala especificación del modelo de variograma se puede pensar en su estimación de forma no paramétrica
+(Capítulo XX; ver paquete \href{https://rubenfcasal.github.io/post/geoestadistica-no-parametrica-con-el-paquete-npsp}{\texttt{npsp}}).
+En este caso los métodos de mínimos cuadrados serán claramente preferibles a los basados en máxima verosimilitud.
+
+Para comparar el ajuste obtenido con distintos modelos se pueden considerar los correspondientes valores finales de la función objetivo utilizada; por ejemplo los valores WLS (o GLS) correspondientes a su ajuste al estimador piloto o los valores del NLL si se utiliza alguno de los métodos de máxima verosimilitud (en este caso también se pueden emplear criterios para la selección de modelos que tengan en cuenta el número de parámetros, como AIC -\emph{Aikaike Information Criterion}- o BIC -\emph{Bayesian Information Criterion}).
+Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección 4.X.
 
 \hypertarget{kriging}{%
 \chapter{Predicción Kriging}\label{kriging}}

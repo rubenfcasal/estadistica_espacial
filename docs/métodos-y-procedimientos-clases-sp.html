@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -340,17 +340,17 @@ div.csl-indent {
 <p>Datos descargados en formato NetCDF (<a href="http://www.opengeospatial.org/standards/netcdf">Network Common Data Form</a>)
 de <a href="http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.html">NOAA Optimum Interpolated Sea Surface Temperature V2 (OISST)</a>
 y procesados con <em><a href="datos/NOAA_OISST_extraction_v2.R">NOAA_OISST_extraction_v2.R</a></em>:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="métodos-y-procedimientos-clases-sp.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
-<span id="cb167-2"><a href="métodos-y-procedimientos-clases-sp.html#cb167-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
-<span id="cb167-3"><a href="métodos-y-procedimientos-clases-sp.html#cb167-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb167-4"><a href="métodos-y-procedimientos-clases-sp.html#cb167-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb167-5"><a href="métodos-y-procedimientos-clases-sp.html#cb167-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb167-6"><a href="métodos-y-procedimientos-clases-sp.html#cb167-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
-<span id="cb167-7"><a href="métodos-y-procedimientos-clases-sp.html#cb167-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
-<span id="cb167-8"><a href="métodos-y-procedimientos-clases-sp.html#cb167-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
-<span id="cb167-9"><a href="métodos-y-procedimientos-clases-sp.html#cb167-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
-<span id="cb167-10"><a href="métodos-y-procedimientos-clases-sp.html#cb167-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb167-11"><a href="métodos-y-procedimientos-clases-sp.html#cb167-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="métodos-y-procedimientos-clases-sp.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
+<span id="cb169-2"><a href="métodos-y-procedimientos-clases-sp.html#cb169-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
+<span id="cb169-3"><a href="métodos-y-procedimientos-clases-sp.html#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb169-4"><a href="métodos-y-procedimientos-clases-sp.html#cb169-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
+<span id="cb169-5"><a href="métodos-y-procedimientos-clases-sp.html#cb169-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-6"><a href="métodos-y-procedimientos-clases-sp.html#cb169-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
+<span id="cb169-7"><a href="métodos-y-procedimientos-clases-sp.html#cb169-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb169-8"><a href="métodos-y-procedimientos-clases-sp.html#cb169-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
+<span id="cb169-9"><a href="métodos-y-procedimientos-clases-sp.html#cb169-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
+<span id="cb169-10"><a href="métodos-y-procedimientos-clases-sp.html#cb169-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb169-11"><a href="métodos-y-procedimientos-clases-sp.html#cb169-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>

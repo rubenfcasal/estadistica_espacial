@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="modelos-variog.html"/>
-<link rel="next" href="kriging.html"/>
+<link rel="next" href="comentarios-sobre-los-distintos-métodos.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -319,10 +319,10 @@ la matriz identidad <span class="math inline">\(K\times K\)</span>.</p></li>
 <li><p>Mínimos cuadrados ponderados (WLS): <span class="math inline">\(\mathbf{V}(\boldsymbol{\theta}) = \text{diag}(w_1 (\boldsymbol{\theta}),\ldots,w_{K}(\boldsymbol{\theta}))\)</span>,
 con <span class="math inline">\(w_{i}(\boldsymbol{\theta})\geq 0\)</span>, <span class="math inline">\(i=1,\ldots,K\)</span>.
 Normalmente se suele tomar estos pesos inversamente proporcionales a <span class="math inline">\(Var(\hat{\gamma}(\mathbf{h}_{i}))\)</span>.</p></li>
-<li><p>Mínimos cuadrados generalizados (GLS): <span class="math inline">\(\mathbf{V}(\boldsymbol{\theta})=\Sigma_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})^{-1}\)</span>,
+<li><p>Mínimos cuadrados generalizados (GLS): <span class="math inline">\(\mathbf{V}(\boldsymbol{\theta})=\boldsymbol{\Sigma}_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})^{-1}\)</span>,
 la inversa de la matriz de covarianzas (asintótica) de <span class="math inline">\(\hat{\boldsymbol{\gamma}}\)</span> obtenida suponiendo que el variograma teórico es <span class="math inline">\(2\gamma(\mathbf{h};\boldsymbol{\theta})\)</span>.</p></li>
 </ul>
-<p>Es importante señalar que al utilizar el criterio GLS el cálculo de la matriz de covarianzas <span class="math inline">\(\Sigma_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})\)</span> generalmente no resulta fácil (por ejemplo en Cressie 1993, p. 96, se tienen las expresiones para el estimador empírico y el estimador robusto, suponiendo normalidad).
+<p>Es importante señalar que al utilizar el criterio GLS el cálculo de la matriz de covarianzas <span class="math inline">\(\boldsymbol{\Sigma}_{\hat{\boldsymbol{\gamma}}} (\boldsymbol{\theta})\)</span> generalmente no resulta fácil (por ejemplo en Cressie 1993, p. 96, se tienen las expresiones para el estimador empírico y el estimador robusto, suponiendo normalidad).
 Esto produce que la minimización de la función objetivo <a href="ajuste-variog.html#eq:ls-obj">(3.3)</a> sea computacionalmente prohibitiva en muchos casos.
 El método de mínimos cuadrados ponderados puede verse como un compromiso entre la eficiencia del método de GLS y la simplicidad del método de OLS.
 Además, suponiendo normalidad y que el variograma teórico es <span class="math inline">\(2\gamma(\mathbf{h};\boldsymbol{\theta})\)</span>, Cressie (1985) probó que:
@@ -384,7 +384,7 @@ repitiendo este proceso hasta convergencia (realmente muchos de los algoritmos d
 <span id="cb96-9"><a href="ajuste-variog.html#cb96-9" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(fit.lin, <span class="at">maxdist =</span> <span class="fl">0.6</span>), <span class="at">lty =</span> <span class="dv">4</span>)</span>
 <span id="cb96-10"><a href="ajuste-variog.html#cb96-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(fit.cressie, <span class="at">maxdist =</span> <span class="fl">0.6</span>))</span>
 <span id="cb96-11"><a href="ajuste-variog.html#cb96-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;ols&quot;</span>, <span class="st">&quot;npairs&quot;</span>, <span class="st">&quot;default (linear)&quot;</span>, <span class="st">&quot;cressie&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>))</span></code></pre></div>
-<p><img src="03-modelado_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="03-modelado_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="ajuste-variog.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros estimados:</span></span>
 <span id="cb97-2"><a href="ajuste-variog.html#cb97-2" aria-hidden="true" tabindex="-1"></a>fit.cressie</span></code></pre></div>
 <pre><code>##   model   psill     range
@@ -404,11 +404,15 @@ repitiendo este proceso hasta convergencia (realmente muchos de los algoritmos d
 <div id="trend-fit" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Modelado del variograma en procesos no estacionarios</h3>
 <p>Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>.
-Por ejemplo, considerando el modelo lineal de la Sección <a href="geoestadistica.html#modelos-clasicos-espaciales">1.2.1</a> (el modelo del <em>kriging universal</em>, Sección 4.X), tendríamos que:
+Por ejemplo, considerando el modelo lineal <a href="geoestadistica.html#eq:modelolineal">(1.2)</a> de la Sección <a href="geoestadistica.html#modelos-clasicos-espaciales">1.2.1</a> (el modelo del <em>kriging universal</em>, Sección 4.X; que emplearemos en el resto de este capítulo), tendríamos que:
 <span class="math display">\[E(Z(\mathbf{s}_1)-Z(\mathbf{s}_{2}))^2 =2\gamma(\mathbf{s}_1
 -\mathbf{s}_{2}) + \left( \sum\limits_{j=0}^{p}\beta_{j}  \left( X_{j}
 (\mathbf{s}_1)-X_{j}(\mathbf{s}_{2})\right) \right)^2.\]</span>
-El procedimiento habitual en geoestadística es eliminar la tendencia y estimar el variograma a partir de los residuos.</p>
+Muchas veces, cuando las estimaciones experimentales del semivariograma aparentan no estar acotadas (e.g. Figura <a href="ajuste-variog.html#fig:aquifer-var-trend">3.5</a> izquierda), es debido a que la tendencia no está especificada correctamente.</p>
+<p>El procedimiento habitual en geoestadística es eliminar la tendencia y estimar el variograma a partir de los residuos. Por ejemplo, en este caso, podríamos considerar los residuos de un ajuste OLS de la tendencia:
+<span class="math display">\[\mathbf{r}_{ols} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n}
+- (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top} \right)\mathbf{Z}.\]</span>
+Esto se puede hacer con la función <code>variogram()</code> del paquete <code>gstat</code> especificando la fórmula del modelo como primer argumento (ver Figura <a href="ajuste-variog.html#fig:aquifer-var-trend">3.5</a> derecha).</p>
 <p>Como ejemplo consideraremos los datos del acuífero Wolfcamp:</p>
 <div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="ajuste-variog.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
 <span id="cb103-2"><a href="ajuste-variog.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -417,56 +421,173 @@ El procedimiento habitual en geoestadística es eliminar la tendencia y estimar 
 <span id="cb103-5"><a href="ajuste-variog.html#cb103-5" aria-hidden="true" tabindex="-1"></a><span class="co"># maxlag &lt;- 0.5*sqrt(sum(diff(matrix(st_bbox(aquifer_sf), nrow = 2, byrow = TRUE))^2))</span></span>
 <span id="cb103-6"><a href="ajuste-variog.html#cb103-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb103-7"><a href="ajuste-variog.html#cb103-7" aria-hidden="true" tabindex="-1"></a>vario.est <span class="ot">&lt;-</span> <span class="fu">variogram</span>(head <span class="sc">~</span> <span class="dv">1</span>, aquifer_sf, <span class="at">cutoff =</span> <span class="dv">150</span>)</span>
-<span id="cb103-8"><a href="ajuste-variog.html#cb103-8" aria-hidden="true" tabindex="-1"></a>vario.trend <span class="ot">&lt;-</span> <span class="fu">variogram</span>(head <span class="sc">~</span> lon <span class="sc">+</span> lat, aquifer_sf, <span class="at">cutoff =</span> <span class="dv">150</span>)    </span>
+<span id="cb103-8"><a href="ajuste-variog.html#cb103-8" aria-hidden="true" tabindex="-1"></a>vario.resid <span class="ot">&lt;-</span> <span class="fu">variogram</span>(head <span class="sc">~</span> lon <span class="sc">+</span> lat, aquifer_sf, <span class="at">cutoff =</span> <span class="dv">150</span>)    </span>
 <span id="cb103-9"><a href="ajuste-variog.html#cb103-9" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb103-10"><a href="ajuste-variog.html#cb103-10" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(vario.est) # no compatible con mfrow</span></span>
 <span id="cb103-11"><a href="ajuste-variog.html#cb103-11" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(vario.est,  <span class="fu">plot</span>(dist, gamma, <span class="at">xlab =</span> <span class="st">&quot;distance&quot;</span>, <span class="at">ylab =</span>  <span class="st">&quot;semivariance&quot;</span>))</span>
-<span id="cb103-12"><a href="ajuste-variog.html#cb103-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(vario.trend)</span></span>
-<span id="cb103-13"><a href="ajuste-variog.html#cb103-13" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(vario.trend,  <span class="fu">plot</span>(dist, gamma, <span class="at">xlab =</span> <span class="st">&quot;distance&quot;</span>, <span class="at">ylab =</span>  <span class="st">&quot;semivariance&quot;</span>))</span></code></pre></div>
-<p><img src="03-modelado_files/figure-html/aquifer-var-trend-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<span id="cb103-12"><a href="ajuste-variog.html#cb103-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(vario.resid)</span></span>
+<span id="cb103-13"><a href="ajuste-variog.html#cb103-13" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(vario.resid,  <span class="fu">plot</span>(dist, gamma, <span class="at">xlab =</span> <span class="st">&quot;distance&quot;</span>, <span class="at">ylab =</span>  <span class="st">&quot;semivariance&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:aquifer-var-trend"></span>
+<img src="03-modelado_files/figure-html/aquifer-var-trend-1.png" alt="Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp." width="90%" />
+<p class="caption">
+Figura 3.5: Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.
+</p>
+</div>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="ajuste-variog.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
 <p>El ajuste por WLS se puede realizar también con la función <code>fit.variogram()</code>:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ajuste-variog.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># modelo &lt;- vgm(psill = 3, model = &quot;Sph&quot;, range = 75, nugget = 0) </span></span>
-<span id="cb105-2"><a href="ajuste-variog.html#cb105-2" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">model =</span> <span class="st">&quot;Sph&quot;</span>, <span class="at">nugget =</span> <span class="cn">NA</span>) <span class="co"># Valores iniciales por defecto</span></span>
-<span id="cb105-3"><a href="ajuste-variog.html#cb105-3" aria-hidden="true" tabindex="-1"></a>fit.trend <span class="ot">&lt;-</span> <span class="fu">fit.variogram</span>(vario.trend, modelo, <span class="at">fit.method =</span> <span class="dv">2</span>)</span>
-<span id="cb105-4"><a href="ajuste-variog.html#cb105-4" aria-hidden="true" tabindex="-1"></a>fit.trend</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="ajuste-variog.html#cb105-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">model =</span> <span class="st">&quot;Sph&quot;</span>, <span class="at">nugget =</span> <span class="cn">NA</span>) <span class="co"># Valores iniciales por defecto</span></span>
+<span id="cb105-2"><a href="ajuste-variog.html#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="co"># modelo &lt;- vgm(psill = 3, model = &quot;Sph&quot;, range = 75, nugget = 0) </span></span>
+<span id="cb105-3"><a href="ajuste-variog.html#cb105-3" aria-hidden="true" tabindex="-1"></a>fit.resid <span class="ot">&lt;-</span> <span class="fu">fit.variogram</span>(vario.resid, modelo, <span class="at">fit.method =</span> <span class="dv">2</span>)</span>
+<span id="cb105-4"><a href="ajuste-variog.html#cb105-4" aria-hidden="true" tabindex="-1"></a>fit.resid</span></code></pre></div>
 <pre><code>##   model    psill    range
 ## 1   Nug 1.095133  0.00000
 ## 2   Sph 3.044034 63.39438</code></pre>
 <div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="ajuste-variog.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado con plot.variogramModel() si se pretende añadir elementos</span></span>
-<span id="cb107-2"><a href="ajuste-variog.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(fit.trend, cutoff = 150, ylim = c(0, 4.5))</span></span>
-<span id="cb107-3"><a href="ajuste-variog.html#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="co"># with(vario.trend,  points(dist, gamma))</span></span>
-<span id="cb107-4"><a href="ajuste-variog.html#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(vario.trend, <span class="fu">plot</span>(dist, gamma, <span class="at">xlab =</span> <span class="st">&quot;distance&quot;</span>, </span>
-<span id="cb107-5"><a href="ajuste-variog.html#cb107-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ylab =</span>  <span class="st">&quot;semivariance&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)))</span>
-<span id="cb107-6"><a href="ajuste-variog.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(fit.trend, <span class="at">maxdist =</span> <span class="dv">150</span>))</span></code></pre></div>
-<p><img src="03-modelado_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<p>Si no se puede asumir que la tendencia es constante, para poder estimarla de forma eficiente sería necesario conocer la dependencia (i.e. conocer <span class="math inline">\(\gamma(\cdot)\)</span>), que dependería a su vez de la estimación de la tendencia.
-Para solventar este problema circular Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de <span class="math inline">\(?\)</span>, estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia.
+<span id="cb107-2"><a href="ajuste-variog.html#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(fit.resid, cutoff = 150, ylim = c(0, 4.5))</span></span>
+<span id="cb107-3"><a href="ajuste-variog.html#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="co"># with(vario.resid,  points(dist, gamma))</span></span>
+<span id="cb107-4"><a href="ajuste-variog.html#cb107-4" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(vario.resid, <span class="fu">plot</span>(dist, gamma, <span class="at">xlab =</span> <span class="st">&quot;distance&quot;</span>, <span class="at">ylab =</span>  <span class="st">&quot;semivariance&quot;</span>, </span>
+<span id="cb107-5"><a href="ajuste-variog.html#cb107-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">150</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">5</span>)))</span>
+<span id="cb107-6"><a href="ajuste-variog.html#cb107-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(fit.resid, <span class="at">maxdist =</span> <span class="dv">150</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:aquifer-var-fit"></span>
+<img src="03-modelado_files/figure-html/aquifer-var-fit-1.png" alt="Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp." width="70%" />
+<p class="caption">
+Figura 3.6: Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.
+</p>
+</div>
+<p>Sin embargo, para poder estimar la tendencia de forma eficiente sería necesario conocer la dependencia (i.e. conocer <span class="math inline">\(\gamma(\cdot)\)</span>), que dependería a su vez de la estimación de la tendencia.
+Para solventar este problema circular, Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de <span class="math inline">\(\boldsymbol{\theta}\)</span>, estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia.
 En la práctica este procedimiento suele converger en pocas iteraciones (normalmente menos de 5).
-En el paquete <code>gstat</code> solo se realiza una iteración (se reestimará la tendencia empleando GLS al calcular las predicciones kriging).</p>
-<p>Función <code>gls()</code> del paquete <code>nlme</code>.</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ajuste-variog.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gls</span>(model, data, correlation, weights, method, control, ...)</span></code></pre></div>
-<p>Problema sesgo variograma…</p>
-<p>Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la Sección <a href="ajuste-variog.html#ml-fit">3.3.3</a>.</p>
+Sin embargo, en el paquete <code>gstat</code> solo se realiza una iteración (se reestimará la tendencia empleando GLS al calcular las predicciones kriging).</p>
+<p>En el caso de variogramas no acotados, el proceso <span class="math inline">\(\varepsilon(\cdot)\)</span> no sería estacionario de segundo orden, no está disponible la matriz <span class="math inline">\(\boldsymbol{\Sigma}\)</span> y en principio sería imposible emplear GLS para estimar la tendencia.
+Sin embargo, normalmente se suele trabajar en un dominio acotado <span class="math inline">\(D\)</span> y podemos encontrar una constante positiva <span class="math inline">\(A\)</span> tal que <span class="math inline">\(C^{\ast }(\mathbf{h})= A-\gamma(\mathbf{h})\geq 0,\forall \mathbf{h}\in D\)</span> (y por tanto esta función es un covariograma válido en ese dominio).
+La función <span class="math inline">\(C^{\ast }(\mathbf{h})\)</span> se suele denominar <em>pseudo-covariograma</em> (o covarianza localmente equivalente; ver p.e. Chilès y Delfiner, 1999, Sección 4.6.2).
+Si utilizamos <span class="math inline">\(C^{\ast }(\mathbf{h})\)</span> en lugar del covariograma en la estimación de la media (o en las ecuaciones del predictor del KU), la constante <em>A</em> se cancela y obtenemos los mismos resultados (sin embargo las varianzas si que dependen de esta constante).</p>
+<!-- 
+En R, por ejemplo, podríamos volver a reestimar la tendencia mediante GLS y calcular los nuevos residuos mediante la función `gls()` del paquete `nlme`, que realmente emplea estimación por máxima verosimilitud.
+
+```r
+gls(model, data, correlation, weights, method, control, ...)
+```
+-->
+<p>Adicionalmente, habría que tener en cuenta también que la variabilidad de los residuos no es la de los errores teóricos (algo que normalmente se ignora).
+Para ilustrar este problema supongamos que el proceso de error <span class="math inline">\(\varepsilon(\cdot)\)</span> es estacionario de segundo orden con covariograma conocido <span class="math inline">\(C(\cdot)\)</span> de forma que podemos calcular el estimador lineal óptimo de <span class="math inline">\(\boldsymbol{\beta}\)</span>:
+<span class="math display">\[\hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z} = \mathbf{P}_{gls}\mathbf{Z},\]</span>
+siendo <span class="math inline">\(\mathbf{P}_{gls}\)</span> la matriz de proyección.
+Empleando este estimador obtenemos el vector de residuos:
+<span class="math display">\[\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},\]</span>
+cuya matriz de varianzas-covarianzas resulta ser:
+<span class="math display">\[\begin{aligned}
+Var(\mathbf{r}) &amp;=(\mathbf{I}_{n} -\mathbf{P}_{gls})\boldsymbol{\Sigma}(\mathbf{I}_{n}
+-\mathbf{P}_{gls})^\top  \\
+&amp; = \boldsymbol{\Sigma} - \mathbf{X}(\mathbf{X}^\top\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}
+\mathbf{X}^\top.
+\end{aligned}\]</span>
+De donde se deduce que si utilizamos directamente los residuos, incluso procediendo de la forma más eficiente, se introduce un sesgo en la estimación de la dependencia espacial.
+Explícitamente, si denotamos por <span class="math inline">\(\hat{\mu}(\mathbf{s})\)</span> la estimación GLS de la tendencia, puede verse que:
+<span class="math display">\[\begin{aligned}
+C_{\mathbf{r}}(\mathbf{s}_{i} ,\mathbf{s}_{j}) &amp;= Cov\left(Z(\mathbf{s}_{i})-\hat{\mu}(\mathbf{s}_{i}), Z(\mathbf{s}_{j} ) - \hat{\mu}(\mathbf{s}_{j})\right) \\
+&amp;= C(\mathbf{s}_{i} -\mathbf{s}_{j}) - Cov(\hat{\mu}(\mathbf{s}_{i} ), \hat{\mu}(\mathbf{s}_{j})),
+\end{aligned}\]</span>
+y expresado en función del semivariograma:
+<span class="math display">\[\gamma_{\mathbf{r}}(\mathbf{s}_{i} ,\mathbf{s}_{j}) = \gamma
+(\mathbf{s}_{i} -\mathbf{s}_{j})-\frac{1}{2} Var(\hat{\mu}
+(\mathbf{s}_{i})-\hat{\mu}(\mathbf{s}_{j})).\]</span></p>
+<p>Por tanto al utilizar alguno de los estimadores mostrados anteriormente con los residuos estimados obtenemos estimaciones sesgadas del semivariograma teórico.
+Matheron (1971, pp. 152-155) ya notó que, por lo general, el sesgo del estimador del semivariograma es pequeño en los saltos próximos al origen, pero más sustancial en saltos grandes<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.
+Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver p.e. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).</p>
+<p>En cuanto a las consecuencias de que el estimador del variograma no sea insesgado en el kriging universal, hay que tener en cuenta que:</p>
+<ul>
+<li>Al ajustar un modelo de variograma por mínimos cuadrados ponderados o generalizados (Sección <a href="ajuste-variog.html#ls-fit">3.3.1</a>), automáticamente los saltos pequeños reciben mayor peso en el ajuste.</li>
+<li>Además si la predicción espacial se lleva a cabo con un criterio de vecindad, el variograma sólo es evaluado en saltos pequeños, donde se tiene una buena estimación y un buen ajuste.</li>
+<li>También hay que tener en cuenta el resultado de Stein (1988), i.e. para una predicción eficiente generalmente sólo es necesario capturar la conducta del variograma cerca del origen</li>
+</ul>
+<p>Por lo anterior, el desencanto con el kriging universal ha sido prematuro, el efecto del sesgo del estimador del variograma sobre el predictor del kriging universal es pequeño.
+Sin embargo la varianza del kriging universal se ve más afectada y es menor de lo que debería ser (para más detalles ver Cressie, 1993, pp. 296-299).
+Adicionalmente se han propuesto alternativas a los métodos de ajuste basados en mínimos cuadrados que tienen en cuenta el sesgo en la estimación del variograma (e.g. Beckers y Bogaert, 1998; Fernandez-Casal y Francisco-Fernandez, 2014, función <a href="https://rubenfcasal.github.io/npsp/reference/np.svar.html"><code>npsp::np.svariso.corr()</code></a>).</p>
+<p>Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la siguiente sección (que también tienen problemas de sesgo).</p>
 </div>
 <div id="ml-fit" class="section level3" number="3.3.3">
 <h3><span class="header-section-number">3.3.3</span> Estimación por máxima verosimilitud</h3>
-</div>
-<div id="comentarios-sobre-los-distintos-métodos" class="section level3" number="3.3.4">
-<h3><span class="header-section-number">3.3.4</span> Comentarios sobre los distintos métodos</h3>
+<p>La estimación por máxima verosimilitud (<em>maximum likelihood</em>, ML) es un método muy conocido en inferencia estadística paramétrica, aunque su uso en geoestadística ha sido relativamente reciente (a partir de mediados de los 80).
+Además la estimación ML tiene una conexión directa con la estimación Bayesiana (e.g. Handcock y Wallis, 1994) y el empleo de estas herramientas en estadística espacial ha experimentado un notable aumento en los últimos años (e.g. <a href="https://spacetimewithr.org/">Wikle et al., 2019</a>; <a href="https://www.paulamoraga.com/book-geospatial/">Moraga, 2020</a>).</p>
+<p>Si suponemos que la distribución de los datos es normal:
+<span class="math display">\[\mathbf{Z}\sim \mathcal{N}(\mathbf{X}\boldsymbol{\beta},\boldsymbol{\Sigma}),\]</span>
+donde <span class="math inline">\(\boldsymbol{\Sigma}=\boldsymbol{\Sigma}(\boldsymbol{\theta})\)</span> (utilizando la notación de secciones anteriores), se puede deducir fácilmente la expresión de la función de verosimilitud y obtener las estimaciones de los parámetros buscando los valores que la maximizan.</p>
+<p>En este caso, la función de densidad de los datos es:
+<span class="math display">\[f(\mathbf{z})=(2\pi )^{-\frac{n}{2} } \left| \boldsymbol{\Sigma} \right|^{-\frac{1}{2} }
+\exp \left\{ -\dfrac{1}{2}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})\right\}.\]</span>
+Además en la mayoría de los casos podemos reparametrizar el covariograma<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> de forma que:
+<span class="math display">\[\boldsymbol{\Sigma}=\sigma^2 \mathbf{V}(\boldsymbol{\theta}),\]</span>
+siendo <span class="math inline">\(\sigma^2\)</span> la varianza desconocida (o umbral total), y se obtiene que la expresión del logaritmo negativo de la función de verosimilitud (<em>negative log likelihood</em>, NLL) es:
+<span class="math display">\[\begin{aligned}
+\mathcal{L}(\boldsymbol{\theta},\boldsymbol{\beta},\sigma^2 \left| \mathbf{Z} \right.) &amp; = \dfrac{n}{2} \ln (2\pi) + \dfrac{n}{2} \ln(\sigma^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta}) \right|  \\
+&amp; + \ \dfrac{1}{2\sigma^2 }(\mathbf{Z}-\mathbf{X}\boldsymbol{\beta})^\top \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\boldsymbol{\beta}),
+\end{aligned}\]</span>
+donde <span class="math inline">\(\left| \mathbf{V}(\boldsymbol{\theta})\right|\)</span> denota el determinante de la matriz <span class="math inline">\(\mathbf{V}(\boldsymbol{\theta})\)</span>.
+Las estimaciones de los parámetros <span class="math inline">\((\boldsymbol{\theta}, \boldsymbol{\beta}, \sigma^2)\)</span> se obtendrán minimizando el NLL.
+Un resultado bien conocido es que el mínimo se obtiene, independientemente de <span class="math inline">\(\boldsymbol{\theta}\)</span>, para:
+<span class="math display" id="eq:estimadores-ml">\[\begin{equation} 
+  \begin{aligned}
+  \hat{\boldsymbol{\beta}} &amp; =(\mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1} \mathbf{X})^{-1} \mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1} \mathbf{Z}, \\
+  \hat{\sigma }^2 &amp; =\dfrac{1}{n}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}})^\top
+  \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}).
+  \end{aligned}
+  \tag{3.4}
+\end{equation}\]</span> <!-- \@ref(eq:estimadores-ml) -->
+Por tanto la función a minimizar respecto a <span class="math inline">\(\boldsymbol{\theta}\)</span> es:
+<span class="math display">\[\mathcal{L}(\boldsymbol{\theta}\left| \mathbf{Z}\right. )=\mathcal{L}(\hat{\boldsymbol{\beta}} ,\boldsymbol{\theta},\hat{\sigma }^2 \left|
+\mathbf{Z}\right. ) = \dfrac{n}{2} \ln (2\pi ) + \dfrac{n}{2} \ln (\hat{\sigma
+}^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right| +\dfrac{n}{2}.\]</span>
+Para ello es necesario utilizar algoritmos de minimización no lineal multidimensional.
+Además está el problema de la posible multimodalidad de esta función (ver p.e. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
+Si <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es la estimación de <span class="math inline">\(\boldsymbol{\theta}\)</span> obtenida al resolver este problema, sustituyendo en <a href="ajuste-variog.html#eq:estimadores-ml">(3.4)</a> se obtienen las estimaciones del resto de parámetros<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>.</p>
+<p>Uno de los principales problemas de la estimación ML es que los estimadores de <span class="math inline">\(\sigma^2\)</span> y <span class="math inline">\(\boldsymbol{\theta}\)</span> pueden tener un sesgo considerable (especialmente cuando la tendencia no es constante), algo que es bastante conocido en la estimación de la varianza con datos independientes.
+Este problema se puede resolver (por lo menos en parte) utilizando una variante de este método.</p>
+<p>El método de máxima verosimilitud restringida (<em>restricted maximum likelihood</em>, REML) se basa en la idea de filtrar los datos de forma que la distribución conjunta no dependa de <span class="math inline">\(\boldsymbol{\beta}\)</span>.
+Se trata de maximizar la verosimilitud de <span class="math inline">\(m=n-p-1\)</span> contrastes de error linealmente independientes:
+<span class="math display">\[\mathbf{Y}=\boldsymbol{\Lambda}\mathbf{Z},\]</span>
+siendo <span class="math inline">\(\boldsymbol{\Lambda}\)</span> una matriz <span class="math inline">\(m\times n\)</span> de rango <span class="math inline">\(m\)</span> y tal que <span class="math inline">\(\boldsymbol{\Lambda}\mathbf{X}=\mathbf{0}\)</span> (i.e. <span class="math inline">\(E(\mathbf{Y}) = \mathbf{0}\)</span>).
+Estas combinaciones lineales también se denominan habitualmente <em>incrementos generalizados</em> y, asumiendo normalidad, su distribución no depende de <span class="math inline">\(\boldsymbol{\beta}\)</span>:
+<span class="math display">\[\mathbf{Y}\sim \mathcal{N}(\mathbf{0},\boldsymbol{\Lambda}\boldsymbol{\Sigma}\boldsymbol{\Lambda}^\top).\]</span>
+De forma análoga al caso anterior podríamos obtener la correspondiente función de verosimilitud. Además, Harville (1974) demostró que las verosimilitudes de distintos incrementos generalizados son iguales salvo una constante y que se pueden obtener expresiones simplificadas
+seleccionando la matriz <span class="math inline">\(\boldsymbol{\Lambda}\)</span> de forma que <span class="math inline">\(\boldsymbol{\Lambda}^\top \boldsymbol{\Lambda}=\mathbf{I}_{n} -\mathbf{X}(\mathbf{X^\top}\mathbf{X})^{-1} \mathbf{X}^\top\)</span> y <span class="math inline">\(\boldsymbol{\Lambda}\boldsymbol{\Lambda}^\top =\mathbf{I}_{m}\)</span>, obteniéndose la siguiente expresión para el NLL:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathcal{L}(\boldsymbol{\theta}\left| \mathbf{Y}\right. ) 
+&amp; = \dfrac{m}{2} \ln (2\pi ) + \dfrac{m}{2} \ln (\hat{\sigma}_{Y}^2) -\dfrac{1}{2} \left| \mathbf{X}^\top\mathbf{X}\right|  \\
+&amp; + \ \dfrac{1}{2} \left| \mathbf{X}^\top\mathbf{V}(\boldsymbol{\theta})^{-1}
+\mathbf{X}\right| +\dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right|
++\dfrac{m}{2} ,\end{aligned}\]</span>
+siendo:
+<span class="math display">\[\hat{\sigma }_{Y}^2 =\dfrac{1}{m}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}
+)^\top \mathbf{V}(\boldsymbol{\theta})^{-1}(\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}).\]</span></p>
+<p>En general se da por hecho que la estimación REML mejora, a veces significativamente, los resultados obtenidos con la estimación ML (sobre todo si <span class="math inline">\(p\)</span> es grande comparado con <span class="math inline">\(n\)</span>).
+En numerosos estudios de simulación (e.g. Zimmerman y Zimmerman, 1991; Fernández-Casal et al., 2003b) se ha observado que el sesgo en las estimaciones de los parámetros del variograma es en general menor.
 <!-- 
-## Referencias
-
-Pendiente: añadir bibliografía bibtex y referencias paquetes
+aunque no se han estudiado todavía las propiedades asintóticas teóricas de estos estimadores?
+--></p>
+<p>En <code>gstat</code> el ajuste mediante REML se podría realizar empleando la función:</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ajuste-variog.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fit.variogram.reml</span>(formula, locations, data, model, <span class="at">degree =</span> <span class="dv">0</span>, ...)</span></code></pre></div>
+<p>Sin embargo, aparentemente <strong><em>el método no está bien implementado</em></strong> (emplea <code>formula</code> para un ajuste OLS y después, en el código C interno, considera una tendencia polinómica en las coordenadas determinada por <code>degree</code>), actualmente solo admite datos tipo <code>Spatial*</code> del paquete <code>sp</code> y además es habitual que aparezcan problemas computacionales, por lo que no se recomendaría su uso.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ajuste-variog.html#cb109-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">3</span>, <span class="at">model =</span> <span class="st">&quot;Sph&quot;</span>, <span class="at">range =</span> <span class="dv">75</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
+<span id="cb109-2"><a href="ajuste-variog.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fit.variogram.reml</span>(head <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> <span class="fu">as</span>(aquifer_sf, <span class="st">&quot;Spatial&quot;</span>), <span class="at">model =</span> model, <span class="at">degree =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##   model      psill range
+## 1   Nug -0.7976219     0
+## 2   Sph 12.5397527    75</code></pre>
+<p>Como aparece en la ayuda de esta función, es preferible usar el paquete <code>geoR</code> (ver Sección <a href="modelado-de-la-dependencia.html#ajuste-de-un-modelo-de-variograma">B.3.2</a> del apéndice) y también se podría emplear el paquete <code>nlme</code>.</p>
+<!-- 
+Pendiente:
+Estimación con geoR (y nlme?) y conversión del modelo resultante a vgm de gstat
+En teoría en el paquete nlme está eficientemente implementado (también se podría emplear el paquete mgcv...)
 -->
-
 </div>
 </div>
-<!-- </div> -->
 <div class="footnotes">
 <hr />
 <ol start="13">
 <li id="fn13"><p>La distribución y eficiencia asintótica de los estimadores mínimo cuadráticos ha sido estudiada por Lahiri et al. (2003), demostrando su consistencia y normalidad asintótica bajo condiciones muy generales.<a href="ajuste-variog.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>Para un caso particular, Cressie (1993, pp. 166-167) observó que los residuos basados en el estimador GLS dan lugar a un estimador del variograma con sesgo negativo y cuadrático en h.<a href="ajuste-variog.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>Por ejemplo en el caso de los semivariogramas mostrados en la Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>, si <span class="math inline">\(c_{0}\)</span> es el efecto nugget y <span class="math inline">\(c_1\)</span> el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) <span class="math inline">\(\sigma^2 =c_{0} +c_1\)</span> y la proporción de nugget en el umbral total <span class="math inline">\(c_{0}^{\ast} =c_{0} /(c_{0} +c_1)\)</span> (lo que equivale a suponer en las expresiones del covariograma que <span class="math inline">\(c_1 =1\)</span> y <span class="math inline">\(0 \leq c_{0} \leq 1\)</span>).<a href="ajuste-variog.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>El comportamiento asintótico (bajo dominio creciente) de estos estimadores ha sido estudiado por Mardia y Marshal (1984), dando condiciones (no muy fáciles de chequear en la práctica) para su consistencia y normalidad asintótica (ver también Cressie, 1993, Sección 7.3.1).<a href="ajuste-variog.html#fnref16" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
@@ -475,7 +596,7 @@ Pendiente: añadir bibliografía bibtex y referencias paquetes
         </div>
       </div>
 <a href="modelos-variog.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="kriging.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="comentarios-sobre-los-distintos-métodos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

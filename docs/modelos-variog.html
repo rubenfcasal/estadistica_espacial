@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -300,10 +300,10 @@ En la Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a> se p
 Estos modelos son empleados también en ciertos casos como estructuras básicas a partir de las cuales se construyen modelos más complejos, como modelos anisotrópicos (Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>) o los denominados modelos lineales de regionalización (Sección <a href="modelos-variog.html#vario-lin-reg">3.2.3</a>).</p>
 <div id="modelos-parametricos" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Modelos paramétricos isotrópicos</h3>
-<p>A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, sección 2.5.1).
+<p>A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
 En la notación utilizada en las parametrizaciones <span class="math inline">\(c_{0} \geq 0\)</span> representa el efecto nugget, <span class="math inline">\(c_1 \geq 0\)</span> el umbral parcial (en el caso de variogramas acotados, con <span class="math inline">\(\sigma^2= c_0 + c_1\)</span>) y <span class="math inline">\(a&gt;0\)</span> el rango (si existe) o el parámetro de escala.
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro <span class="math inline">\(a\)</span> representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95% del umbral parcial.
-En la Figura <a href="modelos-variog.html#fig:show-vgms">3.1</a> se tienen algunos ejemplos de las formas de algunos de
+En la Figura <a href="modelos-variog.html#fig:show-vgms">3.2</a> se tienen algunos ejemplos de las formas de algunos de
 estos semivariogramas.</p>
 <ul>
 <li><p>Modelo esférico:
@@ -427,14 +427,14 @@ Si se ejecuta sin argumentos devuelve un listado de todos los modelos:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-vgms"></span>
 <img src="03-modelado_files/figure-html/show-vgms-1.png" alt="Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`." width="70%" />
 <p class="caption">
-Figura 3.1: Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete <code>gstat</code>.
+Figura 3.2: Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete <code>gstat</code>.
 </p>
 </div>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="modelos-variog.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>(<span class="at">kappa.range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">max =</span> <span class="dv">10</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-matern"></span>
 <img src="03-modelado_files/figure-html/show-matern-1.png" alt="Modelo de Matérn con distintos valores del parámetro de suavizado." width="70%" />
 <p class="caption">
-Figura 3.2: Modelo de Matérn con distintos valores del parámetro de suavizado.
+Figura 3.3: Modelo de Matérn con distintos valores del parámetro de suavizado.
 </p>
 </div>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="modelos-variog.html#cb84-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
@@ -446,22 +446,22 @@ Figura 3.2: Modelo de Matérn con distintos valores del parámetro de suavizado.
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vgm-exp"></span>
 <img src="03-modelado_files/figure-html/vgm-exp-1.png" alt="Ejemplo de modelo exponencial." width="70%" />
 <p class="caption">
-Figura 3.3: Ejemplo de modelo exponencial.
+Figura 3.4: Ejemplo de modelo exponencial.
 </p>
 </div>
 </div>
 <div id="anisotropia" class="section level3" number="3.2.2">
 <h3><span class="header-section-number">3.2.2</span> Modelado de anisotropía</h3>
-<p>La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección XX).
+<p>La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial.
-En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, sección 2.5.2, o Goovaerts, 1997, sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).</p>
+En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).</p>
 <p>Cuando el variograma es función de la dirección además de la magnitud del salto, se dice que el variograma es anisotrópico (no isotrópico).
 Los tipos de anisotropía habitualmente considerados son:</p>
 <ul>
 <li><em>Anisotropía geométrica</em>: cuando el umbral permanece constante mientras que el rango varía con la dirección.</li>
 <li><em>Anisotropía zonal</em>: cuando el umbral del semivariograma varía con la dirección (también se denomina anisotropía estratificada).</li>
-<li>Combinación de las anteriores.</li>
+<li><em>Anisotropía mixta</em>: combinación de las anteriores.</li>
 </ul>
 <p>La anisotropía geométrica se puede corregir mediante una transformación lineal del vector de salto <span class="math inline">\(\mathbf{h}\)</span>:
 <span class="math display">\[\gamma(\mathbf{h})=\gamma^{0} \left( \left\| \mathbf{A}\mathbf{h}\right\| \right) ,\forall \mathbf{h}\in \mathbb{R}^{d},\]</span>
@@ -511,7 +511,7 @@ En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)
 <span id="cb89-13"><a href="modelos-variog.html#cb89-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">phi =</span> (<span class="dv">90</span> <span class="sc">-</span> ang1)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
 <span id="cb89-14"><a href="modelos-variog.html#cb89-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
 <span id="cb89-15"><a href="modelos-variog.html#cb89-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="03-modelado_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros “zonales” que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto).
 Por ejemplo, en el caso bidimensional, si <span class="math inline">\(\phi\)</span> es la dirección de mayor varianza se suele considerar una combinación de la forma:
 <span class="math display">\[\gamma(\mathbf{h})=\gamma_1 (\left\| \mathbf{h}\right\|)+\gamma_2(h_{\phi }),\]</span>
@@ -552,14 +552,14 @@ En primer lugar hay que especificar el número y tipo de estructuras básicas, y
 <span id="cb92-4"><a href="modelos-variog.html#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v2, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
 <span id="cb92-5"><a href="modelos-variog.html#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Exponencial&quot;</span>, <span class="st">&quot;Gaussiano&quot;</span>, <span class="st">&quot;Anidado&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>), </span>
 <span id="cb92-6"><a href="modelos-variog.html#cb92-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
-<p><img src="03-modelado_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="11">
 <li id="fn11"><p>Esta idea (que el espacio euclídeo no es apropiado para medir distancias entre posiciones espaciales pero una transformación lineal de él sí) ha sido también generalizada para el caso de deformaciones no lineales del espacio. Por ejemplo, Sampson y Guttorp (1992) consideraron transformaciones no lineales obtenidas mediante técnicas de escalamiento óptimo multidimensional.<a href="modelos-variog.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>Ver por ejemplo Goovaerts (1997, sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.<a href="modelos-variog.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>Ver por ejemplo Goovaerts (1997, Sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.<a href="modelos-variog.html#fnref12" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

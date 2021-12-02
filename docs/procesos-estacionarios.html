@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,8 +218,8 @@ div.csl-indent {
 <li class="chapter" data-level="3.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>3.3.1</b> Estimación por mínimos cuadrados</a></li>
 <li class="chapter" data-level="3.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>3.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
 <li class="chapter" data-level="3.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>3.3.3</b> Estimación por máxima verosimilitud</a></li>
-<li class="chapter" data-level="3.3.4" data-path="ajuste-variog.html"><a href="ajuste-variog.html#comentarios-sobre-los-distintos-métodos"><i class="fa fa-check"></i><b>3.3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
+<li class="chapter" data-level="3.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>3.4</b> Comentarios sobre los distintos métodos</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>4</b> Predicción Kriging</a>
 <ul>
@@ -362,7 +362,7 @@ Por tanto podemos pensar en <span class="math inline">\(c_0 /\sigma^{2}\)</span>
 <p>Si <span class="math inline">\(\sigma ^{2}\)</span> es el umbral del semivariograma (suponiendo que existe), se define el <em>rango</em> (o alcance) del semivariograma en la dirección <span class="math inline">\(\mathbf{e}_0 \in \mathbb{R}^{d}\)</span> con <span class="math inline">\(\left\| \mathbf{e}_0 \right\| = 1\)</span>, como el mínimo salto en esa dirección en el que se alcanza el umbral:
 <span class="math display">\[a_0 =\min \left\{ a:\gamma (a\left( 1+\varepsilon \right) \mathbf{e}_0 )=\sigma ^{2} , \forall \varepsilon &gt;0\right\}.\]</span>
 El rango en la dirección <span class="math inline">\(\mathbf{e}_0\)</span> puede interpretarse como el salto <span class="math inline">\(h\)</span> a partir del cual no hay correlación entre <span class="math inline">\(Z(\mathbf{s})\)</span> y <span class="math inline">\(Z(\mathbf{s}\pm h\mathbf{e}_0)\)</span>, por tanto está íntimamente ligado a la noción de “zona de influencia” (y tiene un papel importante en la determinación de criterios de vecindad).
-En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el <em>rango práctico</em>, definido como el mínimo salto en el que se alcanza el 95% del umbral.</p>
+En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el <em>rango práctico</em>, definido como el mínimo salto en el que se alcanza el 95% del umbral parcial.</p>
 <p>El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso.
 En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>; Cressie, 1993, Sección 2.4.1).
 No obstante, en muchos casos los modelos de variograma se obtienen a partir de modelos de covariograma.</p>
@@ -383,7 +383,7 @@ Por tanto la clase de covariogramas válidos en <span class="math inline">\(\mat
 <li><p>Si <span class="math inline">\(C(\cdot)\)</span> es un covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>, entonces <span class="math inline">\(aC(\cdot)\)</span>, <span class="math inline">\(\forall a\geq 0\)</span>, es
 también un covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>.</p></li>
 <li><p>Si <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> son covariogramas válidos en <span class="math inline">\(\mathbb{R}^d\)</span>, entonces <span class="math inline">\(C_1 (\cdot) + C_2 (\cdot)\)</span> es un
-covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>. Lo que equivale a suponer que el proceso <span class="math inline">\(Z(\cdot)\)</span> se obtiene como suma de dos procesos estacionarios de segundo orden independientes: <span class="math inline">\(Z(\mathbf{s})=Z_1 (\mathbf{s})Z_2 (\mathbf{s})\)</span>, con covariogramas <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> respectivamente.</p></li>
+covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>. Lo que equivale a suponer que el proceso <span class="math inline">\(Z(\cdot)\)</span> se obtiene como suma de dos procesos estacionarios de segundo orden independientes: <span class="math inline">\(Z(\mathbf{s})=Z_1 (\mathbf{s}) + Z_2 (\mathbf{s})\)</span>, con covariogramas <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> respectivamente.</p></li>
 <li><p>Si <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> son covariogramas válidos en <span class="math inline">\(\mathbb{R}^d\)</span>, entonces <span class="math inline">\(C(\cdot) = C_1 (\cdot)C_2 (\cdot)\)</span>
 es un covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>. Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.</p></li>
 <li><p>Un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^d\)</span> es también un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^m\)</span>, <span class="math inline">\(\forall m\leq d\)</span> (el recíproco no es en general cierto, ver p.e. Cressie, 1993, p. 84).</p></li>
