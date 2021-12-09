@@ -367,7 +367,7 @@ $$\mathbf{A}=\left(
 que se corresponde con las direcciones principales de anisotropía $\phi$ y $\phi + \frac{\pi }{\text{2}}$ (normalmente se toma $\phi$ igual a la dirección de máximo rango).
 Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp. 94-95).
 
-En `gstat` se puede definir anisotropía mediante el argumento `anis` de la función `vgm()`.
+En `gstat` se puede definir^[Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete `geoR` (ver Sección \@ref(geor-ajuste)).] anisotropía mediante el argumento `anis` de la función `vgm()`.
 En dos dimensiones es un vector con dos componentes `anis = c(alpha, ratio)`, `alpha` es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. `phi = (90 - alpha)*pi/180`) y `ratio` la relación entre el rango mínimo y máximo ($0 \leq ratio = a_2/a_1 \leq 1$).
 
 Ejemplo:
@@ -736,7 +736,20 @@ Sin embargo, aparentemente ***el método no está bien implementado*** (emplea `
 model <- vgm(psill = 3, model = "Sph", range = 75, nugget = 0)
 fit.variogram.reml(head ~ 1, data = as(aquifer_sf, "Spatial"), model = model, degree = 1)
 ```
-Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(ajuste-de-un-modelo-de-variograma) del apéndice) y también se podría emplear el paquete `nlme`.
+Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(geor-ajuste) del apéndice; también se podría emplear el paquete `nlme`), empleando la función `geoR::likfit()` para el ajuste y posteriormente `as.vgm.variomodel()` para convertir el modelo ajustado a un objeto de `gstat`.
+
+```{r}
+geor.models <- c(Exp = "exponential", Sph = "spherical", Cir = "circular", 
+             Gau = "gaussian", Mat = "matern", Pow = "power", Nug = "nugget", 
+             Lin = "linear")
+pars.ini <- c(psill = 3, range = 75, nugget = 0, kappa = 0.5)
+res <- geoR::likfit(coords = st_coordinates(aquifer_sf), data = aquifer_sf$head,
+             lik.method = "REML", trend = "1st", cov.model = geor.models["Sph"], 
+             ini.cov.pars = pars.ini[1:2], nugget = pars.ini[3], kappa = pars.ini[4])
+summary(res)
+as.vgm.variomodel(res)
+```
+
 
 <!-- 
 Pendiente:
