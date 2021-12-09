@@ -464,7 +464,7 @@ par(oldpar)
 
 
 
-### Ajuste de un modelo de variograma
+### Ajuste de un modelo de variograma {#geor-ajuste}
 
 Los estimadores empíricos no pueden ser empleados en la práctica (no
 verifican necesariamente las propiedades de un variograma válido), por
@@ -555,8 +555,7 @@ Ejemplos de estimación por mínimos cuadrados (llamadas a `variofit`):
 
 
 ```r
-#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango =1.5)
-
+#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango = 1.5)
 vario.ols <- variofit(vario.b, ini = c(1, 0.5), weights = "equal")  #ordinarios
 ```
 

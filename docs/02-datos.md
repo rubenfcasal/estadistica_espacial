@@ -498,6 +498,12 @@ st_crs(nc)
 En [spatialreference.org](https://spatialreference.org) se puede obtener información detallada sobre una gran cantidad de proyecciones (y permite realizar búsquedas).
 También puede ser de utilidad [epsg.io](https://epsg.io) o este [listado](https://proj.org/operations/projections) con detalles de los parámetros.
 
+<!-- 
+Pendiente: 
+?sf_proj_network
+https://cdn.proj.org/ 
+-->
+
 El CRS ideal dependerá del tipo de problema y de la zona cubierta por los datos (ver e.g Lovelace et al, 2021, [Sección 6.3](https://geocompr.robinlovelace.net/reproj-geo-data.html#which-crs-to-use), para más información).
 En general en estadística espacial nos interesará trabajar con coordenadas proyectadas, de forma que tenga sentido emplear la distancia euclídea (algo que puede ser poco o nada razonable si se trabaja con coordenadas geodésicas en una zona muy amplia del globo o cerca de los polos).
 En el caso de coordenadas sin proyectar (latitud/longitud) puede ser preferible trabajar con distancias ortodrómicas (longitud del arco del círculo máximo que une los puntos, *great circle distances*)^[Algo que ya hace de forma automática el paquete `gstat`.].

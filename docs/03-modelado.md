@@ -493,7 +493,7 @@ $$\mathbf{A}=\left(
 que se corresponde con las direcciones principales de anisotropía $\phi$ y $\phi + \frac{\pi }{\text{2}}$ (normalmente se toma $\phi$ igual a la dirección de máximo rango).
 Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp. 94-95).
 
-En `gstat` se puede definir anisotropía mediante el argumento `anis` de la función `vgm()`.
+En `gstat` se puede definir^[Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete `geoR` (ver Sección \@ref(geor-ajuste)).] anisotropía mediante el argumento `anis` de la función `vgm()`.
 En dos dimensiones es un vector con dos componentes `anis = c(alpha, ratio)`, `alpha` es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. `phi = (90 - alpha)*pi/180`) y `ratio` la relación entre el rango mínimo y máximo ($0 \leq ratio = a_2/a_1 \leq 1$).
 
 Ejemplo:
@@ -967,10 +967,89 @@ fit.variogram.reml(head ~ 1, data = as(aquifer_sf, "Spatial"), model = model, de
 
 ```
 ##   model      psill range
-## 1   Nug -0.7976219     0
-## 2   Sph 12.5397527    75
+## 1   Nug -0.7977189     0
+## 2   Sph 12.5411626    75
 ```
-Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(ajuste-de-un-modelo-de-variograma) del apéndice) y también se podría emplear el paquete `nlme`.
+Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(geor-ajuste) del apéndice; también se podría emplear el paquete `nlme`), empleando la función `geoR::likfit()` para el ajuste y posteriormente `as.vgm.variomodel()` para convertir el modelo ajustado a un objeto de `gstat`.
+
+
+```r
+geor.models <- c(Exp = "exponential", Sph = "spherical", Cir = "circular", 
+             Gau = "gaussian", Mat = "matern", Pow = "power", Nug = "nugget", 
+             Lin = "linear")
+pars.ini <- c(psill = 3, range = 75, nugget = 0, kappa = 0.5)
+res <- geoR::likfit(coords = st_coordinates(aquifer_sf), data = aquifer_sf$head,
+             lik.method = "REML", trend = "1st", cov.model = geor.models["Sph"], 
+             ini.cov.pars = pars.ini[1:2], nugget = pars.ini[3], kappa = pars.ini[4])
+```
+
+```
+## kappa not used for the spherical correlation function
+## ---------------------------------------------------------------
+## likfit: likelihood maximisation using the function optim.
+## likfit: Use control() to pass additional
+##          arguments for the maximisation function.
+##         For further details see documentation for optim.
+## likfit: It is highly advisable to run this function several
+##         times with different initial values for the parameters.
+## likfit: WARNING: This step can be time demanding!
+## ---------------------------------------------------------------
+## likfit: end of numerical maximisation.
+```
+
+```r
+summary(res)
+```
+
+```
+## Summary of the parameter estimation
+## -----------------------------------
+## Estimation method: restricted maximum likelihood 
+## 
+## Parameters of the mean component (trend):
+##   beta0   beta1   beta2 
+## 26.7704 -0.0701 -0.0634 
+## 
+## Parameters of the spatial component:
+##    correlation function: spherical
+##       (estimated) variance parameter sigmasq (partial sill) =  4.545
+##       (estimated) cor. fct. parameter phi (range parameter)  =  79.16
+##    anisotropy parameters:
+##       (fixed) anisotropy angle = 0  ( 0 degrees )
+##       (fixed) anisotropy ratio = 1
+## 
+## Parameter of the error component:
+##       (estimated) nugget =  1.191
+## 
+## Transformation parameter:
+##       (fixed) Box-Cox parameter = 1 (no transformation)
+## 
+## Practical Range with cor=0.05 for asymptotic range: 79.16084
+## 
+## Maximised Likelihood:
+##    log.L n.params      AIC      BIC 
+## "-160.4"      "6"  "332.7"  "347.4" 
+## 
+## non spatial model:
+##    log.L n.params      AIC      BIC 
+## "-174.5"      "4"  "357.1"  "366.8" 
+## 
+## Call:
+## geoR::likfit(coords = st_coordinates(aquifer_sf), data = aquifer_sf$head, 
+##     trend = "1st", ini.cov.pars = pars.ini[1:2], nugget = pars.ini[3], 
+##     kappa = pars.ini[4], cov.model = geor.models["Sph"], lik.method = "REML")
+```
+
+```r
+as.vgm.variomodel(res)
+```
+
+```
+##   model    psill    range
+## 1   Nug 1.191129  0.00000
+## 2   Sph 4.544502 79.16084
+```
+
 
 <!-- 
 Pendiente:

@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-12-03}
+\date{2021-12-09}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -446,7 +446,7 @@ Si \(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}\) es u
 Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la \emph{variación de gran escala} \(\boldsymbol{\beta}\), a partir de los datos observados en un conjunto de posiciones espaciales \(\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}\).
 Bajo las hipótesis anteriores:
 \[\mathbf{Z} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},\]
-siendo \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}\), \(\mathbf{X}\) una matriz \(n\times (p+1)\) con \(X_{ij}=X_{j-1}(\mathbf{s}_{i})\) y \(\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}\); y el estimador lineal insesgado de \(\boldsymbol{\beta}\) más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, \emph{ordinary least squares}):
+siendo \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}\), \(\mathbf{X}\) una matriz \(n\times (p+1)\) con \(\mathbf{X}_{ij}=X_{j-1}(\mathbf{s}_{i})\) y \(\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}\); y el estimador lineal insesgado de \(\boldsymbol{\beta}\) más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, \emph{ordinary least squares}):
 \begin{equation} 
   \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
   \label{eq:beta-ols}
@@ -2414,7 +2414,7 @@ Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la form
 que se corresponde con las direcciones principales de anisotropía \(\phi\) y \(\phi + \frac{\pi }{\text{2}}\) (normalmente se toma \(\phi\) igual a la dirección de máximo rango).
 Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp.~94-95).
 
-En \texttt{gstat} se puede definir anisotropía mediante el argumento \texttt{anis} de la función \texttt{vgm()}.
+En \texttt{gstat} se puede definir\footnote{Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete \texttt{geoR} (ver Sección \ref{geor-ajuste}).} anisotropía mediante el argumento \texttt{anis} de la función \texttt{vgm()}.
 En dos dimensiones es un vector con dos componentes \texttt{anis\ =\ c(alpha,\ ratio)}, \texttt{alpha} es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e.~\texttt{phi\ =\ (90\ -\ alpha)*pi/180}) y \texttt{ratio} la relación entre el rango mínimo y máximo (\(0 \leq ratio = a_2/a_1 \leq 1\)).
 
 Ejemplo:
@@ -2932,11 +2932,94 @@ Sin embargo, aparentemente \textbf{\emph{el método no está bien implementado}}
 
 \begin{verbatim}
 ##   model      psill range
-## 1   Nug -0.7976219     0
-## 2   Sph 12.5397527    75
+## 1   Nug -0.7977189     0
+## 2   Sph 12.5411626    75
 \end{verbatim}
 
-Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt{geoR} (ver Sección \ref{ajuste-de-un-modelo-de-variograma} del apéndice) y también se podría emplear el paquete \texttt{nlme}.
+Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt{geoR} (ver Sección \ref{geor-ajuste} del apéndice; también se podría emplear el paquete \texttt{nlme}), empleando la función \texttt{geoR::likfit()} para el ajuste y posteriormente \texttt{as.vgm.variomodel()} para convertir el modelo ajustado a un objeto de \texttt{gstat}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{geor.models }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{Exp =} \StringTok{"exponential"}\NormalTok{, }\AttributeTok{Sph =} \StringTok{"spherical"}\NormalTok{, }\AttributeTok{Cir =} \StringTok{"circular"}\NormalTok{, }
+             \AttributeTok{Gau =} \StringTok{"gaussian"}\NormalTok{, }\AttributeTok{Mat =} \StringTok{"matern"}\NormalTok{, }\AttributeTok{Pow =} \StringTok{"power"}\NormalTok{, }\AttributeTok{Nug =} \StringTok{"nugget"}\NormalTok{, }
+             \AttributeTok{Lin =} \StringTok{"linear"}\NormalTok{)}
+\NormalTok{pars.ini }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\AttributeTok{psill =} \DecValTok{3}\NormalTok{, }\AttributeTok{range =} \DecValTok{75}\NormalTok{, }\AttributeTok{nugget =} \DecValTok{0}\NormalTok{, }\AttributeTok{kappa =} \FloatTok{0.5}\NormalTok{)}
+\NormalTok{res }\OtherTok{\textless{}{-}}\NormalTok{ geoR}\SpecialCharTok{::}\FunctionTok{likfit}\NormalTok{(}\AttributeTok{coords =} \FunctionTok{st\_coordinates}\NormalTok{(aquifer\_sf), }\AttributeTok{data =}\NormalTok{ aquifer\_sf}\SpecialCharTok{$}\NormalTok{head,}
+             \AttributeTok{lik.method =} \StringTok{"REML"}\NormalTok{, }\AttributeTok{trend =} \StringTok{"1st"}\NormalTok{, }\AttributeTok{cov.model =}\NormalTok{ geor.models[}\StringTok{"Sph"}\NormalTok{], }
+             \AttributeTok{ini.cov.pars =}\NormalTok{ pars.ini[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{], }\AttributeTok{nugget =}\NormalTok{ pars.ini[}\DecValTok{3}\NormalTok{], }\AttributeTok{kappa =}\NormalTok{ pars.ini[}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## kappa not used for the spherical correlation function
+## ---------------------------------------------------------------
+## likfit: likelihood maximisation using the function optim.
+## likfit: Use control() to pass additional
+##          arguments for the maximisation function.
+##         For further details see documentation for optim.
+## likfit: It is highly advisable to run this function several
+##         times with different initial values for the parameters.
+## likfit: WARNING: This step can be time demanding!
+## ---------------------------------------------------------------
+## likfit: end of numerical maximisation.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Summary of the parameter estimation
+## -----------------------------------
+## Estimation method: restricted maximum likelihood 
+## 
+## Parameters of the mean component (trend):
+##   beta0   beta1   beta2 
+## 26.7704 -0.0701 -0.0634 
+## 
+## Parameters of the spatial component:
+##    correlation function: spherical
+##       (estimated) variance parameter sigmasq (partial sill) =  4.545
+##       (estimated) cor. fct. parameter phi (range parameter)  =  79.16
+##    anisotropy parameters:
+##       (fixed) anisotropy angle = 0  ( 0 degrees )
+##       (fixed) anisotropy ratio = 1
+## 
+## Parameter of the error component:
+##       (estimated) nugget =  1.191
+## 
+## Transformation parameter:
+##       (fixed) Box-Cox parameter = 1 (no transformation)
+## 
+## Practical Range with cor=0.05 for asymptotic range: 79.16084
+## 
+## Maximised Likelihood:
+##    log.L n.params      AIC      BIC 
+## "-160.4"      "6"  "332.7"  "347.4" 
+## 
+## non spatial model:
+##    log.L n.params      AIC      BIC 
+## "-174.5"      "4"  "357.1"  "366.8" 
+## 
+## Call:
+## geoR::likfit(coords = st_coordinates(aquifer_sf), data = aquifer_sf$head, 
+##     trend = "1st", ini.cov.pars = pars.ini[1:2], nugget = pars.ini[3], 
+##     kappa = pars.ini[4], cov.model = geor.models["Sph"], lik.method = "REML")
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{as.vgm.variomodel}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   model    psill    range
+## 1   Nug 1.191129  0.00000
+## 2   Sph 4.544502 79.16084
+\end{verbatim}
 
 \hypertarget{comentarios-sobre-los-distintos-muxe9todos}{%
 \section{Comentarios sobre los distintos métodos}\label{comentarios-sobre-los-distintos-muxe9todos}}
@@ -2971,27 +3054,27 @@ Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que 
 
 \textbf{\emph{En preparación\ldots{}}}
 
-En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso.} (ver Sección 1.2.1 para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
+En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso} (ver Sección \ref{geoestadistica} para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).
 
-\hypertarget{introducciuxf3n}{%
-\section{Introducción}\label{introducciuxf3n}}
+\hypertarget{introduccion}{%
+\section{Introducción}\label{introduccion}}
 
-Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1} ), \ldots, z(\mathbf{s}_{n} )\right)^\top\) valores observados del proceso, los distintos métodos kriging proporcionan un predictor \(p(\mathbf{Z},\mathbf{s}_{0} )\) de \(Z(\mathbf{s}_{0} )\) verificando que:
+Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} )\right)^\top\) valores observados del proceso, los distintos métodos kriging proporcionan un predictor \(p(\mathbf{Z},\mathbf{s}_{0})\) de \(Z(\mathbf{s}_{0})\) verificando que:
 
 \begin{itemize}
 \item
   es lineal:
-  \[p(\mathbf{Z},\mathbf{s}_{0} )=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i} ) +\lambda_{0},\]
+  \[p(\mathbf{Z},\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) +\lambda_{0},\]
 \item
   es uniformemente insesgado, para cualquier \(\mu(\cdot)\):
-  \[E(p(\mathbf{Z},\mathbf{s}_{0} ))=\mu(\mathbf{s}_{0} ),\]
+  \[E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),\]
 \item
-  y minimiza el error en media cuadrática (e.m.c.) de predicción\footnote{Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver p.e. Rivoirard, 1994) y del kriging trans-normal (ver sección 4.X).}:
-  \[E\left( \left( p(\mathbf{Z},\mathbf{s}_{0} )-Z(\mathbf{s}_{0} )\right)^{\text{2} } \right),\]
+  y minimiza el error en media cuadrática de predicción (\emph{mean squared prediction error}, MSPE)\footnote{Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver p.e. Rivoirard, 1994) y del kriging trans-normal (ver Sección 4.X).}:
+  \[E\left( \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right).\]
 \end{itemize}
 
-(al hablar de predicción óptima nos referiremos a que se verifican estas dos últimas condiciones).
+En este capítulo, al hablar de predicción óptima, nos referiremos a que se verifican estas dos últimas condiciones.
 
 Dependiendo de las suposiciones acerca de la función de tendencia \(\mu(\cdot)\), se distingue principalmente entre tres métodos kriging:
 
@@ -3005,23 +3088,293 @@ Dependiendo de las suposiciones acerca de la función de tendencia \(\mu(\cdot)\
   Además se asume que por lo menos existe el variograma y es conocido.
 \item
   \emph{Kriging universal} (KU; también denominado kriging con modelo de tendencia): se supone que la media es desconocida y no constante, pero
-  que es una combinación lineal (desconocida) de \(p+1\) funciones (o variables explicativas) conocidas \(\left\{ x_j(\cdot) : j = 0, \ldots, p \right\}\):
-  \[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}x_j (\mathbf{s})\beta_j\]
-  donde \(\boldsymbol{\beta} = (\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}\) es un vector desconocido.
-  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, p.e. \(x_{0}(\cdot) \equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma.}.
+  que es una combinación lineal (desconocida) de \(p+1\) funciones (o variables explicativas) conocidas \(\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}\):
+  \[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j} (\mathbf{s})\beta_{j}\]
+  donde \(\boldsymbol{\beta}=(\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}\) es un vector desconocido.
+  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, p.e. \(X_{0} (\cdot)\equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma (Sección \ref{ku-covariograma}).}.
 \end{enumerate}
 
-Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele
-pensar en el KO como un método distinto al KU, principalmente por ciertos inconvenientes que presenta este último; ver Sección 4.X.X).
+Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele pensar en el KO como un método distinto al KU, principalmente por los inconvenientes que presenta este último; ver Sección \ref{trend-fit}).
+Adicionalmente en la Sección \ref{kriging-residual} se tratará una extensión del KU denominada \emph{kriging residual} o \emph{kriging con tendencia externa}.
+
+La suposición de que el variograma (o el covariograma) sólo dependa del salto es conveniente para facilitar el modelado de la dependencia espacial, pero para la predicción espacial no es necesaria esta consideración.
+Por tanto en las expresiones de las ecuaciones de los distintos métodos kriging se utilizará la notación más general no estacionaria:
+\[C(\mathbf{s}_{1}, \mathbf{s}_{2}) = Cov(Z(\mathbf{s}_{1}), Z(\mathbf{s}_{2})),\]
+\[2\gamma(\mathbf{s}_{1}, \mathbf{s}_{2}) = Var(Z(\mathbf{s}_{1}) - Z(\mathbf{s}_{2})),\]
+en lugar de suponer que son funciones de \(\mathbf{s}_{1}-\mathbf{s}_{2}\).
 
 \hypertarget{ksimple}{%
 \section{Kriging con media conocida: kriging simple}\label{ksimple}}
 
+Supongamos que el proceso \(Z(\cdot)\) admite una descomposición de la forma:
+\[Z(\mathbf{s})=\mu(\mathbf{s})+\varepsilon(\mathbf{s}),\]
+siendo \(\mu(\cdot)\) la función de tendencia conocida y \(\varepsilon(\cdot)\) un proceso espacial de media cero con covariograma conocido \(C(\mathbf{s}_{1}, \mathbf{s}_{2}) =Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))\) (no necesariamente estacionario, aunque en la práctica se suele suponer que \(\varepsilon(\cdot)\) es un proceso estacionario de segundo orden).
+El predictor óptimo será de la forma y tal que minimiza el MSPE , que puede expresarse como:
+\[\begin{aligned}
+E\left[ \left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right)^2 \right]  
+& = Var\left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right) 
++ \left[ E\left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right) \right]^{2}  \\
+& = Var\left( Z(\mathbf{s}_{0})-\sum\limits_{i=1}^{n}\lambda_{i}
+Z(\mathbf{s}_{i}) \right) +\left( \mu(\mathbf{s}_{0}
+)-\sum\limits_{i=1}^{n}\lambda_{i} \mu(\mathbf{s}_{i}) -\lambda_{0}
+\right)^{2},
+\end{aligned}\]
+de donde se deduce que:
+\[\lambda_{0} =\mu(\mathbf{s}_{0})-\sum\limits_{i=1}^{n}\lambda_{i} \mu(\mathbf{s}_{i}),\]
+(por tanto el sesgo es nulo).
+Entonces el predictor es de la forma:
+\[p(\mathbf{Z}, \mathbf{s}_{0}) = \mu(\mathbf{s}_{0}) + \sum\limits_{i=1}^{n}\lambda_{i} (Z(\mathbf{s}_{i}) -\mu(\mathbf{s}_{i})),\]
+(por tanto se puede pensar que se trata de la estimación lineal homogénea de un proceso de media cero) y el MSPE es igual a:
+\[\begin{aligned}
+E\left[ \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right]  & = E\left[ \left( \sum\limits_{i=1}^{n}\lambda_{i} \varepsilon(\mathbf{s}_{i}) -\varepsilon(\mathbf{s}_{0})\right)^2 \right]  \\
+& = \sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\lambda_{i} \lambda_{j}
+C(\mathbf{s}_{i},\mathbf{s}_{j} ) -2 \sum\limits_{i=1}^{n}\lambda_{i}
+C(\mathbf{s}_{i},\mathbf{s}_{0}) +C(\mathbf{s}_{0},\mathbf{s}_{0}).\end{aligned}\]
+Para minimizar esta función se igualan a cero las derivadas parciales respecto a los pesos, obteniéndose las ecuaciones del kriging simple:
+\[\sum\limits_{j=1}^{n}\lambda_{j} C(\mathbf{s}_{i},\mathbf{s}_{j} )
+- C(\mathbf{s}_{i},\mathbf{s}_{0})=0, \ \
+i=1, \ldots, n,\]
+que pueden expresarse en forma matricial como:
+\[\boldsymbol{\Sigma}\boldsymbol{\lambda}=\mathbf{c},\]
+siendo \(\boldsymbol{\lambda} = \left(\lambda_{1}, \ldots, \lambda_{n}\right)^\top\), \(\mathbf{c}=\left( C(\mathbf{s}_{1},\mathbf{s}_{0}), \ldots,C(\mathbf{s}_{n}, \mathbf{s}_{0})\right)^\top\) y \(\boldsymbol{\Sigma}\) la matriz \(n\times n\) de varianzas-covarianzas de los datos (i.e.~\(\boldsymbol{\Sigma}_{ij} =C(\mathbf{s}_{i},\mathbf{s}_{j} )\)).
+Combinando las expresiones para \(\lambda_{0}\) y \(\boldsymbol{\lambda}\), se obtiene el predictor del kriging simple:
+\[p_{KS}(\mathbf{Z}, \mathbf{s}_{0}) = \mu(\mathbf{s}_{0}) + \mathbf{c^\top }\boldsymbol{\Sigma}^{-1} (\mathbf{Z}-\boldsymbol{\mu}),\]
+donde \(\boldsymbol{\mu}=\left( \mu(\mathbf{s}_{1}), \ldots,\mu(\mathbf{s}_{n} )\right)^\top\), y el correspondiente valor mínimo del MSPE, también denominado \emph{varianza kriging}:
+\[\sigma_{KS}^{2} (\mathbf{s}_{0})=C(\mathbf{s}_{0},\mathbf{s}_{0}
+)-\mathbf{c^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c}.\]
+Una de las principales utilidades de la varianza kriging es la construcción de intervalos de confianza (normalmente basados en la hipótesis de normalidad).
+
+Para que exista una única solución del sistema la matriz \(\boldsymbol{\Sigma}\) debe ser no singular.
+Una condición suficiente para que esto ocurra es que el covariograma \(C(\cdot ,\cdot)\) sea una función semidefinida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección \ref{anisotropia}) y las posiciones de los datos sean distintas.
+En la práctica suele interesar la predicción en múltiples posiciones.
+Teniendo en cuenta que la matriz del sistema no depende de la posición
+de predicción\footnote{Además, tanto los pesos kriging como la varianza kriging no dependen de los datos observados, solamente de las posiciones y del covariograma (lo que por ejemplo, entre otras cosas, facilita el diseño de la configuración espacial de muestreo).}, el procedimiento recomendado sería calcular la factorización Cholesky de la matriz \(\boldsymbol{\Sigma}\) y posteriormente emplear esta factorización para resolver el sistema en cada posición de predicción \(\mathbf{s}_{0}\).
+
 \hypertarget{kuniversal}{%
 \section{Kriging con media desconocida: kriging universal y kriging residual}\label{kuniversal}}
 
+Como ya se comentó, el kriging universal se basa en el siguiente modelo:
+\[Z(\mathbf{s}) = \sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} + \varepsilon(\mathbf{s}),\]
+donde \(\boldsymbol{\beta}=(\beta_{0}, \ldots, \beta_{p})^\top \in \mathbb{R}^{p+1}\) es un vector desconocido, \(\left\{ X_{j}(\cdot):j=0, \ldots,p\right\}\) son funciones conocidas y \(\varepsilon(\cdot)\) un proceso espacial de media cero con variograma conocido \(2\gamma(\mathbf{s}_{1},\mathbf{s}_{2}) = Var(\varepsilon(\mathbf{s}_{1})-\varepsilon(\mathbf{s}_{2}))\) (aunque en la práctica se suele suponer estacionario).
+Supondremos también que \(X_{0} (\cdot)\equiv 1\), de esta forma además en el caso particular de \(p=0\), se corresponderá con el modelo del kriging ordinario (ver Sección \ref{introduccion}) muy utilizado en la práctica.
+Utilizando una notación matricial podemos escribir:
+\[\mathbf{Z}=\mathbf{X}\boldsymbol{\beta}+\boldsymbol{\varepsilon},\]
+siendo \(\boldsymbol{\varepsilon}=\left( \varepsilon(\mathbf{s}_{1}), \ldots, \varepsilon(\mathbf{s}_{n} )\right)^\top\) y \(\mathbf{X}\) una matriz \(n\times (p+1)\) con \(\mathbf{X}_{ij} =X_{j-1} (\mathbf{s}_{i})\), y:
+\[Z(\mathbf{s}_{0})=\mathbf{x}_0^\top\boldsymbol{\beta}+\varepsilon(\mathbf{s}_{0}),\]
+con \(\mathbf{x}_0=\left(X_{0}(\mathbf{s}_{0}), \ldots, X_{p}(\mathbf{s}_{0})\right)^\top\).
+
+En este caso, como un predictor lineal verifica que:
+\[E\left( \sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) +\lambda_{0} \right) = \boldsymbol{\lambda}^\top \mathbf{X}\boldsymbol{\beta}+\lambda_{0},\]\\
+siendo \(\boldsymbol{\lambda}=\left( \lambda_{1}, \ldots,\lambda_{n} \right)^\top\), una condición necesaria y suficiente para que el predictor sea uniformemente insesgado, i.e.~\(E(p(\mathbf{Z},\mathbf{s}_{0}))=E(Z(\mathbf{s}_{0}))=\mathbf{x}_0^\top\boldsymbol{\beta}\), \(\forall \boldsymbol{\beta}\in \mathbb{R}^{p+1}\), es que \(\lambda_{0} =0\) y:
+\begin{equation}
+  \boldsymbol{\lambda}^\top \mathbf{X} = \mathbf{x}_0^\top.
+  \label{eq:resticciones-ku}
+\end{equation}
+Además como \(X_{0} (\cdot)\equiv 1\), una de estas restricciones es:
+\begin{equation}
+  \sum\limits_{i=1}^{n}\lambda_{i} = 1,
+  \label{eq:resticcion-ko}
+\end{equation}
+que es la única condición que deben verificar los pesos en el caso del kriging ordinario.
+
+Por tanto el predictor del kriging universal será de la forma:
+\[p(\mathbf{Z},\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}),\]
+verificando \eqref{eq:resticciones-ku} y tal que minimiza el MSPE.
+Entonces se trata de minimizar:
+\begin{equation}
+  E\left( Z(\mathbf{s}_{0})-\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) \right)^{2} - 2\sum\limits_{j=0}^{p}m_{j} \left( \sum\limits_{i=1}^{n} \lambda_{i} X_{j} (\mathbf{s}_{i})- X_{j}(\mathbf{s}_{0}) \right)
+  \label{eq:objetivo-ku}
+\end{equation}
+respecto a \(\left\{ \lambda_{i} :i=1, \ldots,n\right\}\) y \(\left\{ m_{j} :j=0, \ldots,p\right\}\), multiplicadores de Lagrange que garantizan \eqref{eq:resticciones-ku}.
+Teniendo en cuenta que el predictor es insesgado y que los pesos verifican \eqref{eq:resticcion-ko}, entonces:
+\[\begin{aligned}
+\left( \sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) - Z(\mathbf{s}_{0})\right)^2  
+& = \left( \sum\limits_{i=1}^{n}\lambda_{i} \varepsilon(\mathbf{s}_{i}) - \varepsilon(\mathbf{s}_{0})\right)^2  \\
+& = -\dfrac{1}{2} \sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\lambda_{i}\lambda_{j} \left( \varepsilon(\mathbf{s}_{i}) - \varepsilon(\mathbf{s}_{j} )\right)^{2}  + \sum\limits_{i=1}^{n}\lambda_{i} \left( \varepsilon(\mathbf{s}_{i}) - \varepsilon(\mathbf{s}_{0}) \right)^{2},
+\end{aligned}\]
+y podemos escribir \eqref{eq:objetivo-ku} como:
+\[-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\lambda_{i} \lambda_{j}
+\gamma(\mathbf{s}_{i},\mathbf{s}_{j} ) +2 \sum\limits_{i=1}^{n}\lambda
+_{i} \gamma(\mathbf{s}_{i},\mathbf{s}_{0}) -2\sum\limits_{j=0}^{p}m_{j}
+\left( \sum\limits_{i=1}^{n}\lambda_{i} X_{j} (\mathbf{s}_{i})-X_{j}
+(\mathbf{s}_{0}) \right)\] Derivando respecto a
+\(\left\{ \lambda_{i} :i=1, \ldots,n\right\}\) y
+\(\left\{ m_{j} :j=0, \ldots,p\right\}\) e igualando a cero se obtienen las
+\(n+p+1\) ecuaciones del kriging universal que, expresadas en forma
+matricial, resultan ser:
+\[\boldsymbol{\Gamma}_{U} \boldsymbol{\lambda}_{U} =\boldsymbol{\gamma}_{U},\]
+con:
+\[\boldsymbol{\Gamma}_{U} = \left( \begin{array}{lc}
+\boldsymbol{\Gamma} & \mathbf{X} \\
+\mathbf{X^\top } & \mathbf{0}
+\end{array} \right) ,\ 
+\boldsymbol{\lambda}_{U} = \left( \begin{array}{c}
+\boldsymbol{\lambda} \\
+\mathbf{m}
+\end{array} \right) ,\ 
+\boldsymbol{\gamma}_{U} =\left( \begin{array}{c}
+\boldsymbol{\gamma} \\
+\mathbf{x}_0
+\end{array} \right),\]
+donde \(\boldsymbol{\gamma}=\left( \gamma(\mathbf{s}_{1},\mathbf{s}_{0}), \ldots, \gamma(\mathbf{s}_{n} ,\mathbf{s}_{0})\right)^\top\), \(\mathbf{m}=\left(m_{0}, \ldots,m_{p} \right)^\top\) y \(\boldsymbol{\Gamma}\) es una matriz \(n\times n\) con \(\boldsymbol{\Gamma}_{ij} = \gamma(\mathbf{s}_{i}, \mathbf{s}_{j})\).
+Además el MSPE mínimo, o varianza kriging:
+\[\sigma_{KU}^{2} (\mathbf{s}_{0})=2\sum\limits_{i=1}^{n}\lambda_{i} 
+\gamma(\mathbf{s}_{0},\mathbf{s}_{i}
+)-\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\lambda_{i}  \lambda_{j}
+\gamma(\mathbf{s}_{i},\mathbf{s}_{j} )\]
+se puede obtener como:
+\[\begin{aligned}
+\sigma_{KU}^{2} (\mathbf{s}_{0})
+& =\sum\limits_{i=1}^{n}\lambda_{i} \gamma(\mathbf{s}_{0},\mathbf{s}_{i})+\sum\limits_{j=0}^{p}m_{j} X_{j}
+(\mathbf{s}_{0}) \\
+& =\boldsymbol{\lambda}_{U}^\top \boldsymbol{\gamma}_{U}.
+\end{aligned}\]
+En el caso particular del kriging ordinario (\(p=0\)), la expresión de la varianza kriging resulta ser:
+\[\sigma_{KO}^{2} (\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} 
+\gamma(\mathbf{s}_{0},\mathbf{s}_{i})+m_{0}.\]
+
+\hypertarget{ku-covariograma}{%
+\subsection{Ecuaciones en función del covariograma}\label{ku-covariograma}}
+
+Cuando existe el covariograma \(C(\mathbf{s}_{1},\mathbf{s}_{2}) = Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))\) del proceso \(\varepsilon(\cdot)\) y es conocido (una suposición más fuerte), podemos expresar las ecuaciones del kriging universal (o del KO) en función de \(C(\cdot,\cdot)\).
+Además, si ninguna de las funciones explicativas es idénticamente 1, las ecuaciones del kriging universal sólo pueden expresarse en función del covariograma.
+
+El proceso sería análogo al caso anterior, el sistema del kriging universal equivalente es:
+\[\boldsymbol{\Sigma}_{U} \boldsymbol{\lambda}_{U} = \mathbf{c}_{U},\]
+donde:
+\[\boldsymbol{\Sigma}_{U} =\left( 
+\begin{array}{lc}
+\boldsymbol{\Sigma} & \mathbf{X} \\
+\mathbf{X^\top } & \mathbf{0}
+\end{array}
+\right) ,\ 
+\boldsymbol{\lambda}_{U} =\left( \begin{array}{c}
+\boldsymbol{\lambda} \\
+\mathbf{m}
+\end{array} \right) ,\ 
+\mathbf{c}_{U} =\left( \begin{array}{c}
+\mathbf{c} \\
+\mathbf{x}_0
+\end{array} \right),\]
+y la varianza kriging es:
+\[\begin{aligned}
+\sigma_{KU}^{2} (\mathbf{s}_{0}) 
+& = C(\mathbf{s}_{0},\mathbf{s}_{0}) - \sum\limits_{i=1}^{n}\lambda_{i}  C(\mathbf{s}_{0},\mathbf{s}_{i}) + \sum\limits_{j=0}^{p}m_{j} X_{j}(\mathbf{s}_{0}) \\
+& = C(\mathbf{s}_{0}, \mathbf{s}_{0}) - \boldsymbol{\lambda}_{U} \mathbf{c}_{U}.
+\end{aligned}\]
+
+Muchos de los algoritmos utilizados para la solución de los sistema kriging están diseñados y optimizados para covariogramas (e.g.~Chilès y Delfiner, 1999, p.~170).
+En el caso de variogramas no acotados se podrían emplear pseudo-covarianzas (ver Sección \ref{trend-fit}).
+
+\hypertarget{kriging-residual}{%
+\subsection{Kriging residual}\label{kriging-residual}}
+
+Otra forma, que puede ser más interesante, de obtener las ecuaciones del KU es a partir del predictor del kriging simple.
+Suponiendo que \(\boldsymbol{\beta}\) es conocido en el modelo del KU, el predictor del kriging simple es:
+\[\begin{aligned}
+p_{KS} (\mathbf{Z},\mathbf{s}_{0})
+& = \mathbf{x}_0^{\top}\boldsymbol{\beta} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\boldsymbol{\beta} \right) \\
+& =\mathbf{c^\top }\boldsymbol{\Sigma}^{-1}
+\mathbf{Z}+(\mathbf{x}_0-\mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c})^\top \boldsymbol{\beta}.
+\end{aligned}\]
+
+Cuando \(\boldsymbol{\beta}\) no es conocido es lógico pensar en utilizar en su lugar su estimador lineal óptimo
+\[\hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z},\]
+obteniéndose el predictor:
+\[p^{\ast}(\mathbf{Z},\mathbf{s}_{0}) = \mathbf{c^\top }\boldsymbol{\Sigma}^{-1}\mathbf{Z} + (\mathbf{x}_0-\mathbf{X}^\top\boldsymbol{\Sigma}^{-1} \mathbf{c})^\top \hat{\boldsymbol{\beta}}_{gls}.\]
+Puede verse (Goldberger, 1962) que este predictor, lineal e insesgado, es óptimo (en el sentido de que minimiza el MSPE sobre todos los predictores lineales e insesgados) y por tanto coincide con el predictor del kriging universal.
+Además, teniendo en cuenta que el error \(\left( p_{KS} (\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)\) tiene covarianza nula con cualquier combinación lineal de \(\mathbf{Z}\) (ver p.e. Chilès y Delfiner, 1999, p.~161), esta relación también se extiende a la varianza kriging:
+\[\sigma_{KU}^{2} (\mathbf{s}_{0})=\sigma_{KS}^{2} (\mathbf{s}_{0}
+)+(\mathbf{x}_0-\mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c})^\top \left(
+\mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{X}\right)^{-1}
+(\mathbf{x}_0-\mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c}),\]
+donde el segundo termino cuantifica la precisión en la estimación de la media.
+Estas expresiones son conocidas como la relación de aditividad entre el KS y el KU.
+
+Los resultados anteriores permiten pensar en la predicción lineal con media desconocida como un proceso de dos etapas: en la primera estimar la media desconocida, y en la segunda realizar la predicción lineal óptima con media supuestamente conocida.
+En el caso de una tendencia lineal obtenemos el predictor de KU, mientras que en el caso general se obtiene el denominado predictor del \emph{kriging residual} (o \emph{kriging con tendencia externa}).
+
 \hypertarget{consideraciones-kriging}{%
 \section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}}
+
+\hypertarget{kriging-interpolador}{%
+\subsection{Kriging como interpolador}\label{kriging-interpolador}}
+
+\hypertarget{efecto-variog-kriging}{%
+\subsection{Efecto del variograma (covariograma) en el kriging}\label{efecto-variog-kriging}}
+
+\hypertarget{validacion-cruzada}{%
+\section{Validación cruzada del modelo ajustado}\label{validacion-cruzada}}
+
+El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver p.e. Cressie, 1993, Sección 2.6.4).
+Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
+Aunque también es utilizada para otros fines (ver p.e. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
+La idea básica es eliminar una parte de los datos y utilizar el resto de los datos para predecir los datos eliminados, entonces el error de predicción puede deducirse del valor que se predice menos el observado; repitiendo esto sobre varios conjuntos de datos se tiene una idea sobre la variabilidad del error de predicción.
+No sólo suele interesar estudiar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).
+
+Supongamos que \(\hat{Z}_{-j}(\mathbf{s}_{j})\) es un predictor de \(Z(\mathbf{s}_{j})\) obtenido, utilizando alguno de los métodos de predicción espacial, a partir de \(\left\{ Z(\mathbf{s}_{i}):i\neq j\right\}\) y el variograma ajustado \(2\gamma(\cdot ,\hat{\boldsymbol{\theta}})\) (calculado utilizando todos los datos), y que \(\sigma_{-j}^2 (\mathbf{s}_{j})\) es el correspondiente error en media cuadrática de predicción.
+Hay varias formas de medir la aproximación de las predicciones a los verdaderos valores, por ejemplo:
+
+\begin{itemize}
+\item
+  La media de los errores tipificados
+  \[\text{MET} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
+  (\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j}
+  )\] debería ser próxima a cero. Este no es un criterio muy adecuado
+  (sobre todo en el caso del KO) ya que los predictores kriging son
+  insesgados independientemente del modelo de variograma utilizado (ver
+  p.e. Yakowitz y Szidarovski, 1985).
+\item
+  El error cuadrático medio adimensional:
+  \[\text{ECMA} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}
+  _{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}
+  (\mathbf{s}_{j})\right)^2  }\] debería ser próximo a uno. El valor
+  de este estadístico puede interpretarse como una medida de la
+  concordancia entre las varianzas kriging y las varianzas observadas.
+  Teniendo en cuenta que si reescalamos el variograma multiplicándolo por
+  una constante, las predicciones con el variograma reescalado son
+  idénticas y las varianzas kriging serán las mismas multiplicadas por esa
+  constante. Podemos pensar en ``corregir'' un modelo de variograma{[}\^{}12{]} de
+  forma que ECMA sea igual a 1, multiplicándolo por \(\text{ECMA}^2\).
+\item
+  El error cuadrático medio:
+  \[\text{ECM} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
+  (\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\] debería ser pequeño.
+  El principal problema de este estadístico es que asigna igual peso a
+  todos los datos y no tiene en cuenta las posiciones espaciales. Por lo
+  general los errores son mayores en los puntos más alejados del resto de
+  los datos (observaciones exteriores) y pueden tener un efecto dominante
+  en la media global. Se podría pensar en calcular una media ponderada con
+  pesos inversamente proporcionales a la varianza kriging o a alguna
+  medida de la distancia de una posición al resto de los datos.
+\item
+  Diversos criterios gráficos pueden ser también de interés como
+  herramientas de diagnóstico, como p.e. el diagrama tallo-hoja de los
+  residuos tipificados o gráficos de normalidad.
+\end{itemize}
+
+Después de la validación cruzada del variograma, si esta resultó ser
+satisfactoria, se puede confiar en que la predicción basada en el modelo
+ajustado \(2\gamma(\cdot,\hat{\boldsymbol{\theta}})\) es aproximadamente óptima y que las
+estimaciones del error en media cuadrática de predicción son bastante
+buenas (i.e.~el modelo ajustado no es muy incorrecto).
+
+Uno de los principales problemas de esta técnica es el elevado coste
+computacional (Cressie, 1993, p.~104), sin embargo, se han desarrollado métodos
+(normalmente ignorados) que permiten realizar la validación cruzada de un modelo
+de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).
+
+\hypertarget{otros-muxe9todos-kriging}{%
+\section{Otros métodos kriging}\label{otros-muxe9todos-kriging}}
+
+\hypertarget{block-kriging}{%
+\subsection{Block kriging}\label{block-kriging}}
+
+\hypertarget{kriging-trans-normal}{%
+\subsection{Kriging trans-normal}\label{kriging-trans-normal}}
+
+\hypertarget{kriging-indicador}{%
+\subsection{Kriging indicador}\label{kriging-indicador}}
 
 \hypertarget{multivar}{%
 \chapter{Procesos espaciales multivariantes}\label{multivar}}
@@ -4486,8 +4839,8 @@ direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{ajuste-de-un-modelo-de-variograma}{%
-\subsection{Ajuste de un modelo de variograma}\label{ajuste-de-un-modelo-de-variograma}}
+\hypertarget{geor-ajuste}{%
+\subsection{Ajuste de un modelo de variograma}\label{geor-ajuste}}
 
 Los estimadores empíricos no pueden ser empleados en la práctica (no
 verifican necesariamente las propiedades de un variograma válido), por
@@ -4584,8 +4937,7 @@ Ejemplos de estimación por mínimos cuadrados (llamadas a \texttt{variofit}):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango =1.5)}
-
+\CommentTok{\#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango = 1.5)}
 \NormalTok{vario.ols }\OtherTok{\textless{}{-}} \FunctionTok{variofit}\NormalTok{(vario.b, }\AttributeTok{ini =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{0.5}\NormalTok{), }\AttributeTok{weights =} \StringTok{"equal"}\NormalTok{)  }\CommentTok{\#ordinarios}
 \end{Highlighting}
 \end{Shaded}

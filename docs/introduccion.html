@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A.2 Métodos y procedimientos clases sp | Estadística Espacial con R</title>
+  <title>4.1 Introducción | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A.2 Métodos y procedimientos clases sp | Estadística Espacial con R" />
+  <meta property="og:title" content="4.1 Introducción | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A.2 Métodos y procedimientos clases sp | Estadística Espacial con R" />
+  <meta name="twitter:title" content="4.1 Introducción | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tipos-de-objetos.html"/>
-<link rel="next" href="representaciones-gráficas.html"/>
+<link rel="prev" href="kriging.html"/>
+<link rel="next" href="ksimple.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -307,75 +307,52 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="métodos-y-procedimientos-clases-sp" class="section level2" number="7.2">
-<h2><span class="header-section-number">A.2</span> Métodos y procedimientos clases sp</h2>
-<table>
-<colgroup>
-<col width="13%" />
-<col width="86%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Método</th>
-<th>Descripción</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>[</code></td>
-<td>selecciona elementos espaciales (puntos, líneas, polígonos, filas/columnas de una rejilla) y/o variables.</td>
-</tr>
-<tr class="even">
-<td><code>$, [[</code></td>
-<td>obtiene, establece o agrega variables (columnas).</td>
-</tr>
-<tr class="odd">
-<td><code>coordinates</code></td>
-<td>obtiene o establece (creando objetos sp) coordenadas.</td>
-</tr>
-<tr class="even">
-<td><code>as(obj, clase)</code></td>
-<td>convierte un objeto a una clase.</td>
-</tr>
-<tr class="odd">
-<td><code>over, overlay</code></td>
-<td>combina objetos espaciales.</td>
-</tr>
-<tr class="even">
-<td><code>spsample</code></td>
-<td>muestrea puntos dentro de una región (rectangular, polígono, línea o rejilla).</td>
-</tr>
-</tbody>
-</table>
-<div id="importarexportartransformar" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">A.2.1</span> Importar/exportar/transformar</h3>
-<p>A través de R (paquetes que emplean sp) es fácil exportar datos a otras aplicaciones
-(e.g. <a href="http://plotkml.r-forge.r-project.org">Google Earth</a>).</p>
-<p>Ejemplo importación:</p>
-<p>Datos descargados en formato NetCDF (<a href="http://www.opengeospatial.org/standards/netcdf">Network Common Data Form</a>)
-de <a href="http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.html">NOAA Optimum Interpolated Sea Surface Temperature V2 (OISST)</a>
-y procesados con <em><a href="datos/NOAA_OISST_extraction_v2.R">NOAA_OISST_extraction_v2.R</a></em>:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="métodos-y-procedimientos-clases-sp.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
-<span id="cb175-2"><a href="métodos-y-procedimientos-clases-sp.html#cb175-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
-<span id="cb175-3"><a href="métodos-y-procedimientos-clases-sp.html#cb175-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb175-4"><a href="métodos-y-procedimientos-clases-sp.html#cb175-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb175-5"><a href="métodos-y-procedimientos-clases-sp.html#cb175-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-6"><a href="métodos-y-procedimientos-clases-sp.html#cb175-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
-<span id="cb175-7"><a href="métodos-y-procedimientos-clases-sp.html#cb175-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
-<span id="cb175-8"><a href="métodos-y-procedimientos-clases-sp.html#cb175-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
-<span id="cb175-9"><a href="métodos-y-procedimientos-clases-sp.html#cb175-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
-<span id="cb175-10"><a href="métodos-y-procedimientos-clases-sp.html#cb175-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb175-11"><a href="métodos-y-procedimientos-clases-sp.html#cb175-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
-<p><img src="11-sp_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<div id="introduccion" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introducción</h2>
+<p>Si denotamos por <span class="math inline">\(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} )\right)^\top\)</span> valores observados del proceso, los distintos métodos kriging proporcionan un predictor <span class="math inline">\(p(\mathbf{Z},\mathbf{s}_{0})\)</span> de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> verificando que:</p>
+<ul>
+<li><p>es lineal:
+<span class="math display">\[p(\mathbf{Z},\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) +\lambda_{0},\]</span></p></li>
+<li><p>es uniformemente insesgado, para cualquier <span class="math inline">\(\mu(\cdot)\)</span>:
+<span class="math display">\[E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),\]</span></p></li>
+<li><p>y minimiza el error en media cuadrática de predicción (<em>mean squared prediction error</em>, MSPE)<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>:
+<span class="math display">\[E\left( \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right).\]</span></p></li>
+</ul>
+<p>En este capítulo, al hablar de predicción óptima, nos referiremos a que se verifican estas dos últimas condiciones.</p>
+<p>Dependiendo de las suposiciones acerca de la función de tendencia <span class="math inline">\(\mu(\cdot)\)</span>, se distingue principalmente entre tres métodos kriging:</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Kriging simple</em> (KS): se supone que la media es conocida (algunos autores suponen también que es constante o incluso cero).
+Además se asume que el covariograma existe y es conocido.</p></li>
+<li><p><em>Kriging ordinario</em> (KO): se supone que la media es constante (i.e. <span class="math inline">\(E(Z(\mathbf{s}))=\mu ,\forall \mathbf{s}\in D\)</span>) y desconocida.
+Además se asume que por lo menos existe el variograma y es conocido.</p></li>
+<li><p><em>Kriging universal</em> (KU; también denominado kriging con modelo de tendencia): se supone que la media es desconocida y no constante, pero
+que es una combinación lineal (desconocida) de <span class="math inline">\(p+1\)</span> funciones (o variables explicativas) conocidas <span class="math inline">\(\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}\)</span>:
+<span class="math display">\[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j} (\mathbf{s})\beta_{j}\]</span>
+donde <span class="math inline">\(\boldsymbol{\beta}=(\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}\)</span> es un vector desconocido.
+Se asume también que por lo menos existe el variograma y es conocido<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>.</p></li>
+</ol>
+<p>Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele pensar en el KO como un método distinto al KU, principalmente por los inconvenientes que presenta este último; ver Sección <a href="ajuste-variog.html#trend-fit">3.3.2</a>).
+Adicionalmente en la Sección <a href="kuniversal.html#kriging-residual">4.3.2</a> se tratará una extensión del KU denominada <em>kriging residual</em> o <em>kriging con tendencia externa</em>.</p>
+<p>La suposición de que el variograma (o el covariograma) sólo dependa del salto es conveniente para facilitar el modelado de la dependencia espacial, pero para la predicción espacial no es necesaria esta consideración.
+Por tanto en las expresiones de las ecuaciones de los distintos métodos kriging se utilizará la notación más general no estacionaria:
+<span class="math display">\[C(\mathbf{s}_{1}, \mathbf{s}_{2}) = Cov(Z(\mathbf{s}_{1}), Z(\mathbf{s}_{2})),\]</span>
+<span class="math display">\[2\gamma(\mathbf{s}_{1}, \mathbf{s}_{2}) = Var(Z(\mathbf{s}_{1}) - Z(\mathbf{s}_{2})),\]</span>
+en lugar de suponer que son funciones de <span class="math inline">\(\mathbf{s}_{1}-\mathbf{s}_{2}\)</span>.</p>
 </div>
+<div class="footnotes">
+<hr />
+<ol start="19">
+<li id="fn19"><p>Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver p.e. Rivoirard, 1994) y del kriging trans-normal (ver Sección 4.X).<a href="introduccion.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>Siempre que una de las funciones explicativas sea idénticamente 1, p.e. <span class="math inline">\(X_{0} (\cdot)\equiv 1\)</span>, en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma (Sección <a href="kuniversal.html#ku-covariograma">4.3.1</a>).<a href="introduccion.html#fnref20" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="tipos-de-objetos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="representaciones-gráficas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="kriging.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ksimple.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -406,7 +383,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/11-sp.Rmd",
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
 "text": "Edit"
 },
 "history": {

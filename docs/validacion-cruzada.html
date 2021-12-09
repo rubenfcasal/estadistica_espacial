@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A.2 Métodos y procedimientos clases sp | Estadística Espacial con R</title>
+  <title>4.5 Validación cruzada del modelo ajustado | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A.2 Métodos y procedimientos clases sp | Estadística Espacial con R" />
+  <meta property="og:title" content="4.5 Validación cruzada del modelo ajustado | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A.2 Métodos y procedimientos clases sp | Estadística Espacial con R" />
+  <meta name="twitter:title" content="4.5 Validación cruzada del modelo ajustado | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="tipos-de-objetos.html"/>
-<link rel="next" href="representaciones-gráficas.html"/>
+<link rel="prev" href="consideraciones-kriging.html"/>
+<link rel="next" href="otros-métodos-kriging.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -307,75 +307,65 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="métodos-y-procedimientos-clases-sp" class="section level2" number="7.2">
-<h2><span class="header-section-number">A.2</span> Métodos y procedimientos clases sp</h2>
-<table>
-<colgroup>
-<col width="13%" />
-<col width="86%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Método</th>
-<th>Descripción</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>[</code></td>
-<td>selecciona elementos espaciales (puntos, líneas, polígonos, filas/columnas de una rejilla) y/o variables.</td>
-</tr>
-<tr class="even">
-<td><code>$, [[</code></td>
-<td>obtiene, establece o agrega variables (columnas).</td>
-</tr>
-<tr class="odd">
-<td><code>coordinates</code></td>
-<td>obtiene o establece (creando objetos sp) coordenadas.</td>
-</tr>
-<tr class="even">
-<td><code>as(obj, clase)</code></td>
-<td>convierte un objeto a una clase.</td>
-</tr>
-<tr class="odd">
-<td><code>over, overlay</code></td>
-<td>combina objetos espaciales.</td>
-</tr>
-<tr class="even">
-<td><code>spsample</code></td>
-<td>muestrea puntos dentro de una región (rectangular, polígono, línea o rejilla).</td>
-</tr>
-</tbody>
-</table>
-<div id="importarexportartransformar" class="section level3" number="7.2.1">
-<h3><span class="header-section-number">A.2.1</span> Importar/exportar/transformar</h3>
-<p>A través de R (paquetes que emplean sp) es fácil exportar datos a otras aplicaciones
-(e.g. <a href="http://plotkml.r-forge.r-project.org">Google Earth</a>).</p>
-<p>Ejemplo importación:</p>
-<p>Datos descargados en formato NetCDF (<a href="http://www.opengeospatial.org/standards/netcdf">Network Common Data Form</a>)
-de <a href="http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.html">NOAA Optimum Interpolated Sea Surface Temperature V2 (OISST)</a>
-y procesados con <em><a href="datos/NOAA_OISST_extraction_v2.R">NOAA_OISST_extraction_v2.R</a></em>:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="métodos-y-procedimientos-clases-sp.html#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
-<span id="cb175-2"><a href="métodos-y-procedimientos-clases-sp.html#cb175-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
-<span id="cb175-3"><a href="métodos-y-procedimientos-clases-sp.html#cb175-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb175-4"><a href="métodos-y-procedimientos-clases-sp.html#cb175-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb175-5"><a href="métodos-y-procedimientos-clases-sp.html#cb175-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb175-6"><a href="métodos-y-procedimientos-clases-sp.html#cb175-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
-<span id="cb175-7"><a href="métodos-y-procedimientos-clases-sp.html#cb175-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
-<span id="cb175-8"><a href="métodos-y-procedimientos-clases-sp.html#cb175-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
-<span id="cb175-9"><a href="métodos-y-procedimientos-clases-sp.html#cb175-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
-<span id="cb175-10"><a href="métodos-y-procedimientos-clases-sp.html#cb175-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb175-11"><a href="métodos-y-procedimientos-clases-sp.html#cb175-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
-<p><img src="11-sp_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
-</div>
+<div id="validacion-cruzada" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Validación cruzada del modelo ajustado</h2>
+<p>El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver p.e. Cressie, 1993, Sección 2.6.4).
+Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
+Aunque también es utilizada para otros fines (ver p.e. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
+La idea básica es eliminar una parte de los datos y utilizar el resto de los datos para predecir los datos eliminados, entonces el error de predicción puede deducirse del valor que se predice menos el observado; repitiendo esto sobre varios conjuntos de datos se tiene una idea sobre la variabilidad del error de predicción.
+No sólo suele interesar estudiar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).</p>
+<p>Supongamos que <span class="math inline">\(\hat{Z}_{-j}(\mathbf{s}_{j})\)</span> es un predictor de <span class="math inline">\(Z(\mathbf{s}_{j})\)</span> obtenido, utilizando alguno de los métodos de predicción espacial, a partir de <span class="math inline">\(\left\{ Z(\mathbf{s}_{i}):i\neq j\right\}\)</span> y el variograma ajustado <span class="math inline">\(2\gamma(\cdot ,\hat{\boldsymbol{\theta}})\)</span> (calculado utilizando todos los datos), y que <span class="math inline">\(\sigma_{-j}^2 (\mathbf{s}_{j})\)</span> es el correspondiente error en media cuadrática de predicción.
+Hay varias formas de medir la aproximación de las predicciones a los verdaderos valores, por ejemplo:</p>
+<ul>
+<li><p>La media de los errores tipificados
+<span class="math display">\[\text{MET} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
+(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j}
+)\]</span> debería ser próxima a cero. Este no es un criterio muy adecuado
+(sobre todo en el caso del KO) ya que los predictores kriging son
+insesgados independientemente del modelo de variograma utilizado (ver
+p.e. Yakowitz y Szidarovski, 1985).</p></li>
+<li><p>El error cuadrático medio adimensional:
+<span class="math display">\[\text{ECMA} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}
+_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}
+(\mathbf{s}_{j})\right)^2  }\]</span> debería ser próximo a uno. El valor
+de este estadístico puede interpretarse como una medida de la
+concordancia entre las varianzas kriging y las varianzas observadas.
+Teniendo en cuenta que si reescalamos el variograma multiplicándolo por
+una constante, las predicciones con el variograma reescalado son
+idénticas y las varianzas kriging serán las mismas multiplicadas por esa
+constante. Podemos pensar en “corregir” un modelo de variograma[^12] de
+forma que ECMA sea igual a 1, multiplicándolo por <span class="math inline">\(\text{ECMA}^2\)</span>.</p></li>
+<li><p>El error cuadrático medio:
+<span class="math display">\[\text{ECM} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
+(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\]</span> debería ser pequeño.
+El principal problema de este estadístico es que asigna igual peso a
+todos los datos y no tiene en cuenta las posiciones espaciales. Por lo
+general los errores son mayores en los puntos más alejados del resto de
+los datos (observaciones exteriores) y pueden tener un efecto dominante
+en la media global. Se podría pensar en calcular una media ponderada con
+pesos inversamente proporcionales a la varianza kriging o a alguna
+medida de la distancia de una posición al resto de los datos.</p></li>
+<li><p>Diversos criterios gráficos pueden ser también de interés como
+herramientas de diagnóstico, como p.e. el diagrama tallo-hoja de los
+residuos tipificados o gráficos de normalidad.</p></li>
+</ul>
+<p>Después de la validación cruzada del variograma, si esta resultó ser
+satisfactoria, se puede confiar en que la predicción basada en el modelo
+ajustado <span class="math inline">\(2\gamma(\cdot,\hat{\boldsymbol{\theta}})\)</span> es aproximadamente óptima y que las
+estimaciones del error en media cuadrática de predicción son bastante
+buenas (i.e. el modelo ajustado no es muy incorrecto).</p>
+<p>Uno de los principales problemas de esta técnica es el elevado coste
+computacional (Cressie, 1993, p. 104), sin embargo, se han desarrollado métodos
+(normalmente ignorados) que permiten realizar la validación cruzada de un modelo
+de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="tipos-de-objetos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="representaciones-gráficas.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="consideraciones-kriging.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="otros-métodos-kriging.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -406,7 +396,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/11-sp.Rmd",
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
 "text": "Edit"
 },
 "history": {
