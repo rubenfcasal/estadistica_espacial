@@ -229,7 +229,7 @@ Si $\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}$ es un 
 Supongamos por el momento que el objetivo es la estimación eficiente de la tendencia, o lo que es lo mismo la estimación óptima de los parámetros de la *variación de gran escala* $\boldsymbol{\beta}$, a partir de los datos observados en un conjunto de posiciones espaciales $\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}$.
 Bajo las hipótesis anteriores:
 $$\mathbf{Z} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},$$ 
-siendo $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}$, $\mathbf{X}$ una matriz $n\times (p+1)$ con $X_{ij}=X_{j-1}(\mathbf{s}_{i})$ y $\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}$; y el estimador lineal insesgado de $\boldsymbol{\beta}$ más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, *ordinary least squares*):
+siendo $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}$, $\mathbf{X}$ una matriz $n\times (p+1)$ con $\mathbf{X}_{ij}=X_{j-1}(\mathbf{s}_{i})$ y $\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}$; y el estimador lineal insesgado de $\boldsymbol{\beta}$ más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, *ordinary least squares*):
 \begin{equation} 
   \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
   (\#eq:beta-ols)
