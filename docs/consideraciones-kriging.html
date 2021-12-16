@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.4 Consideraciones acerca de los métodos kriging | Estadística Espacial con R</title>
+  <title>4.5 Consideraciones acerca de los métodos kriging | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.4 Consideraciones acerca de los métodos kriging | Estadística Espacial con R" />
+  <meta property="og:title" content="4.5 Consideraciones acerca de los métodos kriging | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.4 Consideraciones acerca de los métodos kriging | Estadística Espacial con R" />
+  <meta name="twitter:title" content="4.5 Consideraciones acerca de los métodos kriging | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -25,14 +25,14 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-09" />
+<meta name="date" content="2021-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="kuniversal.html"/>
+<link rel="prev" href="kriging-con-el-paquete-gstat.html"/>
 <link rel="next" href="validacion-cruzada.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -230,17 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.4</b> Consideraciones acerca de los métodos kriging</a>
+<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.4.1</b> Kriging como interpolador</a></li>
-<li class="chapter" data-level="4.4.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.4.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
+<li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.5</b> Validación cruzada del modelo ajustado</a></li>
-<li class="chapter" data-level="4.6" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.6</b> Otros métodos kriging</a>
+<li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
+<li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
-<li class="chapter" data-level="4.6.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.6.1</b> Block kriging</a></li>
-<li class="chapter" data-level="4.6.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.6.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.6.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.6.3</b> Kriging indicador</a></li>
+<li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
+<li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
+<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -307,13 +308,13 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="consideraciones-kriging" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Consideraciones acerca de los métodos kriging</h2>
-<div id="kriging-interpolador" class="section level3" number="4.4.1">
-<h3><span class="header-section-number">4.4.1</span> Kriging como interpolador</h3>
+<div id="consideraciones-kriging" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Consideraciones acerca de los métodos kriging</h2>
+<div id="kriging-interpolador" class="section level3" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Kriging como interpolador</h3>
 </div>
-<div id="efecto-variog-kriging" class="section level3" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> Efecto del variograma (covariograma) en el kriging</h3>
+<div id="efecto-variog-kriging" class="section level3" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> Efecto del variograma (covariograma) en el kriging</h3>
 </div>
 </div>
             </section>
@@ -321,7 +322,7 @@ div.csl-indent {
           </div>
         </div>
       </div>
-<a href="kuniversal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="kriging-con-el-paquete-gstat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="validacion-cruzada.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

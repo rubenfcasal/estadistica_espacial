@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-09" />
+<meta name="date" content="2021-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,17 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.4</b> Consideraciones acerca de los métodos kriging</a>
+<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
-<li class="chapter" data-level="4.4.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.4.1</b> Kriging como interpolador</a></li>
-<li class="chapter" data-level="4.4.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.4.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
+<li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.5</b> Validación cruzada del modelo ajustado</a></li>
-<li class="chapter" data-level="4.6" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.6</b> Otros métodos kriging</a>
+<li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
+<li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
-<li class="chapter" data-level="4.6.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.6.1</b> Block kriging</a></li>
-<li class="chapter" data-level="4.6.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.6.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.6.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.6.3</b> Kriging indicador</a></li>
+<li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
+<li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
+<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -585,9 +586,9 @@ aunque no se han estudiado todavía las propiedades asintóticas teóricas de es
 <p>Sin embargo, aparentemente <strong><em>el método no está bien implementado</em></strong> (emplea <code>formula</code> para un ajuste OLS y después, en el código C interno, considera una tendencia polinómica en las coordenadas determinada por <code>degree</code>), actualmente solo admite datos tipo <code>Spatial*</code> del paquete <code>sp</code> y además es habitual que aparezcan problemas computacionales, por lo que no se recomendaría su uso.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="ajuste-variog.html#cb109-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">3</span>, <span class="at">model =</span> <span class="st">&quot;Sph&quot;</span>, <span class="at">range =</span> <span class="dv">75</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
 <span id="cb109-2"><a href="ajuste-variog.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fit.variogram.reml</span>(head <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> <span class="fu">as</span>(aquifer_sf, <span class="st">&quot;Spatial&quot;</span>), <span class="at">model =</span> model, <span class="at">degree =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>##   model psill range
-## 1   Nug     1     0
-## 2   Sph     3    75</code></pre>
+<pre><code>##   model      psill range
+## 1   Nug -0.7976219     0
+## 2   Sph 12.5397527    75</code></pre>
 <p>Como aparece en la ayuda de esta función, es preferible usar el paquete <code>geoR</code> (ver Sección <a href="modelado-de-la-dependencia.html#geor-ajuste">B.3.2</a> del apéndice; también se podría emplear el paquete <code>nlme</code>), empleando la función <code>geoR::likfit()</code> para el ajuste y posteriormente <code>as.vgm.variomodel()</code> para convertir el modelo ajustado a un objeto de <code>gstat</code>.</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="ajuste-variog.html#cb111-1" aria-hidden="true" tabindex="-1"></a>geor.models <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Exp =</span> <span class="st">&quot;exponential&quot;</span>, <span class="at">Sph =</span> <span class="st">&quot;spherical&quot;</span>, <span class="at">Cir =</span> <span class="st">&quot;circular&quot;</span>, </span>
 <span id="cb111-2"><a href="ajuste-variog.html#cb111-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Gau =</span> <span class="st">&quot;gaussian&quot;</span>, <span class="at">Mat =</span> <span class="st">&quot;matern&quot;</span>, <span class="at">Pow =</span> <span class="st">&quot;power&quot;</span>, <span class="at">Nug =</span> <span class="st">&quot;nugget&quot;</span>, </span>

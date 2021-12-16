@@ -177,9 +177,7 @@ with(rvario.cloud,  plot(dist, gamma, col = "darkgray",
 with(rvario, points(dist, gamma, pch = 19))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} \end{center}
+<img src="03-modelado_files/figure-html/vario-rvario-1.png" width="90%" style="display: block; margin: auto;" />
 
 ```r
 par(oldpar)
@@ -195,9 +193,7 @@ res$labels <- with(res, paste(left, right, sep="-"))
 with(res, car::Boxplot(gamma ~ lag, id = list(labels = labels)))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-4-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" />
 
 ```
 ## [1] "87-52" "87-39" "57-52" "57-39"
@@ -210,9 +206,7 @@ Para un análisis exploratorio de la anisotropía, podemos obtener variogramas d
 plot(variogram(z ~ 1, datos, cutoff = 0.6, alpha = c(0, 45, 90, 135)))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-5-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" />
 
 Complementariamente, se puede obtener un mapa de semivarianzas discretizadas en dos dimensiones:
 
@@ -222,9 +216,7 @@ variogram.map <- variogram(z ~ 1, datos, cutoff = 0.6, width = 0.6 / 15, map = T
 plot(variogram.map)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-6-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
 
 Para estudiar si hay dependencia espacial (estadísticamente significativa) se puede emplear la rutina `sm.variogram` del paquete `sm`. 
 Estableciendo `model = "independent"` devuelve un p-valor para contrastar la hipótesis nula de independencia
@@ -247,14 +239,10 @@ sm.variogram(s100$coords, s100$data, model = "independent")
 ## Test of spatial independence: p =  0.024
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/sm-variogram-1} 
-
-}
-
-\caption{Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.}(\#fig:sm-variogram)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/sm-variogram-1.png" alt="Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente." width="70%" />
+<p class="caption">(\#fig:sm-variogram)Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.</p>
+</div>
 
 <!-- Además de realizar el contraste, genera un gráfico con el estimador y una envolvente (*envelope*, i.e. valores máximos y mínimos aproximados por simulación), obtenida mediante permutaciones aleatorias de los datos sobre las posiciones espaciales (si las estimaciones están dentro de la envolvente indicaría que aparentemente no hay correlación espacial). -->
 También se puede realizar contrastes adicionales estableciendo el parámetro `model` a `"isotropic"` o `"stationary"`.
@@ -412,28 +400,20 @@ La función `show.vgms()` genera gráficos con los distintos modelos (por defect
 show.vgms()
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/show-vgms-1} 
-
-}
-
-\caption{Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`.}(\#fig:show-vgms)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/show-vgms-1.png" alt="Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`." width="70%" />
+<p class="caption">(\#fig:show-vgms)Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`.</p>
+</div>
 
 
 ```r
 show.vgms(kappa.range = c(0.1, 0.5, 1, 5, 10), max = 10)
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/show-matern-1} 
-
-}
-
-\caption{Modelo de Matérn con distintos valores del parámetro de suavizado.}(\#fig:show-matern)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/show-matern-1.png" alt="Modelo de Matérn con distintos valores del parámetro de suavizado." width="70%" />
+<p class="caption">(\#fig:show-matern)Modelo de Matérn con distintos valores del parámetro de suavizado.</p>
+</div>
 
 
 ```r
@@ -451,14 +431,10 @@ v1
 plot(v1, cutoff = 3)
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/vgm-exp-1} 
-
-}
-
-\caption{Ejemplo de modelo exponencial.}(\#fig:vgm-exp)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/vgm-exp-1.png" alt="Ejemplo de modelo exponencial." width="70%" />
+<p class="caption">(\#fig:vgm-exp)Ejemplo de modelo exponencial.</p>
+</div>
 
 ### Modelado de anisotropía {#anisotropia}
 
@@ -534,9 +510,7 @@ abline(h = 0, lty = 2)
 abline(v = 0, lty = 2)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-9-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" />
 
 En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros "zonales" que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto). 
 Por ejemplo, en el caso bidimensional, si $\phi$ es la dirección de mayor varianza se suele considerar una combinación de la forma:
@@ -592,9 +566,7 @@ legend("bottomright", c("Exponencial", "Gaussiano", "Anidado"), lty = c(2, 3, 1)
        col = c("red", "blue", "black"), cex = 0.75)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
 
 
 ## Ajuste de un modelo válido {#ajuste-variog}
@@ -711,9 +683,7 @@ lines(variogramLine(fit.cressie, maxdist = 0.6))
 legend("bottomright", c("ols", "npairs", "default (linear)", "cressie"), lty = c(2, 3, 4, 1))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="03-modelado_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
 
 ```r
 # Parámetros estimados:
@@ -782,14 +752,10 @@ with(vario.est,  plot(dist, gamma, xlab = "distance", ylab =  "semivariance"))
 with(vario.resid,  plot(dist, gamma, xlab = "distance", ylab =  "semivariance"))
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/aquifer-var-trend-1} 
-
-}
-
-\caption{Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.}(\#fig:aquifer-var-trend)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/aquifer-var-trend-1.png" alt="Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp." width="90%" />
+<p class="caption">(\#fig:aquifer-var-trend)Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.</p>
+</div>
 
 ```r
 par(oldpar)
@@ -820,14 +786,10 @@ with(vario.resid, plot(dist, gamma, xlab = "distance", ylab =  "semivariance",
 lines(variogramLine(fit.resid, maxdist = 150))
 ```
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/aquifer-var-fit-1} 
-
-}
-
-\caption{Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.}(\#fig:aquifer-var-fit)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="03-modelado_files/figure-html/aquifer-var-fit-1.png" alt="Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp." width="70%" />
+<p class="caption">(\#fig:aquifer-var-fit)Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.</p>
+</div>
 
 Sin embargo, para poder estimar la tendencia de forma eficiente sería necesario conocer la dependencia (i.e. conocer $\gamma(\cdot)$), que dependería a su vez de la estimación de la tendencia. 
 Para solventar este problema circular, Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de $\boldsymbol{\theta}$, estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia. 
@@ -967,8 +929,8 @@ fit.variogram.reml(head ~ 1, data = as(aquifer_sf, "Spatial"), model = model, de
 
 ```
 ##   model      psill range
-## 1   Nug -0.7977189     0
-## 2   Sph 12.5411626    75
+## 1   Nug -0.7976219     0
+## 2   Sph 12.5397527    75
 ```
 Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(geor-ajuste) del apéndice; también se podría emplear el paquete `nlme`), empleando la función `geoR::likfit()` para el ajuste y posteriormente `as.vgm.variomodel()` para convertir el modelo ajustado a un objeto de `gstat`.
 

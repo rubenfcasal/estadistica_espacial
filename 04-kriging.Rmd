@@ -261,9 +261,38 @@ Los resultados anteriores permiten pensar en la predicción lineal con media des
 En el caso de una tendencia lineal obtenemos el predictor de KU, mientras que en el caso general se obtiene el denominado predictor del *kriging residual* (o *kriging con tendencia externa*).
 
 
+## Kriging con el paquete **gstat**
+
+Los métodos kriging (KS, KO y KU) están implementados en la función `krige()` del paquete `gstat`. 
+Normalmente la sintaxis empleada es:
+```{r eval = FALSE}
+krige(formula, locations, newdata, model, ..., beta)
+```
+
+* `formula`: fórmula que define la tendencia como un modelo lineal de la respuesta en función de las variables explicativas (para KO será de la forma `z ~ 1`). 
+* `locations`: objeto `sf` o `Spatial*` que contiene las observaciones espaciales (incluyendo las variables explicativas). 
+* `newdata`: objeto `sf`, `stars` o `Spatial*`, que contiene las posiciones de predicción (incluyendo las variables explicativas). 
+* `model`: modelo de semivariograma (generado con la función `vgm()` o `fit.variogram()`).
+* `beta`: vector con los coeficientes de tendencia (incluida la intersección) si se supone conocida (se empleará para KS, en lugar de las estimaciones GLS empleadas en KO y KU).
+
+Esta función, además de kriging univariante puntual con vecindario global, también implementa kriging por bloques, cokriging (predicción multivariante), predicción local y simulación condicional.
+Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales:
+
+* `maxdist`: solo se utilizarán las observaciones a una distancia de la posición de predicción menor de este valor. 
+* `nmax`, `nmin` (opcionales): número máximo y mínimo de observaciones más cercanas. Si el número de observaciones más cercanas dentro de la distancia `maxdist` es menor que `nmin`, se generará un valor faltante.
+* `omax` (opcional): número máximo de observaciones por octante (3D) o cuadrante (2D).
+
+Los parámetros (opcionales) para simulación condicional son:
+
+* `nsim`: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging (ver Fernández-Casal y Cao, 2020, [Sección 7.5](https://rubenfcasal.github.io/simbook/simulaci%C3%B3n-condicional-e-incondicional.html)). 
+* `indicators`: valor lógico que determina el método de simulación. Por defecto (`FALSE`) emplea simulación condicional gaussiana, en caso contrario (`TRUE`) simula una variable indicadora.
+
+Ejemplos: [s100](s100.html) (KO) y [aquifer](aquifer.html) (KU).
+
+
 ## Consideraciones acerca de los métodos kriging {#consideraciones-kriging}
 
-###  Kriging como interpolador {#kriging-interpolador}
+### Kriging como interpolador {#kriging-interpolador}
 
 ### Efecto del variograma (covariograma) en el kriging {#efecto-variog-kriging}
 
