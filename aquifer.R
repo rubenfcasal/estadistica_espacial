@@ -31,7 +31,7 @@ lines(density(z), col = 'blue')
 #' 
 #' Distribución espacial:
 #' 
-plot(aquifer_sf["head"], pch = 20, cex = 3, breaks = "quantile", nbreaks = 4)
+plot(aquifer_sf["head"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
 
 #'
 #' Gráficos de dispersión de la respuesta frente a coordenadas:
@@ -46,10 +46,10 @@ lines(lowess(y, z), lty = 2, lwd = 2, col = 'blue')
 par(old.par)
 
 #'
-#' Consideraremos el modelo lineal `head ~ lat + lon` para la tendencia:
+#' Consideraremos el modelo lineal `head ~ lon + lat` para la tendencia:
 #'
 
-trend.ols <- lm(head ~ lat + lon, data = aquifer_sf)
+trend.ols <- lm(head ~ lon + lat, data = aquifer_sf)
 summary(trend.ols)
 z <- residuals(trend.ols)
 summary(z)
@@ -64,7 +64,10 @@ lines(density(z), col = 'blue')
 library(gstat)
 # maxlag <- 0.5*sqrt(sum(diff(matrix(st_bbox(aquifer_sf), nrow = 2, byrow = TRUE))^2))
 maxlag <- 150
-vario <- variogram(head ~ lon + lat, aquifer_sf, cutoff = maxlag)    
+vario <- variogram(head ~ lon + lat, aquifer_sf, cutoff = maxlag) 
+# por defecto considera 15 saltos (width = cutoff/15)
+plot(vario, plot.numbers = TRUE)
+
 #' 
 #' Ajuste por WLS de un modelo válido:
 #' 
@@ -161,3 +164,70 @@ p2 <- ggplot() + geom_stars(data = grid, aes(fill = var1.var, x = x, y = y)) +
     scale_fill_viridis_c() + geom_sf(data = aquifer_sf) +
     coord_sf(lims_method = "geometry_bbox")
 grid.arrange(p1, p2, ncol = 2)  
+
+
+#' 
+#' ## Validación cruzada
+#' 
+
+system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf, 
+                           model = fit))
+str(cv)
+
+set.seed(1)
+system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf, 
+                           model = fit, nfold = 10))
+
+#' 
+#' Para seleccionar modelos podemos considerar distintas medidas:
+
+summary_cv <- function(cv.data, na.rm = FALSE, 
+                       tol = sqrt(.Machine$double.eps)) {
+  err <- cv.data$residual      # Errores
+  obs <- cv.data$observed 
+  z <- cv.data$zscore    
+  if(na.rm) {
+    is.a <- !is.na(err)
+    err <- err[is.a]
+    obs <- obs[is.a]
+    z <- z[is.a]
+  }  
+  perr <- 100*err/pmax(obs, tol)  # Errores porcentuales
+  return(c(
+    # Medidas de error tradicionales  
+    me = mean(err),           # Error medio
+    rmse = sqrt(mean(err^2)), # Raíz del error cuadrático medio 
+    mae = mean(abs(err)),     # Error absoluto medio
+    mpe = mean(perr),         # Error porcentual medio
+    mape = mean(abs(perr)),   # Error porcentual absoluto medio
+    r.squared = 1 - sum(err^2)/sum((obs - mean(obs))^2), # Pseudo R-cuadrado
+    # Medidas de error adicionales
+    dme = mean(z),            # Error estandarizado medio
+    dmse = sqrt(mean(z^2))    # Error error cuadrático medio adimensional
+  ))
+}
+
+summary_cv(cv)
+
+#' 
+#' Para detectar datos atípicos, o problemas con el modelo, podemos generar distintos
+#' gráficos:
+
+
+plot(observed ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Observado")
+abline(a = 0, b = 1, col = "blue")
+
+plot(cv["residual"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
+
+plot(cv["zscore"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
+
+hist(cv$zscore, freq = FALSE)
+lines(density(cv$zscore), col = "blue")
+
+qqnorm(cv$zscore)
+qqline(cv$zscore, col = "blue")
+
+car::Boxplot(cv$zscore, ylab = "Residuos estandarizados")
+
+plot(zscore ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Residuos estandarizados")
+
