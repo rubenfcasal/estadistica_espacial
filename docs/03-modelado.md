@@ -67,7 +67,7 @@ Si no se puede asumir que la tendencia es constante, para poder estimarla de for
 Este problema circular se suele resolver en la práctica realizando el paso 2 de forma iterativa, como se describe en la Sección \@ref(trend-fit).
 Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la Sección \@ref(ml-fit).
 
-Finalmente, en el paso 3, para verificar si el modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (y para comparar modelos), se emplea normalmente la técnica de validación cruzada, descrita en la Sección 4.X del siguiente capítulo (en el que también se describe los principales métodos empleados en el paso 4).
+Finalmente, en el paso 3, para verificar si el modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (y para comparar modelos), se emplea normalmente la técnica de validación cruzada, descrita en la Sección \@ref(validacion-cruzada) del siguiente capítulo (en el que también se describe los principales métodos empleados en el paso 4).
 
 
 ## Estimadores muestrales del semivariograma {#vario-muestrales}
@@ -94,8 +94,7 @@ Estos resultados justifican que el modelado de la dependencia espacial se realic
 
 Uno de los problemas con el estimador empírico del semivariograma es su falta de robustez frente a observaciones atípicas. 
 Por este motivo se han propuesto numerosas alternativas robustas.
-Hawkins y Cressie (1984) sugirieron promediar la raíz cuadrada de las diferencias en valor absoluto^[Si el proceso $Z(\cdot)$ es normal entonces 
-$(Z(\mathbf{s})-Z(\mathbf{s}+\mathbf{h}))^2$ sigue una distribución $2\gamma(\mathbf{h})\chi_1^2$, sin embargo esta distribución es muy asimétrica y la transformación de potencia que hace que se aproxime más a la simetría (normalidad) es la raíz cuarta. Otra ventaja de utilizar la raíz cuadrada de las diferencias es que, en general, están menos correladas que las diferencias al cuadrado (ver p.e. Cressie, 1993, p. 76).] y posteriormente transformar el resultado a la escala original tratando de obtener un estimador aproximadamente insesgado (utilizando del método delta), obteniéndose el estimador:
+Hawkins y Cressie (1984) sugirieron promediar la raíz cuadrada de las diferencias en valor absoluto^[Si el proceso $Z(\cdot)$ es normal entonces $(Z(\mathbf{s})-Z(\mathbf{s}+\mathbf{h}))^2$ sigue una distribución $2\gamma(\mathbf{h})\chi_1^2$, sin embargo esta distribución es muy asimétrica y la transformación de potencia que hace que se aproxime más a la simetría (normalidad) es la raíz cuarta. Otra ventaja de utilizar la raíz cuadrada de las diferencias es que, en general, están menos correladas que las diferencias al cuadrado (ver e.g. Cressie, 1993, p. 76).] y posteriormente transformar el resultado a la escala original tratando de obtener un estimador aproximadamente insesgado (utilizando del método delta), obteniéndose el estimador:
 
 $$2\tilde{\gamma}(\mathbf{h}) = \left( \dfrac{1}{\left| N(\mathbf{h})\right| }
 \sum\limits_{N(\mathbf{h})}\left| Z(\mathbf{s}_{i})-Z(\mathbf{s}_{j}
@@ -177,7 +176,9 @@ with(rvario.cloud,  plot(dist, gamma, col = "darkgray",
 with(rvario, points(dist, gamma, pch = 19))
 ```
 
-<img src="03-modelado_files/figure-html/vario-rvario-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} \end{center}
 
 ```r
 par(oldpar)
@@ -193,7 +194,9 @@ res$labels <- with(res, paste(left, right, sep="-"))
 with(res, car::Boxplot(gamma ~ lag, id = list(labels = labels)))
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-4-1} \end{center}
 
 ```
 ## [1] "87-52" "87-39" "57-52" "57-39"
@@ -206,7 +209,9 @@ Para un análisis exploratorio de la anisotropía, podemos obtener variogramas d
 plot(variogram(z ~ 1, datos, cutoff = 0.6, alpha = c(0, 45, 90, 135)))
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-5-1} \end{center}
 
 Complementariamente, se puede obtener un mapa de semivarianzas discretizadas en dos dimensiones:
 
@@ -216,7 +221,9 @@ variogram.map <- variogram(z ~ 1, datos, cutoff = 0.6, width = 0.6 / 15, map = T
 plot(variogram.map)
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Para estudiar si hay dependencia espacial (estadísticamente significativa) se puede emplear la rutina `sm.variogram` del paquete `sm`. 
 Estableciendo `model = "independent"` devuelve un p-valor para contrastar la hipótesis nula de independencia
@@ -239,10 +246,14 @@ sm.variogram(s100$coords, s100$data, model = "independent")
 ## Test of spatial independence: p =  0.024
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/sm-variogram-1.png" alt="Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente." width="70%" />
-<p class="caption">(\#fig:sm-variogram)Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/sm-variogram-1} 
+
+}
+
+\caption{Estimaciones robustas y suavizadas del semivariograma, junto con una región de confianza para el semivariograma suponiendo que el proceso es independiente.}(\#fig:sm-variogram)
+\end{figure}
 
 <!-- Además de realizar el contraste, genera un gráfico con el estimador y una envolvente (*envelope*, i.e. valores máximos y mínimos aproximados por simulación), obtenida mediante permutaciones aleatorias de los datos sobre las posiciones espaciales (si las estimaciones están dentro de la envolvente indicaría que aparentemente no hay correlación espacial). -->
 También se puede realizar contrastes adicionales estableciendo el parámetro `model` a `"isotropic"` o `"stationary"`.
@@ -321,7 +332,7 @@ estos semivariogramas.
   este modelo sin embargo no debería ser utilizado en la predicción
   espacial debido a las inestabilidades numéricas que produce en los
   algoritmos kriging (especialmente cuando el efecto nugget es grande; ver
-  p.e. Wackernagel, 1998, pp. 120-123). 
+  e.g. Wackernagel, 1998, pp. 120-123). 
   El modelo exponencial se obtiene también como caso particular cuando $\lambda =1$.
 
 * Modelo oscilatorio:
@@ -347,7 +358,7 @@ estos semivariogramas.
   \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.$$ 
-  siendo $\nu \geq 0$ (un parámetro de suavizado) y $K_{\nu }$ la función de Bessel modificada de tercera clase de orden $\nu$ (ver p.e. Abramowitz y Stegun, 1965, pp. 374-379). 
+  siendo $\nu \geq 0$ (un parámetro de suavizado) y $K_{\nu }$ la función de Bessel modificada de tercera clase de orden $\nu$ (ver e.g. Abramowitz y Stegun, 1965, pp. 374-379). 
   Este modelo es válido en $\mathbb{R}^{d}$, $\forall d \geq 1$. El modelo exponencial se obtiene como caso particular cuando $\nu =\frac{1}{2}$ y en el límite $\nu \rightarrow \infty$ el modelo gausiano.
 
 En `gstat` se emplea la función `vgm()` (*Variogram Model*) para definir un modelo de variograma:
@@ -400,20 +411,28 @@ La función `show.vgms()` genera gráficos con los distintos modelos (por defect
 show.vgms()
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/show-vgms-1.png" alt="Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`." width="70%" />
-<p class="caption">(\#fig:show-vgms)Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/show-vgms-1} 
+
+}
+
+\caption{Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`.}(\#fig:show-vgms)
+\end{figure}
 
 
 ```r
 show.vgms(kappa.range = c(0.1, 0.5, 1, 5, 10), max = 10)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/show-matern-1.png" alt="Modelo de Matérn con distintos valores del parámetro de suavizado." width="70%" />
-<p class="caption">(\#fig:show-matern)Modelo de Matérn con distintos valores del parámetro de suavizado.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/show-matern-1} 
+
+}
+
+\caption{Modelo de Matérn con distintos valores del parámetro de suavizado.}(\#fig:show-matern)
+\end{figure}
 
 
 ```r
@@ -431,17 +450,21 @@ v1
 plot(v1, cutoff = 3)
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/vgm-exp-1.png" alt="Ejemplo de modelo exponencial." width="70%" />
-<p class="caption">(\#fig:vgm-exp)Ejemplo de modelo exponencial.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/vgm-exp-1} 
+
+}
+
+\caption{Ejemplo de modelo exponencial.}(\#fig:vgm-exp)
+\end{figure}
 
 ### Modelado de anisotropía {#anisotropia}
 
 La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección \@ref(modelos-parametricos)). 
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal). 
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial. 
-En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
+En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver e.g. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
 
 Cuando el variograma es función de la dirección además de la magnitud del salto, se dice que el variograma es anisotrópico (no isotrópico). 
 Los tipos de anisotropía habitualmente considerados son:
@@ -467,7 +490,7 @@ $$\mathbf{A}=\left(
 \end{array}
 \right),$$
 que se corresponde con las direcciones principales de anisotropía $\phi$ y $\phi + \frac{\pi }{\text{2}}$ (normalmente se toma $\phi$ igual a la dirección de máximo rango).
-Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp. 94-95).
+Esto puede extenderse fácilmente para el caso tridimensional (ver e.g. Chilès y Delfiner, 1999, pp. 94-95).
 
 En `gstat` se puede definir^[Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete `geoR` (ver Sección \@ref(geor-ajuste)).] anisotropía mediante el argumento `anis` de la función `vgm()`.
 En dos dimensiones es un vector con dos componentes `anis = c(alpha, ratio)`, `alpha` es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. `phi = (90 - alpha)*pi/180`) y `ratio` la relación entre el rango mínimo y máximo ($0 \leq ratio = a_2/a_1 \leq 1$).
@@ -510,13 +533,15 @@ abline(h = 0, lty = 2)
 abline(v = 0, lty = 2)
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros "zonales" que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto). 
 Por ejemplo, en el caso bidimensional, si $\phi$ es la dirección de mayor varianza se suele considerar una combinación de la forma:
 $$\gamma(\mathbf{h})=\gamma_1 (\left\| \mathbf{h}\right\|)+\gamma_2(h_{\phi }),$$
 siendo $\gamma_1 (\cdot)$ y $\gamma_2 (\cdot)$ semivariogramas isotrópicos, y $h_{\phi } =\cos (\phi)h_1 +\sin(\phi)h_2$ el salto en la dirección $\phi$, para $\mathbf{h}=(h_1 ,h_2)\in \mathbb{R} ^{2}$.
-Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver p.e. Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
+Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver e.g. Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
 Hay que tener un especial cuidado cuando el covariograma es expresado como suma de covariogramas unidimensionales, en cuyo caso el resultado puede ser únicamente condicionalmente semidefinido positivo sobre un dominio multidimensional.
 Este tipo de modelos son casos particulares del modelo lineal de regionalización descrito en la siguiente sección.
 
@@ -566,7 +591,9 @@ legend("bottomright", c("Exponencial", "Gaussiano", "Anidado"), lty = c(2, 3, 1)
        col = c("red", "blue", "black"), cex = 0.75)
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 
 ## Ajuste de un modelo válido {#ajuste-variog}
@@ -575,13 +602,13 @@ Como ya se comentó anteriormente, en general los estimadores del variograma no 
 no son condicionalmente semidefinidos negativos y eso puede causar por ejemplo sistemas kriging inválidos o estimaciones negativas de la varianza kriging. 
 Este problema normalmente se remedia buscando un modelo paramétrico válido que describa adecuadamente la dependencia espacial presente en los datos.
 Supongamos que $P=\left\{ 2\gamma(\mathbf{h};\boldsymbol{\theta}):\boldsymbol{\theta}\in \Theta \right\}$, donde $2\gamma(\mathbf{h};\boldsymbol{\theta})$ es un variograma válido en $\mathbb{R}^{d}$ (normalmente isotrópico), es la familia parametrizada de variogramas escogida. 
-Se trata de encontrar el mejor elemento de $P$, para lo que se han propuesto diversos criterios de bondad de ajuste (ver p.e. Cressie, 1993, Sección 2.6). 
+Se trata de encontrar el mejor elemento de $P$, para lo que se han propuesto diversos criterios de bondad de ajuste (ver e.g. Cressie, 1993, Sección 2.6). 
 Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima verosimilitud, descritos a continuación.
 
 
 ### Estimación por mínimos cuadrados {#ls-fit}
 
-Supongamos que $2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})$ es el variograma teórico y que $\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})$, $i = 1,\ldots,K$, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (p.e. alguno de los mostrados en la Sección 4.1.1).
+Supongamos que $2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})$ es el variograma teórico y que $\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})$, $i = 1,\ldots,K$, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g. alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p. 194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e. $\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}$); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e. $\left| N(\mathbf{h}_{i})\right| \geq 30$).
 Habitualmente (e.g. Cressie, 1993, p. 96-97) la estimación por mínimos cuadrados de $\boldsymbol{\theta}_{0}$ se obtiene al minimizar:
 \begin{equation} 
@@ -619,10 +646,10 @@ $$\sum\limits_{i=1}^{K} w_{i}(\boldsymbol{\theta}) \left( \hat{\gamma}(\mathbf{h
 siendo $w_{i}(\boldsymbol{\theta}) = \left| N(\mathbf{h}_{i})\right| /\gamma(\mathbf{h}_{i} ;\boldsymbol{\theta})^2$, como aproximación al criterio WLS. 
 
 Estos métodos de ajuste tiene unas propiedades interesantes, cuanto mayor sea $\left| N(\mathbf{h}_{i})\right|$ mayor peso recibe el residuo en el salto $\mathbf{h}_{i}$ y además, cuanto más pequeño sea el valor del variograma teórico mayor peso recibe también el residuo correspondiente.
-Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver p.e. Stein, 1988, y comentarios en la Sección 4.X). 
+Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver e.g. Stein, 1988, y comentarios en la Sección \@ref(consideraciones-kriging)). 
 Adicionalmente estos métodos pueden ser implementados fácilmente en la práctica (de forma similar al OLS).
 
-Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver p.e. Cressie, 1993, p. 98). 
+Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver e.g. Cressie, 1993, p. 98). 
 Esta es una de las principales ventajas de los métodos WLS o GLS frente a otras alternativas (como los métodos basados en máxima verosimilitud); como utilizan solamente la estructura de segundo orden (asintótica) del estimador del variograma, no es necesario hacer suposiciones sobre la distribución completa de los datos^[La distribución y eficiencia asintótica de los estimadores mínimo cuadráticos ha sido estudiada por Lahiri et al. (2003), demostrando su consistencia y normalidad asintótica bajo condiciones muy generales.]. 
 
 Como comentario final, en la función objetivo \@ref(eq:ls-obj) de los criterios WLS y GLS anteriores, la matriz de pesos utilizada en el ajuste $\mathbf{V}(\boldsymbol{\theta})$ depende también del parámetro sobre el que se realiza la minimización (y al minimizar \@ref(eq:ls-obj) en cierto sentido se están maximizando también las varianzas), por lo que puede ser preferible utilizar un algoritmo iterativo.
@@ -683,7 +710,9 @@ lines(variogramLine(fit.cressie, maxdist = 0.6))
 legend("bottomright", c("ols", "npairs", "default (linear)", "cressie"), lty = c(2, 3, 4, 1))
 ```
 
-<img src="03-modelado_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 ```r
 # Parámetros estimados:
@@ -723,7 +752,7 @@ fit.variogram.gls(z ~ 1, as(datos, "Spatial"), modelo,
 ### Modelado del variograma en procesos no estacionarios {#trend-fit}
 
 Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección \@ref(vario-muestrales).
-Por ejemplo, considerando el modelo lineal \@ref(eq:modelolineal) de la Sección \@ref(modelos-clasicos-espaciales) (el modelo del *kriging universal*, Sección 4.X; que emplearemos en el resto de este capítulo), tendríamos que:
+Por ejemplo, considerando el modelo lineal \@ref(eq:modelolineal) de la Sección \@ref(modelos-clasicos-espaciales) (el modelo del *kriging universal*, Sección \@ref(kuniversal); que emplearemos en el resto de este capítulo), tendríamos que:
 $$E(Z(\mathbf{s}_1)-Z(\mathbf{s}_{2}))^2 =2\gamma(\mathbf{s}_1
 -\mathbf{s}_{2}) + \left( \sum\limits_{j=0}^{p}\beta_{j}  \left( X_{j}
 (\mathbf{s}_1)-X_{j}(\mathbf{s}_{2})\right) \right)^2.$$
@@ -752,10 +781,14 @@ with(vario.est,  plot(dist, gamma, xlab = "distance", ylab =  "semivariance"))
 with(vario.resid,  plot(dist, gamma, xlab = "distance", ylab =  "semivariance"))
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/aquifer-var-trend-1.png" alt="Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp." width="90%" />
-<p class="caption">(\#fig:aquifer-var-trend)Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/aquifer-var-trend-1} 
+
+}
+
+\caption{Semivariograma empírico obtenido asumiendo media constante (izquierda) y a partir de los residuos de un ajuste lineal de la tendencia (derecha), empleando los datos del acuífero Wolfcamp.}(\#fig:aquifer-var-trend)
+\end{figure}
 
 ```r
 par(oldpar)
@@ -786,10 +819,14 @@ with(vario.resid, plot(dist, gamma, xlab = "distance", ylab =  "semivariance",
 lines(variogramLine(fit.resid, maxdist = 150))
 ```
 
-<div class="figure" style="text-align: center">
-<img src="03-modelado_files/figure-html/aquifer-var-fit-1.png" alt="Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp." width="70%" />
-<p class="caption">(\#fig:aquifer-var-fit)Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.</p>
-</div>
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/aquifer-var-fit-1} 
+
+}
+
+\caption{Ajuste de un modelo esférico de semivariograma a las estimaciones empíricas obtenidas a partir de los residuos de un ajuste lineal de la tendencia, empleando los datos del acuífero Wolfcamp.}(\#fig:aquifer-var-fit)
+\end{figure}
 
 Sin embargo, para poder estimar la tendencia de forma eficiente sería necesario conocer la dependencia (i.e. conocer $\gamma(\cdot)$), que dependería a su vez de la estimación de la tendencia. 
 Para solventar este problema circular, Neuman y Jacobson (1984) propusieron una aproximación iterativa, empezar con el estimador OLS de $\boldsymbol{\theta}$, estimar el variograma a partir de los residuos, ajustar un modelo de variograma válido, calcular el estimador GLS basado en el modelo ajustado y así sucesivamente hasta convergencia. 
@@ -798,7 +835,7 @@ Sin embargo, en el paquete `gstat` solo se realiza una iteración (se reestimar�
 
 En el caso de variogramas no acotados, el proceso $\varepsilon(\cdot)$ no sería estacionario de segundo orden, no está disponible la matriz $\boldsymbol{\Sigma}$ y en principio sería imposible emplear GLS para estimar la tendencia. 
 Sin embargo, normalmente se suele trabajar en un dominio acotado $D$ y podemos encontrar una constante positiva $A$ tal que $C^{\ast }(\mathbf{h})= A-\gamma(\mathbf{h})\geq 0,\forall \mathbf{h}\in D$ (y por tanto esta función es un covariograma válido en ese dominio).
-La función $C^{\ast }(\mathbf{h})$ se suele denominar *pseudo-covariograma* (o covarianza localmente equivalente; ver p.e. Chilès y Delfiner, 1999, Sección 4.6.2). 
+La función $C^{\ast }(\mathbf{h})$ se suele denominar *pseudo-covariograma* (o covarianza localmente equivalente; ver e.g. Chilès y Delfiner, 1999, Sección 4.6.2). 
 Si utilizamos $C^{\ast }(\mathbf{h})$ en lugar del covariograma en la estimación de la media (o en las ecuaciones del predictor del KU), la constante *A* se cancela y obtenemos los mismos resultados (sin embargo las varianzas si que dependen de esta constante).
 
 <!-- 
@@ -835,7 +872,7 @@ $$\gamma_{\mathbf{r}}(\mathbf{s}_{i} ,\mathbf{s}_{j}) = \gamma
 
 Por tanto al utilizar alguno de los estimadores mostrados anteriormente con los residuos estimados obtenemos estimaciones sesgadas del semivariograma teórico.
 Matheron (1971, pp. 152-155) ya notó que, por lo general, el sesgo del estimador del semivariograma es pequeño en los saltos próximos al origen, pero más sustancial en saltos grandes^[Para un caso particular, Cressie (1993, pp. 166-167) observó que los residuos basados en el estimador GLS dan lugar a un estimador del variograma con sesgo negativo y cuadrático en h.]. 
-Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver p.e. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).
+Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver e.g. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).
 
 En cuanto a las consecuencias de que el estimador del variograma no sea insesgado en el kriging universal, hay que tener en cuenta que:
 
@@ -884,7 +921,7 @@ $$\mathcal{L}(\boldsymbol{\theta}\left| \mathbf{Z}\right. )=\mathcal{L}(\hat{\bo
 \mathbf{Z}\right. ) = \dfrac{n}{2} \ln (2\pi ) + \dfrac{n}{2} \ln (\hat{\sigma
 }^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right| +\dfrac{n}{2}.$$
 Para ello es necesario utilizar algoritmos de minimización no lineal multidimensional. 
-Además está el problema de la posible multimodalidad de esta función (ver p.e. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local. 
+Además está el problema de la posible multimodalidad de esta función (ver e.g. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local. 
 Si $\hat{\boldsymbol{\theta}}$ es la estimación de $\boldsymbol{\theta}$ obtenida al resolver este problema, sustituyendo en \@ref(eq:estimadores-ml) se obtienen las estimaciones del resto de parámetros^[El comportamiento asintótico (bajo dominio creciente) de estos estimadores ha sido estudiado por Mardia y Marshal (1984), dando condiciones (no muy fáciles de chequear en la práctica) para su consistencia y normalidad asintótica (ver también Cressie, 1993, Sección 7.3.1).].
 
 Uno de los principales problemas de la estimación ML es que los estimadores de $\sigma^2$ y $\boldsymbol{\theta}$ pueden tener un sesgo considerable (especialmente cuando la tendencia no es constante), algo que es bastante conocido en la estimación de la varianza con datos independientes. 
@@ -1045,7 +1082,7 @@ Para evitar posibles problemas relacionados con la mala especificación del mode
 En este caso los métodos de mínimos cuadrados serán claramente preferibles a los basados en máxima verosimilitud.
 
 Para comparar el ajuste obtenido con distintos modelos se pueden considerar los correspondientes valores finales de la función objetivo utilizada; por ejemplo los valores WLS (o GLS) correspondientes a su ajuste al estimador piloto o los valores del NLL si se utiliza alguno de los métodos de máxima verosimilitud (en este caso también se pueden emplear criterios para la selección de modelos que tengan en cuenta el número de parámetros, como AIC -*Aikaike Information Criterion*- o BIC -*Bayesian Information Criterion*). 
-Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección 4.X.
+Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección \@ref(validacion-cruzada).
 
 
 <!-- 

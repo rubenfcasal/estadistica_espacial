@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -402,7 +402,7 @@ también un covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</
 covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>. Lo que equivale a suponer que el proceso <span class="math inline">\(Z(\cdot)\)</span> se obtiene como suma de dos procesos estacionarios de segundo orden independientes: <span class="math inline">\(Z(\mathbf{s})=Z_1 (\mathbf{s}) + Z_2 (\mathbf{s})\)</span>, con covariogramas <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> respectivamente.</p></li>
 <li><p>Si <span class="math inline">\(C_1 (\cdot)\)</span> y <span class="math inline">\(C_2 (\cdot)\)</span> son covariogramas válidos en <span class="math inline">\(\mathbb{R}^d\)</span>, entonces <span class="math inline">\(C(\cdot) = C_1 (\cdot)C_2 (\cdot)\)</span>
 es un covariograma válido en <span class="math inline">\(\mathbb{R}^d\)</span>. Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.</p></li>
-<li><p>Un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^d\)</span> es también un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^m\)</span>, <span class="math inline">\(\forall m\leq d\)</span> (el recíproco no es en general cierto, ver p.e. Cressie, 1993, p. 84).</p></li>
+<li><p>Un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^d\)</span> es también un covariograma isotrópico válido en <span class="math inline">\(\mathbb{R}^m\)</span>, <span class="math inline">\(\forall m\leq d\)</span> (el recíproco no es en general cierto, ver e.g. Cressie, 1993, p. 84).</p></li>
 </ol>
 <p>Si <span class="math inline">\(\gamma (\cdot)\)</span> es el semivariograma de un proceso intrínsecamente estacionario <span class="math inline">\(Z(\cdot)\)</span>, entonces se verifica que <span class="math inline">\(\gamma (\mathbf{0})=0\)</span>, <span class="math inline">\(\gamma (\mathbf{h})\geq 0\)</span> y <span class="math inline">\(\gamma (\mathbf{h})=\gamma (-\mathbf{h})\)</span>.
 El semivariograma debe ser además condicionalmente semidefinido negativo, es decir:
@@ -431,7 +431,7 @@ Var\left( Z(B_1)-Z(B_2)\right) = &amp; -\dfrac{1}{\left| B_1 \right| ^{2} }
   &amp; -\dfrac{1}{\left| B_2 \right|^{2} } \int_{B_2}\int_{B_2}\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}   \\
  &amp; +\dfrac{1}{\left| B_1 \right| \left| B_2 \right| } \int_{B_1 }\int_{B_2} 2\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}. 
 \end{aligned}\]</span></p>
-<p>Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el <em>block kriging</em> descrito en la Sección 4.X).
+<p>Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el <em>block kriging</em> descrito en la Sección <a href="otros-métodos-kriging.html#block-kriging">4.7.1</a>).
 Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el <em>modifiable areal unit problem</em>, MAUP).
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).</p>
 </div>
@@ -440,7 +440,7 @@ Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Del
 <hr />
 <ol start="3">
 <li id="fn3"><p>Suponiendo que <span class="math inline">\(\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty } C(\mathbf{h})=0\)</span>.<a href="procesos-estacionarios.html#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>Además de poder interpretar su influencia en la predicción espacial (Sección 4.X), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>).<a href="procesos-estacionarios.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Además de poder interpretar su influencia en la predicción espacial (Sección <a href="consideraciones-kriging.html#efecto-variog-kriging">4.5.2</a>), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>).<a href="procesos-estacionarios.html#fnref4" class="footnote-back">↩︎</a></p></li>
 <li id="fn5"><p>El origen de esta denominación esta relacionado con la terminología minera. En algunos yacimientos de metal, como por ejemplo en el caso del oro, el mineral suele obtenerse como pepitas de material puro y estas pepitas normalmente son más pequeñas que el tamaño de la unidad de muestreo (lo que produce una variabilidad adicional en la muestra).<a href="procesos-estacionarios.html#fnref5" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

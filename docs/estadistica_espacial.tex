@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-12-09}
+\date{2021-12-21}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -479,7 +479,7 @@ sin embargo no es el predictor lineal óptimo. Puede verse (e.g.~Goldberger, 196
   \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   \label{eq:predictor-kriging}
 \end{equation}
-(el denominado predictor del \emph{kriging universal}, Sección 4.X), siendo
+(el denominado predictor del \emph{kriging universal}, Sección \ref{kuniversal}), siendo
 \[\mathbf{c} = \left( Cov\left( \varepsilon (\mathbf{s}_{1} ),\varepsilon (\mathbf{s}_{0} )\right), \ldots, Cov\left( \varepsilon (\mathbf{s}_{n} ),\varepsilon (\mathbf{s}_{0} )\right) \right)^{\top},\]
 y la diferencia \(Var( \hat{Z} (\mathbf{s}_{0} ) ) - Var( \tilde{Z} (\mathbf{s}_{0} ) ) \ge 0\) puede ser significativamente mayor que cero\footnote{Por ejemplo, para un caso particular, Goldberger (1962, pp.374-375) observó que la mejora en la predicción puede llegar a ser del 50\%. En Cressie (1993, Sección 1.3) se muestran también otros ejemplos del efecto de la presencia de correlación en la estimación.} (si la dependencia espacial no es muy débil).
 Naturalmente, si se ignora por completo la dependencia y se emplea únicamente el estimador \(\hat{\boldsymbol{\beta}}_{ols}\) disminuye aún más la eficiencia de las predicciones.
@@ -580,7 +580,7 @@ entonces\footnote{Suponiendo que \(\lim \limits_{\left\| \mathbf{h}\right\| \rig
 A \(\sigma^{2} = C(\mathbf{0})\) se le denomina \emph{umbral} (o \emph{meseta}) del semivariograma.
 La relación entre el semivariograma y el covariograma se ilustra en la Figura \ref{fig:var-gen}.
 
-Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia\footnote{Además de poder interpretar su influencia en la predicción espacial (Sección 4.X), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \ref{modelos-parametricos}).}, entre ellas destacarían el \emph{efecto pepita} (o \emph{nugget}) y el \emph{rango} (o \emph{alcance}).
+Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia\footnote{Además de poder interpretar su influencia en la predicción espacial (Sección \ref{efecto-variog-kriging}), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \ref{modelos-parametricos}).}, entre ellas destacarían el \emph{efecto pepita} (o \emph{nugget}) y el \emph{rango} (o \emph{alcance}).
 La Figura \ref{fig:var-gen} ilustra las distintas características del semivariograma.
 
 \begin{figure}[!htb]
@@ -642,7 +642,7 @@ Algunas propiedades adicionales que verifican los covariogramas son las siguient
   Si \(C_1 (\cdot)\) y \(C_2 (\cdot)\) son covariogramas válidos en \(\mathbb{R}^d\), entonces \(C(\cdot) = C_1 (\cdot)C_2 (\cdot)\)
   es un covariograma válido en \(\mathbb{R}^d\). Lo que equivale a suponer que el proceso se obtiene como producto de dos procesos estacionarios de segundo orden independientes.
 \item
-  Un covariograma isotrópico válido en \(\mathbb{R}^d\) es también un covariograma isotrópico válido en \(\mathbb{R}^m\), \(\forall m\leq d\) (el recíproco no es en general cierto, ver p.e. Cressie, 1993, p.~84).
+  Un covariograma isotrópico válido en \(\mathbb{R}^d\) es también un covariograma isotrópico válido en \(\mathbb{R}^m\), \(\forall m\leq d\) (el recíproco no es en general cierto, ver e.g.~Cressie, 1993, p.~84).
 \end{enumerate}
 
 Si \(\gamma (\cdot)\) es el semivariograma de un proceso intrínsecamente estacionario \(Z(\cdot)\), entonces se verifica que \(\gamma (\mathbf{0})=0\), \(\gamma (\mathbf{h})\geq 0\) y \(\gamma (\mathbf{h})=\gamma (-\mathbf{h})\).
@@ -684,7 +684,7 @@ Var\left( Z(B_1)-Z(B_2)\right) = & -\dfrac{1}{\left| B_1 \right| ^{2} }
  & +\dfrac{1}{\left| B_1 \right| \left| B_2 \right| } \int_{B_1 }\int_{B_2} 2\gamma(\mathbf{s}-\mathbf{u})d\mathbf{s}d\mathbf{u}. 
 \end{aligned}\]
 
-Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el \emph{block kriging} descrito en la Sección 4.X).
+Aunque nos centraremos principalmente en el caso de soporte puntual, los métodos descritos en este libro pueden ser extendidos para el caso de distintos soportes (por ejemplo el \emph{block kriging} descrito en la Sección \ref{block-kriging}).
 Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el \emph{modifiable areal unit problem}, MAUP).
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
@@ -724,7 +724,7 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
     Modelar la dependencia (ajustar un modelo de variograma) a partir de los residuos.
   \end{enumerate}
 \item
-  Validación del modelo (Sección 4.X) o reformulación del mismo.
+  Validación del modelo (Sección \ref{validacion-cruzada}) o reformulación del mismo.
 \item
   Empleo del modelo aceptado (Capítulo \ref{kriging}).
 \end{enumerate}
@@ -780,7 +780,7 @@ En el campo de los datos espaciales se suele distinguir entre dos tipos de datos
 \end{itemize}
 
 En este libro entenderemos que \emph{ráster} hace referencia a agregaciones espaciales y nos centraremos principalmente en datos vectoriales (incluyendo rejillas de datos), aunque hoy en día cada vez es más habitual disponer de datos ráster gracias a la fotografía aérea y a la teledetección por satélite.
-Como se comentó en la Sección \ref{procesos-agregados}, muchos métodos geoestadísticos admiten datos en distintos soportes (por ejemplo el \emph{block kriging} descrito en la Sección 4.X), aunque combinar datos en diferentes soportes puede presentar en la práctica serias dificultades (para más detalles ver referencias al final de la Sección \ref{procesos-agregados}).
+Como se comentó en la Sección \ref{procesos-agregados}, muchos métodos geoestadísticos admiten datos en distintos soportes (por ejemplo el \emph{block kriging} descrito en la Sección \ref{block-kriging}), aunque combinar datos en diferentes soportes puede presentar en la práctica serias dificultades (para más detalles ver referencias al final de la Sección \ref{procesos-agregados}).
 
 Como ya se comentó en la Sección \ref{proc-esp}, dependiendo de las suposiciones sobre el soporte del proceso (índice espacial) se distingue entre distintos tipos de procesos espaciales.
 Sin embargo, aunque en principio los objetivos pueden ser muy distintos, en todos estos casos se trabaja con datos similares (espaciales y espacio-temporales):
@@ -1944,7 +1944,7 @@ Si no se puede asumir que la tendencia es constante, para poder estimarla de for
 Este problema circular se suele resolver en la práctica realizando el paso 2 de forma iterativa, como se describe en la Sección \ref{trend-fit}.
 Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la Sección \ref{ml-fit}.
 
-Finalmente, en el paso 3, para verificar si el modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (y para comparar modelos), se emplea normalmente la técnica de validación cruzada, descrita en la Sección 4.X del siguiente capítulo (en el que también se describe los principales métodos empleados en el paso 4).
+Finalmente, en el paso 3, para verificar si el modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (y para comparar modelos), se emplea normalmente la técnica de validación cruzada, descrita en la Sección \ref{validacion-cruzada} del siguiente capítulo (en el que también se describe los principales métodos empleados en el paso 4).
 
 \hypertarget{vario-muestrales}{%
 \section{Estimadores muestrales del semivariograma}\label{vario-muestrales}}
@@ -1969,8 +1969,7 @@ Estos resultados justifican que el modelado de la dependencia espacial se realic
 
 Uno de los problemas con el estimador empírico del semivariograma es su falta de robustez frente a observaciones atípicas.
 Por este motivo se han propuesto numerosas alternativas robustas.
-Hawkins y Cressie (1984) sugirieron promediar la raíz cuadrada de las diferencias en valor absoluto\footnote{Si el proceso \(Z(\cdot)\) es normal entonces
-  \((Z(\mathbf{s})-Z(\mathbf{s}+\mathbf{h}))^2\) sigue una distribución \(2\gamma(\mathbf{h})\chi_1^2\), sin embargo esta distribución es muy asimétrica y la transformación de potencia que hace que se aproxime más a la simetría (normalidad) es la raíz cuarta. Otra ventaja de utilizar la raíz cuadrada de las diferencias es que, en general, están menos correladas que las diferencias al cuadrado (ver p.e. Cressie, 1993, p.~76).} y posteriormente transformar el resultado a la escala original tratando de obtener un estimador aproximadamente insesgado (utilizando del método delta), obteniéndose el estimador:
+Hawkins y Cressie (1984) sugirieron promediar la raíz cuadrada de las diferencias en valor absoluto\footnote{Si el proceso \(Z(\cdot)\) es normal entonces \((Z(\mathbf{s})-Z(\mathbf{s}+\mathbf{h}))^2\) sigue una distribución \(2\gamma(\mathbf{h})\chi_1^2\), sin embargo esta distribución es muy asimétrica y la transformación de potencia que hace que se aproxime más a la simetría (normalidad) es la raíz cuarta. Otra ventaja de utilizar la raíz cuadrada de las diferencias es que, en general, están menos correladas que las diferencias al cuadrado (ver e.g.~Cressie, 1993, p.~76).} y posteriormente transformar el resultado a la escala original tratando de obtener un estimador aproximadamente insesgado (utilizando del método delta), obteniéndose el estimador:
 
 \[2\tilde{\gamma}(\mathbf{h}) = \left( \dfrac{1}{\left| N(\mathbf{h})\right| }
 \sum\limits_{N(\mathbf{h})}\left| Z(\mathbf{s}_{i})-Z(\mathbf{s}_{j}
@@ -2226,7 +2225,7 @@ estos semivariogramas.
   este modelo sin embargo no debería ser utilizado en la predicción
   espacial debido a las inestabilidades numéricas que produce en los
   algoritmos kriging (especialmente cuando el efecto nugget es grande; ver
-  p.e. Wackernagel, 1998, pp.~120-123).
+  e.g.~Wackernagel, 1998, pp.~120-123).
   El modelo exponencial se obtiene también como caso particular cuando \(\lambda =1\).
 \item
   Modelo oscilatorio:
@@ -2251,7 +2250,7 @@ estos semivariogramas.
   \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.\]
-  siendo \(\nu \geq 0\) (un parámetro de suavizado) y \(K_{\nu }\) la función de Bessel modificada de tercera clase de orden \(\nu\) (ver p.e. Abramowitz y Stegun, 1965, pp.~374-379).
+  siendo \(\nu \geq 0\) (un parámetro de suavizado) y \(K_{\nu }\) la función de Bessel modificada de tercera clase de orden \(\nu\) (ver e.g.~Abramowitz y Stegun, 1965, pp.~374-379).
   Este modelo es válido en \(\mathbb{R}^{d}\), \(\forall d \geq 1\). El modelo exponencial se obtiene como caso particular cuando \(\nu =\frac{1}{2}\) y en el límite \(\nu \rightarrow \infty\) el modelo gausiano.
 \end{itemize}
 
@@ -2380,7 +2379,7 @@ La función \texttt{show.vgms()} genera gráficos con los distintos modelos (por
 La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección \ref{modelos-parametricos}).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial.
-En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
+En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver e.g.~Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).
 
 Cuando el variograma es función de la dirección además de la magnitud del salto, se dice que el variograma es anisotrópico (no isotrópico).
 Los tipos de anisotropía habitualmente considerados son:
@@ -2412,7 +2411,7 @@ Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la form
 \end{array}
 \right),\]
 que se corresponde con las direcciones principales de anisotropía \(\phi\) y \(\phi + \frac{\pi }{\text{2}}\) (normalmente se toma \(\phi\) igual a la dirección de máximo rango).
-Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp.~94-95).
+Esto puede extenderse fácilmente para el caso tridimensional (ver e.g.~Chilès y Delfiner, 1999, pp.~94-95).
 
 En \texttt{gstat} se puede definir\footnote{Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete \texttt{geoR} (ver Sección \ref{geor-ajuste}).} anisotropía mediante el argumento \texttt{anis} de la función \texttt{vgm()}.
 En dos dimensiones es un vector con dos componentes \texttt{anis\ =\ c(alpha,\ ratio)}, \texttt{alpha} es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e.~\texttt{phi\ =\ (90\ -\ alpha)*pi/180}) y \texttt{ratio} la relación entre el rango mínimo y máximo (\(0 \leq ratio = a_2/a_1 \leq 1\)).
@@ -2465,7 +2464,7 @@ En el caso de la anisotropía zonal se suele considerar una combinación de un s
 Por ejemplo, en el caso bidimensional, si \(\phi\) es la dirección de mayor varianza se suele considerar una combinación de la forma:
 \[\gamma(\mathbf{h})=\gamma_1 (\left\| \mathbf{h}\right\|)+\gamma_2(h_{\phi }),\]
 siendo \(\gamma_1 (\cdot)\) y \(\gamma_2 (\cdot)\) semivariogramas isotrópicos, y \(h_{\phi } =\cos (\phi)h_1 +\sin(\phi)h_2\) el salto en la dirección \(\phi\), para \(\mathbf{h}=(h_1 ,h_2)\in \mathbb{R} ^{2}\).
-Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver p.e. Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
+Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver e.g.~Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
 Hay que tener un especial cuidado cuando el covariograma es expresado como suma de covariogramas unidimensionales, en cuyo caso el resultado puede ser únicamente condicionalmente semidefinido positivo sobre un dominio multidimensional.
 Este tipo de modelos son casos particulares del modelo lineal de regionalización descrito en la siguiente sección.
 
@@ -2528,13 +2527,13 @@ Como ya se comentó anteriormente, en general los estimadores del variograma no 
 no son condicionalmente semidefinidos negativos y eso puede causar por ejemplo sistemas kriging inválidos o estimaciones negativas de la varianza kriging.
 Este problema normalmente se remedia buscando un modelo paramétrico válido que describa adecuadamente la dependencia espacial presente en los datos.
 Supongamos que \(P=\left\{ 2\gamma(\mathbf{h};\boldsymbol{\theta}):\boldsymbol{\theta}\in \Theta \right\}\), donde \(2\gamma(\mathbf{h};\boldsymbol{\theta})\) es un variograma válido en \(\mathbb{R}^{d}\) (normalmente isotrópico), es la familia parametrizada de variogramas escogida.
-Se trata de encontrar el mejor elemento de \(P\), para lo que se han propuesto diversos criterios de bondad de ajuste (ver p.e. Cressie, 1993, Sección 2.6).
+Se trata de encontrar el mejor elemento de \(P\), para lo que se han propuesto diversos criterios de bondad de ajuste (ver e.g.~Cressie, 1993, Sección 2.6).
 Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima verosimilitud, descritos a continuación.
 
 \hypertarget{ls-fit}{%
 \subsection{Estimación por mínimos cuadrados}\label{ls-fit}}
 
-Supongamos que \(2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})\) es el variograma teórico y que \(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\), \(i = 1,\ldots,K\), son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (p.e. alguno de los mostrados en la Sección 4.1.1).
+Supongamos que \(2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})\) es el variograma teórico y que \(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\), \(i = 1,\ldots,K\), son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g.~alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p.~194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e.~\(\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}\)); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e.~\(\left| N(\mathbf{h}_{i})\right| \geq 30\)).
 Habitualmente (e.g.~Cressie, 1993, p.~96-97) la estimación por mínimos cuadrados de \(\boldsymbol{\theta}_{0}\) se obtiene al minimizar:
 \begin{equation} 
@@ -2573,10 +2572,10 @@ Proponiendo en estos casos la minimización de:
 siendo \(w_{i}(\boldsymbol{\theta}) = \left| N(\mathbf{h}_{i})\right| /\gamma(\mathbf{h}_{i} ;\boldsymbol{\theta})^2\), como aproximación al criterio WLS.
 
 Estos métodos de ajuste tiene unas propiedades interesantes, cuanto mayor sea \(\left| N(\mathbf{h}_{i})\right|\) mayor peso recibe el residuo en el salto \(\mathbf{h}_{i}\) y además, cuanto más pequeño sea el valor del variograma teórico mayor peso recibe también el residuo correspondiente.
-Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver p.e. Stein, 1988, y comentarios en la Sección 4.X).
+Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver e.g.~Stein, 1988, y comentarios en la Sección \ref{consideraciones-kriging}).
 Adicionalmente estos métodos pueden ser implementados fácilmente en la práctica (de forma similar al OLS).
 
-Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver p.e. Cressie, 1993, p.~98).
+Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver e.g.~Cressie, 1993, p.~98).
 Esta es una de las principales ventajas de los métodos WLS o GLS frente a otras alternativas (como los métodos basados en máxima verosimilitud); como utilizan solamente la estructura de segundo orden (asintótica) del estimador del variograma, no es necesario hacer suposiciones sobre la distribución completa de los datos\footnote{La distribución y eficiencia asintótica de los estimadores mínimo cuadráticos ha sido estudiada por Lahiri et al.~(2003), demostrando su consistencia y normalidad asintótica bajo condiciones muy generales.}.
 
 Como comentario final, en la función objetivo \eqref{eq:ls-obj} de los criterios WLS y GLS anteriores, la matriz de pesos utilizada en el ajuste \(\mathbf{V}(\boldsymbol{\theta})\) depende también del parámetro sobre el que se realiza la minimización (y al minimizar \eqref{eq:ls-obj} en cierto sentido se están maximizando también las varianzas), por lo que puede ser preferible utilizar un algoritmo iterativo.
@@ -2710,7 +2709,7 @@ Sin embargo, actualmente solo admite datos tipo \texttt{Spatial*} del paquete \t
 \subsection{Modelado del variograma en procesos no estacionarios}\label{trend-fit}}
 
 Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección \ref{vario-muestrales}.
-Por ejemplo, considerando el modelo lineal \eqref{eq:modelolineal} de la Sección \ref{modelos-clasicos-espaciales} (el modelo del \emph{kriging universal}, Sección 4.X; que emplearemos en el resto de este capítulo), tendríamos que:
+Por ejemplo, considerando el modelo lineal \eqref{eq:modelolineal} de la Sección \ref{modelos-clasicos-espaciales} (el modelo del \emph{kriging universal}, Sección \ref{kuniversal}; que emplearemos en el resto de este capítulo), tendríamos que:
 \[E(Z(\mathbf{s}_1)-Z(\mathbf{s}_{2}))^2 =2\gamma(\mathbf{s}_1
 -\mathbf{s}_{2}) + \left( \sum\limits_{j=0}^{p}\beta_{j}  \left( X_{j}
 (\mathbf{s}_1)-X_{j}(\mathbf{s}_{2})\right) \right)^2.\]
@@ -2800,7 +2799,7 @@ Sin embargo, en el paquete \texttt{gstat} solo se realiza una iteración (se ree
 
 En el caso de variogramas no acotados, el proceso \(\varepsilon(\cdot)\) no sería estacionario de segundo orden, no está disponible la matriz \(\boldsymbol{\Sigma}\) y en principio sería imposible emplear GLS para estimar la tendencia.
 Sin embargo, normalmente se suele trabajar en un dominio acotado \(D\) y podemos encontrar una constante positiva \(A\) tal que \(C^{\ast }(\mathbf{h})= A-\gamma(\mathbf{h})\geq 0,\forall \mathbf{h}\in D\) (y por tanto esta función es un covariograma válido en ese dominio).
-La función \(C^{\ast }(\mathbf{h})\) se suele denominar \emph{pseudo-covariograma} (o covarianza localmente equivalente; ver p.e. Chilès y Delfiner, 1999, Sección 4.6.2).
+La función \(C^{\ast }(\mathbf{h})\) se suele denominar \emph{pseudo-covariograma} (o covarianza localmente equivalente; ver e.g.~Chilès y Delfiner, 1999, Sección 4.6.2).
 Si utilizamos \(C^{\ast }(\mathbf{h})\) en lugar del covariograma en la estimación de la media (o en las ecuaciones del predictor del KU), la constante \emph{A} se cancela y obtenemos los mismos resultados (sin embargo las varianzas si que dependen de esta constante).
 
 Adicionalmente, habría que tener en cuenta también que la variabilidad de los residuos no es la de los errores teóricos (algo que normalmente se ignora).
@@ -2829,7 +2828,7 @@ y expresado en función del semivariograma:
 
 Por tanto al utilizar alguno de los estimadores mostrados anteriormente con los residuos estimados obtenemos estimaciones sesgadas del semivariograma teórico.
 Matheron (1971, pp.~152-155) ya notó que, por lo general, el sesgo del estimador del semivariograma es pequeño en los saltos próximos al origen, pero más sustancial en saltos grandes\footnote{Para un caso particular, Cressie (1993, pp.~166-167) observó que los residuos basados en el estimador GLS dan lugar a un estimador del variograma con sesgo negativo y cuadrático en h.}.
-Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver p.e. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).
+Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver e.g.~Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).
 
 En cuanto a las consecuencias de que el estimador del variograma no sea insesgado en el kriging universal, hay que tener en cuenta que:
 
@@ -2885,7 +2884,7 @@ Por tanto la función a minimizar respecto a \(\boldsymbol{\theta}\) es:
 \mathbf{Z}\right. ) = \dfrac{n}{2} \ln (2\pi ) + \dfrac{n}{2} \ln (\hat{\sigma
 }^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right| +\dfrac{n}{2}.\]
 Para ello es necesario utilizar algoritmos de minimización no lineal multidimensional.
-Además está el problema de la posible multimodalidad de esta función (ver p.e. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
+Además está el problema de la posible multimodalidad de esta función (ver e.g.~Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
 Si \(\hat{\boldsymbol{\theta}}\) es la estimación de \(\boldsymbol{\theta}\) obtenida al resolver este problema, sustituyendo en \eqref{eq:estimadores-ml} se obtienen las estimaciones del resto de parámetros\footnote{El comportamiento asintótico (bajo dominio creciente) de estos estimadores ha sido estudiado por Mardia y Marshal (1984), dando condiciones (no muy fáciles de chequear en la práctica) para su consistencia y normalidad asintótica (ver también Cressie, 1993, Sección 7.3.1).}.
 
 Uno de los principales problemas de la estimación ML es que los estimadores de \(\sigma^2\) y \(\boldsymbol{\theta}\) pueden tener un sesgo considerable (especialmente cuando la tendencia no es constante), algo que es bastante conocido en la estimación de la varianza con datos independientes.
@@ -2932,8 +2931,8 @@ Sin embargo, aparentemente \textbf{\emph{el método no está bien implementado}}
 
 \begin{verbatim}
 ##   model      psill range
-## 1   Nug -0.7977189     0
-## 2   Sph 12.5411626    75
+## 1   Nug -0.7976219     0
+## 2   Sph 12.5397527    75
 \end{verbatim}
 
 Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt{geoR} (ver Sección \ref{geor-ajuste} del apéndice; también se podría emplear el paquete \texttt{nlme}), empleando la función \texttt{geoR::likfit()} para el ajuste y posteriormente \texttt{as.vgm.variomodel()} para convertir el modelo ajustado a un objeto de \texttt{gstat}.
@@ -3047,7 +3046,7 @@ Para evitar posibles problemas relacionados con la mala especificación del mode
 En este caso los métodos de mínimos cuadrados serán claramente preferibles a los basados en máxima verosimilitud.
 
 Para comparar el ajuste obtenido con distintos modelos se pueden considerar los correspondientes valores finales de la función objetivo utilizada; por ejemplo los valores WLS (o GLS) correspondientes a su ajuste al estimador piloto o los valores del NLL si se utiliza alguno de los métodos de máxima verosimilitud (en este caso también se pueden emplear criterios para la selección de modelos que tengan en cuenta el número de parámetros, como AIC -\emph{Aikaike Information Criterion}- o BIC -\emph{Bayesian Information Criterion}).
-Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección 4.X.
+Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección \ref{validacion-cruzada}.
 
 \hypertarget{kriging}{%
 \chapter{Predicción Kriging}\label{kriging}}
@@ -3055,7 +3054,7 @@ Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que 
 \textbf{\emph{En preparación\ldots{}}}
 
 En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso} (ver Sección \ref{geoestadistica} para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
-Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (1999, capítulos 3, 4 y 6).
+Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (2012, capítulos 3, 4 y 6).
 
 \hypertarget{introduccion}{%
 \section{Introducción}\label{introduccion}}
@@ -3070,7 +3069,7 @@ Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n}
   es uniformemente insesgado, para cualquier \(\mu(\cdot)\):
   \[E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),\]
 \item
-  y minimiza el error en media cuadrática de predicción (\emph{mean squared prediction error}, MSPE)\footnote{Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver p.e. Rivoirard, 1994) y del kriging trans-normal (ver Sección 4.X).}:
+  y minimiza el error en media cuadrática de predicción (\emph{mean squared prediction error}, MSPE)\footnote{Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g.~Rivoirard, 1994) y del kriging trans-normal (ver Sección \ref{kriging-trans-normal}).}:
   \[E\left( \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right).\]
 \end{itemize}
 
@@ -3091,7 +3090,7 @@ Dependiendo de las suposiciones acerca de la función de tendencia \(\mu(\cdot)\
   que es una combinación lineal (desconocida) de \(p+1\) funciones (o variables explicativas) conocidas \(\left\{ X_{j} (\cdot):j=0, \ldots,p\right\}\):
   \[\mu(\mathbf{s})=\sum\limits_{j=0}^{p}X_{j} (\mathbf{s})\beta_{j}\]
   donde \(\boldsymbol{\beta}=(\beta_{0}, \ldots, \beta_{p} )^\top \in \mathbb{R}^{p+1}\) es un vector desconocido.
-  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, p.e. \(X_{0} (\cdot)\equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma (Sección \ref{ku-covariograma}).}.
+  Se asume también que por lo menos existe el variograma y es conocido\footnote{Siempre que una de las funciones explicativas sea idénticamente 1, e.g.~\(X_{0} (\cdot)\equiv 1\), en caso contrario las ecuaciones kriging sólo pueden expresarse en función del covariograma (Sección \ref{ku-covariograma}).}.
 \end{enumerate}
 
 Por simplicidad el kriging ordinario se tratará en este capítulo como un caso particular del kriging universal (aunque en la práctica se suele pensar en el KO como un método distinto al KU, principalmente por los inconvenientes que presenta este último; ver Sección \ref{trend-fit}).
@@ -3263,7 +3262,7 @@ y la varianza kriging es:
 & = C(\mathbf{s}_{0}, \mathbf{s}_{0}) - \boldsymbol{\lambda}_{U} \mathbf{c}_{U}.
 \end{aligned}\]
 
-Muchos de los algoritmos utilizados para la solución de los sistema kriging están diseñados y optimizados para covariogramas (e.g.~Chilès y Delfiner, 1999, p.~170).
+Muchos de los algoritmos utilizados para la solución de los sistema kriging están diseñados y optimizados para covariogramas (e.g.~Chilès y Delfiner, 2012, p.~170).
 En el caso de variogramas no acotados se podrían emplear pseudo-covarianzas (ver Sección \ref{trend-fit}).
 
 \hypertarget{kriging-residual}{%
@@ -3283,7 +3282,7 @@ Cuando \(\boldsymbol{\beta}\) no es conocido es lógico pensar en utilizar en su
 obteniéndose el predictor:
 \[p^{\ast}(\mathbf{Z},\mathbf{s}_{0}) = \mathbf{c^\top }\boldsymbol{\Sigma}^{-1}\mathbf{Z} + (\mathbf{x}_0-\mathbf{X}^\top\boldsymbol{\Sigma}^{-1} \mathbf{c})^\top \hat{\boldsymbol{\beta}}_{gls}.\]
 Puede verse (Goldberger, 1962) que este predictor, lineal e insesgado, es óptimo (en el sentido de que minimiza el MSPE sobre todos los predictores lineales e insesgados) y por tanto coincide con el predictor del kriging universal.
-Además, teniendo en cuenta que el error \(\left( p_{KS} (\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)\) tiene covarianza nula con cualquier combinación lineal de \(\mathbf{Z}\) (ver p.e. Chilès y Delfiner, 1999, p.~161), esta relación también se extiende a la varianza kriging:
+Además, teniendo en cuenta que el error \(\left( p_{KS} (\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)\) tiene covarianza nula con cualquier combinación lineal de \(\mathbf{Z}\) (ver e.g.~Chilès y Delfiner, 2012, p.~161), esta relación también se extiende a la varianza kriging:
 \[\sigma_{KU}^{2} (\mathbf{s}_{0})=\sigma_{KS}^{2} (\mathbf{s}_{0}
 )+(\mathbf{x}_0-\mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c})^\top \left(
 \mathbf{X^\top }\boldsymbol{\Sigma}^{-1} \mathbf{X}\right)^{-1}
@@ -3294,75 +3293,238 @@ Estas expresiones son conocidas como la relación de aditividad entre el KS y el
 Los resultados anteriores permiten pensar en la predicción lineal con media desconocida como un proceso de dos etapas: en la primera estimar la media desconocida, y en la segunda realizar la predicción lineal óptima con media supuestamente conocida.
 En el caso de una tendencia lineal obtenemos el predictor de KU, mientras que en el caso general se obtiene el denominado predictor del \emph{kriging residual} (o \emph{kriging con tendencia externa}).
 
+\hypertarget{kriging-gstat}{%
+\section{\texorpdfstring{Kriging con el paquete \textbf{gstat}}{Kriging con el paquete gstat}}\label{kriging-gstat}}
+
+Los métodos kriging (KS, KO y KU) están implementados en la función \texttt{krige()} del paquete \texttt{gstat}.
+Normalmente la sintaxis empleada es:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{krige}\NormalTok{(formula, locations, newdata, model, ..., beta)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{formula}: fórmula que define la tendencia como un modelo lineal de la respuesta en función de las variables explicativas (para KO será de la forma \texttt{z\ \textasciitilde{}\ 1}).
+\item
+  \texttt{locations}: objeto \texttt{sf} o \texttt{Spatial*} que contiene las observaciones espaciales (incluyendo las variables explicativas).
+\item
+  \texttt{newdata}: objeto \texttt{sf}, \texttt{stars} o \texttt{Spatial*}, que contiene las posiciones de predicción (incluyendo las variables explicativas).
+\item
+  \texttt{model}: modelo de semivariograma (generado con la función \texttt{vgm()} o \texttt{fit.variogram()}).
+\item
+  \texttt{beta}: vector con los coeficientes de tendencia (incluida la intersección) si se supone conocida (se empleará para KS, en lugar de las estimaciones GLS empleadas en KO y KU).
+\end{itemize}
+
+Esta función, además de kriging univariante puntual con vecindario global, también implementa kriging por bloques, cokriging (predicción multivariante), predicción local y simulación condicional.
+Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{maxdist}: solo se utilizarán las observaciones a una distancia de la posición de predicción menor de este valor.
+\item
+  \texttt{nmax}, \texttt{nmin} (opcionales): número máximo y mínimo de observaciones más cercanas. Si el número de observaciones más cercanas dentro de la distancia \texttt{maxdist} es menor que \texttt{nmin}, se generará un valor faltante.
+\item
+  \texttt{omax} (opcional): número máximo de observaciones por octante (3D) o cuadrante (2D).
+\end{itemize}
+
+Los parámetros (opcionales) para simulación condicional son:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{nsim}: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging (ver Fernández-Casal y Cao, 2020, \href{https://rubenfcasal.github.io/simbook/simulaci\%C3\%B3n-condicional-e-incondicional.html}{Sección 7.5}).
+\item
+  \texttt{indicators}: valor lógico que determina el método de simulación. Por defecto (\texttt{FALSE}) emplea simulación condicional gaussiana, en caso contrario (\texttt{TRUE}) simula una variable indicadora.
+\end{itemize}
+
+Ejemplos: \href{s100.html}{s100} (KO) y \href{aquifer.html}{aquifer} (KU).
+
 \hypertarget{consideraciones-kriging}{%
 \section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}}
+
+Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado
+(BLUP, \emph{best linear unbiased predictor}). Si el proceso es gaussiano, este predictor resulta ser el predictor más eficiente.
+
+En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
+Puede verse (Yakowitz y Szidarovszky, 1985) que, bajo condiciones muy generales, el predictor kriging con variograma estimado converge al valor correcto si la densidad de datos tiende a infinito, incluso cuando la estimación del variograma no es muy buena.
+Además, Stein (1988) probó que para una predicción asintóticamente (de relleno) eficiente lo que se necesita generalmente es capturar la conducta del variograma cerca del origen.
+Por tanto, en cuanto a las predicciones, el factor más importante es que la aproximación al variograma
+verdadero cerca del origen no sea muy mala.
+
+Al contrario que en el caso del predictor, la estimación del
+variograma afecta directamente a la varianza kriging y en general no es un estimador consistente del error en media cuadrática del predictor con variograma estimado.
+En general, por ejemplo si el proceso es normal, es de esperar que subestime la verdadera varianza de predicción y por tanto debería incrementarse para que tenga en cuenta el efecto de la estimación del variograma.
+Para más detalles sobre este problema, ver por ejemplo Cressie (1993, Sección 5.3), Christensen (1991, Sección 6.5), Stein (1999, Sección 6.8) o Chilès y Delfiner (2012, Sección 3.4.3).
+En la Sección \ref{validacion-cruzada} se sugiere una posible corrección de la varianza kriging a partir del método de validación cruzada.
 
 \hypertarget{kriging-interpolador}{%
 \subsection{Kriging como interpolador}\label{kriging-interpolador}}
 
+Las ecuaciones kriging tienen en cuenta varios aspectos del problema de interpolación\footnote{Para un tratamiento más detallado ver por ejemplo Chilès y Delfiner (2012), secciones 3.3.2 y 3.4.2.}:
+
+\begin{itemize}
+\tightlist
+\item
+  La configuración espacial de los datos, a través de las matrices \(\boldsymbol{\Sigma}\) (o \(\boldsymbol{\Gamma}\)), donde el covariograma (o el variograma) actúa como una ``distancia estadística'' entre las observaciones y de forma que se tiene en cuenta la información redundante presente en los datos.
+\item
+  La situación de la posición de predicción respecto a los datos, a través
+  de \(\mathbf{c}\) (o \(\boldsymbol{\gamma}\)).
+\item
+  La presencia de una función determinística de tendencia.
+\end{itemize}
+
+Adicionalmente también tienen en cuenta propiedades estadísticas del proceso \(Z(\cdot)\), a través del variograma o el covariograma (que como se comentó en la Sección \ref{procesos-estacionarios}, entre otras cosas, determina las propiedades de continuidad del proceso).
+Esta es la principal diferencia con otros métodos de interpolación que no tienen en cuenta la estructura de segundo orden del proceso.
+
+Una propiedad importante de los predictores kriging es que son interpoladores exactos (suponiendo que no hay error de medida\footnote{En caso contrario interesaría predecir el proceso libre de ruido y habría que modificar ligeramente las ecuaciones kriging. Para más detalles, ver por ejemplo Cressie (1993, pp.~128-130) o Chilès y Delfiner (2012, Sección 3.7.1)}), en el sentido de que \(p(\mathbf{Z},\mathbf{s}_{0})=Z(\mathbf{s}_{0})\) cuando \(\mathbf{s}_{0}=\mathbf{s}_{i}\) (la solución de los sistemas es \(\lambda_{i} =1\) y \(\lambda_{j} =0\), \(\forall j\neq i\)), y naturalmente en ese caso la estimación de la varianza es 0.
+Además, por lo general no son continuos en las posiciones de los datos, para que lo sean el efecto nugget debe ser nulo.
+
+Otra característica de la interpolación kriging (y que no aparece en otros métodos como los que asignan pesos inversamente proporcionales a la distancia) es el denominado \emph{efecto pantalla}.
+En general se observa (ver comentarios en la siguiente sección) que la influencia de un valor es menor si está oculto detrás de otro valor (e.g.~Journel y Huijbregts, 1978, p.~346).
+Esto produce, por ejemplo en el caso del KO (incluso con un variograma isotrópico), que puntos situados a la misma distancia de la posición de predicción puedan tener distintos pesos y que los datos cercanos no apantallados reciban los mayores pesos, reduciéndose considerablemente (llegando a ser negativos) los pesos de los datos que quedan ocultos\footnote{En la literatura se muestran numerosos ejemplos sobre el comportamiento de los pesos kriging en distintos escenarios; una colección bastante completa se tiene en Wakernagel (1998, Capítulo 13).}.
+
+La aparición de pesos negativos (o mayores que 1) en el KO como consecuencia del efecto pantalla, puede provocar (incluso suponiendo media constante) que el predictor kriging no esté necesariamente comprendido entre el valor mínimo y máximo de los datos.
+Esto que en principio puede ser una propiedad muy interesante puede conducir a resultados extraños en ciertas ocasiones, como por ejemplo dar lugar a predicciones negativas en casos en los que la variable considerada es necesariamente positiva.
+Para solucionar estos problemas se han propuesto numerosas alternativas, entre ellas la inclusión de restricciones adicionales sobre los pesos de forma que sean positivos (e.g.~Chilès y Delfiner, 2012, Sección 3.9.1) (lo cual puede dar lugar a un incremento considerable del MSPE de predicción) o sobre el predictor (ver p.e. Goovaerts, 1997, Sección 7.4.2).
+Otra alternativa que puede ser preferible es la transformación del proceso \(Z(\cdot)\) a otra escala (de forma que se aproxime a la normalidad), realizar la predicción kriging del proceso transformado y volver a la escala original (pero asegurándose de que al hacer la transformación inversa el resultado tenga las propiedades de optimalidad deseadas); más detalles sobre este procedimiento se tienen en la Sección \ref{kriging-trans-normal}.
+
 \hypertarget{efecto-variog-kriging}{%
 \subsection{Efecto del variograma (covariograma) en el kriging}\label{efecto-variog-kriging}}
+
+El variograma (o el covariograma) tiene un efecto determinante en la predicción espacial.
+Como ejemplo, a continuación se incluyen algunas observaciones acerca de la influencia en el kriging de las tres principales características de un variograma estacionario (normalmente tratadas como parámetros) definidas en la Sección \ref{procesos-estacionarios}.
+
+\textbf{Rango}
+
+Supongamos que la posición de predicción \(\mathbf{s}_{0}\) está a una
+distancia mayor que el rango de las posiciones de los datos \(\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}\) (i.e.~la posición de predicción está fuera de la zona de influencia de los datos), entonces \(\mathbf{c}=\mathbf{0}\) en las ecuaciones kriging, obteniéndose que:
+\[p_{KS} (\mathbf{Z},\mathbf{s}_{0})=\mu(\mathbf{s}_{0}),\ \ p_{KU} (\mathbf{Z},\mathbf{s}_{0})=\mathbf{x}_0^\top\hat{\boldsymbol{\beta}}_{gls},\]
+por lo tanto la predicción kriging se reduce a la media\footnote{Puede verse fácilmente que la ecuaciones del kriging universal con \(\mathbf{c}=\mathbf{0}\), son las obtenidas en el denominado método kriging de estimación de la tendencia (e.g.~Wackernagel, 1998, pp.~212-213; Chilès y Delfiner, 2012, Sección 3.4.5).} (estimada en el caso del KU).
+
+\textbf{Nugget y umbral}
+
+Resulta claro que las estimaciones obtenidas de la varianza de los predictores kriging dependen en gran medida de estos parámetros.
+Es importante destacar que la escala del variograma (o del covariograma) no influye en las predicciones obtenidas, solamente en la varianza kriging.
+Si se multiplica el variograma (o el covariograma) por una constante, las ecuaciones de los predictores kriging quedan invariantes y consecuentemente los pesos kriging no cambian, aunque la varianza kriging resulta multiplicada por esa constante.
+Para estudiar su influencia en la predicción resulta de utilidad la proporción del efecto nugget en el umbral total \(c_{0} /\sigma^{2}\) (que como ya se comentó al final de la Sección \ref{procesos-estacionarios}, proporciona mucha información acerca del grado de dependencia espacial presente en los datos).
+Por ejemplo, en el caso en que toda la variabilidad es efecto nugget (i.e.~el proceso \(Z(\cdot)\) es ruido blanco) entonces \(\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}\) y \(\mathbf{c}=\mathbf{0}\) (suponiendo que \(\mathbf{s}_{0}\neq \mathbf{s}_{i}, \forall i\)), y los predictores kriging se reducen a la estimación OLS de la tendencia:
+\[p_{KU} (\mathbf{Z},\mathbf{s}_{0}) = \mathbf{x}_0^\top(\mathbf{X }^\top\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{Z} = \mathbf{x }_0^\top\hat{\boldsymbol{\beta}}_{ols}.\]
+En el caso del KO se obtiene la media muestral:
+\[p_{KO} (\mathbf{Z},\mathbf{s}_{0})=\bar{Z} =\dfrac{1}{n}
+\sum\nolimits_{i=1}^{n}Z(\mathbf{s}_{i}),\]
+predictor bien conocido que asigna igual peso a todos los datos (por tanto el efecto pantalla es nulo).
+Además, teniendo en cuenta los resultados de la Sección \ref{kriging-residual}, como \(\sigma_{KS}^{2} (\mathbf{s}_{0})=\sigma^{2}\) (caso más desfavorable), entonces:
+\[\sigma_{KO}^{2} (\mathbf{s}_{0})=\sigma_{}^{2} +\dfrac{\sigma_{}^{2}
+}{n},\]
+es decir, la varianza del KO para el caso de procesos incorrelados es igual a la varianza del proceso más la varianza de la media muestral.
+En general (al menos en KS y KO), se puede ver que al aumentar el porcentaje de efecto nugget en el umbral total disminuye el efecto pantalla y aumenta la varianza kriging (ver e.g.~Isaaks y Srivastava, 1989, pp.~305-306).
+Hay que tener en cuenta que cuando la media no es constante (e.g.~KU), puede ocurrir incluso lo contrario del efecto pantalla, y observaciones alejadas pueden tener una gran influencia en la estimación (como es bien conocido en la estimación de la tendencia).
+
+Teniendo en cuenta los comentarios anteriores, podemos afirmar que todos los parámetros (características) del variograma influyen en el kriging (aunque quizás el rango es el que tiene un menor efecto, ya que pequeñas variaciones en este parámetro producen resultados casi idénticos).
+Estas observaciones no contradicen el resultado de que asintóticamente lo importante es capturar el comportamiento del variograma cerca del origen (Stein, 1988).
+Es difícil determinar cuando los datos están suficientemente cerca como para tener sólo en cuenta el efecto nugget y la pendiente del variograma cerca del origen.
+
+\hypertarget{eleccion-vecindario}{%
+\subsection{Elección del vecindario}\label{eleccion-vecindario}}
+
+Una práctica habitual en geoestadística, en lugar de considerar todas las observaciones disponibles, es incluir en las ecuaciones kriging únicamente los \(n(\mathbf{s}_{0})\) datos más ``próximos'' a la posición de predicción \(\mathbf{s}_{0}\) .
+Esto puede justificarse por varias razones:
+
+\begin{itemize}
+\tightlist
+\item
+  Utilizar todos los datos puede dar lugar a un sistema de difícil solución debido a problemas numéricos. Por ejemplo, entre otros, el tiempo de computación (aproximadamente proporcional a \(n(\mathbf{s}_{0})^{3}\)) aumenta drásticamente al aumentar el numero de datos.
+\item
+  Las estimaciones del variograma son normalmente eficientes (o incluso el propio modelo geoestadístico válido) únicamente en pequeñas distancias.
+\item
+  El uso de vecindarios locales permite la relajación de las hipótesis del modelo (como la estacionariedad intrínseca en el caso del KO) o su simplificación (por ejemplo, en el caso del KU se puede suponer que locamente la estructura de la tendencia es más simple o incluso constante y utilizar en su lugar KO local).
+\item
+  En muchos casos los datos cercanos apantallan a los más alejados
+  reduciendo su influencia (aunque no siempre de forma significativa; ver
+  observaciones siguientes).
+\end{itemize}
+
+La selección ``optima'' de un vecindario local resulta no obstante un problema algo complejo. Por ejemplo, se acostumbra a pensar que el rango del variograma permite determinar por sí solo un criterio de vecindad, como incluir en las ecuaciones sólo los datos que estén dentro del rango de \(\mathbf{s}_{0}\), sin embargo esto puede no ser adecuado en muchos casos (aunque en la práctica el valor de este parámetro puede ser de gran utilidad como referencia inicial).
+Teniendo en cuentas las observaciones realizadas en secciones anteriores, cuando aumenta la proporción de efecto nugget disminuye el efecto pantalla, el predictor kriging se reduce a la media y observaciones a más distancia que el rango de la posición de predicción contribuyen (a veces de forma significativa) a la estimación de la tendencia.
+Hay que tener en cuenta que los pesos kriging dependen de la configuración espacial de todas las observaciones y observaciones fuera del rango pueden tener influencia en la predicción a través de su correlación con observaciones dentro del rango (esto es conocido en la literatura como efecto \emph{relay}, que podríamos traducir por efecto transmisión).
+
+Se han propuesto algunos criterios para la selección de un vecindario óptimo (e.g.~Cressie, 1993, pp.~176-177), que son de utilidad cuando los datos están regularmente espaciados y el vecindario se puede fijar de antemano.
+Por ejemplo, se pueden ir incluyendo observaciones en el vecindario hasta que no se produzca una disminución ``significativa'' en la estimación de la varianza kriging.
+
+En la práctica, la densidad de datos y su configuración espacial en torno a las posiciones de predicción pueden ser muy irregulares.
+Teniendo en cuenta esto se han desarrollado distintos algoritmos, algunos bastante sofisticados, para la selección de vecindarios (ver e.g.~Isaaks y Srivastava, 1989, Capítulo 14; Deutsch y Journel, 1992, secciones II.4 y IV.6).
+Para la selección de los datos típicamente se fija un radio máximo de búsqueda y únicamente se consideran los datos dentro de una circunferencia (esfera) centrada en la posición de predicción.
+En el caso de anisotropía (Sección 2.2.2), se considera una elipse (elipsoide) con el radio mayor orientado en la dirección de máxima variación.
+Además suele interesar disponer de observaciones en todas direcciones, por lo que se divide la zona de búsqueda en sectores angulares (por ejemplo cuadrantes en el caso bidimensional o octantes en el caso tridimensional) y se selecciona un número mínimo de datos en todos o en la mayoría de esos sectores (esto evita también que clusters de datos tengan una excesiva influencia sobre predicciones en su entorno).
+Si se sospecha de la presencia de una tendencia en los datos (KU), puede ser deseable la inclusión de observaciones más alejadas de la posición de predicción para poder estimarla de forma más eficiente.
+
+Utilizando un algoritmo de búsqueda que tenga en cuenta todas o alguna de las consideraciones anteriores, típicamente se selecciona un número pequeño de datos como vecindario (e.g.~entre 10 y 20 observaciones) para cada posición de predicción.
+Sin embargo esto puede causar que las superficies de predicción presenten discontinuidades (especialmente cuando los datos están regularmente espaciados y se utiliza búsqueda por octantes).
+Una aproximación distinta sería la selección un único vecindario más grande (e.g.~de 20 a 40 observaciones) para pequeños conjuntos de posiciones de predicción, de esta forma en condiciones normales los vecindarios correspondientes a conjuntos de predicción próximos se solapan y es de esperar que no aparezcan discontinuidades.
+Además el incremento en tiempo de computación debido a la inclusión de un número mayor de observaciones se compensa por el hecho de que sólo es necesario factorizar una vez la matriz sistema kriging para obtener las predicciones en el conjunto considerado\footnote{Por ejemplo, si se pretenden obtener predicciones en una rejilla bidimensional, el tiempo de computación considerando un vecindario distinto con 16 observaciones para cada nodo resulta similar a considerar un vecindario con 25 (o incluso más) observaciones para grupos de 4 nodos (dos por fila y columna).}.
+
+Otra forma de proceder que puede ser de interés en la práctica, es usar el semivariograma como distancia en lugar de la tradicional distancia euclidea; de esta forma los datos son seleccionados preferentemente en la dirección de máxima continuidad (y se evita tener que considerar elipsoides en el caso de anisotropía).
+Adicionalmente, cuando el número de datos es grande y sus posiciones irregulares, es recomendable utilizar alguna técnica de búsqueda, como el denominado \emph{kd-tree} (e.g.~ver paquete \href{https://CRAN.R-project.org/package=FNN}{\texttt{FNN}}), de forma que se puedan determinar eficientemente las observaciones más próximas a la posición de predicción \(\mathbf{s}_{0}\) (en lugar de comprobar todas las posiciones).
+
+Independientemente del algoritmo de búsqueda que se vaya a utilizar, puede ser recomendable realizar antes algunas pruebas utilizando por ejemplo la técnica de validación cruzada descrita a continuación.
 
 \hypertarget{validacion-cruzada}{%
 \section{Validación cruzada del modelo ajustado}\label{validacion-cruzada}}
 
-El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver p.e. Cressie, 1993, Sección 2.6.4).
+El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver e.g.~Cressie, 1993, Sección 2.6.4).
 Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
-Aunque también es utilizada para otros fines (ver p.e. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
+Aunque también es utilizada para otros fines (ver e.g.~Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
 La idea básica es eliminar una parte de los datos y utilizar el resto de los datos para predecir los datos eliminados, entonces el error de predicción puede deducirse del valor que se predice menos el observado; repitiendo esto sobre varios conjuntos de datos se tiene una idea sobre la variabilidad del error de predicción.
-No sólo suele interesar estudiar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).
+En su versión más simple, validación cruzada dejando uno fuera (\emph{Leave-one-out cross-validation}, LOOCV), para cada observación de la muestra se obtiene una predicción empleando el resto de observaciones (para más detalles, ver e.g.~Fernández-Casal et al., 2021, \href{https://rubenfcasal.github.io/aprendizaje_estadistico/const-eval.html\#cv}{Sección 1.3.3}).
+En el caso de datos geoestadísticos no sólo interesa analizar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).
 
 Supongamos que \(\hat{Z}_{-j}(\mathbf{s}_{j})\) es un predictor de \(Z(\mathbf{s}_{j})\) obtenido, utilizando alguno de los métodos de predicción espacial, a partir de \(\left\{ Z(\mathbf{s}_{i}):i\neq j\right\}\) y el variograma ajustado \(2\gamma(\cdot ,\hat{\boldsymbol{\theta}})\) (calculado utilizando todos los datos), y que \(\sigma_{-j}^2 (\mathbf{s}_{j})\) es el correspondiente error en media cuadrática de predicción.
 Hay varias formas de medir la aproximación de las predicciones a los verdaderos valores, por ejemplo:
 
 \begin{itemize}
 \item
-  La media de los errores tipificados
-  \[\text{MET} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
-  (\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j}
-  )\] debería ser próxima a cero. Este no es un criterio muy adecuado
-  (sobre todo en el caso del KO) ya que los predictores kriging son
-  insesgados independientemente del modelo de variograma utilizado (ver
-  p.e. Yakowitz y Szidarovski, 1985).
+  La media de los errores tipificados (\emph{dimensionless mean error})
+  \[\text{DME} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j})\]
+  debería ser próxima a cero. Este no es un criterio muy adecuado (sobre todo en el caso del KO) ya que los predictores kriging son insesgados independientemente del modelo de variograma utilizado (ver e.g.~Yakowitz y Szidarovski, 1985).
 \item
-  El error cuadrático medio adimensional:
-  \[\text{ECMA} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}
-  _{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}
-  (\mathbf{s}_{j})\right)^2  }\] debería ser próximo a uno. El valor
-  de este estadístico puede interpretarse como una medida de la
-  concordancia entre las varianzas kriging y las varianzas observadas.
-  Teniendo en cuenta que si reescalamos el variograma multiplicándolo por
-  una constante, las predicciones con el variograma reescalado son
-  idénticas y las varianzas kriging serán las mismas multiplicadas por esa
-  constante. Podemos pensar en ``corregir'' un modelo de variograma{[}\^{}12{]} de
-  forma que ECMA sea igual a 1, multiplicándolo por \(\text{ECMA}^2\).
+  El error cuadrático medio adimensional (\emph{dimensionless mean squared error}):
+  \[\text{DMSE} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j})\right)^2  }\]
+  debería ser próximo a uno.
+  El valor de este estadístico puede interpretarse como una medida de la concordancia entre las varianzas kriging y las varianzas observadas.
+  Teniendo en cuenta que si reescalamos el variograma multiplicándolo por una constante, las predicciones con el variograma reescalado son idénticas y las varianzas kriging serán las mismas multiplicadas por esa constante.
+  Podemos pensar en ``corregir'' las varianzas kriging obtenidas con un modelo de variograma estimado de forma que el DMSE sea igual a 1, multiplicándolas por \(\text{DMSE}^2\).
 \item
-  El error cuadrático medio:
-  \[\text{ECM} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
-  (\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\] debería ser pequeño.
-  El principal problema de este estadístico es que asigna igual peso a
-  todos los datos y no tiene en cuenta las posiciones espaciales. Por lo
-  general los errores son mayores en los puntos más alejados del resto de
-  los datos (observaciones exteriores) y pueden tener un efecto dominante
-  en la media global. Se podría pensar en calcular una media ponderada con
-  pesos inversamente proporcionales a la varianza kriging o a alguna
-  medida de la distancia de una posición al resto de los datos.
+  El error cuadrático medio (\emph{mean squared error}):
+  \[\text{MSE} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\] debería ser pequeño.
+  El principal problema de este estadístico es que asigna igual peso a todos los datos y no tiene en cuenta las posiciones espaciales.
+  Por lo general los errores son mayores en los puntos más alejados del resto de los datos (observaciones exteriores) y pueden tener un efecto dominante en la media global.
+  Se podría pensar en calcular una media ponderada con pesos inversamente proporcionales a la varianza kriging o a alguna medida de la distancia de una posición al resto de los datos.
 \item
-  Diversos criterios gráficos pueden ser también de interés como
-  herramientas de diagnóstico, como p.e. el diagrama tallo-hoja de los
-  residuos tipificados o gráficos de normalidad.
+  Diversos criterios gráficos pueden ser también de interés como herramientas de diagnóstico, como un gráfico de tallo-hojas de los residuos tipificados o gráficos de normalidad.
 \end{itemize}
 
-Después de la validación cruzada del variograma, si esta resultó ser
-satisfactoria, se puede confiar en que la predicción basada en el modelo
-ajustado \(2\gamma(\cdot,\hat{\boldsymbol{\theta}})\) es aproximadamente óptima y que las
-estimaciones del error en media cuadrática de predicción son bastante
-buenas (i.e.~el modelo ajustado no es muy incorrecto).
+Después de la validación cruzada del variograma, si esta resultó ser satisfactoria, se puede confiar en que la predicción basada en el modelo ajustado es aproximadamente óptima y que las estimaciones del error en media cuadrática de predicción son bastante buenas (i.e.~el modelo ajustado no es muy incorrecto).
 
-Uno de los principales problemas de esta técnica es el elevado coste
-computacional (Cressie, 1993, p.~104), sin embargo, se han desarrollado métodos
-(normalmente ignorados) que permiten realizar la validación cruzada de un modelo
-de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).
+Uno de los principales problemas de esta técnica es el elevado coste computacional (Cressie, 1993, p.~104), sin embargo, se han desarrollado métodos(normalmente ignorados) que permiten realizar la validación cruzada de un modelo de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).
+Alternativamente se podría emplear validación cruzada en \emph{k} grupos (\emph{k-fold cross-validation}), considerando típicamente 10 o 5 grupos\footnote{LOOCV sería un caso particular considerando un número de grupos igual al número de observaciones. La partición en k-fold CV se suele realizar al azar. Hay que tener en cuenta la aleatoriedad al emplear k-fold CV, algo que no ocurre con LOOCV.}.
+
+La validación cruzada en \texttt{gstat} está implementada en la función \texttt{krige.cv()}.
+La sintaxis de esta función es casi idéntica a la de la función \texttt{krige()} (Sección \ref{kriging-gstat}, salvo que incluye un argumento \texttt{nfold} en lugar de \texttt{newdata}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{krige.cv}\NormalTok{(formula, locations, model, }\AttributeTok{nfold =} \FunctionTok{nrow}\NormalTok{(data), ...)}
+\end{Highlighting}
+\end{Shaded}
+
+El resultado (un \texttt{data.frame} o un objeto del mismo tipo que \texttt{locations}), además de las predicciones y varianzas kriging de validación cruzada (en las posiciones de observación), contiene los componentes \texttt{observed} (valor observado), \texttt{residual} (residuos), \texttt{zscore} (residuos divididos por el error estándar kriging) y \texttt{fold} (grupo de validación cruzada).
+
+Ejemplos: \href{s100.html}{s100} (KO) y \href{aquifer.html}{aquifer} (KU).
 
 \hypertarget{otros-muxe9todos-kriging}{%
 \section{Otros métodos kriging}\label{otros-muxe9todos-kriging}}
@@ -3370,11 +3532,61 @@ de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección
 \hypertarget{block-kriging}{%
 \subsection{Block kriging}\label{block-kriging}}
 
+Aunque en los métodos kriging descritos anteriormente se asumía que el soporte era puntual, serían igualmente válidos para el caso de distintos soportes.
+Simplemente habría que sustituir las semivarianzas (o covarianzas) puntuales por las del proceso agregado \(Var\left( Z(B_1)-Z(B_2)\right)\) (ver Sección \ref{procesos-agregados}).
+
+La función \texttt{krige()} del paquete \texttt{gtsat} empleará este método de forma automática cuando la geometría del argumento \texttt{newdata} sean polígonos (incluyendo datos raster).
+
 \hypertarget{kriging-trans-normal}{%
 \subsection{Kriging trans-normal}\label{kriging-trans-normal}}
 
-\hypertarget{kriging-indicador}{%
-\subsection{Kriging indicador}\label{kriging-indicador}}
+Como se comentó en la Sección \ref{consideraciones-kriging}, en el caso de normalidad el predictor óptimo \(E\left( \left. Z(\mathbf{s}_{0})\right| \mathbf{Z}\right)\) de \(Z(\mathbf{s}_{0})\) es lineal y coincide con los predictores kriging.
+Pero si el proceso no es normal este predictor puede ser altamente no lineal, en esos casos la transformación del proceso \(Z(\cdot)\) a otra escala puede producir que se aproxime a la normalidad.
+De esta forma se puede pensar en realizar la predicción lineal en la escala transformada (donde también puede ser más eficiente realizar el modelado) y posteriormente hacer la transformación inversa (pero asegurándose de que el resultado tenga las propiedades de optimalidad deseadas).
+En esta Sección simplemente se muestran algunos resultados sobre este método, para un tratamiento más detallado ver por ejemplo Cressie (1993, Sección 3.2.2) o Chilès y Delfiner (2012, Sección 3.4.10).
+
+Una de las transformaciones más utilizadas en geoestadística es la transformación logarítmica, asumiendo que el proceso \(Z(\cdot)\) sigue una distribución lognormal.
+Un proceso aleatorio lognormal es un proceso \(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\right\}\) (que toma valores positivos) tal que:
+\[Y(\mathbf{s})=\log \left( Z(\mathbf{s})\right) ;\ \ \mathbf{s}\in D,\]
+es un proceso normal.
+
+El \emph{kriging simple lognormal} (KSL) se basa en la suposición adicional de que el proceso \(Y(\cdot)\) verifica las hipótesis del kriging simple (media y covariograma conocidos).
+En ese caso, utilizando el método del KS, a partir de \(\mathbf{Y}=(Y(\mathbf{s}_{1}), \ldots,Y(\mathbf{s}_{n} ))^\top\) podemos obtener el predictor \(p_{KS} (\mathbf{Y},\mathbf{s}_{0})\) de \(Y(\mathbf{s}_{0})\) y la correspondiente varianza kriging \(\sigma_{KS}^{2} (\mathbf{s}_{0})\).
+Si transformamos de nuevo este valor a la escala de \(Z(\cdot)\), obtenemos \(\exp (p_{KS} (\mathbf{Y},\mathbf{s}_{0}))\) que no es un predictor insesgado de \(Z(\mathbf{s}_{0})\) (es un predictor insesgado en mediana).
+El predictor óptimo de \(Z(\mathbf{s}_{0})\) resulta ser:
+\[p_{KSL} (\mathbf{Z},\mathbf{s}_{0}) = \exp \left( p_{KS}(\mathbf{Y},\mathbf{s}_{0}) + \frac{1}{2} \sigma_{KS}^{2}(\mathbf{s}_{0}) \right),\]
+y la correspondiente varianza kriging:
+\[\sigma_{KSL}^{2} (\mathbf{s}_{0})=p_{KS} (\mathbf{Y},\mathbf{s}_{0}
+)^{2} \left( \exp (\sigma_{KS}^{2} (\mathbf{s}_{0}))-1\right).\]
+
+En el caso de media no conocida, i.e.~suponiendo que el proceso \(Y(\cdot)\) verifica las hipótesis del KU (kriging universal lognormal, KUL), se complica aún más el problema.
+No basta con sustituir la media teórica en por su predictor óptimo ya que se obtendría un predictor sesgado.
+Si se hace una corrección para obtener un predictor insesgado de \(Z(\mathbf{s}_{0})\), el resultado sería:
+\[p_{KUL} (\mathbf{Z},\mathbf{s}_{0}) = \exp \left( p_{KU}(\mathbf{Y},\mathbf{s}_{0}) + \frac{1}{2} \sigma_{KU}^{2}(\mathbf{s}_{0}) - \mathbf{m^\top }\mathbf{x}_0\right),\]
+utilizando la notación de la Sección \ref{kuniversal} (y suponiendo también que una de las funciones explicativas es idénticamente 1).
+Hay que destacar que el predictor no es un predictor óptimo en el sentido de que minimice el MSPE (este predictor minimiza \(E\left( \log p(\mathbf{Z},\mathbf{s}_{0})-Y(\mathbf{s}_{0})\right)^2\), sujeto a las correspondientes restricciones de insesgadez y forma del predictor).
+
+La varianza kriging tiene una expresión considerablemente más complicada que en el caso de media conocida (ver Cressie, 1993, p.~136; para el caso de media constante).
+Sin embargo, si el objetivo es la construcción de intervalos de confianza, se pueden transformar directamente de la escala \(Y(\cdot)\).
+Por ejemplo:
+\[\left( \exp \left( p_{K} (\mathbf{Y},\mathbf{s}_{0}) - 1.96\sigma_{K}^{2}(\mathbf{s}_{0}) \right), \exp \left( p_{K} (\mathbf{Y},\mathbf{s}_{0}) + 1.96\sigma_{K}^{2} (\mathbf{s}_{0})\right) \right),\]
+es un intervalo de confianza al 95\% para \(Z(\mathbf{s}_{0})\).
+
+La aproximación anterior puede generalizarse para una transformación
+cualquiera:
+\[Z(\mathbf{s})=\phi \left( Y(\mathbf{s})\right) ;\;\;\mathbf{s}\in D,\]
+siendo \(Y(\cdot)\) un proceso normal y \(\phi (\cdot)\) una función medible dos veces diferenciable.
+En general no se dispone de expresiones exactas como en el caso del kriging lognormal, aunque a partir de un predictor kriging \(p_{K} (\mathbf{Y},\mathbf{s}_{0})\) de \(Y(\mathbf{s}_{0})\) se pueden obtener un predictor aproximadamente insesgado de \(Z(\mathbf{s}_{0})\) teniendo en cuenta que:
+\[\begin{aligned}
+\phi (Y(\mathbf{s}_{0})) & \simeq \phi (p_{K}(\mathbf{Y},\mathbf{s}_{0}))+(Y(\mathbf{s}_{0})-p_{K}(\mathbf{Y},\mathbf{s}_{0}))\phi^\prime (p_{K}(\mathbf{Y},\mathbf{s}_{0})) \\
+ & +\frac{1}{2} (Y(\mathbf{s}_{0})-p_{K}(\mathbf{Y},\mathbf{s}_{0}))^{2} \phi^{\prime\prime} (p_{K}(\mathbf{Y},\mathbf{s}_{0})),
+\end{aligned}\]
+si el error kriging \(p_{K} (\mathbf{Y},\mathbf{s}_{0})-Y(\mathbf{s}_{0})\) es pequeño.
+A partir de esto, si \(\sigma_{K}^{2} (\mathbf{s}_{0})\) es la correspondiente varianza kriging, se obtiene el predictor (aproximadamente insesgado) del \emph{kriging trans-normal} (KT):
+\[p_{KT} (\mathbf{Z},\mathbf{s}_{0}) = \phi \left( p_{K}(\mathbf{Y},\mathbf{s}_{0})\right) + \frac{1}{2} \sigma_{K}^{2}(\mathbf{s}_{0}) \phi^{\prime\prime} \left( p_{K}(\mathbf{Y},\mathbf{s}_{0}) \right),\]
+que en el caso del KS se aproxima al predictor óptimo \(E\left( \left. Z(\mathbf{s}_{0})\right| \mathbf{Z}\right)\) de \(Z(\mathbf{s}_{0})\).
+Como aproximación de la varianza kriging de este predictor se puede utilizar:
+\[\sigma_{KT}^{2}(\mathbf{s}_{0}) = \sigma_{K}^{2}(\mathbf{s}_{0}) \phi^{\prime} (p_{K}(\mathbf{Y},\mathbf{s}_{0})).\]
 
 \hypertarget{multivar}{%
 \chapter{Procesos espaciales multivariantes}\label{multivar}}

@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -316,7 +316,7 @@ div.csl-indent {
 <li><p><em>Datos ráster</em>: se utilizan habitualmente para representar una superficie continua. Un ráster no es más que una rejilla regular que determina un conjunto de rectángulos denominados celdas (o píxeles en el análisis de imágenes de satélite y teledetección) que tienen asociados uno o más valores. Este tipo de datos también se denominan <em>arrays</em> o <em>data cubes</em> espaciales (o espacio-temporales). El valor de una celda ráster suele ser el valor medio (o el total) de una variable en el área que representa (se trataría de observaciones de un proceso agregado, descritos en la Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>), aunque en algunos casos es el valor puntual correspondiente al centro de la celda (nodo de una rejilla vectorial).</p></li>
 </ul>
 <p>En este libro entenderemos que <em>ráster</em> hace referencia a agregaciones espaciales y nos centraremos principalmente en datos vectoriales (incluyendo rejillas de datos), aunque hoy en día cada vez es más habitual disponer de datos ráster gracias a la fotografía aérea y a la teledetección por satélite.
-Como se comentó en la Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>, muchos métodos geoestadísticos admiten datos en distintos soportes (por ejemplo el <em>block kriging</em> descrito en la Sección 4.X), aunque combinar datos en diferentes soportes puede presentar en la práctica serias dificultades (para más detalles ver referencias al final de la Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>).</p>
+Como se comentó en la Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>, muchos métodos geoestadísticos admiten datos en distintos soportes (por ejemplo el <em>block kriging</em> descrito en la Sección <a href="otros-métodos-kriging.html#block-kriging">4.7.1</a>), aunque combinar datos en diferentes soportes puede presentar en la práctica serias dificultades (para más detalles ver referencias al final de la Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>).</p>
 <p>Como ya se comentó en la Sección <a href="proc-esp.html#proc-esp">1.1</a>, dependiendo de las suposiciones sobre el soporte del proceso (índice espacial) se distingue entre distintos tipos de procesos espaciales.
 Sin embargo, aunque en principio los objetivos pueden ser muy distintos, en todos estos casos se trabaja con datos similares (espaciales y espacio-temporales):</p>
 <ul>

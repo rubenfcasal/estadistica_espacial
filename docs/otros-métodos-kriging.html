@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -312,13 +312,58 @@ div.csl-indent {
 <h2><span class="header-section-number">4.7</span> Otros métodos kriging</h2>
 <div id="block-kriging" class="section level3" number="4.7.1">
 <h3><span class="header-section-number">4.7.1</span> Block kriging</h3>
+<p>Aunque en los métodos kriging descritos anteriormente se asumía que el soporte era puntual, serían igualmente válidos para el caso de distintos soportes.
+Simplemente habría que sustituir las semivarianzas (o covarianzas) puntuales por las del proceso agregado <span class="math inline">\(Var\left( Z(B_1)-Z(B_2)\right)\)</span> (ver Sección <a href="procesos-estacionarios.html#procesos-agregados">1.3.2</a>).</p>
+<p>La función <code>krige()</code> del paquete <code>gtsat</code> empleará este método de forma automática cuando la geometría del argumento <code>newdata</code> sean polígonos (incluyendo datos raster).</p>
 </div>
 <div id="kriging-trans-normal" class="section level3" number="4.7.2">
 <h3><span class="header-section-number">4.7.2</span> Kriging trans-normal</h3>
-</div>
-<div id="kriging-indicador" class="section level3" number="4.7.3">
-<h3><span class="header-section-number">4.7.3</span> Kriging indicador</h3>
+<p>Como se comentó en la Sección <a href="consideraciones-kriging.html#consideraciones-kriging">4.5</a>, en el caso de normalidad el predictor óptimo <span class="math inline">\(E\left( \left. Z(\mathbf{s}_{0})\right| \mathbf{Z}\right)\)</span> de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> es lineal y coincide con los predictores kriging.
+Pero si el proceso no es normal este predictor puede ser altamente no lineal, en esos casos la transformación del proceso <span class="math inline">\(Z(\cdot)\)</span> a otra escala puede producir que se aproxime a la normalidad.
+De esta forma se puede pensar en realizar la predicción lineal en la escala transformada (donde también puede ser más eficiente realizar el modelado) y posteriormente hacer la transformación inversa (pero asegurándose de que el resultado tenga las propiedades de optimalidad deseadas).
+En esta Sección simplemente se muestran algunos resultados sobre este método, para un tratamiento más detallado ver por ejemplo Cressie (1993, Sección 3.2.2) o Chilès y Delfiner (2012, Sección 3.4.10).</p>
+<p>Una de las transformaciones más utilizadas en geoestadística es la transformación logarítmica, asumiendo que el proceso <span class="math inline">\(Z(\cdot)\)</span> sigue una distribución lognormal.
+Un proceso aleatorio lognormal es un proceso <span class="math inline">\(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\right\}\)</span> (que toma valores positivos) tal que:
+<span class="math display">\[Y(\mathbf{s})=\log \left( Z(\mathbf{s})\right) ;\ \ \mathbf{s}\in D,\]</span>
+es un proceso normal.</p>
+<p>El <em>kriging simple lognormal</em> (KSL) se basa en la suposición adicional de que el proceso <span class="math inline">\(Y(\cdot)\)</span> verifica las hipótesis del kriging simple (media y covariograma conocidos).
+En ese caso, utilizando el método del KS, a partir de <span class="math inline">\(\mathbf{Y}=(Y(\mathbf{s}_{1}), \ldots,Y(\mathbf{s}_{n} ))^\top\)</span> podemos obtener el predictor <span class="math inline">\(p_{KS} (\mathbf{Y},\mathbf{s}_{0})\)</span> de <span class="math inline">\(Y(\mathbf{s}_{0})\)</span> y la correspondiente varianza kriging <span class="math inline">\(\sigma_{KS}^{2} (\mathbf{s}_{0})\)</span>.
+Si transformamos de nuevo este valor a la escala de <span class="math inline">\(Z(\cdot)\)</span>, obtenemos <span class="math inline">\(\exp (p_{KS} (\mathbf{Y},\mathbf{s}_{0}))\)</span> que no es un predictor insesgado de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> (es un predictor insesgado en mediana).
+El predictor óptimo de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> resulta ser:
+<span class="math display">\[p_{KSL} (\mathbf{Z},\mathbf{s}_{0}) = \exp \left( p_{KS}(\mathbf{Y},\mathbf{s}_{0}) + \frac{1}{2} \sigma_{KS}^{2}(\mathbf{s}_{0}) \right),\]</span>
+y la correspondiente varianza kriging:
+<span class="math display">\[\sigma_{KSL}^{2} (\mathbf{s}_{0})=p_{KS} (\mathbf{Y},\mathbf{s}_{0}
+)^{2} \left( \exp (\sigma_{KS}^{2} (\mathbf{s}_{0}))-1\right).\]</span></p>
+<p>En el caso de media no conocida, i.e. suponiendo que el proceso <span class="math inline">\(Y(\cdot)\)</span> verifica las hipótesis del KU (kriging universal lognormal, KUL), se complica aún más el problema.
+No basta con sustituir la media teórica en por su predictor óptimo ya que se obtendría un predictor sesgado.
+Si se hace una corrección para obtener un predictor insesgado de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span>, el resultado sería:
+<span class="math display">\[p_{KUL} (\mathbf{Z},\mathbf{s}_{0}) = \exp \left( p_{KU}(\mathbf{Y},\mathbf{s}_{0}) + \frac{1}{2} \sigma_{KU}^{2}(\mathbf{s}_{0}) - \mathbf{m^\top }\mathbf{x}_0\right),\]</span>
+utilizando la notación de la Sección <a href="kuniversal.html#kuniversal">4.3</a> (y suponiendo también que una de las funciones explicativas es idénticamente 1).
+Hay que destacar que el predictor no es un predictor óptimo en el sentido de que minimice el MSPE (este predictor minimiza <span class="math inline">\(E\left( \log p(\mathbf{Z},\mathbf{s}_{0})-Y(\mathbf{s}_{0})\right)^2\)</span>, sujeto a las correspondientes restricciones de insesgadez y forma del predictor).</p>
+<p>La varianza kriging tiene una expresión considerablemente más complicada que en el caso de media conocida (ver Cressie, 1993, p. 136; para el caso de media constante).
+Sin embargo, si el objetivo es la construcción de intervalos de confianza, se pueden transformar directamente de la escala <span class="math inline">\(Y(\cdot)\)</span>.
+Por ejemplo:
+<span class="math display">\[\left( \exp \left( p_{K} (\mathbf{Y},\mathbf{s}_{0}) - 1.96\sigma_{K}^{2}(\mathbf{s}_{0}) \right), \exp \left( p_{K} (\mathbf{Y},\mathbf{s}_{0}) + 1.96\sigma_{K}^{2} (\mathbf{s}_{0})\right) \right),\]</span>
+es un intervalo de confianza al 95% para <span class="math inline">\(Z(\mathbf{s}_{0})\)</span>.</p>
+<p>La aproximación anterior puede generalizarse para una transformación
+cualquiera:
+<span class="math display">\[Z(\mathbf{s})=\phi \left( Y(\mathbf{s})\right) ;\;\;\mathbf{s}\in D,\]</span>
+siendo <span class="math inline">\(Y(\cdot)\)</span> un proceso normal y <span class="math inline">\(\phi (\cdot)\)</span> una función medible dos veces diferenciable.
+En general no se dispone de expresiones exactas como en el caso del kriging lognormal, aunque a partir de un predictor kriging <span class="math inline">\(p_{K} (\mathbf{Y},\mathbf{s}_{0})\)</span> de <span class="math inline">\(Y(\mathbf{s}_{0})\)</span> se pueden obtener un predictor aproximadamente insesgado de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> teniendo en cuenta que:
+<span class="math display">\[\begin{aligned}
+\phi (Y(\mathbf{s}_{0})) &amp; \simeq \phi (p_{K}(\mathbf{Y},\mathbf{s}_{0}))+(Y(\mathbf{s}_{0})-p_{K}(\mathbf{Y},\mathbf{s}_{0}))\phi^\prime (p_{K}(\mathbf{Y},\mathbf{s}_{0})) \\
+ &amp; +\frac{1}{2} (Y(\mathbf{s}_{0})-p_{K}(\mathbf{Y},\mathbf{s}_{0}))^{2} \phi^{\prime\prime} (p_{K}(\mathbf{Y},\mathbf{s}_{0})),
+\end{aligned}\]</span>
+si el error kriging <span class="math inline">\(p_{K} (\mathbf{Y},\mathbf{s}_{0})-Y(\mathbf{s}_{0})\)</span> es pequeño.
+A partir de esto, si <span class="math inline">\(\sigma_{K}^{2} (\mathbf{s}_{0})\)</span> es la correspondiente varianza kriging, se obtiene el predictor (aproximadamente insesgado) del <em>kriging trans-normal</em> (KT):
+<span class="math display">\[p_{KT} (\mathbf{Z},\mathbf{s}_{0}) = \phi \left( p_{K}(\mathbf{Y},\mathbf{s}_{0})\right) + \frac{1}{2} \sigma_{K}^{2}(\mathbf{s}_{0}) \phi^{\prime\prime} \left( p_{K}(\mathbf{Y},\mathbf{s}_{0}) \right),\]</span>
+que en el caso del KS se aproxima al predictor óptimo <span class="math inline">\(E\left( \left. Z(\mathbf{s}_{0})\right| \mathbf{Z}\right)\)</span> de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span>.
+Como aproximación de la varianza kriging de este predictor se puede utilizar:
+<span class="math display">\[\sigma_{KT}^{2}(\mathbf{s}_{0}) = \sigma_{K}^{2}(\mathbf{s}_{0}) \phi^{\prime} (p_{K}(\mathbf{Y},\mathbf{s}_{0})).\]</span></p>
 <!-- 
+
+### Kriging indicador
+
 ## Referencias 
 -->
 

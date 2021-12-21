@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -315,26 +315,26 @@ descriptivo de los datos (ver <code>?summary.geodata</code>).</p>
 <p>La función <code>plot()</code> genera por defecto gráficos de los
 valores en las posiciones espaciales (distinguiendo según cuartiles),
 los datos frente a las coordenadas y un histograma de los datos:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp)</span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo1-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Los gráficos de dispersión de los datos frente a las coordenadas nos pueden ayudar
 a determinar si hay una tendencia. También, en lugar del histograma,
 nos puede interesar un gráfico de dispersión 3D</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">lowess =</span> <span class="cn">TRUE</span>, <span class="at">scatter3d =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">lowess =</span> <span class="cn">TRUE</span>, <span class="at">scatter3d =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo2-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Si se asume que hay una tendencia puede interesar eliminarla:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">trend=</span><span class="sc">~</span>coords)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">trend=</span><span class="sc">~</span>coords)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo3-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>El comando <code>points(geodata)</code> (función <code>points.geodata</code>) genera un gráfico con
 las posiciones de los datos (y por defecto con el tamaño de los puntos proporcional
 al valor):</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Se pueden establecer los tamaños de los puntos, simbolos y colores a
 partir de los valores de los datos. Por ejemplo, para los puntos, empleando el argumento:
 <code>pt.divide = c("data.proportional", "rank.proportional", "quintiles",</code>
 <code>"quartiles", "deciles", "equal")</code>.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">pt.divide =</span> <span class="st">&quot;equal&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">pt.divide =</span> <span class="st">&quot;equal&quot;</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
             </section>

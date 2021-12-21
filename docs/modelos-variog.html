@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -377,7 +377,7 @@ Cuando <span class="math inline">\(\lambda =2\)</span> es denominado modelo gaus
 este modelo sin embargo no debería ser utilizado en la predicción
 espacial debido a las inestabilidades numéricas que produce en los
 algoritmos kriging (especialmente cuando el efecto nugget es grande; ver
-p.e. Wackernagel, 1998, pp. 120-123).
+e.g. Wackernagel, 1998, pp. 120-123).
 El modelo exponencial se obtiene también como caso particular cuando <span class="math inline">\(\lambda =1\)</span>.</p></li>
 <li><p>Modelo oscilatorio:
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
@@ -400,7 +400,7 @@ c_{0} + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
-siendo <span class="math inline">\(\nu \geq 0\)</span> (un parámetro de suavizado) y <span class="math inline">\(K_{\nu }\)</span> la función de Bessel modificada de tercera clase de orden <span class="math inline">\(\nu\)</span> (ver p.e. Abramowitz y Stegun, 1965, pp. 374-379).
+siendo <span class="math inline">\(\nu \geq 0\)</span> (un parámetro de suavizado) y <span class="math inline">\(K_{\nu }\)</span> la función de Bessel modificada de tercera clase de orden <span class="math inline">\(\nu\)</span> (ver e.g. Abramowitz y Stegun, 1965, pp. 374-379).
 Este modelo es válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>. El modelo exponencial se obtiene como caso particular cuando <span class="math inline">\(\nu =\frac{1}{2}\)</span> y en el límite <span class="math inline">\(\nu \rightarrow \infty\)</span> el modelo gausiano.</p></li>
 </ul>
 <p>En <code>gstat</code> se emplea la función <code>vgm()</code> (<em>Variogram Model</em>) para definir un modelo de variograma:</p>
@@ -471,7 +471,7 @@ Figura 3.4: Ejemplo de modelo exponencial.
 <p>La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial.
-En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver p.e. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).</p>
+En esta sección se comentan brevemente las distintas aproximaciones tradicionalmente consideradas en geoestadística (para más detalles ver e.g. Chilès y Delfiner, 1999, Sección 2.5.2, o Goovaerts, 1997, Sección 4.2.2), otras aproximaciones adicionales se tratarán en el Capítulo 7 (caso espacio-temporal).</p>
 <p>Cuando el variograma es función de la dirección además de la magnitud del salto, se dice que el variograma es anisotrópico (no isotrópico).
 Los tipos de anisotropía habitualmente considerados son:</p>
 <ul>
@@ -496,7 +496,7 @@ Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la form
 \end{array}
 \right),\]</span>
 que se corresponde con las direcciones principales de anisotropía <span class="math inline">\(\phi\)</span> y <span class="math inline">\(\phi + \frac{\pi }{\text{2}}\)</span> (normalmente se toma <span class="math inline">\(\phi\)</span> igual a la dirección de máximo rango).
-Esto puede extenderse fácilmente para el caso tridimensional (ver p.e. Chilès y Delfiner, 1999, pp. 94-95).</p>
+Esto puede extenderse fácilmente para el caso tridimensional (ver e.g. Chilès y Delfiner, 1999, pp. 94-95).</p>
 <p>En <code>gstat</code> se puede definir<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> anisotropía mediante el argumento <code>anis</code> de la función <code>vgm()</code>.
 En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)</code>, <code>alpha</code> es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. <code>phi = (90 - alpha)*pi/180</code>) y <code>ratio</code> la relación entre el rango mínimo y máximo (<span class="math inline">\(0 \leq ratio = a_2/a_1 \leq 1\)</span>).</p>
 <p>Ejemplo:</p>
@@ -532,7 +532,7 @@ En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)
 Por ejemplo, en el caso bidimensional, si <span class="math inline">\(\phi\)</span> es la dirección de mayor varianza se suele considerar una combinación de la forma:
 <span class="math display">\[\gamma(\mathbf{h})=\gamma_1 (\left\| \mathbf{h}\right\|)+\gamma_2(h_{\phi }),\]</span>
 siendo <span class="math inline">\(\gamma_1 (\cdot)\)</span> y <span class="math inline">\(\gamma_2 (\cdot)\)</span> semivariogramas isotrópicos, y <span class="math inline">\(h_{\phi } =\cos (\phi)h_1 +\sin(\phi)h_2\)</span> el salto en la dirección <span class="math inline">\(\phi\)</span>, para <span class="math inline">\(\mathbf{h}=(h_1 ,h_2)\in \mathbb{R} ^{2}\)</span>.
-Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver p.e. Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
+Es importante destacar que este tipo de anisotropías pueden causar la aparición de problemas al realizar predicción espacial (ver e.g. Myers y Journel, 1990; y Rouhani y Myers, 1990), como por ejemplo dar lugar a sistemas kriging no válidos con ciertas configuraciones de los datos.
 Hay que tener un especial cuidado cuando el covariograma es expresado como suma de covariogramas unidimensionales, en cuyo caso el resultado puede ser únicamente condicionalmente semidefinido positivo sobre un dominio multidimensional.
 Este tipo de modelos son casos particulares del modelo lineal de regionalización descrito en la siguiente sección.</p>
 <p>Una variante de la anisotropía zonal es el caso de covariogramas separables (también denominados factorizables) en componentes del vector de salto.

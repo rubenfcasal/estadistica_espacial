@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -310,55 +310,45 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="validacion-cruzada" class="section level2" number="4.6">
 <h2><span class="header-section-number">4.6</span> Validación cruzada del modelo ajustado</h2>
-<p>El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver p.e. Cressie, 1993, Sección 2.6.4).
+<p>El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver e.g. Cressie, 1993, Sección 2.6.4).
 Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
-Aunque también es utilizada para otros fines (ver p.e. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
+Aunque también es utilizada para otros fines (ver e.g. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
 La idea básica es eliminar una parte de los datos y utilizar el resto de los datos para predecir los datos eliminados, entonces el error de predicción puede deducirse del valor que se predice menos el observado; repitiendo esto sobre varios conjuntos de datos se tiene una idea sobre la variabilidad del error de predicción.
-No sólo suele interesar estudiar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).</p>
+En su versión más simple, validación cruzada dejando uno fuera (<em>Leave-one-out cross-validation</em>, LOOCV), para cada observación de la muestra se obtiene una predicción empleando el resto de observaciones (para más detalles, ver e.g. Fernández-Casal et al., 2021, <a href="https://rubenfcasal.github.io/aprendizaje_estadistico/const-eval.html#cv">Sección 1.3.3</a>).
+En el caso de datos geoestadísticos no sólo interesa analizar las predicciones, en general son también de interés las estimaciones del error cuadrático de predicción (varianza kriging).</p>
 <p>Supongamos que <span class="math inline">\(\hat{Z}_{-j}(\mathbf{s}_{j})\)</span> es un predictor de <span class="math inline">\(Z(\mathbf{s}_{j})\)</span> obtenido, utilizando alguno de los métodos de predicción espacial, a partir de <span class="math inline">\(\left\{ Z(\mathbf{s}_{i}):i\neq j\right\}\)</span> y el variograma ajustado <span class="math inline">\(2\gamma(\cdot ,\hat{\boldsymbol{\theta}})\)</span> (calculado utilizando todos los datos), y que <span class="math inline">\(\sigma_{-j}^2 (\mathbf{s}_{j})\)</span> es el correspondiente error en media cuadrática de predicción.
 Hay varias formas de medir la aproximación de las predicciones a los verdaderos valores, por ejemplo:</p>
 <ul>
-<li><p>La media de los errores tipificados
-<span class="math display">\[\text{MET} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
-(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j}
-)\]</span> debería ser próxima a cero. Este no es un criterio muy adecuado
-(sobre todo en el caso del KO) ya que los predictores kriging son
-insesgados independientemente del modelo de variograma utilizado (ver
-p.e. Yakowitz y Szidarovski, 1985).</p></li>
-<li><p>El error cuadrático medio adimensional:
-<span class="math display">\[\text{ECMA} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}
-_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}
-(\mathbf{s}_{j})\right)^2  }\]</span> debería ser próximo a uno. El valor
-de este estadístico puede interpretarse como una medida de la
-concordancia entre las varianzas kriging y las varianzas observadas.
-Teniendo en cuenta que si reescalamos el variograma multiplicándolo por
-una constante, las predicciones con el variograma reescalado son
-idénticas y las varianzas kriging serán las mismas multiplicadas por esa
-constante. Podemos pensar en “corregir” un modelo de variograma[^12] de
-forma que ECMA sea igual a 1, multiplicándolo por <span class="math inline">\(\text{ECMA}^2\)</span>.</p></li>
-<li><p>El error cuadrático medio:
-<span class="math display">\[\text{ECM} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}
-(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\]</span> debería ser pequeño.
-El principal problema de este estadístico es que asigna igual peso a
-todos los datos y no tiene en cuenta las posiciones espaciales. Por lo
-general los errores son mayores en los puntos más alejados del resto de
-los datos (observaciones exteriores) y pueden tener un efecto dominante
-en la media global. Se podría pensar en calcular una media ponderada con
-pesos inversamente proporcionales a la varianza kriging o a alguna
-medida de la distancia de una posición al resto de los datos.</p></li>
-<li><p>Diversos criterios gráficos pueden ser también de interés como
-herramientas de diagnóstico, como p.e. el diagrama tallo-hoja de los
-residuos tipificados o gráficos de normalidad.</p></li>
+<li><p>La media de los errores tipificados (<em>dimensionless mean error</em>)
+<span class="math display">\[\text{DME} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j})\]</span>
+debería ser próxima a cero. Este no es un criterio muy adecuado (sobre todo en el caso del KO) ya que los predictores kriging son insesgados independientemente del modelo de variograma utilizado (ver e.g. Yakowitz y Szidarovski, 1985).</p></li>
+<li><p>El error cuadrático medio adimensional (<em>dimensionless mean squared error</em>):
+<span class="math display">\[\text{DMSE} =\sqrt{\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right) /\sigma_{-j}(\mathbf{s}_{j})\right)^2  }\]</span>
+debería ser próximo a uno.
+El valor de este estadístico puede interpretarse como una medida de la concordancia entre las varianzas kriging y las varianzas observadas.
+Teniendo en cuenta que si reescalamos el variograma multiplicándolo por una constante, las predicciones con el variograma reescalado son idénticas y las varianzas kriging serán las mismas multiplicadas por esa constante.
+Podemos pensar en “corregir” las varianzas kriging obtenidas con un modelo de variograma estimado de forma que el DMSE sea igual a 1, multiplicándolas por <span class="math inline">\(\text{DMSE}^2\)</span>.</p></li>
+<li><p>El error cuadrático medio (<em>mean squared error</em>):
+<span class="math display">\[\text{MSE} =\dfrac{1}{n} \sum\limits_{j=1}^{n}\left( \hat{Z}_{-j}(\mathbf{s}_{j})-Z(\mathbf{s}_{j})\right)^2\]</span> debería ser pequeño.
+El principal problema de este estadístico es que asigna igual peso a todos los datos y no tiene en cuenta las posiciones espaciales.
+Por lo general los errores son mayores en los puntos más alejados del resto de los datos (observaciones exteriores) y pueden tener un efecto dominante en la media global.
+Se podría pensar en calcular una media ponderada con pesos inversamente proporcionales a la varianza kriging o a alguna medida de la distancia de una posición al resto de los datos.</p></li>
+<li><p>Diversos criterios gráficos pueden ser también de interés como herramientas de diagnóstico, como un gráfico de tallo-hojas de los residuos tipificados o gráficos de normalidad.</p></li>
 </ul>
-<p>Después de la validación cruzada del variograma, si esta resultó ser
-satisfactoria, se puede confiar en que la predicción basada en el modelo
-ajustado <span class="math inline">\(2\gamma(\cdot,\hat{\boldsymbol{\theta}})\)</span> es aproximadamente óptima y que las
-estimaciones del error en media cuadrática de predicción son bastante
-buenas (i.e. el modelo ajustado no es muy incorrecto).</p>
-<p>Uno de los principales problemas de esta técnica es el elevado coste
-computacional (Cressie, 1993, p. 104), sin embargo, se han desarrollado métodos
-(normalmente ignorados) que permiten realizar la validación cruzada de un modelo
-de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).</p>
+<p>Después de la validación cruzada del variograma, si esta resultó ser satisfactoria, se puede confiar en que la predicción basada en el modelo ajustado es aproximadamente óptima y que las estimaciones del error en media cuadrática de predicción son bastante buenas (i.e. el modelo ajustado no es muy incorrecto).</p>
+<p>Uno de los principales problemas de esta técnica es el elevado coste computacional (Cressie, 1993, p. 104), sin embargo, se han desarrollado métodos(normalmente ignorados) que permiten realizar la validación cruzada de un modelo de variograma de forma rápida y sencilla (ver Fernández-Casal, 2003c, Sección 4.4).
+Alternativamente se podría emplear validación cruzada en <em>k</em> grupos (<em>k-fold cross-validation</em>), considerando típicamente 10 o 5 grupos<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>.</p>
+<p>La validación cruzada en <code>gstat</code> está implementada en la función <code>krige.cv()</code>.
+La sintaxis de esta función es casi idéntica a la de la función <code>krige()</code> (Sección <a href="kriging-gstat.html#kriging-gstat">4.4</a>, salvo que incluye un argumento <code>nfold</code> en lugar de <code>newdata</code>:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="validacion-cruzada.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">krige.cv</span>(formula, locations, model, <span class="at">nfold =</span> <span class="fu">nrow</span>(data), ...)</span></code></pre></div>
+<p>El resultado (un <code>data.frame</code> o un objeto del mismo tipo que <code>locations</code>), además de las predicciones y varianzas kriging de validación cruzada (en las posiciones de observación), contiene los componentes <code>observed</code> (valor observado), <code>residual</code> (residuos), <code>zscore</code> (residuos divididos por el error estándar kriging) y <code>fold</code> (grupo de validación cruzada).</p>
+<p>Ejemplos: <a href="s100.html">s100</a> (KO) y <a href="aquifer.html">aquifer</a> (KU).</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="27">
+<li id="fn27"><p>LOOCV sería un caso particular considerando un número de grupos igual al número de observaciones. La partición en k-fold CV se suele realizar al azar. Hay que tener en cuenta la aleatoriedad al emplear k-fold CV, algo que no ocurre con LOOCV.<a href="validacion-cruzada.html#fnref27" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 

@@ -25,14 +25,14 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="kriging-con-el-paquete-gstat.html"/>
+<link rel="prev" href="kriging-gstat.html"/>
 <link rel="next" href="validacion-cruzada.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -310,19 +310,117 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="consideraciones-kriging" class="section level2" number="4.5">
 <h2><span class="header-section-number">4.5</span> Consideraciones acerca de los métodos kriging</h2>
+<p>Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado
+(BLUP, <em>best linear unbiased predictor</em>). Si el proceso es gaussiano, este predictor resulta ser el predictor más eficiente.</p>
+<p>En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
+Puede verse (Yakowitz y Szidarovszky, 1985) que, bajo condiciones muy generales, el predictor kriging con variograma estimado converge al valor correcto si la densidad de datos tiende a infinito, incluso cuando la estimación del variograma no es muy buena.
+Además, Stein (1988) probó que para una predicción asintóticamente (de relleno) eficiente lo que se necesita generalmente es capturar la conducta del variograma cerca del origen.
+Por tanto, en cuanto a las predicciones, el factor más importante es que la aproximación al variograma
+verdadero cerca del origen no sea muy mala.</p>
+<p>Al contrario que en el caso del predictor, la estimación del
+variograma afecta directamente a la varianza kriging y en general no es un estimador consistente del error en media cuadrática del predictor con variograma estimado.
+En general, por ejemplo si el proceso es normal, es de esperar que subestime la verdadera varianza de predicción y por tanto debería incrementarse para que tenga en cuenta el efecto de la estimación del variograma.
+Para más detalles sobre este problema, ver por ejemplo Cressie (1993, Sección 5.3), Christensen (1991, Sección 6.5), Stein (1999, Sección 6.8) o Chilès y Delfiner (2012, Sección 3.4.3).
+En la Sección <a href="validacion-cruzada.html#validacion-cruzada">4.6</a> se sugiere una posible corrección de la varianza kriging a partir del método de validación cruzada.</p>
 <div id="kriging-interpolador" class="section level3" number="4.5.1">
 <h3><span class="header-section-number">4.5.1</span> Kriging como interpolador</h3>
+<p>Las ecuaciones kriging tienen en cuenta varios aspectos del problema de interpolación<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>:</p>
+<ul>
+<li>La configuración espacial de los datos, a través de las matrices <span class="math inline">\(\boldsymbol{\Sigma}\)</span> (o <span class="math inline">\(\boldsymbol{\Gamma}\)</span>), donde el covariograma (o el variograma) actúa como una “distancia estadística” entre las observaciones y de forma que se tiene en cuenta la información redundante presente en los datos.</li>
+<li>La situación de la posición de predicción respecto a los datos, a través
+de <span class="math inline">\(\mathbf{c}\)</span> (o <span class="math inline">\(\boldsymbol{\gamma}\)</span>).</li>
+<li>La presencia de una función determinística de tendencia.</li>
+</ul>
+<p>Adicionalmente también tienen en cuenta propiedades estadísticas del proceso <span class="math inline">\(Z(\cdot)\)</span>, a través del variograma o el covariograma (que como se comentó en la Sección <a href="procesos-estacionarios.html#procesos-estacionarios">1.3</a>, entre otras cosas, determina las propiedades de continuidad del proceso).
+Esta es la principal diferencia con otros métodos de interpolación que no tienen en cuenta la estructura de segundo orden del proceso.</p>
+<p>Una propiedad importante de los predictores kriging es que son interpoladores exactos (suponiendo que no hay error de medida<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a>), en el sentido de que <span class="math inline">\(p(\mathbf{Z},\mathbf{s}_{0})=Z(\mathbf{s}_{0})\)</span> cuando <span class="math inline">\(\mathbf{s}_{0}=\mathbf{s}_{i}\)</span> (la solución de los sistemas es <span class="math inline">\(\lambda_{i} =1\)</span> y <span class="math inline">\(\lambda_{j} =0\)</span>, <span class="math inline">\(\forall j\neq i\)</span>), y naturalmente en ese caso la estimación de la varianza es 0.
+Además, por lo general no son continuos en las posiciones de los datos, para que lo sean el efecto nugget debe ser nulo.</p>
+<p>Otra característica de la interpolación kriging (y que no aparece en otros métodos como los que asignan pesos inversamente proporcionales a la distancia) es el denominado <em>efecto pantalla</em>.
+En general se observa (ver comentarios en la siguiente sección) que la influencia de un valor es menor si está oculto detrás de otro valor (e.g. Journel y Huijbregts, 1978, p. 346).
+Esto produce, por ejemplo en el caso del KO (incluso con un variograma isotrópico), que puntos situados a la misma distancia de la posición de predicción puedan tener distintos pesos y que los datos cercanos no apantallados reciban los mayores pesos, reduciéndose considerablemente (llegando a ser negativos) los pesos de los datos que quedan ocultos<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>.</p>
+<p>La aparición de pesos negativos (o mayores que 1) en el KO como consecuencia del efecto pantalla, puede provocar (incluso suponiendo media constante) que el predictor kriging no esté necesariamente comprendido entre el valor mínimo y máximo de los datos.
+Esto que en principio puede ser una propiedad muy interesante puede conducir a resultados extraños en ciertas ocasiones, como por ejemplo dar lugar a predicciones negativas en casos en los que la variable considerada es necesariamente positiva.
+Para solucionar estos problemas se han propuesto numerosas alternativas, entre ellas la inclusión de restricciones adicionales sobre los pesos de forma que sean positivos (e.g. Chilès y Delfiner, 2012, Sección 3.9.1) (lo cual puede dar lugar a un incremento considerable del MSPE de predicción) o sobre el predictor (ver p.e. Goovaerts, 1997, Sección 7.4.2).
+Otra alternativa que puede ser preferible es la transformación del proceso <span class="math inline">\(Z(\cdot)\)</span> a otra escala (de forma que se aproxime a la normalidad), realizar la predicción kriging del proceso transformado y volver a la escala original (pero asegurándose de que al hacer la transformación inversa el resultado tenga las propiedades de optimalidad deseadas); más detalles sobre este procedimiento se tienen en la Sección <a href="otros-métodos-kriging.html#kriging-trans-normal">4.7.2</a>.</p>
 </div>
 <div id="efecto-variog-kriging" class="section level3" number="4.5.2">
 <h3><span class="header-section-number">4.5.2</span> Efecto del variograma (covariograma) en el kriging</h3>
+<p>El variograma (o el covariograma) tiene un efecto determinante en la predicción espacial.
+Como ejemplo, a continuación se incluyen algunas observaciones acerca de la influencia en el kriging de las tres principales características de un variograma estacionario (normalmente tratadas como parámetros) definidas en la Sección <a href="procesos-estacionarios.html#procesos-estacionarios">1.3</a>.</p>
+<p><strong>Rango</strong></p>
+<p>Supongamos que la posición de predicción <span class="math inline">\(\mathbf{s}_{0}\)</span> está a una
+distancia mayor que el rango de las posiciones de los datos <span class="math inline">\(\left\{ \mathbf{s}_{1}, \ldots,\mathbf{s}_{n} \right\}\)</span> (i.e. la posición de predicción está fuera de la zona de influencia de los datos), entonces <span class="math inline">\(\mathbf{c}=\mathbf{0}\)</span> en las ecuaciones kriging, obteniéndose que:
+<span class="math display">\[p_{KS} (\mathbf{Z},\mathbf{s}_{0})=\mu(\mathbf{s}_{0}),\ \ p_{KU} (\mathbf{Z},\mathbf{s}_{0})=\mathbf{x}_0^\top\hat{\boldsymbol{\beta}}_{gls},\]</span>
+por lo tanto la predicción kriging se reduce a la media<a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> (estimada en el caso del KU).</p>
+<p><strong>Nugget y umbral</strong></p>
+<p>Resulta claro que las estimaciones obtenidas de la varianza de los predictores kriging dependen en gran medida de estos parámetros.
+Es importante destacar que la escala del variograma (o del covariograma) no influye en las predicciones obtenidas, solamente en la varianza kriging.
+Si se multiplica el variograma (o el covariograma) por una constante, las ecuaciones de los predictores kriging quedan invariantes y consecuentemente los pesos kriging no cambian, aunque la varianza kriging resulta multiplicada por esa constante.
+Para estudiar su influencia en la predicción resulta de utilidad la proporción del efecto nugget en el umbral total <span class="math inline">\(c_{0} /\sigma^{2}\)</span> (que como ya se comentó al final de la Sección <a href="procesos-estacionarios.html#procesos-estacionarios">1.3</a>, proporciona mucha información acerca del grado de dependencia espacial presente en los datos).
+Por ejemplo, en el caso en que toda la variabilidad es efecto nugget (i.e. el proceso <span class="math inline">\(Z(\cdot)\)</span> es ruido blanco) entonces <span class="math inline">\(\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}\)</span> y <span class="math inline">\(\mathbf{c}=\mathbf{0}\)</span> (suponiendo que <span class="math inline">\(\mathbf{s}_{0}\neq \mathbf{s}_{i}, \forall i\)</span>), y los predictores kriging se reducen a la estimación OLS de la tendencia:
+<span class="math display">\[p_{KU} (\mathbf{Z},\mathbf{s}_{0}) = \mathbf{x}_0^\top(\mathbf{X }^\top\mathbf{X})^{-1} \mathbf{X}^\top\mathbf{Z} = \mathbf{x }_0^\top\hat{\boldsymbol{\beta}}_{ols}.\]</span>
+En el caso del KO se obtiene la media muestral:
+<span class="math display">\[p_{KO} (\mathbf{Z},\mathbf{s}_{0})=\bar{Z} =\dfrac{1}{n}
+\sum\nolimits_{i=1}^{n}Z(\mathbf{s}_{i}),\]</span>
+predictor bien conocido que asigna igual peso a todos los datos (por tanto el efecto pantalla es nulo).
+Además, teniendo en cuenta los resultados de la Sección <a href="kuniversal.html#kriging-residual">4.3.2</a>, como <span class="math inline">\(\sigma_{KS}^{2} (\mathbf{s}_{0})=\sigma^{2}\)</span> (caso más desfavorable), entonces:
+<span class="math display">\[\sigma_{KO}^{2} (\mathbf{s}_{0})=\sigma_{}^{2} +\dfrac{\sigma_{}^{2}
+}{n},\]</span>
+es decir, la varianza del KO para el caso de procesos incorrelados es igual a la varianza del proceso más la varianza de la media muestral.
+En general (al menos en KS y KO), se puede ver que al aumentar el porcentaje de efecto nugget en el umbral total disminuye el efecto pantalla y aumenta la varianza kriging (ver e.g. Isaaks y Srivastava, 1989, pp. 305-306).
+Hay que tener en cuenta que cuando la media no es constante (e.g. KU), puede ocurrir incluso lo contrario del efecto pantalla, y observaciones alejadas pueden tener una gran influencia en la estimación (como es bien conocido en la estimación de la tendencia).</p>
+<p>Teniendo en cuenta los comentarios anteriores, podemos afirmar que todos los parámetros (características) del variograma influyen en el kriging (aunque quizás el rango es el que tiene un menor efecto, ya que pequeñas variaciones en este parámetro producen resultados casi idénticos).
+Estas observaciones no contradicen el resultado de que asintóticamente lo importante es capturar el comportamiento del variograma cerca del origen (Stein, 1988).
+Es difícil determinar cuando los datos están suficientemente cerca como para tener sólo en cuenta el efecto nugget y la pendiente del variograma cerca del origen.</p>
 </div>
+<div id="eleccion-vecindario" class="section level3" number="4.5.3">
+<h3><span class="header-section-number">4.5.3</span> Elección del vecindario</h3>
+<p>Una práctica habitual en geoestadística, en lugar de considerar todas las observaciones disponibles, es incluir en las ecuaciones kriging únicamente los <span class="math inline">\(n(\mathbf{s}_{0})\)</span> datos más “próximos” a la posición de predicción <span class="math inline">\(\mathbf{s}_{0}\)</span> .
+Esto puede justificarse por varias razones:</p>
+<ul>
+<li>Utilizar todos los datos puede dar lugar a un sistema de difícil solución debido a problemas numéricos. Por ejemplo, entre otros, el tiempo de computación (aproximadamente proporcional a <span class="math inline">\(n(\mathbf{s}_{0})^{3}\)</span>) aumenta drásticamente al aumentar el numero de datos.</li>
+<li>Las estimaciones del variograma son normalmente eficientes (o incluso el propio modelo geoestadístico válido) únicamente en pequeñas distancias.</li>
+<li>El uso de vecindarios locales permite la relajación de las hipótesis del modelo (como la estacionariedad intrínseca en el caso del KO) o su simplificación (por ejemplo, en el caso del KU se puede suponer que locamente la estructura de la tendencia es más simple o incluso constante y utilizar en su lugar KO local).</li>
+<li>En muchos casos los datos cercanos apantallan a los más alejados
+reduciendo su influencia (aunque no siempre de forma significativa; ver
+observaciones siguientes).</li>
+</ul>
+<p>La selección “optima” de un vecindario local resulta no obstante un problema algo complejo. Por ejemplo, se acostumbra a pensar que el rango del variograma permite determinar por sí solo un criterio de vecindad, como incluir en las ecuaciones sólo los datos que estén dentro del rango de <span class="math inline">\(\mathbf{s}_{0}\)</span>, sin embargo esto puede no ser adecuado en muchos casos (aunque en la práctica el valor de este parámetro puede ser de gran utilidad como referencia inicial).
+Teniendo en cuentas las observaciones realizadas en secciones anteriores, cuando aumenta la proporción de efecto nugget disminuye el efecto pantalla, el predictor kriging se reduce a la media y observaciones a más distancia que el rango de la posición de predicción contribuyen (a veces de forma significativa) a la estimación de la tendencia.
+Hay que tener en cuenta que los pesos kriging dependen de la configuración espacial de todas las observaciones y observaciones fuera del rango pueden tener influencia en la predicción a través de su correlación con observaciones dentro del rango (esto es conocido en la literatura como efecto <em>relay</em>, que podríamos traducir por efecto transmisión).</p>
+<p>Se han propuesto algunos criterios para la selección de un vecindario óptimo (e.g. Cressie, 1993, pp. 176-177), que son de utilidad cuando los datos están regularmente espaciados y el vecindario se puede fijar de antemano.
+Por ejemplo, se pueden ir incluyendo observaciones en el vecindario hasta que no se produzca una disminución “significativa” en la estimación de la varianza kriging.</p>
+<p>En la práctica, la densidad de datos y su configuración espacial en torno a las posiciones de predicción pueden ser muy irregulares.
+Teniendo en cuenta esto se han desarrollado distintos algoritmos, algunos bastante sofisticados, para la selección de vecindarios (ver e.g. Isaaks y Srivastava, 1989, Capítulo 14; Deutsch y Journel, 1992, secciones II.4 y IV.6).
+Para la selección de los datos típicamente se fija un radio máximo de búsqueda y únicamente se consideran los datos dentro de una circunferencia (esfera) centrada en la posición de predicción.
+En el caso de anisotropía (Sección 2.2.2), se considera una elipse (elipsoide) con el radio mayor orientado en la dirección de máxima variación.
+Además suele interesar disponer de observaciones en todas direcciones, por lo que se divide la zona de búsqueda en sectores angulares (por ejemplo cuadrantes en el caso bidimensional o octantes en el caso tridimensional) y se selecciona un número mínimo de datos en todos o en la mayoría de esos sectores (esto evita también que clusters de datos tengan una excesiva influencia sobre predicciones en su entorno).
+Si se sospecha de la presencia de una tendencia en los datos (KU), puede ser deseable la inclusión de observaciones más alejadas de la posición de predicción para poder estimarla de forma más eficiente.</p>
+<p>Utilizando un algoritmo de búsqueda que tenga en cuenta todas o alguna de las consideraciones anteriores, típicamente se selecciona un número pequeño de datos como vecindario (e.g. entre 10 y 20 observaciones) para cada posición de predicción.
+Sin embargo esto puede causar que las superficies de predicción presenten discontinuidades (especialmente cuando los datos están regularmente espaciados y se utiliza búsqueda por octantes).
+Una aproximación distinta sería la selección un único vecindario más grande (e.g. de 20 a 40 observaciones) para pequeños conjuntos de posiciones de predicción, de esta forma en condiciones normales los vecindarios correspondientes a conjuntos de predicción próximos se solapan y es de esperar que no aparezcan discontinuidades.
+Además el incremento en tiempo de computación debido a la inclusión de un número mayor de observaciones se compensa por el hecho de que sólo es necesario factorizar una vez la matriz sistema kriging para obtener las predicciones en el conjunto considerado<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a>.</p>
+<p>Otra forma de proceder que puede ser de interés en la práctica, es usar el semivariograma como distancia en lugar de la tradicional distancia euclidea; de esta forma los datos son seleccionados preferentemente en la dirección de máxima continuidad (y se evita tener que considerar elipsoides en el caso de anisotropía).
+Adicionalmente, cuando el número de datos es grande y sus posiciones irregulares, es recomendable utilizar alguna técnica de búsqueda, como el denominado <em>kd-tree</em> (e.g. ver paquete <a href="https://CRAN.R-project.org/package=FNN"><code>FNN</code></a>), de forma que se puedan determinar eficientemente las observaciones más próximas a la posición de predicción <span class="math inline">\(\mathbf{s}_{0}\)</span> (en lugar de comprobar todas las posiciones).</p>
+<p>Independientemente del algoritmo de búsqueda que se vaya a utilizar, puede ser recomendable realizar antes algunas pruebas utilizando por ejemplo la técnica de validación cruzada descrita a continuación.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="22">
+<li id="fn22"><p>Para un tratamiento más detallado ver por ejemplo Chilès y Delfiner (2012), secciones 3.3.2 y 3.4.2.<a href="consideraciones-kriging.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>En caso contrario interesaría predecir el proceso libre de ruido y habría que modificar ligeramente las ecuaciones kriging. Para más detalles, ver por ejemplo Cressie (1993, pp. 128-130) o Chilès y Delfiner (2012, Sección 3.7.1)<a href="consideraciones-kriging.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>En la literatura se muestran numerosos ejemplos sobre el comportamiento de los pesos kriging en distintos escenarios; una colección bastante completa se tiene en Wakernagel (1998, Capítulo 13).<a href="consideraciones-kriging.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p>Puede verse fácilmente que la ecuaciones del kriging universal con <span class="math inline">\(\mathbf{c}=\mathbf{0}\)</span>, son las obtenidas en el denominado método kriging de estimación de la tendencia (e.g. Wackernagel, 1998, pp. 212-213; Chilès y Delfiner, 2012, Sección 3.4.5).<a href="consideraciones-kriging.html#fnref25" class="footnote-back">↩︎</a></p></li>
+<li id="fn26"><p>Por ejemplo, si se pretenden obtener predicciones en una rejilla bidimensional, el tiempo de computación considerando un vecindario distinto con 16 observaciones para cada nodo resulta similar a considerar un vecindario con 25 (o incluso más) observaciones para grupos de 4 nodos (dos por fila y columna).<a href="consideraciones-kriging.html#fnref26" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="kriging-con-el-paquete-gstat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="kriging-gstat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="validacion-cruzada.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

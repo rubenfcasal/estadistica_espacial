@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>A Introducción al paquete sp | Estadística Espacial con R</title>
+  <title>4.4 Kriging con el paquete gstat | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="A Introducción al paquete sp | Estadística Espacial con R" />
+  <meta property="og:title" content="4.4 Kriging con el paquete gstat | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="A Introducción al paquete sp | Estadística Espacial con R" />
+  <meta name="twitter:title" content="4.4 Kriging con el paquete gstat | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="esp-temp.html"/>
-<link rel="next" href="tipos-de-objetos.html"/>
+<link rel="prev" href="kuniversal.html"/>
+<link rel="next" href="consideraciones-kriging.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -308,50 +308,39 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="intro-sp" class="section level1" number="7">
-<h1><span class="header-section-number">A</span> Introducción al paquete <strong>sp</strong></h1>
-<!-- 
----
-title: "Estadística Espacial"
-author: "Análisis estadístico de datos con dependencia (GCED)"
-date: "Curso 2021/2022"
-bibliography: ["packages.bib", "estadistica_espacial.bib"]
-link-citations: yes
-output: 
-  bookdown::html_document2:
-    pandoc_args: ["--number-offset", "0,0"]
-    toc: yes 
-    # mathjax: local            # copia local de MathJax, hay que establecer:
-    # self_contained: false     # las dependencias se guardan en ficheros externos 
-  bookdown::pdf_document2:
-    keep_tex: yes
-    toc: yes 
----
-Apéndice \@ref(intro-sp)
-bookdown::preview_chapter("08-sp.Rmd")
-knitr::purl("08-sp.Rmd", documentation = 2)
-knitr::spin("08-sp.R",knit = FALSE)
--->
-<p>El paquete <a href="https://CRAN.R-project.org/package=sp"><code>sp</code></a> [Classes and methods for spatial data; <span class="citation"><a href="#ref-Pebesma2005" role="doc-biblioref">E. J. Pebesma y Bivand</a> (<a href="#ref-Pebesma2005" role="doc-biblioref">2005</a>)</span>] implementa objetos y métodos para datos espaciales…</p>
-<p>Introducción, para más detalles ver <span class="citation"><a href="#ref-Bivand2013" role="doc-biblioref">Bivand et al.</a> (<a href="#ref-Bivand2013" role="doc-biblioref">2013</a>)</span>…
-<a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html" class="uri">https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html</a></p>
-</div>
-<h3>References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
-<div id="ref-Bivand2013" class="csl-entry">
-Bivand, R. S., Pebesma, E., y Gómez-Rubio, V. (2013). <em>Applied Spatial Data Analysis with <span>R</span></em> (Second). Springer. <a href="http://www.asdar-book.org/">http://www.asdar-book.org/</a>
-</div>
-<div id="ref-Pebesma2005" class="csl-entry">
-Pebesma, E. J., y Bivand, R. S. (2005). Classes and methods for spatial data in <span>R</span>. <em>R News</em>, <em>5</em>(2), 9-13. <a href="https://CRAN.R-project.org/doc/Rnews/">https://CRAN.R-project.org/doc/Rnews/</a>
-</div>
+<div id="kriging-gstat" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> Kriging con el paquete <strong>gstat</strong></h2>
+<p>Los métodos kriging (KS, KO y KU) están implementados en la función <code>krige()</code> del paquete <code>gstat</code>.
+Normalmente la sintaxis empleada es:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="kriging-gstat.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="fu">krige</span>(formula, locations, newdata, model, ..., beta)</span></code></pre></div>
+<ul>
+<li><code>formula</code>: fórmula que define la tendencia como un modelo lineal de la respuesta en función de las variables explicativas (para KO será de la forma <code>z ~ 1</code>).</li>
+<li><code>locations</code>: objeto <code>sf</code> o <code>Spatial*</code> que contiene las observaciones espaciales (incluyendo las variables explicativas).</li>
+<li><code>newdata</code>: objeto <code>sf</code>, <code>stars</code> o <code>Spatial*</code>, que contiene las posiciones de predicción (incluyendo las variables explicativas).</li>
+<li><code>model</code>: modelo de semivariograma (generado con la función <code>vgm()</code> o <code>fit.variogram()</code>).</li>
+<li><code>beta</code>: vector con los coeficientes de tendencia (incluida la intersección) si se supone conocida (se empleará para KS, en lugar de las estimaciones GLS empleadas en KO y KU).</li>
+</ul>
+<p>Esta función, además de kriging univariante puntual con vecindario global, también implementa kriging por bloques, cokriging (predicción multivariante), predicción local y simulación condicional.
+Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales:</p>
+<ul>
+<li><code>maxdist</code>: solo se utilizarán las observaciones a una distancia de la posición de predicción menor de este valor.</li>
+<li><code>nmax</code>, <code>nmin</code> (opcionales): número máximo y mínimo de observaciones más cercanas. Si el número de observaciones más cercanas dentro de la distancia <code>maxdist</code> es menor que <code>nmin</code>, se generará un valor faltante.</li>
+<li><code>omax</code> (opcional): número máximo de observaciones por octante (3D) o cuadrante (2D).</li>
+</ul>
+<p>Los parámetros (opcionales) para simulación condicional son:</p>
+<ul>
+<li><code>nsim</code>: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging (ver Fernández-Casal y Cao, 2020, <a href="https://rubenfcasal.github.io/simbook/simulaci%C3%B3n-condicional-e-incondicional.html">Sección 7.5</a>).</li>
+<li><code>indicators</code>: valor lógico que determina el método de simulación. Por defecto (<code>FALSE</code>) emplea simulación condicional gaussiana, en caso contrario (<code>TRUE</code>) simula una variable indicadora.</li>
+</ul>
+<p>Ejemplos: <a href="s100.html">s100</a> (KO) y <a href="aquifer.html">aquifer</a> (KU).</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="esp-temp.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="tipos-de-objetos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="kuniversal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="consideraciones-kriging.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -382,7 +371,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/11-sp.Rmd",
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
 "text": "Edit"
 },
 "history": {

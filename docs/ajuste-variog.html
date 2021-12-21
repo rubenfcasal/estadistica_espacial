@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-16" />
+<meta name="date" content="2021-12-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,18 +230,18 @@ div.csl-indent {
 <li class="chapter" data-level="4.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>4.3.1</b> Ecuaciones en función del covariograma</a></li>
 <li class="chapter" data-level="4.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>4.3.2</b> Kriging residual</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="kriging-con-el-paquete-gstat.html"><a href="kriging-con-el-paquete-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="4.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>4.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
 <li class="chapter" data-level="4.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>4.5</b> Consideraciones acerca de los métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>4.5.1</b> Kriging como interpolador</a></li>
 <li class="chapter" data-level="4.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>4.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="4.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>4.5.3</b> Elección del vecindario</a></li>
 </ul></li>
 <li class="chapter" data-level="4.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>4.6</b> Validación cruzada del modelo ajustado</a></li>
 <li class="chapter" data-level="4.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>4.7</b> Otros métodos kriging</a>
 <ul>
 <li class="chapter" data-level="4.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>4.7.1</b> Block kriging</a></li>
 <li class="chapter" data-level="4.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>4.7.2</b> Kriging trans-normal</a></li>
-<li class="chapter" data-level="4.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>4.7.3</b> Kriging indicador</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
@@ -314,11 +314,11 @@ div.csl-indent {
 no son condicionalmente semidefinidos negativos y eso puede causar por ejemplo sistemas kriging inválidos o estimaciones negativas de la varianza kriging.
 Este problema normalmente se remedia buscando un modelo paramétrico válido que describa adecuadamente la dependencia espacial presente en los datos.
 Supongamos que <span class="math inline">\(P=\left\{ 2\gamma(\mathbf{h};\boldsymbol{\theta}):\boldsymbol{\theta}\in \Theta \right\}\)</span>, donde <span class="math inline">\(2\gamma(\mathbf{h};\boldsymbol{\theta})\)</span> es un variograma válido en <span class="math inline">\(\mathbb{R}^{d}\)</span> (normalmente isotrópico), es la familia parametrizada de variogramas escogida.
-Se trata de encontrar el mejor elemento de <span class="math inline">\(P\)</span>, para lo que se han propuesto diversos criterios de bondad de ajuste (ver p.e. Cressie, 1993, Sección 2.6).
+Se trata de encontrar el mejor elemento de <span class="math inline">\(P\)</span>, para lo que se han propuesto diversos criterios de bondad de ajuste (ver e.g. Cressie, 1993, Sección 2.6).
 Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima verosimilitud, descritos a continuación.</p>
 <div id="ls-fit" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Estimación por mínimos cuadrados</h3>
-<p>Supongamos que <span class="math inline">\(2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})\)</span> es el variograma teórico y que <span class="math inline">\(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\)</span>, <span class="math inline">\(i = 1,\ldots,K\)</span>, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (p.e. alguno de los mostrados en la Sección 4.1.1).
+<p>Supongamos que <span class="math inline">\(2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})\)</span> es el variograma teórico y que <span class="math inline">\(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\)</span>, <span class="math inline">\(i = 1,\ldots,K\)</span>, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g. alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p. 194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e. <span class="math inline">\(\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}\)</span>); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e. <span class="math inline">\(\left| N(\mathbf{h}_{i})\right| \geq 30\)</span>).
 Habitualmente (e.g. Cressie, 1993, p. 96-97) la estimación por mínimos cuadrados de <span class="math inline">\(\boldsymbol{\theta}_{0}\)</span> se obtiene al minimizar:
 <span class="math display" id="eq:ls-obj">\[\begin{equation} 
@@ -352,9 +352,9 @@ Proponiendo en estos casos la minimización de:
 <span class="math display">\[\sum\limits_{i=1}^{K} w_{i}(\boldsymbol{\theta}) \left( \hat{\gamma}(\mathbf{h}_{i}) - \gamma(\mathbf{h}_{i};\boldsymbol{\theta}) \right)^2,\]</span>
 siendo <span class="math inline">\(w_{i}(\boldsymbol{\theta}) = \left| N(\mathbf{h}_{i})\right| /\gamma(\mathbf{h}_{i} ;\boldsymbol{\theta})^2\)</span>, como aproximación al criterio WLS.</p>
 <p>Estos métodos de ajuste tiene unas propiedades interesantes, cuanto mayor sea <span class="math inline">\(\left| N(\mathbf{h}_{i})\right|\)</span> mayor peso recibe el residuo en el salto <span class="math inline">\(\mathbf{h}_{i}\)</span> y además, cuanto más pequeño sea el valor del variograma teórico mayor peso recibe también el residuo correspondiente.
-Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver p.e. Stein, 1988, y comentarios en la Sección 4.X).
+Por este motivo, los saltos próximos al origen típicamente reciben mayor peso con lo que se consigue un buen ajuste del modelo de variograma cerca del origen (esto es especialmente importante; ver e.g. Stein, 1988, y comentarios en la Sección <a href="consideraciones-kriging.html#consideraciones-kriging">4.5</a>).
 Adicionalmente estos métodos pueden ser implementados fácilmente en la práctica (de forma similar al OLS).</p>
-<p>Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver p.e. Cressie, 1993, p. 98).
+<p>Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covarianzas de las estimaciones piloto se supone habitualmente que la distribución de los datos es normal, se puede probar fácilmente que los procedimientos de ajuste obtenidos son también válidos para el caso de datos normales transformados (ver e.g. Cressie, 1993, p. 98).
 Esta es una de las principales ventajas de los métodos WLS o GLS frente a otras alternativas (como los métodos basados en máxima verosimilitud); como utilizan solamente la estructura de segundo orden (asintótica) del estimador del variograma, no es necesario hacer suposiciones sobre la distribución completa de los datos<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>.</p>
 <p>Como comentario final, en la función objetivo <a href="ajuste-variog.html#eq:ls-obj">(3.3)</a> de los criterios WLS y GLS anteriores, la matriz de pesos utilizada en el ajuste <span class="math inline">\(\mathbf{V}(\boldsymbol{\theta})\)</span> depende también del parámetro sobre el que se realiza la minimización (y al minimizar <a href="ajuste-variog.html#eq:ls-obj">(3.3)</a> en cierto sentido se están maximizando también las varianzas), por lo que puede ser preferible utilizar un algoritmo iterativo.
 Por ejemplo comenzar con pesos OLS (o WLS con <span class="math inline">\(w_{i} = \left| N(\mathbf{h}_{i})\right| / \| \mathbf{h}_{i} \|^2\)</span>) y posteriormente en cada etapa <span class="math inline">\(k\)</span> obtener una nueva aproximación <span class="math inline">\(\hat{\boldsymbol{\theta}}_{0}^{(k)}\)</span> al minimizar:
@@ -420,7 +420,7 @@ repitiendo este proceso hasta convergencia (realmente muchos de los algoritmos d
 <div id="trend-fit" class="section level3" number="3.3.2">
 <h3><span class="header-section-number">3.3.2</span> Modelado del variograma en procesos no estacionarios</h3>
 <p>Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>.
-Por ejemplo, considerando el modelo lineal <a href="geoestadistica.html#eq:modelolineal">(1.2)</a> de la Sección <a href="geoestadistica.html#modelos-clasicos-espaciales">1.2.1</a> (el modelo del <em>kriging universal</em>, Sección 4.X; que emplearemos en el resto de este capítulo), tendríamos que:
+Por ejemplo, considerando el modelo lineal <a href="geoestadistica.html#eq:modelolineal">(1.2)</a> de la Sección <a href="geoestadistica.html#modelos-clasicos-espaciales">1.2.1</a> (el modelo del <em>kriging universal</em>, Sección <a href="kuniversal.html#kuniversal">4.3</a>; que emplearemos en el resto de este capítulo), tendríamos que:
 <span class="math display">\[E(Z(\mathbf{s}_1)-Z(\mathbf{s}_{2}))^2 =2\gamma(\mathbf{s}_1
 -\mathbf{s}_{2}) + \left( \sum\limits_{j=0}^{p}\beta_{j}  \left( X_{j}
 (\mathbf{s}_1)-X_{j}(\mathbf{s}_{2})\right) \right)^2.\]</span>
@@ -476,7 +476,7 @@ En la práctica este procedimiento suele converger en pocas iteraciones (normalm
 Sin embargo, en el paquete <code>gstat</code> solo se realiza una iteración (se reestimará la tendencia empleando GLS al calcular las predicciones kriging).</p>
 <p>En el caso de variogramas no acotados, el proceso <span class="math inline">\(\varepsilon(\cdot)\)</span> no sería estacionario de segundo orden, no está disponible la matriz <span class="math inline">\(\boldsymbol{\Sigma}\)</span> y en principio sería imposible emplear GLS para estimar la tendencia.
 Sin embargo, normalmente se suele trabajar en un dominio acotado <span class="math inline">\(D\)</span> y podemos encontrar una constante positiva <span class="math inline">\(A\)</span> tal que <span class="math inline">\(C^{\ast }(\mathbf{h})= A-\gamma(\mathbf{h})\geq 0,\forall \mathbf{h}\in D\)</span> (y por tanto esta función es un covariograma válido en ese dominio).
-La función <span class="math inline">\(C^{\ast }(\mathbf{h})\)</span> se suele denominar <em>pseudo-covariograma</em> (o covarianza localmente equivalente; ver p.e. Chilès y Delfiner, 1999, Sección 4.6.2).
+La función <span class="math inline">\(C^{\ast }(\mathbf{h})\)</span> se suele denominar <em>pseudo-covariograma</em> (o covarianza localmente equivalente; ver e.g. Chilès y Delfiner, 1999, Sección 4.6.2).
 Si utilizamos <span class="math inline">\(C^{\ast }(\mathbf{h})\)</span> en lugar del covariograma en la estimación de la media (o en las ecuaciones del predictor del KU), la constante <em>A</em> se cancela y obtenemos los mismos resultados (sin embargo las varianzas si que dependen de esta constante).</p>
 <!-- 
 En R, por ejemplo, podríamos volver a reestimar la tendencia mediante GLS y calcular los nuevos residuos mediante la función `gls()` del paquete `nlme`, que realmente emplea estimación por máxima verosimilitud.
@@ -510,7 +510,7 @@ y expresado en función del semivariograma:
 (\mathbf{s}_{i})-\hat{\mu}(\mathbf{s}_{j})).\]</span></p>
 <p>Por tanto al utilizar alguno de los estimadores mostrados anteriormente con los residuos estimados obtenemos estimaciones sesgadas del semivariograma teórico.
 Matheron (1971, pp. 152-155) ya notó que, por lo general, el sesgo del estimador del semivariograma es pequeño en los saltos próximos al origen, pero más sustancial en saltos grandes<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>.
-Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver p.e. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).</p>
+Parece ser que este problema provocó una desilusión con el kriging universal y la iniciativa hacia el kriging con funciones intrínsecamente estacionarias (ver e.g. Matheron, 1973; Cressie, 1993, Sección 5.4; o Chilès y Delfiner, 1999, cap. 4).</p>
 <p>En cuanto a las consecuencias de que el estimador del variograma no sea insesgado en el kriging universal, hay que tener en cuenta que:</p>
 <ul>
 <li>Al ajustar un modelo de variograma por mínimos cuadrados ponderados o generalizados (Sección <a href="ajuste-variog.html#ls-fit">3.3.1</a>), automáticamente los saltos pequeños reciben mayor peso en el ajuste.</li>
@@ -555,7 +555,7 @@ Por tanto la función a minimizar respecto a <span class="math inline">\(\boldsy
 \mathbf{Z}\right. ) = \dfrac{n}{2} \ln (2\pi ) + \dfrac{n}{2} \ln (\hat{\sigma
 }^2) + \dfrac{1}{2} \ln \left| \mathbf{V}(\boldsymbol{\theta})\right| +\dfrac{n}{2}.\]</span>
 Para ello es necesario utilizar algoritmos de minimización no lineal multidimensional.
-Además está el problema de la posible multimodalidad de esta función (ver p.e. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
+Además está el problema de la posible multimodalidad de esta función (ver e.g. Mardia y Watkins, 1989), por tanto habría que asegurarse de que el algoritmo elegido no converge a un mínimo local.
 Si <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es la estimación de <span class="math inline">\(\boldsymbol{\theta}\)</span> obtenida al resolver este problema, sustituyendo en <a href="ajuste-variog.html#eq:estimadores-ml">(3.4)</a> se obtienen las estimaciones del resto de parámetros<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>.</p>
 <p>Uno de los principales problemas de la estimación ML es que los estimadores de <span class="math inline">\(\sigma^2\)</span> y <span class="math inline">\(\boldsymbol{\theta}\)</span> pueden tener un sesgo considerable (especialmente cuando la tendencia no es constante), algo que es bastante conocido en la estimación de la varianza con datos independientes.
 Este problema se puede resolver (por lo menos en parte) utilizando una variante de este método.</p>
