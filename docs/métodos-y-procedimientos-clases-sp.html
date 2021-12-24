@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -356,17 +357,17 @@ div.csl-indent {
 <p>Datos descargados en formato NetCDF (<a href="http://www.opengeospatial.org/standards/netcdf">Network Common Data Form</a>)
 de <a href="http://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.html">NOAA Optimum Interpolated Sea Surface Temperature V2 (OISST)</a>
 y procesados con <em><a href="datos/NOAA_OISST_extraction_v2.R">NOAA_OISST_extraction_v2.R</a></em>:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="métodos-y-procedimientos-clases-sp.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
-<span id="cb177-2"><a href="métodos-y-procedimientos-clases-sp.html#cb177-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
-<span id="cb177-3"><a href="métodos-y-procedimientos-clases-sp.html#cb177-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb177-4"><a href="métodos-y-procedimientos-clases-sp.html#cb177-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
-<span id="cb177-5"><a href="métodos-y-procedimientos-clases-sp.html#cb177-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-6"><a href="métodos-y-procedimientos-clases-sp.html#cb177-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
-<span id="cb177-7"><a href="métodos-y-procedimientos-clases-sp.html#cb177-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
-<span id="cb177-8"><a href="métodos-y-procedimientos-clases-sp.html#cb177-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
-<span id="cb177-9"><a href="métodos-y-procedimientos-clases-sp.html#cb177-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
-<span id="cb177-10"><a href="métodos-y-procedimientos-clases-sp.html#cb177-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb177-11"><a href="métodos-y-procedimientos-clases-sp.html#cb177-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="métodos-y-procedimientos-clases-sp.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/sstsp.RData&quot;</span>) <span class="co"># SST 15-04-2012 </span></span>
+<span id="cb221-2"><a href="métodos-y-procedimientos-clases-sp.html#cb221-2" aria-hidden="true" tabindex="-1"></a>jet.colors <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;#00007F&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;#007FFF&quot;</span>, <span class="st">&quot;cyan&quot;</span>, <span class="st">&quot;#7FFF7F&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;#FF7F00&quot;</span>, <span class="st">&quot;red&quot;</span>, <span class="st">&quot;#7F0000&quot;</span>))</span>
+<span id="cb221-3"><a href="métodos-y-procedimientos-clases-sp.html#cb221-3" aria-hidden="true" tabindex="-1"></a><span class="fu">image</span>(sstsp, <span class="at">col =</span> <span class="fu">jet.colors</span>(<span class="dv">128</span>), <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb221-4"><a href="métodos-y-procedimientos-clases-sp.html#cb221-4" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="fu">attr</span>(sstsp<span class="sc">@</span>data, <span class="st">&quot;label&quot;</span>))</span>
+<span id="cb221-5"><a href="métodos-y-procedimientos-clases-sp.html#cb221-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb221-6"><a href="métodos-y-procedimientos-clases-sp.html#cb221-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo importar datos de otros paquetes:</span></span>
+<span id="cb221-7"><a href="métodos-y-procedimientos-clases-sp.html#cb221-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb221-8"><a href="métodos-y-procedimientos-clases-sp.html#cb221-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
+<span id="cb221-9"><a href="métodos-y-procedimientos-clases-sp.html#cb221-9" aria-hidden="true" tabindex="-1"></a>world <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="st">&quot;world&quot;</span>, <span class="at">fill =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)   <span class="co"># Hay un mapa con mayor resolución en mapdata::worldHires</span></span>
+<span id="cb221-10"><a href="métodos-y-procedimientos-clases-sp.html#cb221-10" aria-hidden="true" tabindex="-1"></a>world_pol <span class="ot">&lt;-</span> <span class="fu">map2SpatialPolygons</span>(world, world<span class="sc">$</span>names, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb221-11"><a href="métodos-y-procedimientos-clases-sp.html#cb221-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pol, <span class="at">col =</span> <span class="st">&#39;white&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>

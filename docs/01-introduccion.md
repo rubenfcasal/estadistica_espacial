@@ -133,11 +133,34 @@ Entre ellos destacan el paquete [`sp`](https://CRAN.R-project.org/package=sp) [C
 Otros paquetes para la manipulación de datos que pueden ser de interés son: [`raster`](https://CRAN.R-project.org/package=raster), [`terra`](https://CRAN.R-project.org/package=terra), [`starts`](https://r-spatial.github.io/stars), [`rgdal`](https://CRAN.R-project.org/package=rgdal) y [`rgeos`](https://CRAN.R-project.org/package=rgeos), entre otros.
 En la Sección \@ref(datos-tipos) se incluye información adicional sobre estos paquetes.
 
-En este libro emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
+En este libro emplearemos principalmente el paquete `gstat` para el análisis de datos geoestadísticos (siguiente sección; aunque se incluye una introducción al paquete `geoR` en el Apéndice \@ref(intro-geoR)) y el paquete `sf` para la manipulación de datos espaciales (en el Apéndice \@ref(intro-sp) se incluye una breve introducción a las clases `sp` para datos espaciales).
 
 <!-- 
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
 -->
+
+### El paquete **gstat**
+
+El paquete [`gstat`](https://r-spatial.github.io/gstat) permite la modelización geoestadística (univariante, Capítulo \@ref(modelado), y multivariante, Capítulo \@ref(multivar)), espacial y espacio-temporal (Capítulo \@ref(esp-temp)), incluyendo predicción y simulación (Capítulo \@ref(kriging) y secciones 5.X y 6.X). 
+
+
+```r
+library(gstat)
+```
+
+Este paquete implementa su propia estructura de datos (S3, basada en `data.frame`) pero también es compatible con los objetos `Spatial*` del paquete `sp` (Apéndice \@ref(intro-sp)) y los objetos de datos de los paquetes `sf` y `stars` (Capítulo \@ref(datos)).
+
+Para más información se pueden consultar la [referencia](https://r-spatial.github.io/gstat/reference/index.html), las viñetas del paquete:
+
+* [The meuse data set: a tutorial for the gstat R package](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf),
+* [Spatio-Temporal Geostatistics using gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf),
+* [Introduction to Spatio-Temporal Variography](https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf),
+
+el blog [r-spatial](https://r-spatial.org/) o las correspondientes publicaciones ([Pebesma, 2004](http://www.sciencedirect.com/science/article/pii/S0098300404000676); [Gräler, Pebesma y Heuvelink, 2016](https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf)).
+
+Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre ([Pebesma y Wesseling, 1998](http://www.sciencedirect.com/science/article/pii/S0098300497000824); basado en la librería [GSLIB](http://www.gslib.com), Deutsch y Journel, 1992).
+Puede resultar de interés consultar el [manual original](http://www.gstat.org/gstat.pdf) para información adicional sobre los detalles computacionales.
+
 
 
 ## Geoestadística {#geoestadistica}
@@ -325,9 +348,12 @@ $$C(\mathbf{h})=\sigma^2-\gamma (\mathbf{h}).$$
 A $\sigma^{2} = C(\mathbf{0})$ se le denomina *umbral* (o *meseta*) del semivariograma.
 La relación entre el semivariograma y el covariograma se ilustra en la Figura \@ref(fig:var-gen).
 
-Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia^[Además de poder interpretar su influencia en la predicción espacial (Sección \@ref(efecto-variog-kriging)), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \@ref(modelos-parametricos)).], entre ellas destacarían el *efecto pepita* (o *nugget*) y el *rango* (o *alcance*).
+### Características del variograma {#caracteristicas-variograma}
+
+Además del umbral (si existe, ya que el variograma podría no estar acotado; ver sección anterior), hay otras características geométricas del variograma (o del covariograma) de especial importancia^[Además de poder interpretar su influencia en la predicción espacial (Sección \@ref(efecto-variog-kriging)), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \@ref(modelos-parametricos)).], entre ellas destacarían el *efecto pepita* (o *nugget*) y el *rango* (o *alcance*).
 La Figura \@ref(fig:var-gen) ilustra las distintas características del semivariograma.
 
+(ref:var-gen-label) Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características: nugget ($c_0$), umbral ($\sigma^2$; umbral parcial $\sigma^2 - c_0$) y rango ($a$).
 
 \begin{figure}[!htb]
 
@@ -335,7 +361,7 @@ La Figura \@ref(fig:var-gen) ilustra las distintas características del semivari
 
 }
 
-\caption{Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características.}(\#fig:var-gen)
+\caption{(ref:var-gen-label)}(\#fig:var-gen)
 \end{figure}
 
 Siempre se verifica que $\gamma (\mathbf{0})=0$, sin embargo puede ser que:
@@ -354,7 +380,6 @@ Si $\sigma ^{2}$ es el umbral del semivariograma (suponiendo que existe), se def
 $$a_0 =\min \left\{ a:\gamma (a\left( 1+\varepsilon \right) \mathbf{e}_0 )=\sigma ^{2} , \forall \varepsilon >0\right\}.$$
 El rango en la dirección $\mathbf{e}_0$ puede interpretarse como el salto $h$ a partir del cual no hay correlación entre $Z(\mathbf{s})$ y $Z(\mathbf{s}\pm h\mathbf{e}_0)$, por tanto está íntimamente ligado a la noción de "zona de influencia" (y tiene un papel importante en la determinación de criterios de vecindad). 
 En los casos en los que el semivariograma alcanza el umbral asintóticamente (rango infinito), se suele considerar el *rango práctico*, definido como el mínimo salto en el que se alcanza el 95\% del umbral parcial.
-
 
 El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso. 
 En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección \@ref(vario-muestrales); Cressie, 1993, Sección 2.4.1). 
@@ -428,7 +453,7 @@ Sin embargo, en la práctica pueden aparecer dificultades, especialmente al comb
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
 
-## Objetivos y pasos {#objetivos-esquema} 
+## Objetivos y procedimiento {#objetivos-esquema} 
 
 A partir de los valores observados  $\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\}$ (o $\{Z(B_1), \ldots, Z(B_n)\}$), los objetivos suelen ser:
 
@@ -448,7 +473,7 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 
 1.  Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo \@ref(datos)).
 
-2.  Estimación de los parámetros del modelo (proceso iterativo; Capítulo \@ref(modelado)):
+2.  Estimación de los parámetros del modelo (puede ser un proceso iterativo; Capítulo \@ref(modelado)):
 
     1.  Estimar y eliminar la tendencia.
 
@@ -462,27 +487,6 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 Como ya se comentó, emplearemos el paquete [`gstat`](https://r-spatial.github.io/gstat) en este proceso.
 
 
-## El paquete **gstat**
-
-El paquete [`gstat`](https://r-spatial.github.io/gstat) permite la modelización geoestadística (univariante, Capítulo \@ref(modelado), y multivariante, Capítulo \@ref(multivar)), espacial y espacio-temporal (Capítulo \@ref(esp-temp)), incluyendo predicción y simulación (Capítulo \@ref(kriging) y secciones 5.X y 6.X). 
-
-
-```r
-library(gstat)
-```
-
-Este paquete implementa su propia estructura de datos (S3, basada en `data.frame`) pero también es compatible con los objetos `Spatial*` del paquete `sp` (Apéndice \@ref(intro-sp)) y los objetos de datos de los paquetes `sf` y `stars` (Capítulo \@ref(datos)).
-
-Para más información se pueden consultar la [referencia](https://r-spatial.github.io/gstat/reference/index.html), las viñetas del paquete:
-
-* [The meuse data set: a tutorial for the gstat R package](https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf),
-* [Spatio-Temporal Geostatistics using gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf),
-* [Introduction to Spatio-Temporal Variography](https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf),
-
-el blog [r-spatial](https://r-spatial.org/) o las correspondientes publicaciones ([Pebesma, 2004](http://www.sciencedirect.com/science/article/pii/S0098300404000676); [Gräler, Pebesma y Heuvelink, 2016](https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf)).
-
-Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre ([Pebesma y Wesseling, 1998](http://www.sciencedirect.com/science/article/pii/S0098300497000824); basado en la librería [GSLIB](http://www.gslib.com), Deutsch y Journel, 1992).
-Puede resultar de interés consultar el [manual original](http://www.gstat.org/gstat.pdf) para información adicional sobre los detalles computacionales.
 
 <!-- 
 ## Referencias

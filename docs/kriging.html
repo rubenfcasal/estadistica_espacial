@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -336,14 +337,13 @@ knitr::spin("04-kriging.R",knit = FALSE)
 PENDIENTE:
 Revisar referencias páginas Chilès y Delfiner 1999 -> 2012
 -->
-<p><strong><em>En preparación…</em></strong></p>
-<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> (ver Sección <a href="geoestadistica.html#geoestadistica">1.2</a> para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo <a href="multivar.html#multivar">5</a>).
+<p>En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> (ver Sección <a href="geoestadistica.html#geoestadistica">1.2</a> para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo <a href="multivar.html#multivar">5</a>).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (2012, capítulos 3, 4 y 6).</p>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="18">
-<li id="fn18"><p>Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso<a href="kriging.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<ol start="19">
+<li id="fn19"><p>Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso<a href="kriging.html#fnref19" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

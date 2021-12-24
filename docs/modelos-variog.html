@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -317,19 +318,19 @@ Estos modelos son empleados también en ciertos casos como estructuras básicas 
 <div id="modelos-parametricos" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Modelos paramétricos isotrópicos</h3>
 <p>A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
-En la notación utilizada en las parametrizaciones <span class="math inline">\(c_{0} \geq 0\)</span> representa el efecto nugget, <span class="math inline">\(c_1 \geq 0\)</span> el umbral parcial (en el caso de variogramas acotados, con <span class="math inline">\(\sigma^2= c_0 + c_1\)</span>) y <span class="math inline">\(a&gt;0\)</span> el rango (si existe) o el parámetro de escala.
+En la notación utilizada en las parametrizaciones <span class="math inline">\(c_0 \geq 0\)</span> representa el efecto nugget, <span class="math inline">\(c_1 \geq 0\)</span> el umbral parcial (en el caso de variogramas acotados, con <span class="math inline">\(\sigma^2= c_0 + c_1\)</span>) y <span class="math inline">\(a&gt;0\)</span> el rango (si existe) o el parámetro de escala.
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro <span class="math inline">\(a\)</span> representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95% del umbral parcial.
-En la Figura <a href="modelos-variog.html#fig:show-vgms">3.2</a> se tienen algunos ejemplos de las formas de algunos de
+En la Figura <a href="modelos-variog.html#fig:show-vgms">3.4</a> se tienen algunos ejemplos de las formas de algunos de
 estos semivariogramas.</p>
 <ul>
 <li><p>Modelo esférico:
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. ) = \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si} \left\| \mathbf{h}\right\| =0 \\
-c_{0} +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
+c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
 -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)
 3\right\}  &amp; \text{si} 0&lt;\left\| \mathbf{h}\right\| \leq a \\
-c_{0} +c_1  &amp; \text{si} \left\| \mathbf{h}\right\| &gt;a
+c_0 +c_1  &amp; \text{si} \left\| \mathbf{h}\right\| &gt;a
 \end{array}
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(d=1,2,3\)</span>.</p></li>
@@ -337,7 +338,7 @@ válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="mat
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
+c_0 + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
 \mathbf{h}\right\| }{a} \right) \right)  &amp; \text{si}\  \mathbf{h}\neq
 \mathbf{0}
 \end{array}
@@ -347,7 +348,7 @@ válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="mat
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
+c_0 + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
 }{\frac{1}{19} a^2 +\left\| \mathbf{h}\right\|^2 }  &amp; \text{si}\ 
 \mathbf{h}\neq \mathbf{0}
 \end{array}
@@ -357,7 +358,7 @@ válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="mat
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + a\left\| \mathbf{h}\right\|^{\lambda }  &amp; \text{si}\ 
+c_0 + a\left\| \mathbf{h}\right\|^{\lambda }  &amp; \text{si}\ 
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
@@ -367,7 +368,7 @@ En el caso de <span class="math inline">\(\lambda =1\)</span> se obtiene el cono
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
+c_0 + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
 \mathbf{h}\right\| }{a} \right)^{\lambda } \right) \right)  &amp; \text{si}\ 
 \mathbf{h}\neq \mathbf{0}
 \end{array}
@@ -383,18 +384,18 @@ El modelo exponencial se obtiene también como caso particular cuando <span clas
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
+c_0 + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
 \text{sen} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right) 
 &amp; \text{si}\  \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(d=1,2,3\)</span>.
-Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( <span class="math inline">\(c_{0} +1.218c_1\)</span>) cuando <span class="math inline">\(\left\| \mathbf{h}\right\| \simeq 4.5a\)</span>, siendo <span class="math inline">\(a\)</span> el parámetro de escala.</p></li>
+Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( <span class="math inline">\(c_0 +1.218c_1\)</span>) cuando <span class="math inline">\(\left\| \mathbf{h}\right\| \simeq 4.5a\)</span>, siendo <span class="math inline">\(a\)</span> el parámetro de escala.</p></li>
 <li><p>Modelo de Matérn (o K-Bessel):
 <span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_{0} + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
+c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
 \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
 \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  &amp; \text{si}\ 
 \mathbf{h}\neq \mathbf{0}
@@ -404,7 +405,7 @@ siendo <span class="math inline">\(\nu \geq 0\)</span> (un parámetro de suaviza
 Este modelo es válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>. El modelo exponencial se obtiene como caso particular cuando <span class="math inline">\(\nu =\frac{1}{2}\)</span> y en el límite <span class="math inline">\(\nu \rightarrow \infty\)</span> el modelo gausiano.</p></li>
 </ul>
 <p>En <code>gstat</code> se emplea la función <code>vgm()</code> (<em>Variogram Model</em>) para definir un modelo de variograma:</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="modelos-variog.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>(<span class="at">psill =</span> <span class="cn">NA</span>, model, <span class="at">range =</span> <span class="cn">NA</span>, nugget, add.to, anis, <span class="at">kappa =</span> <span class="fl">0.5</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="modelos-variog.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>(<span class="at">psill =</span> <span class="cn">NA</span>, model, <span class="at">range =</span> <span class="cn">NA</span>, nugget, add.to, anis, <span class="at">kappa =</span> <span class="fl">0.5</span>, ...)</span></code></pre></div>
 <ul>
 <li><code>psill</code>: umbral parcial (<span class="math inline">\(c_1\)</span>).</li>
 <li><code>model</code>: cadena de texto que identifica el modelo (e.g. <code>"Exp"</code>, <code>"Sph"</code>, <code>"Gau"</code>, <code>"Mat"</code>…).</li>
@@ -416,7 +417,7 @@ Este modelo es válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <
 </ul>
 <p>Lo habitual es definir un modelo para posteriormente estimar sus parámetros utilizando los empleados en la definición como valores iniciales. También se puede llamar a esta función con el modelo como primer y único argumento, indicando que los parámetros son desconocidos (para que tome los valores por defecto en el ajuste). Por defecto considerará que el nugget es nulo (y no se estimará), únicamente se considerará un efecto nugget si se especifica, aunque sea <code>nugget = NA</code>.
 Si se ejecuta sin argumentos devuelve un listado de todos los modelos:</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="modelos-variog.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="modelos-variog.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>()</span></code></pre></div>
 <pre><code>##    short                                      long
 ## 1    Nug                              Nug (nugget)
 ## 2    Exp                         Exp (exponential)
@@ -439,30 +440,30 @@ Si se ejecuta sin argumentos devuelve un listado de todos los modelos:</p>
 ## 19   Err                   Err (Measurement error)
 ## 20   Int                           Int (Intercept)</code></pre>
 <p>La función <code>show.vgms()</code> genera gráficos con los distintos modelos (por defecto los 17 primeros):</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="modelos-variog.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="modelos-variog.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-vgms"></span>
 <img src="03-modelado_files/figure-html/show-vgms-1.png" alt="Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`." width="70%" />
 <p class="caption">
-Figura 3.2: Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete <code>gstat</code>.
+Figura 3.4: Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete <code>gstat</code>.
 </p>
 </div>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="modelos-variog.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>(<span class="at">kappa.range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">max =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="modelos-variog.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>(<span class="at">kappa.range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">max =</span> <span class="dv">10</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-matern"></span>
 <img src="03-modelado_files/figure-html/show-matern-1.png" alt="Modelo de Matérn con distintos valores del parámetro de suavizado." width="70%" />
 <p class="caption">
-Figura 3.3: Modelo de Matérn con distintos valores del parámetro de suavizado.
+Figura 3.5: Modelo de Matérn con distintos valores del parámetro de suavizado.
 </p>
 </div>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="modelos-variog.html#cb84-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
-<span id="cb84-2"><a href="modelos-variog.html#cb84-2" aria-hidden="true" tabindex="-1"></a>v1</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="modelos-variog.html#cb92-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
+<span id="cb92-2"><a href="modelos-variog.html#cb92-2" aria-hidden="true" tabindex="-1"></a>v1</span></code></pre></div>
 <pre><code>##   model psill range
 ## 1   Nug     0   0.0
 ## 2   Exp     1   0.5</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="modelos-variog.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v1, <span class="at">cutoff =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="modelos-variog.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v1, <span class="at">cutoff =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vgm-exp"></span>
 <img src="03-modelado_files/figure-html/vgm-exp-1.png" alt="Ejemplo de modelo exponencial." width="70%" />
 <p class="caption">
-Figura 3.4: Ejemplo de modelo exponencial.
+Figura 3.6: Ejemplo de modelo exponencial.
 </p>
 </div>
 </div>
@@ -481,7 +482,7 @@ Los tipos de anisotropía habitualmente considerados son:</p>
 </ul>
 <p>La anisotropía geométrica se puede corregir mediante una transformación lineal del vector de salto <span class="math inline">\(\mathbf{h}\)</span>:
 <span class="math display">\[\gamma(\mathbf{h})=\gamma^{0} \left( \left\| \mathbf{A}\mathbf{h}\right\| \right) ,\forall \mathbf{h}\in \mathbb{R}^{d},\]</span>
-siendo <span class="math inline">\(\mathbf{A}\)</span> una matriz cuadrada <span class="math inline">\(d\times d\)</span> y <span class="math inline">\(\gamma^{0} (\cdot)\)</span> un semivariograma isotrópico<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a>.
+siendo <span class="math inline">\(\mathbf{A}\)</span> una matriz cuadrada <span class="math inline">\(d\times d\)</span> y <span class="math inline">\(\gamma^{0} (\cdot)\)</span> un semivariograma isotrópico<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>.
 En este caso se dice que el variograma es <em>geométricamente anisotrópico</em>.
 Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la forma:
 <span class="math display">\[\mathbf{A}=\left( 
@@ -497,11 +498,11 @@ Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la form
 \right),\]</span>
 que se corresponde con las direcciones principales de anisotropía <span class="math inline">\(\phi\)</span> y <span class="math inline">\(\phi + \frac{\pi }{\text{2}}\)</span> (normalmente se toma <span class="math inline">\(\phi\)</span> igual a la dirección de máximo rango).
 Esto puede extenderse fácilmente para el caso tridimensional (ver e.g. Chilès y Delfiner, 1999, pp. 94-95).</p>
-<p>En <code>gstat</code> se puede definir<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> anisotropía mediante el argumento <code>anis</code> de la función <code>vgm()</code>.
+<p>En <code>gstat</code> se puede definir<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> anisotropía mediante el argumento <code>anis</code> de la función <code>vgm()</code>.
 En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)</code>, <code>alpha</code> es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. <code>phi = (90 - alpha)*pi/180</code>) y <code>ratio</code> la relación entre el rango mínimo y máximo (<span class="math inline">\(0 \leq ratio = a_2/a_1 \leq 1\)</span>).</p>
 <p>Ejemplo:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="modelos-variog.html#cb87-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">1</span>, <span class="st">&quot;Exp&quot;</span>, <span class="dv">5</span>, <span class="at">anis =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="fl">0.1</span>))</span>
-<span id="cb87-2"><a href="modelos-variog.html#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(v)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="modelos-variog.html#cb95-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">1</span>, <span class="st">&quot;Exp&quot;</span>, <span class="dv">5</span>, <span class="at">anis =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="fl">0.1</span>))</span>
+<span id="cb95-2"><a href="modelos-variog.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(v)</span></code></pre></div>
 <pre><code>## Classes &#39;variogramModel&#39; and &#39;data.frame&#39;:   1 obs. of  9 variables:
 ##  $ model: Factor w/ 20 levels &quot;Nug&quot;,&quot;Exp&quot;,&quot;Sph&quot;,..: 2
 ##  $ psill: num 1
@@ -512,21 +513,21 @@ En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)
 ##  $ ang3 : num 0
 ##  $ anis1: num 0.1
 ##  $ anis2: num 1</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="modelos-variog.html#cb89-1" aria-hidden="true" tabindex="-1"></a>plot_ellipse_2d <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">xc =</span> <span class="dv">0</span>, <span class="at">yc =</span> <span class="dv">0</span>, <span class="at">l1 =</span> <span class="dv">10</span>, <span class="at">l2 =</span> <span class="dv">1</span>, <span class="at">phi =</span> pi<span class="sc">/</span><span class="dv">3</span>, </span>
-<span id="cb89-2"><a href="modelos-variog.html#cb89-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="fl">0.01</span>, <span class="at">asp =</span> <span class="dv">1</span>, ...) {</span>
-<span id="cb89-3"><a href="modelos-variog.html#cb89-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># xc, yc: centro</span></span>
-<span id="cb89-4"><a href="modelos-variog.html#cb89-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># l1, l2: longitud semiejes</span></span>
-<span id="cb89-5"><a href="modelos-variog.html#cb89-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># phi: angulo del eje 1 respecto al eje x</span></span>
-<span id="cb89-6"><a href="modelos-variog.html#cb89-6" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi, by)</span>
-<span id="cb89-7"><a href="modelos-variog.html#cb89-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> xc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi) <span class="sc">-</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi)</span>
-<span id="cb89-8"><a href="modelos-variog.html#cb89-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> yc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi) <span class="sc">+</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi)</span>
-<span id="cb89-9"><a href="modelos-variog.html#cb89-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">asp =</span> asp, ...)</span>
-<span id="cb89-10"><a href="modelos-variog.html#cb89-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-11"><a href="modelos-variog.html#cb89-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-12"><a href="modelos-variog.html#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(v, <span class="fu">plot_ellipse_2d</span>(<span class="at">l1 =</span> range, <span class="at">l2 =</span> range<span class="sc">*</span>anis1, </span>
-<span id="cb89-13"><a href="modelos-variog.html#cb89-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">phi =</span> (<span class="dv">90</span> <span class="sc">-</span> ang1)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
-<span id="cb89-14"><a href="modelos-variog.html#cb89-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb89-15"><a href="modelos-variog.html#cb89-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="modelos-variog.html#cb97-1" aria-hidden="true" tabindex="-1"></a>plot_ellipse_2d <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">xc =</span> <span class="dv">0</span>, <span class="at">yc =</span> <span class="dv">0</span>, <span class="at">l1 =</span> <span class="dv">10</span>, <span class="at">l2 =</span> <span class="dv">1</span>, <span class="at">phi =</span> pi<span class="sc">/</span><span class="dv">3</span>, </span>
+<span id="cb97-2"><a href="modelos-variog.html#cb97-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="fl">0.01</span>, <span class="at">asp =</span> <span class="dv">1</span>, ...) {</span>
+<span id="cb97-3"><a href="modelos-variog.html#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># xc, yc: centro</span></span>
+<span id="cb97-4"><a href="modelos-variog.html#cb97-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># l1, l2: longitud semiejes</span></span>
+<span id="cb97-5"><a href="modelos-variog.html#cb97-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># phi: angulo del eje 1 respecto al eje x</span></span>
+<span id="cb97-6"><a href="modelos-variog.html#cb97-6" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi, by)</span>
+<span id="cb97-7"><a href="modelos-variog.html#cb97-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> xc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi) <span class="sc">-</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi)</span>
+<span id="cb97-8"><a href="modelos-variog.html#cb97-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> yc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi) <span class="sc">+</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi)</span>
+<span id="cb97-9"><a href="modelos-variog.html#cb97-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">asp =</span> asp, ...)</span>
+<span id="cb97-10"><a href="modelos-variog.html#cb97-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-11"><a href="modelos-variog.html#cb97-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-12"><a href="modelos-variog.html#cb97-12" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(v, <span class="fu">plot_ellipse_2d</span>(<span class="at">l1 =</span> range, <span class="at">l2 =</span> range<span class="sc">*</span>anis1, </span>
+<span id="cb97-13"><a href="modelos-variog.html#cb97-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">phi =</span> (<span class="dv">90</span> <span class="sc">-</span> ang1)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
+<span id="cb97-14"><a href="modelos-variog.html#cb97-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb97-15"><a href="modelos-variog.html#cb97-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="03-modelado_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros “zonales” que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto).
 Por ejemplo, en el caso bidimensional, si <span class="math inline">\(\phi\)</span> es la dirección de mayor varianza se suele considerar una combinación de la forma:
@@ -542,7 +543,7 @@ Este tipo de modelos se utilizan habitualmente en geoestadística espacio-tempor
 </div>
 <div id="vario-lin-reg" class="section level3" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> El modelo lineal de regionalización</h3>
-<p>A partir de las propiedades 1 y 2 del semivariograma mostradas en la Sección <a href="procesos-estacionarios.html#propiedades-elementales">1.3.1</a>, se obtienen los denominados <em>modelos lineales de regionalización</em> (también <em>modelos anidados</em> o <em>nested models</em>):
+<p>A partir de las propiedades 1 y 2 del semivariograma mostradas en la Sección <a href="procesos-estacionarios.html#propiedades-elementales">1.3.2</a>, se obtienen los denominados <em>modelos lineales de regionalización</em> (también <em>modelos anidados</em> o <em>nested models</em>):
 <span class="math display">\[\gamma(\mathbf{h}) = \sum\limits_{k=0}^{q}b_{k} \gamma_{k}(\mathbf{h}),\]</span>
 siendo <span class="math inline">\(b_k \ge 0\)</span> y <span class="math inline">\(\gamma_{k}(\mathbf{h})\)</span> modelos básicos de semivariogramas, <span class="math inline">\(k=1, \ldots, q\)</span>.
 La denominación de “modelos lineales” surge porque estos modelos se obtienen al suponer que el proceso espacial es una combinación lineal procesos espaciales intrínsecamente estacionarios mutuamente independientes.</p>
@@ -552,31 +553,31 @@ Además, cada modelo básico puede incorporar algún tipo de anisotropía (Secci
 siendo <span class="math inline">\(\mathbf{A}_{k} ,k=0,\ldots,q\)</span> matrices <span class="math inline">\(d\times d\)</span>.
 De esta forma los modelos pueden ser lo suficientemente flexibles como para modelar la mayoría de situaciones que se pueden presentar en la práctica.
 Sin embargo, es difícil establecer un procedimiento automático (o semi-automático) para la selección y el ajuste de este tipo de modelos.
-Esto provoca que el proceso normalmente se realice en la práctica de forma interactiva por el usuario y utilizando principalmente herramientas gráficas<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a>; siendo por tanto poco recomendables para algunos casos.
+Esto provoca que el proceso normalmente se realice en la práctica de forma interactiva por el usuario y utilizando principalmente herramientas gráficas<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>; siendo por tanto poco recomendables para algunos casos.
 En primer lugar hay que especificar el número y tipo de estructuras básicas, y en segundo lugar (aunque se suele hacer en la práctica de forma simultánea) está el problema de la estimación de los parámetros, donde puede ser especialmente complicado la determinación de los rangos y los parámetros de anisotropía de los distintos componentes (es de esperar que aparezcan problemas en la optimización).</p>
 <p>En <code>gstat</code> se pueden definir modelos de este tipo empleando el parámetro <code>add.to</code> de la función <code>vgm()</code>.</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="modelos-variog.html#cb90-1" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>)</span>
-<span id="cb90-2"><a href="modelos-variog.html#cb90-2" aria-hidden="true" tabindex="-1"></a>v12 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">add.to =</span> v1)</span>
-<span id="cb90-3"><a href="modelos-variog.html#cb90-3" aria-hidden="true" tabindex="-1"></a>v12</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="modelos-variog.html#cb98-1" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>)</span>
+<span id="cb98-2"><a href="modelos-variog.html#cb98-2" aria-hidden="true" tabindex="-1"></a>v12 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">add.to =</span> v1)</span>
+<span id="cb98-3"><a href="modelos-variog.html#cb98-3" aria-hidden="true" tabindex="-1"></a>v12</span></code></pre></div>
 <pre><code>##   model psill range
 ## 1   Nug     0   0.0
 ## 2   Exp     1   0.5
 ## 3   Gau     1   0.5</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="modelos-variog.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado con plot.variogramModel() si se pretende añadir elementos</span></span>
-<span id="cb92-2"><a href="modelos-variog.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variogramLine</span>(v12, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.25</span>))</span>
-<span id="cb92-3"><a href="modelos-variog.html#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v1, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb92-4"><a href="modelos-variog.html#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v2, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb92-5"><a href="modelos-variog.html#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Exponencial&quot;</span>, <span class="st">&quot;Gaussiano&quot;</span>, <span class="st">&quot;Anidado&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>), </span>
-<span id="cb92-6"><a href="modelos-variog.html#cb92-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="modelos-variog.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado con plot.variogramModel() si se pretende añadir elementos</span></span>
+<span id="cb100-2"><a href="modelos-variog.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variogramLine</span>(v12, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.25</span>))</span>
+<span id="cb100-3"><a href="modelos-variog.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v1, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb100-4"><a href="modelos-variog.html#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v2, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb100-5"><a href="modelos-variog.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Exponencial&quot;</span>, <span class="st">&quot;Gaussiano&quot;</span>, <span class="st">&quot;Anidado&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>), </span>
+<span id="cb100-6"><a href="modelos-variog.html#cb100-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
 <p><img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
-<ol start="11">
-<li id="fn11"><p>Esta idea (que el espacio euclídeo no es apropiado para medir distancias entre posiciones espaciales pero una transformación lineal de él sí) ha sido también generalizada para el caso de deformaciones no lineales del espacio. Por ejemplo, Sampson y Guttorp (1992) consideraron transformaciones no lineales obtenidas mediante técnicas de escalamiento óptimo multidimensional.<a href="modelos-variog.html#fnref11" class="footnote-back">↩︎</a></p></li>
-<li id="fn12"><p>Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete <code>geoR</code> (ver Sección <a href="modelado-de-la-dependencia.html#geor-ajuste">B.3.2</a>).<a href="modelos-variog.html#fnref12" class="footnote-back">↩︎</a></p></li>
-<li id="fn13"><p>Ver por ejemplo Goovaerts (1997, Sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.<a href="modelos-variog.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<ol start="12">
+<li id="fn12"><p>Esta idea (que el espacio euclídeo no es apropiado para medir distancias entre posiciones espaciales pero una transformación lineal de él sí) ha sido también generalizada para el caso de deformaciones no lineales del espacio. Por ejemplo, Sampson y Guttorp (1992) consideraron transformaciones no lineales obtenidas mediante técnicas de escalamiento óptimo multidimensional.<a href="modelos-variog.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Sin embargo no permite ajustar los parámetros de anisotropía, algo que se puede hacer con las herramientas implementadas en el paquete <code>geoR</code> (ver Sección <a href="modelado-de-la-dependencia.html#geor-ajuste">B.3.2</a>).<a href="modelos-variog.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>Ver por ejemplo Goovaerts (1997, Sección 4.2.4) para detalles sobre el uso en la práctica de éste tipo de modelos.<a href="modelos-variog.html#fnref14" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

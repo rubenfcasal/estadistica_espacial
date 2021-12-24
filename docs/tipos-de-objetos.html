@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -310,11 +311,11 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="tipos-de-objetos" class="section level2" number="7.1">
 <h2><span class="header-section-number">A.1</span> Tipos de objetos</h2>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="tipos-de-objetos.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librería sp:classes and methods for spatial data</span></span>
-<span id="cb119-2"><a href="tipos-de-objetos.html#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp) <span class="co"># install.packages(&#39;sp&#39;)</span></span>
-<span id="cb119-3"><a href="tipos-de-objetos.html#cb119-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-4"><a href="tipos-de-objetos.html#cb119-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tipos de objetos</span></span>
-<span id="cb119-5"><a href="tipos-de-objetos.html#cb119-5" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">&quot;Spatial&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="tipos-de-objetos.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librería sp:classes and methods for spatial data</span></span>
+<span id="cb163-2"><a href="tipos-de-objetos.html#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp) <span class="co"># install.packages(&#39;sp&#39;)</span></span>
+<span id="cb163-3"><a href="tipos-de-objetos.html#cb163-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-4"><a href="tipos-de-objetos.html#cb163-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tipos de objetos</span></span>
+<span id="cb163-5"><a href="tipos-de-objetos.html#cb163-5" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">&quot;Spatial&quot;</span>)</span></code></pre></div>
 <pre><code>## Class &quot;Spatial&quot; [package &quot;sp&quot;]
 ## 
 ## Slots:
@@ -355,10 +356,10 @@ Geodetic System of 1984)</p></li>
 </ul></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="tipos-de-objetos.html#cb121-1" aria-hidden="true" tabindex="-1"></a>xbbox <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb121-2"><a href="tipos-de-objetos.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(xbbox) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>) <span class="co"># Normalmente la bbox se genera automáticamente al crear el objeto</span></span>
-<span id="cb121-3"><a href="tipos-de-objetos.html#cb121-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">Spatial</span>(xbbox, <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="fu">as.character</span>(<span class="cn">NA</span>)))</span>
-<span id="cb121-4"><a href="tipos-de-objetos.html#cb121-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="tipos-de-objetos.html#cb165-1" aria-hidden="true" tabindex="-1"></a>xbbox <span class="ot">&lt;-</span> <span class="fu">matrix</span>( <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb165-2"><a href="tipos-de-objetos.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(xbbox) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;max&quot;</span>) <span class="co"># Normalmente la bbox se genera automáticamente al crear el objeto</span></span>
+<span id="cb165-3"><a href="tipos-de-objetos.html#cb165-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">Spatial</span>(xbbox, <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="fu">as.character</span>(<span class="cn">NA</span>)))</span>
+<span id="cb165-4"><a href="tipos-de-objetos.html#cb165-4" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>## An object of class &quot;Spatial&quot;
 ## Slot &quot;bbox&quot;:
 ##      min max
@@ -370,21 +371,21 @@ Geodetic System of 1984)</p></li>
 <p>Los objetos son del tipo S4.
 Los componentes se denominan slots.
 Se acceden con la función <code>slot()</code> o el operador <code>@</code>.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="tipos-de-objetos.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slot</span>(x,<span class="st">&#39;bbox&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="tipos-de-objetos.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slot</span>(x,<span class="st">&#39;bbox&#39;</span>)</span></code></pre></div>
 <pre><code>##      min max
 ## [1,]   0   1
 ## [2,]   0   1</code></pre>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="tipos-de-objetos.html#cb125-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>bbox <span class="do">### en s4 se pone @ en vez de $.</span></span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="tipos-de-objetos.html#cb169-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>bbox <span class="do">### en s4 se pone @ en vez de $.</span></span></code></pre></div>
 <pre><code>##      min max
 ## [1,]   0   1
 ## [2,]   0   1</code></pre>
 <p>El paquete sp dispone también de funciones para acceder/establecer
 los componentes:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="tipos-de-objetos.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bbox</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="tipos-de-objetos.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bbox</span>(x)</span></code></pre></div>
 <pre><code>##      min max
 ## [1,]   0   1
 ## [2,]   0   1</code></pre>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="tipos-de-objetos.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(x) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>) <span class="co"># Importante</span></span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="tipos-de-objetos.html#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(x) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>) <span class="co"># Importante</span></span></code></pre></div>
 <div id="spatialpoints-y-spatialpointsdataframe" class="section level3" number="7.1.1">
 <h3><span class="header-section-number">A.1.1</span> SpatialPoints y SpatialPointsDataFrame</h3>
 <ul>
@@ -402,8 +403,8 @@ puntuales marcados).</p></li>
 </ul>
 <div id="ejemplo-spatialpoints" class="section level4" number="7.1.1.1">
 <h4><span class="header-section-number">A.1.1.1</span> Ejemplo SpatialPoints</h4>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="tipos-de-objetos.html#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/caballa.galicia.RData&quot;</span>)</span>
-<span id="cb130-2"><a href="tipos-de-objetos.html#cb130-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(caballa.galicia)  <span class="co"># data.frame(attr(caballa.galicia, &quot;variable.labels&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="tipos-de-objetos.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/caballa.galicia.RData&quot;</span>)</span>
+<span id="cb174-2"><a href="tipos-de-objetos.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(caballa.galicia)  <span class="co"># data.frame(attr(caballa.galicia, &quot;variable.labels&quot;))</span></span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    676 obs. of  12 variables:
 ##  $ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
 ##  $ x        : num  -9.4 -9.44 -9.44 -9.4 -9.47 ...
@@ -420,10 +421,10 @@ puntuales marcados).</p></li>
 ##  - attr(*, &quot;variable.labels&quot;)= Named chr [1:12] &quot;Cuadricula &quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
 ##   ..- attr(*, &quot;names&quot;)= chr [1:12] &quot;id&quot; &quot;x&quot; &quot;y&quot; &quot;fecha&quot; ...
 ##  - attr(*, &quot;codepage&quot;)= int 1252</code></pre>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="tipos-de-objetos.html#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> caballa.galicia)</span></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="tipos-de-objetos.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y<span class="sc">~</span>x, <span class="at">data =</span> caballa.galicia)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="tipos-de-objetos.html#cb133-1" aria-hidden="true" tabindex="-1"></a>spt <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(caballa.galicia[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb133-2"><a href="tipos-de-objetos.html#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spt)</span></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="tipos-de-objetos.html#cb177-1" aria-hidden="true" tabindex="-1"></a>spt <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(caballa.galicia[,<span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb177-2"><a href="tipos-de-objetos.html#cb177-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(spt)</span></code></pre></div>
 <pre><code>## Object of class SpatialPoints
 ## Coordinates:
 ##        min       max
@@ -432,7 +433,7 @@ puntuales marcados).</p></li>
 ## Is projected: FALSE 
 ## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
 ## Number of points: 676</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="tipos-de-objetos.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spt)</span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="tipos-de-objetos.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spt)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPoints&#39; [package &quot;sp&quot;] with 3 slots
 ##   ..@ coords     : num [1:676, 1:2] -9.4 -9.44 -9.44 -9.4 -9.47 ...
 ##   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
@@ -446,15 +447,15 @@ puntuales marcados).</p></li>
 ##   .. .. ..@ projargs: chr &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;
 ##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
 <p>Hay muchos métodos (funciones genéricas) implementados para objetos <code>sp</code>:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="tipos-de-objetos.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(spt)</span></span>
-<span id="cb137-2"><a href="tipos-de-objetos.html#cb137-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spt, <span class="at">axes=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="tipos-de-objetos.html#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(spt)</span></span>
+<span id="cb181-2"><a href="tipos-de-objetos.html#cb181-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spt, <span class="at">axes=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ejemplo-spatialpointsdataframe" class="section level4" number="7.1.1.2">
 <h4><span class="header-section-number">A.1.1.2</span> Ejemplo SpatialPointsDataFrame</h4>
 <p>Importante (para preparar datos):</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="tipos-de-objetos.html#cb138-1" aria-hidden="true" tabindex="-1"></a>sdf1 <span class="ot">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(caballa.galicia[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], caballa.galicia[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb138-2"><a href="tipos-de-objetos.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf1)</span></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="tipos-de-objetos.html#cb182-1" aria-hidden="true" tabindex="-1"></a>sdf1 <span class="ot">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(caballa.galicia[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], caballa.galicia[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)], <span class="at">proj4string =</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb182-2"><a href="tipos-de-objetos.html#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf1)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
 ##   ..@ data       :&#39;data.frame&#39;:  676 obs. of  10 variables:
 ##   .. ..$ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
@@ -481,10 +482,10 @@ puntuales marcados).</p></li>
 ##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
 <p>Una alernativa normalmente preferible es modificar directamente
 el <code>data.frame</code>:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="tipos-de-objetos.html#cb140-1" aria-hidden="true" tabindex="-1"></a>sdf <span class="ot">&lt;-</span> caballa.galicia</span>
-<span id="cb140-2"><a href="tipos-de-objetos.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>) <span class="co"># Recomendación</span></span>
-<span id="cb140-3"><a href="tipos-de-objetos.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)  <span class="co"># También sdf@proj4string &lt;- CRS(&quot;+proj=longlat +ellps=WGS84&quot;)</span></span>
-<span id="cb140-4"><a href="tipos-de-objetos.html#cb140-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf)</span></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="tipos-de-objetos.html#cb184-1" aria-hidden="true" tabindex="-1"></a>sdf <span class="ot">&lt;-</span> caballa.galicia</span>
+<span id="cb184-2"><a href="tipos-de-objetos.html#cb184-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>) <span class="co"># Recomendación</span></span>
+<span id="cb184-3"><a href="tipos-de-objetos.html#cb184-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(sdf) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)  <span class="co"># También sdf@proj4string &lt;- CRS(&quot;+proj=longlat +ellps=WGS84&quot;)</span></span>
+<span id="cb184-4"><a href="tipos-de-objetos.html#cb184-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sdf)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPointsDataFrame&#39; [package &quot;sp&quot;] with 5 slots
 ##   ..@ data       :&#39;data.frame&#39;:  676 obs. of  10 variables:
 ##   .. ..$ id       : Factor w/ 31 levels &quot;A1&quot;,&quot;A2&quot;,&quot;B1&quot;,..: 17 17 19 19 19 21 21 23 23 23 ...
@@ -510,10 +511,10 @@ el <code>data.frame</code>:</p>
 ##   .. .. ..@ projargs: chr &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;
 ##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;Unknown based on WGS84 ellipsoid\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298&quot;| __truncated__</code></pre>
 <p>Operaciones como en un <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="tipos-de-objetos.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sdf)</span></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="tipos-de-objetos.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sdf)</span></code></pre></div>
 <pre><code>##  [1] &quot;id&quot;        &quot;fecha&quot;     &quot;semana&quot;    &quot;mes&quot;       &quot;ano&quot;       &quot;cpue&quot;     
 ##  [7] &quot;chl_a&quot;     &quot;sust_amar&quot; &quot;sst&quot;       &quot;lcpue&quot;</code></pre>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="tipos-de-objetos.html#cb144-1" aria-hidden="true" tabindex="-1"></a>sdf<span class="sc">$</span>id  <span class="co"># Equivalente a sdf@data$id </span></span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="tipos-de-objetos.html#cb188-1" aria-hidden="true" tabindex="-1"></a>sdf<span class="sc">$</span>id  <span class="co"># Equivalente a sdf@data$id </span></span></code></pre></div>
 <pre><code>##   [1] E2 E2 F2 F2 F2 G2 G2 H1 H1 H1 I1 I1 I2 I2 J1 J1 J1 J1 J2 J2 J2 D1 E1 F1 F1
 ##  [26] G1 G2 H2 I2 I2 J1 J2 D1 E2 E2 F2 F1 F1 F1 F2 G1 G1 G2 G2 H2 I1 I1 I2 I2 I2
 ##  [51] J1 J1 J2 E2 F1 F1 G1 G2 H1 H2 H2 I1 I1 I1 I1 I2 I2 I2 F1 F2 F2 G2 I1 I1 I1
@@ -543,11 +544,11 @@ el <code>data.frame</code>:</p>
 ## [651] J2 J3 J3 H3 I3 I3 I3 I3 I3 J2 J3 J3 J3 J3 H3 I2 I3 I3 I3 I3 I3 I3 J3 J3 J3
 ## [676] J3
 ## 31 Levels: A1 A2 B1 B2 B3 B4 B5 C1 C2 C3 C4 D1 D2 D3 D4 E1 E2 F1 F2 G1 ... J3</code></pre>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="tipos-de-objetos.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb146-2"><a href="tipos-de-objetos.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf[sdf<span class="sc">$</span>id <span class="sc">==</span> <span class="st">&quot;J3&quot;</span>, ], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="tipos-de-objetos.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb190-2"><a href="tipos-de-objetos.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf[sdf<span class="sc">$</span>id <span class="sc">==</span> <span class="st">&quot;J3&quot;</span>, ], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Importante (para análisis descriptivo):</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="tipos-de-objetos.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sdf[,<span class="fu">c</span>(<span class="st">&quot;cpue&quot;</span>,<span class="st">&quot;lcpue&quot;</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="tipos-de-objetos.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sdf[,<span class="fu">c</span>(<span class="st">&quot;cpue&quot;</span>,<span class="st">&quot;lcpue&quot;</span>)])</span></code></pre></div>
 <pre><code>## Object of class SpatialPointsDataFrame
 ## Coordinates:
 ##        min       max
@@ -564,11 +565,11 @@ el <code>data.frame</code>:</p>
 ##  Mean   : 30.9208   Mean   : 1.9087  
 ##  3rd Qu.: 19.5349   3rd Qu.: 2.9722  
 ##  Max.   :870.0000   Max.   : 6.7685</code></pre>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="tipos-de-objetos.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>cpue)</span></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="tipos-de-objetos.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>cpue)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="tipos-de-objetos.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>lcpue)</span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="tipos-de-objetos.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sdf<span class="sc">$</span>lcpue)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-11-2.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="tipos-de-objetos.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="tipos-de-objetos.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-11-3.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -601,11 +602,11 @@ que la primera y la última línea es la misma)<code>.</code></p></li>
 <h4><span class="header-section-number">A.1.2.1</span> Ejemplo SpatialLines</h4>
 <p>El fichero <em>costa.galicia.txt</em> contiene la costa de Galicia en formato Mapgen.
 Descargada del (difunto) <a href="http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html">Coastline Extractor</a></p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="tipos-de-objetos.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools) <span class="co"># Utilidades para convertir datos entre diferentes formatos espaciales</span></span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="tipos-de-objetos.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools) <span class="co"># Utilidades para convertir datos entre diferentes formatos espaciales</span></span></code></pre></div>
 <pre><code>## Checking rgeos availability: TRUE</code></pre>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="tipos-de-objetos.html#cb154-1" aria-hidden="true" tabindex="-1"></a>costa.galicia <span class="ot">&lt;-</span> <span class="fu">MapGen2SL</span>(<span class="st">&quot;datos/costa.galicia.txt&quot;</span>, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
-<span id="cb154-2"><a href="tipos-de-objetos.html#cb154-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb154-3"><a href="tipos-de-objetos.html#cb154-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(costa.galicia)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="tipos-de-objetos.html#cb198-1" aria-hidden="true" tabindex="-1"></a>costa.galicia <span class="ot">&lt;-</span> <span class="fu">MapGen2SL</span>(<span class="st">&quot;datos/costa.galicia.txt&quot;</span>, <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>))</span>
+<span id="cb198-2"><a href="tipos-de-objetos.html#cb198-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb198-3"><a href="tipos-de-objetos.html#cb198-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(costa.galicia)</span></code></pre></div>
 <pre><code>## Object of class SpatialLines
 ## Coordinates:
 ##         min       max
@@ -613,8 +614,8 @@ Descargada del (difunto) <a href="http://www.ngdc.noaa.gov/mgg/shorelines/shorel
 ## y 41.500846 43.791944
 ## Is projected: FALSE 
 ## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]</code></pre>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="tipos-de-objetos.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
-<span id="cb156-2"><a href="tipos-de-objetos.html#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(costa.galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="tipos-de-objetos.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
+<span id="cb200-2"><a href="tipos-de-objetos.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(costa.galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ejemplo-spatialpolygonsdataframe" class="section level4" number="7.1.2.2">
@@ -636,8 +637,8 @@ Contienen límites administrativos a disintos niveles, e.g.:</p>
   gadm &lt;- readRDS(con)
   close(con)</code></pre>
 <p>Carga de un objeto gadm:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="tipos-de-objetos.html#cb158-1" aria-hidden="true" tabindex="-1"></a>gadm <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;datos/ESP_adm1.rds&quot;</span>) </span>
-<span id="cb158-2"><a href="tipos-de-objetos.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gadm)</span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="tipos-de-objetos.html#cb202-1" aria-hidden="true" tabindex="-1"></a>gadm <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;datos/ESP_adm1.rds&quot;</span>) </span>
+<span id="cb202-2"><a href="tipos-de-objetos.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gadm)</span></code></pre></div>
 <pre><code>## Object of class SpatialPolygonsDataFrame
 ## Coordinates:
 ##         min       max
@@ -679,21 +680,21 @@ Contienen límites administrativos a disintos niveles, e.g.:</p>
 ##                    
 ##                    
 ## </code></pre>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="tipos-de-objetos.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gadm)</span></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="tipos-de-objetos.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gadm)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="tipos-de-objetos.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado objeto muy grande: str(gadm)</span></span>
-<span id="cb161-2"><a href="tipos-de-objetos.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mejor emplear str(gadm, 3)</span></span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="tipos-de-objetos.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado objeto muy grande: str(gadm)</span></span>
+<span id="cb205-2"><a href="tipos-de-objetos.html#cb205-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Mejor emplear str(gadm, 3)</span></span></code></pre></div>
 <p>Extraer autonomía de Galicia:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="tipos-de-objetos.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gadm)</span></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="tipos-de-objetos.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gadm)</span></code></pre></div>
 <pre><code>##  [1] &quot;OBJECTID&quot;  &quot;ID_0&quot;      &quot;ISO&quot;       &quot;NAME_0&quot;    &quot;ID_1&quot;      &quot;NAME_1&quot;   
 ##  [7] &quot;HASC_1&quot;    &quot;CCN_1&quot;     &quot;CCA_1&quot;     &quot;TYPE_1&quot;    &quot;ENGTYPE_1&quot; &quot;NL_NAME_1&quot;
 ## [13] &quot;VARNAME_1&quot;</code></pre>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="tipos-de-objetos.html#cb164-1" aria-hidden="true" tabindex="-1"></a>galicia <span class="ot">&lt;-</span> gadm[gadm<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Galicia&quot;</span>, ]</span>
-<span id="cb164-2"><a href="tipos-de-objetos.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="tipos-de-objetos.html#cb208-1" aria-hidden="true" tabindex="-1"></a>galicia <span class="ot">&lt;-</span> gadm[gadm<span class="sc">$</span>NAME_1 <span class="sc">==</span> <span class="st">&quot;Galicia&quot;</span>, ]</span>
+<span id="cb208-2"><a href="tipos-de-objetos.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Es preferible emplear este tipo de objetos a <code>SpatialLines</code>:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="tipos-de-objetos.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
-<span id="cb165-2"><a href="tipos-de-objetos.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="tipos-de-objetos.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes=</span><span class="cn">TRUE</span>)</span>
+<span id="cb209-2"><a href="tipos-de-objetos.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -719,18 +720,18 @@ incompleta</p>
 <div id="ejemplo-spatialgrid" class="section level4" number="7.1.3.1">
 <h4><span class="header-section-number">A.1.3.1</span> Ejemplo SpatialGrid</h4>
 <p>Importante si se utiliza el paquete <code>gstat</code>…</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="tipos-de-objetos.html#cb166-1" aria-hidden="true" tabindex="-1"></a>xrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="fl">7.5</span>)</span>
-<span id="cb166-2"><a href="tipos-de-objetos.html#cb166-2" aria-hidden="true" tabindex="-1"></a>yrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">42.25</span>, <span class="dv">44</span>)</span>
-<span id="cb166-3"><a href="tipos-de-objetos.html#cb166-3" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb166-4"><a href="tipos-de-objetos.html#cb166-4" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb166-5"><a href="tipos-de-objetos.html#cb166-5" aria-hidden="true" tabindex="-1"></a>hx <span class="ot">&lt;-</span> <span class="fu">diff</span>(xrange)<span class="sc">/</span>(nx<span class="dv">-1</span>)</span>
-<span id="cb166-6"><a href="tipos-de-objetos.html#cb166-6" aria-hidden="true" tabindex="-1"></a>hy <span class="ot">&lt;-</span> <span class="fu">diff</span>(yrange)<span class="sc">/</span>(ny<span class="dv">-1</span>)</span>
-<span id="cb166-7"><a href="tipos-de-objetos.html#cb166-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-8"><a href="tipos-de-objetos.html#cb166-8" aria-hidden="true" tabindex="-1"></a>gridtop <span class="ot">&lt;-</span> <span class="fu">GridTopology</span>(<span class="at">cellcentre.offset =</span> <span class="fu">c</span>(<span class="fu">min</span>(xrange), <span class="fu">min</span>(yrange)),</span>
-<span id="cb166-9"><a href="tipos-de-objetos.html#cb166-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cellsize =</span> <span class="fu">c</span>(hx, hy), <span class="at">cells.dim =</span> <span class="fu">c</span>(nx, ny))</span>
-<span id="cb166-10"><a href="tipos-de-objetos.html#cb166-10" aria-hidden="true" tabindex="-1"></a>spgrid <span class="ot">&lt;-</span>  <span class="fu">SpatialGrid</span>(gridtop, <span class="at">proj4string =</span> <span class="fu">proj4string</span>(gadm))</span>
-<span id="cb166-11"><a href="tipos-de-objetos.html#cb166-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb166-12"><a href="tipos-de-objetos.html#cb166-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spgrid)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="tipos-de-objetos.html#cb210-1" aria-hidden="true" tabindex="-1"></a>xrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="fl">7.5</span>)</span>
+<span id="cb210-2"><a href="tipos-de-objetos.html#cb210-2" aria-hidden="true" tabindex="-1"></a>yrange <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">42.25</span>, <span class="dv">44</span>)</span>
+<span id="cb210-3"><a href="tipos-de-objetos.html#cb210-3" aria-hidden="true" tabindex="-1"></a>nx <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb210-4"><a href="tipos-de-objetos.html#cb210-4" aria-hidden="true" tabindex="-1"></a>ny <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb210-5"><a href="tipos-de-objetos.html#cb210-5" aria-hidden="true" tabindex="-1"></a>hx <span class="ot">&lt;-</span> <span class="fu">diff</span>(xrange)<span class="sc">/</span>(nx<span class="dv">-1</span>)</span>
+<span id="cb210-6"><a href="tipos-de-objetos.html#cb210-6" aria-hidden="true" tabindex="-1"></a>hy <span class="ot">&lt;-</span> <span class="fu">diff</span>(yrange)<span class="sc">/</span>(ny<span class="dv">-1</span>)</span>
+<span id="cb210-7"><a href="tipos-de-objetos.html#cb210-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb210-8"><a href="tipos-de-objetos.html#cb210-8" aria-hidden="true" tabindex="-1"></a>gridtop <span class="ot">&lt;-</span> <span class="fu">GridTopology</span>(<span class="at">cellcentre.offset =</span> <span class="fu">c</span>(<span class="fu">min</span>(xrange), <span class="fu">min</span>(yrange)),</span>
+<span id="cb210-9"><a href="tipos-de-objetos.html#cb210-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">cellsize =</span> <span class="fu">c</span>(hx, hy), <span class="at">cells.dim =</span> <span class="fu">c</span>(nx, ny))</span>
+<span id="cb210-10"><a href="tipos-de-objetos.html#cb210-10" aria-hidden="true" tabindex="-1"></a>spgrid <span class="ot">&lt;-</span>  <span class="fu">SpatialGrid</span>(gridtop, <span class="at">proj4string =</span> <span class="fu">proj4string</span>(gadm))</span>
+<span id="cb210-11"><a href="tipos-de-objetos.html#cb210-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb210-12"><a href="tipos-de-objetos.html#cb210-12" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(spgrid)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialGrid&#39; [package &quot;sp&quot;] with 3 slots
 ##   ..@ grid       :Formal class &#39;GridTopology&#39; [package &quot;sp&quot;] with 3 slots
 ##   .. .. ..@ cellcentre.offset: num [1:2] -10 42.2
@@ -743,17 +744,17 @@ incompleta</p>
 ##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
 ##   .. .. ..@ projargs: chr &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
 ##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;World Geodetic System 1984\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298.25722&quot;| __truncated__</code></pre>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="tipos-de-objetos.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spgrid, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb168-2"><a href="tipos-de-objetos.html#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="tipos-de-objetos.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(spgrid, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb212-2"><a href="tipos-de-objetos.html#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ejemplo-spatialpixels" class="section level4" number="7.1.3.2">
 <h4><span class="header-section-number">A.1.3.2</span> Ejemplo SpatialPixels</h4>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="tipos-de-objetos.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="co"># over: combinación de objetos espaciales</span></span>
-<span id="cb169-2"><a href="tipos-de-objetos.html#cb169-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">over</span>(spgrid, <span class="fu">as</span>(galicia, <span class="st">&quot;SpatialPolygons&quot;</span>))</span>
-<span id="cb169-3"><a href="tipos-de-objetos.html#cb169-3" aria-hidden="true" tabindex="-1"></a>sppix <span class="ot">&lt;-</span> <span class="fu">as</span>(spgrid, <span class="st">&quot;SpatialPixels&quot;</span>)[<span class="fu">is.na</span>(index), ]</span>
-<span id="cb169-4"><a href="tipos-de-objetos.html#cb169-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-5"><a href="tipos-de-objetos.html#cb169-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sppix)</span></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="tipos-de-objetos.html#cb213-1" aria-hidden="true" tabindex="-1"></a><span class="co"># over: combinación de objetos espaciales</span></span>
+<span id="cb213-2"><a href="tipos-de-objetos.html#cb213-2" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">over</span>(spgrid, <span class="fu">as</span>(galicia, <span class="st">&quot;SpatialPolygons&quot;</span>))</span>
+<span id="cb213-3"><a href="tipos-de-objetos.html#cb213-3" aria-hidden="true" tabindex="-1"></a>sppix <span class="ot">&lt;-</span> <span class="fu">as</span>(spgrid, <span class="st">&quot;SpatialPixels&quot;</span>)[<span class="fu">is.na</span>(index), ]</span>
+<span id="cb213-4"><a href="tipos-de-objetos.html#cb213-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb213-5"><a href="tipos-de-objetos.html#cb213-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sppix)</span></code></pre></div>
 <pre><code>## Formal class &#39;SpatialPixels&#39; [package &quot;sp&quot;] with 5 slots
 ##   ..@ grid       :Formal class &#39;GridTopology&#39; [package &quot;sp&quot;] with 3 slots
 ##   .. .. ..@ cellcentre.offset: num [1:2] -10 42.2
@@ -771,17 +772,17 @@ incompleta</p>
 ##   ..@ proj4string:Formal class &#39;CRS&#39; [package &quot;sp&quot;] with 1 slot
 ##   .. .. ..@ projargs: chr &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
 ##   .. .. ..$ comment: chr &quot;GEOGCRS[\&quot;unknown\&quot;,\n    DATUM[\&quot;World Geodetic System 1984\&quot;,\n        ELLIPSOID[\&quot;WGS 84\&quot;,6378137,298.25722&quot;| __truncated__</code></pre>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="tipos-de-objetos.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sppix, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb171-2"><a href="tipos-de-objetos.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="tipos-de-objetos.html#cb215-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sppix, <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb215-2"><a href="tipos-de-objetos.html#cb215-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="tipos-de-objetos.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTA: puede ser preferible asignar NA&#39;s a variables en SpatialGridDataFrame...</span></span>
-<span id="cb172-2"><a href="tipos-de-objetos.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(spgrid)</span></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="tipos-de-objetos.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTA: puede ser preferible asignar NA&#39;s a variables en SpatialGridDataFrame...</span></span>
+<span id="cb216-2"><a href="tipos-de-objetos.html#cb216-2" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(spgrid)</span></code></pre></div>
 <pre><code>## 4040 bytes</code></pre>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="tipos-de-objetos.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(sppix)</span></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="tipos-de-objetos.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">object.size</span>(sppix)</span></code></pre></div>
 <pre><code>## 117680 bytes</code></pre>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="tipos-de-objetos.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Otras funciones:</span></span>
-<span id="cb176-2"><a href="tipos-de-objetos.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as(sppix, &quot;SpatialGrid&quot;) recostruye la rejilla completa</span></span>
-<span id="cb176-3"><a href="tipos-de-objetos.html#cb176-3" aria-hidden="true" tabindex="-1"></a><span class="co"># gridded(ObjetoSpatialPoints) &lt;- TRUE  convierte el objeto SpatialPoints en SpatialPixels</span></span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="tipos-de-objetos.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Otras funciones:</span></span>
+<span id="cb220-2"><a href="tipos-de-objetos.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as(sppix, &quot;SpatialGrid&quot;) recostruye la rejilla completa</span></span>
+<span id="cb220-3"><a href="tipos-de-objetos.html#cb220-3" aria-hidden="true" tabindex="-1"></a><span class="co"># gridded(ObjetoSpatialPoints) &lt;- TRUE  convierte el objeto SpatialPoints en SpatialPixels</span></span></code></pre></div>
 </div>
 </div>
 </div>

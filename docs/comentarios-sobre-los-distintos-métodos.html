@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -323,7 +324,7 @@ distintos métodos (entre ellos ML, REML, OLS, WLS y GLS), que el método de WLS
 Además, los métodos de mínimos cuadrados sólo utilizan la estructura asintótica de segundo orden del estimador piloto (no es necesario hacer suposiciones sobre la distribución completa de los datos), por lo que resultan ser más robustos que los de máxima verosimilitud cuando no se conoce por completo la distribución de <span class="math inline">\(Z\)</span> (e.g. Carroll y Ruppert, 1982) y son adecuados incluso cuando la distribución de los datos no es normal (aunque en ese caso pueden no ser los óptimos).
 Los comentarios anteriores, además de su fácil implementación, justifican que el método WLS sea el preferible para muchos autores.</p>
 <p>Por otra parte, si se asume un modelo paramétrico habrá que asegurarse en la práctica de que esa suposición es adecuada.
-Diblasi y Bowman (2001) propusieron un método basado en la estimación no paramétrica para contrastar si el variograma teórico de un proceso estacionario es constante (i.e. si no hay dependencia espacial; ver Figura <a href="vario-muestrales.html#fig:sm-variogram">3.1</a>).
+Diblasi y Bowman (2001) propusieron un método basado en la estimación no paramétrica para contrastar si el variograma teórico de un proceso estacionario es constante (i.e. si no hay dependencia espacial; ver Figura <a href="vario-muestrales.html#fig:sm-variogram">3.3</a>).
 Posteriormente Maglione y Diblasi (2004) propusieron contrastes de hipótesis para verificar si un determinado modelo paramétrico semivariograma es apropiado (ver también Bowman y Crujeiras, 2013).
 Para evitar posibles problemas relacionados con la mala especificación del modelo de variograma se puede pensar en su estimación de forma no paramétrica
 (Capítulo XX; ver paquete <a href="https://rubenfcasal.github.io/post/geoestadistica-no-parametrica-con-el-paquete-npsp"><code>npsp</code></a>).

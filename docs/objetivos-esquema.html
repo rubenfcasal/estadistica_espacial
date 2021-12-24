@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.4 Objetivos y pasos | Estadística Espacial con R</title>
+  <title>1.4 Objetivos y procedimiento | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.4 Objetivos y pasos | Estadística Espacial con R" />
+  <meta property="og:title" content="1.4 Objetivos y procedimiento | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.4 Objetivos y pasos | Estadística Espacial con R" />
+  <meta name="twitter:title" content="1.4 Objetivos y procedimiento | Estadística Espacial con R" />
   
   <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   
@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="procesos-estacionarios.html"/>
-<link rel="next" href="el-paquete-gstat.html"/>
+<link rel="next" href="datos.html"/>
 <script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -309,7 +310,7 @@ div.csl-indent {
 
             <section class="normal" id="section-">
 <div id="objetivos-esquema" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Objetivos y pasos</h2>
+<h2><span class="header-section-number">1.4</span> Objetivos y procedimiento</h2>
 <p>A partir de los valores observados <span class="math inline">\(\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\}\)</span> (o <span class="math inline">\(\{Z(B_1), \ldots, Z(B_n)\}\)</span>), los objetivos suelen ser:</p>
 <ul>
 <li><p>Obtener predicciones (kriging) <span class="math inline">\(\hat{Z}(\mathbf{s}_0)\)</span> (o <span class="math inline">\(\hat{Z}(B_0)\)</span>).</p></li>
@@ -323,7 +324,7 @@ en nuevas localizaciones…</p></li>
 La aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico consiste en los siguientes pasos:</p>
 <ol style="list-style-type: decimal">
 <li><p>Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo <a href="datos.html#datos">2</a>).</p></li>
-<li><p>Estimación de los parámetros del modelo (proceso iterativo; Capítulo <a href="modelado.html#modelado">3</a>):</p>
+<li><p>Estimación de los parámetros del modelo (puede ser un proceso iterativo; Capítulo <a href="modelado.html#modelado">3</a>):</p>
 <ol style="list-style-type: decimal">
 <li><p>Estimar y eliminar la tendencia.</p></li>
 <li><p>Modelar la dependencia (ajustar un modelo de variograma) a partir de los residuos.</p></li>
@@ -332,14 +333,21 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 <li><p>Empleo del modelo aceptado (Capítulo <a href="kriging.html#kriging">4</a>).</p></li>
 </ol>
 <p>Como ya se comentó, emplearemos el paquete <a href="https://r-spatial.github.io/gstat"><code>gstat</code></a> en este proceso.</p>
+<!-- 
+## Referencias
+
+Pendiente: añadir bibliografía bibtex y referencias paquetes
+-->
+
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="procesos-estacionarios.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="el-paquete-gstat.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

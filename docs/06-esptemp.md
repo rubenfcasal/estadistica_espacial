@@ -1,4 +1,4 @@
-# Procesos espaciales espacio-temporales {#esp-temp}
+# Procesos espacio-temporales {#esp-temp}
 
 <!-- 
 ---

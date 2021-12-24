@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -358,12 +359,15 @@ entonces<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> podemos
 <span class="math display">\[C(\mathbf{h})=\sigma^2-\gamma (\mathbf{h}).\]</span>
 A <span class="math inline">\(\sigma^{2} = C(\mathbf{0})\)</span> se le denomina <em>umbral</em> (o <em>meseta</em>) del semivariograma.
 La relación entre el semivariograma y el covariograma se ilustra en la Figura <a href="procesos-estacionarios.html#fig:var-gen">1.4</a>.</p>
-<p>Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>, entre ellas destacarían el <em>efecto pepita</em> (o <em>nugget</em>) y el <em>rango</em> (o <em>alcance</em>).
+<div id="caracteristicas-variograma" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Características del variograma</h3>
+<p>Además del umbral (si existe, ya que el variograma podría no estar acotado; ver sección anterior), hay otras características geométricas del variograma (o del covariograma) de especial importancia<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>, entre ellas destacarían el <em>efecto pepita</em> (o <em>nugget</em>) y el <em>rango</em> (o <em>alcance</em>).
 La Figura <a href="procesos-estacionarios.html#fig:var-gen">1.4</a> ilustra las distintas características del semivariograma.</p>
+
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:var-gen"></span>
-<img src="01-introduccion_files/figure-html/var-gen-1.png" alt="Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características." width="80%" />
+<img src="01-introduccion_files/figure-html/var-gen-1.png" alt="Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características: nugget (\(c_0\)), umbral (\(\sigma^2\); umbral parcial \(\sigma^2 - c_0\)) y rango (\(a\))." width="80%" />
 <p class="caption">
-Figura 1.4: Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características.
+Figura 1.4: Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características: nugget (<span class="math inline">\(c_0\)</span>), umbral (<span class="math inline">\(\sigma^2\)</span>; umbral parcial <span class="math inline">\(\sigma^2 - c_0\)</span>) y rango (<span class="math inline">\(a\)</span>).
 </p>
 </div>
 <p>Siempre se verifica que <span class="math inline">\(\gamma (\mathbf{0})=0\)</span>, sin embargo puede ser que:
@@ -382,8 +386,9 @@ En los casos en los que el semivariograma alcanza el umbral asintóticamente (ra
 <p>El variograma y el covariograma son las funciones habitualmente consideradas en geoestadística para el modelado de la dependencia espacial (o espacio-temporal), y son consideradas como un parámetro (de especial interés) del proceso.
 En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección <a href="vario-muestrales.html#vario-muestrales">3.1</a>; Cressie, 1993, Sección 2.4.1).
 No obstante, en muchos casos los modelos de variograma se obtienen a partir de modelos de covariograma.</p>
-<div id="propiedades-elementales" class="section level3" number="1.3.1">
-<h3><span class="header-section-number">1.3.1</span> Propiedades elementales del covariograma y del variograma</h3>
+</div>
+<div id="propiedades-elementales" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Propiedades elementales del covariograma y del variograma</h3>
 <p>El variograma y el covariograma deben verificar ciertas propiedades que sus estimadores no siempre verifican, a continuación se detallan algunas de ellas.</p>
 <p>Si <span class="math inline">\(Z(\cdot)\)</span> es un proceso estacionario de segundo orden con covariograma <span class="math inline">\(C(\cdot)\)</span>,
 entonces se verifica que <span class="math inline">\(C(\mathbf{0}) = Var( Z(\mathbf{s}) ) \geq 0\)</span>, es una función par <span class="math inline">\(C(\mathbf{h})=C(-\mathbf{h})\)</span>, y por la desigualdad de Cauchy-Schwarz <span class="math inline">\(\left| C(\mathbf{h})\right| \leq C(\mathbf{0})\)</span>.
@@ -417,8 +422,8 @@ Esta condición es necesaria pero no suficiente (aunque pocas condiciones adicio
 </ol>
 <p>Se suelen emplear estas propiedades para la obtención de modelos de variograma válidos, como por ejemplo en el caso de la anisotropía zonal (Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>) o del modelo lineal de (co)regionalización (secciones <a href="modelos-variog.html#vario-lin-reg">3.2.3</a> y 5.X).</p>
 </div>
-<div id="procesos-agregados" class="section level3" number="1.3.2">
-<h3><span class="header-section-number">1.3.2</span> Procesos agregados</h3>
+<div id="procesos-agregados" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Procesos agregados</h3>
 <p>En algunos casos los datos pueden ser agregaciones espaciales en lugar de observaciones puntuales (e incluso observaciones sobre distintos soportes) o, por ejemplo, puede ser de interés la estimación de medias espaciales a partir de datos puntuales.
 Estas agregaciones pueden ser modeladas como el promedio de un proceso puntual, lo que permite deducir fácilmente las relaciones entre covariogramas y variogramas vinculados a diferentes soportes.</p>
 <p>Supongamos que el proceso espacial <span class="math inline">\(Z(\cdot)\)</span> definido sobre <span class="math inline">\(D\subset \mathbb{R} ^{d}\)</span> es integrable en media cuadrática.

@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-12-21}
+\date{2021-12-24}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -389,7 +389,37 @@ Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\te
 Otros paquetes para la manipulación de datos que pueden ser de interés son: \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}}, \href{https://r-spatial.github.io/stars}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, entre otros.
 En la Sección \ref{datos-tipos} se incluye información adicional sobre estos paquetes.
 
-En este libro emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice \ref{intro-geoR}) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
+En este libro emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (siguiente sección; aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice \ref{intro-geoR}) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
+
+\hypertarget{el-paquete-gstat}{%
+\subsection{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{el-paquete-gstat}}
+
+El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo \ref{modelado}, y multivariante, Capítulo \ref{multivar}), espacial y espacio-temporal (Capítulo \ref{esp-temp}), incluyendo predicción y simulación (Capítulo \ref{kriging} y secciones 5.X y 6.X).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gstat)}
+\end{Highlighting}
+\end{Shaded}
+
+Este paquete implementa su propia estructura de datos (S3, basada en \texttt{data.frame}) pero también es compatible con los objetos \texttt{Spatial*} del paquete \texttt{sp} (Apéndice \ref{intro-sp}) y los objetos de datos de los paquetes \texttt{sf} y \texttt{stars} (Capítulo \ref{datos}).
+
+Para más información se pueden consultar la \href{https://r-spatial.github.io/gstat/reference/index.html}{referencia}, las viñetas del paquete:
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf}{The meuse data set: a tutorial for the gstat R package},
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf}{Spatio-Temporal Geostatistics using gstat},
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf}{Introduction to Spatio-Temporal Variography},
+\end{itemize}
+
+el blog \href{https://r-spatial.org/}{r-spatial} o las correspondientes publicaciones (\href{http://www.sciencedirect.com/science/article/pii/S0098300404000676}{Pebesma, 2004}; \href{https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf}{Gräler, Pebesma y Heuvelink, 2016}).
+
+Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (\href{http://www.sciencedirect.com/science/article/pii/S0098300497000824}{Pebesma y Wesseling, 1998}; basado en la librería \href{http://www.gslib.com}{GSLIB}, Deutsch y Journel, 1992).
+Puede resultar de interés consultar el \href{http://www.gstat.org/gstat.pdf}{manual original} para información adicional sobre los detalles computacionales.
 
 \hypertarget{geoestadistica}{%
 \section{Geoestadística}\label{geoestadistica}}
@@ -580,8 +610,13 @@ entonces\footnote{Suponiendo que \(\lim \limits_{\left\| \mathbf{h}\right\| \rig
 A \(\sigma^{2} = C(\mathbf{0})\) se le denomina \emph{umbral} (o \emph{meseta}) del semivariograma.
 La relación entre el semivariograma y el covariograma se ilustra en la Figura \ref{fig:var-gen}.
 
-Además del umbral, hay otras características geométricas del variograma (o del covariograma) de especial importancia\footnote{Además de poder interpretar su influencia en la predicción espacial (Sección \ref{efecto-variog-kriging}), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \ref{modelos-parametricos}).}, entre ellas destacarían el \emph{efecto pepita} (o \emph{nugget}) y el \emph{rango} (o \emph{alcance}).
+\hypertarget{caracteristicas-variograma}{%
+\subsection{Características del variograma}\label{caracteristicas-variograma}}
+
+Además del umbral (si existe, ya que el variograma podría no estar acotado; ver sección anterior), hay otras características geométricas del variograma (o del covariograma) de especial importancia\footnote{Además de poder interpretar su influencia en la predicción espacial (Sección \ref{efecto-variog-kriging}), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \ref{modelos-parametricos}).}, entre ellas destacarían el \emph{efecto pepita} (o \emph{nugget}) y el \emph{rango} (o \emph{alcance}).
 La Figura \ref{fig:var-gen} ilustra las distintas características del semivariograma.
+
+
 
 \begin{figure}[!htb]
 
@@ -589,7 +624,7 @@ La Figura \ref{fig:var-gen} ilustra las distintas características del semivario
 
 }
 
-\caption{Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características.}\label{fig:var-gen}
+\caption{Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características: nugget (\(c_0\)), umbral (\(\sigma^2\); umbral parcial \(\sigma^2 - c_0\)) y rango (\(a\)).}\label{fig:var-gen}
 \end{figure}
 
 Siempre se verifica que \(\gamma (\mathbf{0})=0\), sin embargo puede ser que:
@@ -689,7 +724,7 @@ Sin embargo, en la práctica pueden aparecer dificultades, especialmente al comb
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
 \hypertarget{objetivos-esquema}{%
-\section{Objetivos y pasos}\label{objetivos-esquema}}
+\section{Objetivos y procedimiento}\label{objetivos-esquema}}
 
 A partir de los valores observados \(\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\}\) (o \(\{Z(B_1), \ldots, Z(B_n)\}\)), los objetivos suelen ser:
 
@@ -714,7 +749,7 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 \item
   Análisis exploratorio y formulación de un modelo paramétrico inicial (Capítulo \ref{datos}).
 \item
-  Estimación de los parámetros del modelo (proceso iterativo; Capítulo \ref{modelado}):
+  Estimación de los parámetros del modelo (puede ser un proceso iterativo; Capítulo \ref{modelado}):
 
   \begin{enumerate}
   \def\labelenumii{\arabic{enumii}.}
@@ -730,36 +765,6 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 \end{enumerate}
 
 Como ya se comentó, emplearemos el paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} en este proceso.
-
-\hypertarget{el-paquete-gstat}{%
-\section{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{el-paquete-gstat}}
-
-El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo \ref{modelado}, y multivariante, Capítulo \ref{multivar}), espacial y espacio-temporal (Capítulo \ref{esp-temp}), incluyendo predicción y simulación (Capítulo \ref{kriging} y secciones 5.X y 6.X).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(gstat)}
-\end{Highlighting}
-\end{Shaded}
-
-Este paquete implementa su propia estructura de datos (S3, basada en \texttt{data.frame}) pero también es compatible con los objetos \texttt{Spatial*} del paquete \texttt{sp} (Apéndice \ref{intro-sp}) y los objetos de datos de los paquetes \texttt{sf} y \texttt{stars} (Capítulo \ref{datos}).
-
-Para más información se pueden consultar la \href{https://r-spatial.github.io/gstat/reference/index.html}{referencia}, las viñetas del paquete:
-
-\begin{itemize}
-\tightlist
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/gstat.pdf}{The meuse data set: a tutorial for the gstat R package},
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf}{Spatio-Temporal Geostatistics using gstat},
-\item
-  \href{https://cran.r-project.org/web/packages/gstat/vignettes/st.pdf}{Introduction to Spatio-Temporal Variography},
-\end{itemize}
-
-el blog \href{https://r-spatial.org/}{r-spatial} o las correspondientes publicaciones (\href{http://www.sciencedirect.com/science/article/pii/S0098300404000676}{Pebesma, 2004}; \href{https://journal.r-project.org/archive/2016-1/na-pebesma-heuvelink.pdf}{Gräler, Pebesma y Heuvelink, 2016}).
-
-Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (\href{http://www.sciencedirect.com/science/article/pii/S0098300497000824}{Pebesma y Wesseling, 1998}; basado en la librería \href{http://www.gslib.com}{GSLIB}, Deutsch y Journel, 1992).
-Puede resultar de interés consultar el \href{http://www.gstat.org/gstat.pdf}{manual original} para información adicional sobre los detalles computacionales.
 
 \hypertarget{datos}{%
 \chapter{Datos espaciales}\label{datos}}
@@ -1753,15 +1758,81 @@ El resultado de las operaciones lógicas es una matriz dispersa (de clase \textt
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\begin{exercise}[Creación de una rejilla de predicción]
-\protect\hypertarget{exr:aquifer2}{}{\label{exr:aquifer2} \iffalse (Creación de una rejilla de predicción) \fi{} }
-Continuando con los datos del Ejercicio \ref{exr:aquifer1}, generar un buffer
-(\texttt{st\_buffer()}) de radio 40 en torno a las posiciones espaciales, a partir de él crear
-una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones
-50 por 50 e intersecarla con el buffer. Representar todos los objetos.
-\end{exercise}
+\begin{example}[Creación de una rejilla de predicción]
+\protect\hypertarget{exm:aquifer2}{}{\label{exm:aquifer2} \iffalse (Creación de una rejilla de predicción) \fi{} }
+Continuando con los datos del Ejercicio \ref{exr:aquifer1}, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones 50 por 50 e intersecarla con el buffer.
+\end{example}
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{"datos/aquifer.RData"}\NormalTok{)}
+\NormalTok{aquifer}\SpecialCharTok{$}\NormalTok{head }\OtherTok{\textless{}{-}}\NormalTok{ aquifer}\SpecialCharTok{$}\NormalTok{head}\SpecialCharTok{/}\DecValTok{100} \CommentTok{\# en cientos de pies}
+\NormalTok{aquifer\_sf }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(aquifer, }\AttributeTok{coords =} \FunctionTok{c}\NormalTok{(}\StringTok{"lon"}\NormalTok{, }\StringTok{"lat"}\NormalTok{), }\AttributeTok{agr =} \StringTok{"constant"}\NormalTok{)}
+\NormalTok{buffer }\OtherTok{\textless{}{-}}\NormalTok{ aquifer\_sf }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_geometry}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{st\_buffer}\NormalTok{(}\DecValTok{40}\NormalTok{)}
+\NormalTok{grid }\OtherTok{\textless{}{-}}\NormalTok{ buffer }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_make\_grid}\NormalTok{(}\AttributeTok{n =} \FunctionTok{c}\NormalTok{(}\DecValTok{50}\NormalTok{, }\DecValTok{50}\NormalTok{), }\AttributeTok{what =} \StringTok{"centers"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{st\_intersection}\NormalTok{(buffer)}
+\FunctionTok{plot}\NormalTok{(buffer)}
+\FunctionTok{plot}\NormalTok{(grid, }\AttributeTok{pch =} \DecValTok{3}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/aquifer2-grid-1} 
+
+}
+
+\caption{Rejilla en torno a las posiciones de los datos de `aquifer`.}\label{fig:aquifer2-grid}
+\end{figure}
+
+Sin embargo, en lugar de emplear una rejilla \texttt{sf}, puede resultar preferible (por ejemplo para la representación gráfica) emplear una rejilla \texttt{stars}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(stars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: abind
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grid }\OtherTok{\textless{}{-}}\NormalTok{ buffer }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{st\_as\_stars}\NormalTok{(}\AttributeTok{nx =} \DecValTok{50}\NormalTok{, }\AttributeTok{ny =} \DecValTok{50}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_crop}\NormalTok{(buffer)}
+\NormalTok{idw }\OtherTok{\textless{}{-}}\NormalTok{ gstat}\SpecialCharTok{::}\FunctionTok{idw}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ head }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, }\AttributeTok{locations =}\NormalTok{ aquifer\_sf, }\AttributeTok{newdata =}\NormalTok{ grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [inverse distance weighted interpolation]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(idw[}\StringTok{"var1.pred"}\NormalTok{], }\AttributeTok{col =} \FunctionTok{sf.colors}\NormalTok{(}\DecValTok{64}\NormalTok{), }\AttributeTok{main =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/aquifer2-idw-1} 
+
+}
+
+\caption{Interpolación por IDW (Inverse Distance Weighting) de los datos del acuífero Wolfcamp.}\label{fig:aquifer2-idw}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Error gstat::idw, cambia las coordenadas del objeto stars}
+\CommentTok{\# summary(st\_coordinates(grid))}
+\CommentTok{\# summary(st\_coordinates(idw))}
+\CommentTok{\# Posible solución: añadir el resultado a \textasciigrave{}grid\textasciigrave{} y emplearlo en lugar de \textasciigrave{}idw\textasciigrave{}}
+\CommentTok{\# grid$var1.pred \textless{}{-} idw$var1.pred}
+\CommentTok{\# plot(grid["var1.pred"], col = sf.colors(64), axes = TRUE, main = "")}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{sp-eda}{%
 \section{Análisis exploratorio de datos espaciales}\label{sp-eda}}
@@ -1769,12 +1840,9 @@ una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dim
 Como se comentó en la Sección \ref{objetivos-esquema}, el primer paso para estimar las componentes del modelo, la tendencia \(\mu(\mathbf{s})\) y el semivariograma \(\gamma(\mathbf{h})\), es realizar un análisis exploratorio de los datos.
 
 Normalmente comenzaremos por un análisis descriptivo de la respuesta.
-Sería deseable que su distribución fuese aproximadamente simétrica (de forma que los métodos
-basados en mínimos cuadrados sean adecuados).
-Si además la distribución es aproximadamente normal (después de eliminar la tendencia) tendría sentido emplear métodos basados en
-máxima verosimilitud (Sección \ref{ml-fit}).
-Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida
-(aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).
+Sería deseable que su distribución fuese aproximadamente simétrica (de forma que los métodos basados en mínimos cuadrados sean adecuados).
+Si además la distribución es aproximadamente normal (después de eliminar la tendencia) tendría sentido emplear métodos basados en máxima verosimilitud (Sección \ref{ml-fit}) y los predictores kriging serían los más eficientes (Sección \ref{consideraciones-kriging}).
+Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida (aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1821,8 +1889,7 @@ Si su distribución es muy asimétrica se puede pensar en transformarla como pun
 \end{figure}
 
 En un segundo paso se podría tener en cuenta las coordenadas espaciales.
-Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa
-algún patrón claro (lo que nos haría sospechar que la tendencia no es constante).
+Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa algún patrón claro (lo que nos haría sospechar que la tendencia no es constante).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2052,18 +2119,21 @@ En el resultado, la componente \texttt{dist} contiene los saltos, \texttt{gamma}
 \NormalTok{rvario }\OtherTok{\textless{}{-}} \FunctionTok{variogram}\NormalTok{(z }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\NormalTok{, datos, }\AttributeTok{cloud =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{cressie =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{cutoff =} \FloatTok{0.6}\NormalTok{)}
 \CommentTok{\# Representar}
 \NormalTok{oldpar }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
-\CommentTok{\# Clásico}
-\FunctionTok{with}\NormalTok{(vario.cloud,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{col =} \StringTok{"darkgray"}\NormalTok{, }
-                        \AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
-\FunctionTok{with}\NormalTok{(vario, }\FunctionTok{points}\NormalTok{(dist, gamma, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{))}
-\CommentTok{\# Robusto}
-\FunctionTok{with}\NormalTok{(rvario.cloud,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{col =} \StringTok{"darkgray"}\NormalTok{, }
-                        \AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
-\FunctionTok{with}\NormalTok{(rvario, }\FunctionTok{points}\NormalTok{(dist, gamma, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{))}
+\CommentTok{\# Nube de semivarianzas clásicas}
+\FunctionTok{with}\NormalTok{(vario.cloud,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"semivariances"}\NormalTok{))}
+\CommentTok{\# Nube de semivarianzas robustas}
+\FunctionTok{with}\NormalTok{(rvario.cloud,  }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"semivariances"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} \end{center}
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-cloud-1} 
+
+}
+
+\caption{Nubes de semivarianzas clásicas (izquierda) y robustas (derecha) del conjunto de datos simulado.}\label{fig:vario-rvario-cloud}
+\end{figure}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2071,7 +2141,25 @@ En el resultado, la componente \texttt{dist} contiene los saltos, \texttt{gamma}
 \end{Highlighting}
 \end{Shaded}
 
-Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad):
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{with}\NormalTok{(vario, }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }
+                        \AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
+\FunctionTok{with}\NormalTok{(rvario, }\FunctionTok{points}\NormalTok{(dist, gamma))}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"clásico"}\NormalTok{, }\StringTok{"robusto"}\NormalTok{), }\AttributeTok{pch =} \FunctionTok{c}\NormalTok{(}\DecValTok{19}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} 
+
+}
+
+\caption{Estimaciones clásicas y robustas del semivariograma (datos simulados).}\label{fig:vario-rvario}
+\end{figure}
+
+Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad)\footnote{Estableciendo \texttt{identify\ =\ TRUE} (o \texttt{digitize\ =\ TRUE}) en \texttt{plot.variogramCloud()} podríamos identificar semivarianzas atípicas (o pares de datos atípicos) de forma interactiva.}:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2159,7 +2247,7 @@ Estos modelos son empleados también en ciertos casos como estructuras básicas 
 \subsection{Modelos paramétricos isotrópicos}\label{modelos-parametricos}}
 
 A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
-En la notación utilizada en las parametrizaciones \(c_{0} \geq 0\) representa el efecto nugget, \(c_1 \geq 0\) el umbral parcial (en el caso de variogramas acotados, con \(\sigma^2= c_0 + c_1\)) y \(a>0\) el rango (si existe) o el parámetro de escala.
+En la notación utilizada en las parametrizaciones \(c_0 \geq 0\) representa el efecto nugget, \(c_1 \geq 0\) el umbral parcial (en el caso de variogramas acotados, con \(\sigma^2= c_0 + c_1\)) y \(a>0\) el rango (si existe) o el parámetro de escala.
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro \(a\) representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95\% del umbral parcial.
 En la Figura \ref{fig:show-vgms} se tienen algunos ejemplos de las formas de algunos de
 estos semivariogramas.
@@ -2170,10 +2258,10 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. ) = \left\{ 
   \begin{array}{ll}
   0 & \text{si} \left\| \mathbf{h}\right\| =0 \\
-  c_{0} +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
+  c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
   -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)
   3\right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
-  c_{0} +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
+  c_0 +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
   \end{array}
   \right.\]
   válido en \(\mathbb{R}^{d}\), \(d=1,2,3\).
@@ -2182,7 +2270,7 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
+  c_0 + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
   \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\  \mathbf{h}\neq
   \mathbf{0}
   \end{array}
@@ -2193,7 +2281,7 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
+  c_0 + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
   }{\frac{1}{19} a^2 +\left\| \mathbf{h}\right\|^2 }  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
@@ -2204,7 +2292,7 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + a\left\| \mathbf{h}\right\|^{\lambda }  & \text{si}\ 
+  c_0 + a\left\| \mathbf{h}\right\|^{\lambda }  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.\]
@@ -2215,7 +2303,7 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
+  c_0 + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
   \mathbf{h}\right\| }{a} \right)^{\lambda } \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
@@ -2232,19 +2320,19 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
+  c_0 + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
   \text{sen} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right) 
   & \text{si}\  \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.\]
   válido en \(\mathbb{R}^{d}\), \(d=1,2,3\).
-  Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( \(c_{0} +1.218c_1\)) cuando \(\left\| \mathbf{h}\right\| \simeq 4.5a\), siendo \(a\) el parámetro de escala.
+  Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( \(c_0 +1.218c_1\)) cuando \(\left\| \mathbf{h}\right\| \simeq 4.5a\), siendo \(a\) el parámetro de escala.
 \item
   Modelo de Matérn (o K-Bessel):
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
+  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
@@ -2533,9 +2621,9 @@ Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima vero
 \hypertarget{ls-fit}{%
 \subsection{Estimación por mínimos cuadrados}\label{ls-fit}}
 
-Supongamos que \(2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})\) es el variograma teórico y que \(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\), \(i = 1,\ldots,K\), son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g.~alguno de los mostrados en la Sección 4.1.1).
+Supongamos que \(2\gamma(\mathbf{h};\boldsymbol{\theta}_0)\) es el variograma teórico y que \(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\), \(i = 1,\ldots,K\), son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g.~alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p.~194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e.~\(\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}\)); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e.~\(\left| N(\mathbf{h}_{i})\right| \geq 30\)).
-Habitualmente (e.g.~Cressie, 1993, p.~96-97) la estimación por mínimos cuadrados de \(\boldsymbol{\theta}_{0}\) se obtiene al minimizar:
+Habitualmente (e.g.~Cressie, 1993, p.~96-97) la estimación por mínimos cuadrados de \(\boldsymbol{\theta}_0\) se obtiene al minimizar:
 \begin{equation} 
   \left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\boldsymbol{\theta})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),
   \label{eq:ls-obj}
@@ -2579,8 +2667,8 @@ Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covari
 Esta es una de las principales ventajas de los métodos WLS o GLS frente a otras alternativas (como los métodos basados en máxima verosimilitud); como utilizan solamente la estructura de segundo orden (asintótica) del estimador del variograma, no es necesario hacer suposiciones sobre la distribución completa de los datos\footnote{La distribución y eficiencia asintótica de los estimadores mínimo cuadráticos ha sido estudiada por Lahiri et al.~(2003), demostrando su consistencia y normalidad asintótica bajo condiciones muy generales.}.
 
 Como comentario final, en la función objetivo \eqref{eq:ls-obj} de los criterios WLS y GLS anteriores, la matriz de pesos utilizada en el ajuste \(\mathbf{V}(\boldsymbol{\theta})\) depende también del parámetro sobre el que se realiza la minimización (y al minimizar \eqref{eq:ls-obj} en cierto sentido se están maximizando también las varianzas), por lo que puede ser preferible utilizar un algoritmo iterativo.
-Por ejemplo comenzar con pesos OLS (o WLS con \(w_{i} = \left| N(\mathbf{h}_{i})\right| / \| \mathbf{h}_{i} \|^2\)) y posteriormente en cada etapa \(k\) obtener una nueva aproximación \(\hat{\boldsymbol{\theta}}_{0}^{(k)}\) al minimizar:
-\[\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\hat{\boldsymbol{\theta}}_{0}^{(k-1)})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),\]
+Por ejemplo comenzar con pesos OLS (o WLS con \(w_{i} = \left| N(\mathbf{h}_{i})\right| / \| \mathbf{h}_{i} \|^2\)) y posteriormente en cada etapa \(k\) obtener una nueva aproximación \(\hat{\boldsymbol{\theta}}_0^{(k)}\) al minimizar:
+\[\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\hat{\boldsymbol{\theta}}_0^{(k-1)})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),\]
 repitiendo este proceso hasta convergencia (realmente muchos de los algoritmos diseñados para el ajuste por mínimos cuadrados proceden de esta forma).
 
 En \texttt{gstat} el ajuste OLS y WLS se realiza mediante la función:
@@ -2647,7 +2735,7 @@ Como ejemplo, a continuación se ajusta un modelo exponencial al variograma emp�
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fit.lin }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario, }\AttributeTok{model =}\NormalTok{ modelo, }\AttributeTok{fit.method =} \DecValTok{7}\NormalTok{)}
-\NormalTok{fit.cressie }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario, }\AttributeTok{model =}\NormalTok{ fit.lin, }\AttributeTok{fit.method =} \DecValTok{2}\NormalTok{) }
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario, }\AttributeTok{model =}\NormalTok{ fit.lin, }\AttributeTok{fit.method =} \DecValTok{2}\NormalTok{) }
 \CommentTok{\# Representar:}
 \CommentTok{\# Cuidado con plot.variogramModel() si se pretende añadir elementos}
 \FunctionTok{plot}\NormalTok{(vario}\SpecialCharTok{$}\NormalTok{dist, vario}\SpecialCharTok{$}\NormalTok{gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{, }
@@ -2655,17 +2743,31 @@ Como ejemplo, a continuación se ajusta un modelo exponencial al variograma emp�
 \FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.ols, }\AttributeTok{maxdist =} \FloatTok{0.6}\NormalTok{), }\AttributeTok{lty =} \DecValTok{2}\NormalTok{)}
 \FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.npairs, }\AttributeTok{maxdist =} \FloatTok{0.6}\NormalTok{), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
 \FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.lin, }\AttributeTok{maxdist =} \FloatTok{0.6}\NormalTok{), }\AttributeTok{lty =} \DecValTok{4}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit.cressie, }\AttributeTok{maxdist =} \FloatTok{0.6}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit, }\AttributeTok{maxdist =} \FloatTok{0.6}\NormalTok{))}
 \FunctionTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"ols"}\NormalTok{, }\StringTok{"npairs"}\NormalTok{, }\StringTok{"default (linear)"}\NormalTok{, }\StringTok{"cressie"}\NormalTok{), }\AttributeTok{lty =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
+En general, se recomendaría emplear pesos inversamente proporcionales a la varianza (\texttt{fit.method\ =\ 2}).
+Si quisiésemos comparar el ajuste de distintos modelos (con el mismo criterio de ajuste) se podría considerar el valor mínimo de la función objetivo WLS, almacenado como un atributo del resultado (aunque la recomendación sería emplear validación cruzada, Sección \ref{validacion-cruzada}):
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Parámetros estimados:}
-\NormalTok{fit.cressie}
+\FunctionTok{attr}\NormalTok{(fit, }\StringTok{"SSErr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 52.83535
+\end{verbatim}
+
+Imprimiendo el resultado del ajuste obtenemos las estimaciones de los parámetros, que podríamos interpretar (ver Sección \ref{caracteristicas-variograma} y Sección \ref{efecto-variog-kriging}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2677,16 +2779,29 @@ Como ejemplo, a continuación se ajusta un modelo exponencial al variograma emp�
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Error ajuste}
-\FunctionTok{attr}\NormalTok{(fit.cressie, }\StringTok{"SSErr"}\NormalTok{)}
+\NormalTok{nugget }\OtherTok{\textless{}{-}}\NormalTok{ fit}\SpecialCharTok{$}\NormalTok{psill[}\DecValTok{1}\NormalTok{]}
+\NormalTok{sill }\OtherTok{\textless{}{-}}\NormalTok{ nugget }\SpecialCharTok{+}\NormalTok{ fit}\SpecialCharTok{$}\NormalTok{psill[}\DecValTok{2}\NormalTok{]}
+\NormalTok{range }\OtherTok{\textless{}{-}} \DecValTok{3}\SpecialCharTok{*}\NormalTok{fit}\SpecialCharTok{$}\NormalTok{range[}\DecValTok{2}\NormalTok{] }\CommentTok{\# Parámetro de escala en model = "Exp"}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## [1] 52.83535
-\end{verbatim}
+NOTA: Cuidado, en el caso del modelo exponencial, el parámetro que aparece como \texttt{range} es un parámetro de escala proporcional al verdadero rango práctico (tres veces ese valor).
 
-En \texttt{gstat} el ajuste GLS se podría realizar mediante la función:
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(vario}\SpecialCharTok{$}\NormalTok{dist, vario}\SpecialCharTok{$}\NormalTok{gamma, }\AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{, }
+     \AttributeTok{xlim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, range}\SpecialCharTok{*}\FloatTok{1.1}\NormalTok{), }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, sill}\SpecialCharTok{*}\FloatTok{1.1}\NormalTok{))}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{variogramLine}\NormalTok{(fit, }\AttributeTok{maxdist =}\NormalTok{ range}\SpecialCharTok{*}\FloatTok{1.1}\NormalTok{))}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \DecValTok{0}\NormalTok{, }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ range, }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h =}\NormalTok{ nugget, }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h =}\NormalTok{ sill, }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-15-1} \end{center}
+
+En \texttt{gstat} el ajuste con el criterio GLS se podría realizar mediante la función:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2807,7 +2922,7 @@ Para ilustrar este problema supongamos que el proceso de error \(\varepsilon(\cd
 \[\hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z} = \mathbf{P}_{gls}\mathbf{Z},\]
 siendo \(\mathbf{P}_{gls}\) la matriz de proyección.
 Empleando este estimador obtenemos el vector de residuos:
-\[\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},\]
+\[\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{gls} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},\]
 cuya matriz de varianzas-covarianzas resulta ser:
 \[\begin{aligned}
 Var(\mathbf{r}) &=(\mathbf{I}_{n} -\mathbf{P}_{gls})\boldsymbol{\Sigma}(\mathbf{I}_{n}
@@ -2861,7 +2976,7 @@ donde \(\boldsymbol{\Sigma}=\boldsymbol{\Sigma}(\boldsymbol{\theta})\) (utilizan
 En este caso, la función de densidad de los datos es:
 \[f(\mathbf{z})=(2\pi )^{-\frac{n}{2} } \left| \boldsymbol{\Sigma} \right|^{-\frac{1}{2} }
 \exp \left\{ -\dfrac{1}{2}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})\right\}.\]
-Además en la mayoría de los casos podemos reparametrizar el covariograma\footnote{Por ejemplo en el caso de los semivariogramas mostrados en la Sección \ref{modelos-parametricos}, si \(c_{0}\) es el efecto nugget y \(c_1\) el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) \(\sigma^2 =c_{0} +c_1\) y la proporción de nugget en el umbral total \(c_{0}^{\ast} =c_{0} /(c_{0} +c_1)\) (lo que equivale a suponer en las expresiones del covariograma que \(c_1 =1\) y \(0 \leq c_{0} \leq 1\)).} de forma que:
+Además en la mayoría de los casos podemos reparametrizar el covariograma\footnote{Por ejemplo en el caso de los semivariogramas mostrados en la Sección \ref{modelos-parametricos}, si \(c_0\) es el efecto nugget y \(c_1\) el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) \(\sigma^2 =c_0 +c_1\) y la proporción de nugget en el umbral total \(c_0^{\ast} =c_0 /(c_0 +c_1)\) (lo que equivale a suponer en las expresiones del covariograma que \(c_1 = 1 - c_0\) y \(0 \leq c_0 \leq 1\)).} de forma que:
 \[\boldsymbol{\Sigma}=\sigma^2 \mathbf{V}(\boldsymbol{\theta}),\]
 siendo \(\sigma^2\) la varianza desconocida (o umbral total), y se obtiene que la expresión del logaritmo negativo de la función de verosimilitud (\emph{negative log likelihood}, NLL) es:
 \[\begin{aligned}
@@ -3051,8 +3166,6 @@ Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que 
 \hypertarget{kriging}{%
 \chapter{Predicción Kriging}\label{kriging}}
 
-\textbf{\emph{En preparación\ldots{}}}
-
 En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso} (ver Sección \ref{geoestadistica} para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (2012, capítulos 3, 4 y 6).
 
@@ -3069,7 +3182,7 @@ Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n}
   es uniformemente insesgado, para cualquier \(\mu(\cdot)\):
   \[E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),\]
 \item
-  y minimiza el error en media cuadrática de predicción (\emph{mean squared prediction error}, MSPE)\footnote{Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g.~Rivoirard, 1994) y del kriging trans-normal (ver Sección \ref{kriging-trans-normal}).}:
+  y minimiza el error en media cuadrática de predicción (\emph{mean squared prediction error}, MSPE):
   \[E\left( \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right).\]
 \end{itemize}
 
@@ -3320,7 +3433,7 @@ Normalmente la sintaxis empleada es:
 \end{itemize}
 
 Esta función, además de kriging univariante puntual con vecindario global, también implementa kriging por bloques, cokriging (predicción multivariante), predicción local y simulación condicional.
-Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales:
+Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales (ver Sección \ref{eleccion-vecindario}):
 
 \begin{itemize}
 \tightlist
@@ -3332,23 +3445,183 @@ Para predicción (o simulación) local se pueden establecer los siguientes pará
   \texttt{omax} (opcional): número máximo de observaciones por octante (3D) o cuadrante (2D).
 \end{itemize}
 
-Los parámetros (opcionales) para simulación condicional son:
+Los parámetros (opcionales) para simulación condicional (ver e.g.~Fernández-Casal y Cao, 2020, \href{https://rubenfcasal.github.io/simbook/simulaci\%C3\%B3n-condicional-e-incondicional.html}{Sección 7.5}) son:
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{nsim}: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging (ver Fernández-Casal y Cao, 2020, \href{https://rubenfcasal.github.io/simbook/simulaci\%C3\%B3n-condicional-e-incondicional.html}{Sección 7.5}).
+  \texttt{nsim}: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging.
 \item
   \texttt{indicators}: valor lógico que determina el método de simulación. Por defecto (\texttt{FALSE}) emplea simulación condicional gaussiana, en caso contrario (\texttt{TRUE}) simula una variable indicadora.
 \end{itemize}
 
-Ejemplos: \href{s100.html}{s100} (KO) y \href{aquifer.html}{aquifer} (KU).
+Como ejemplo consideraremos los datos del acuífero Wolfcamp con el modelo del kriging universal ajustado en la Sección \ref{trend-fit} (en \href{s100.html}{s100} se tiene un ejemplo adicional empleando KO).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\StringTok{"datos/aquifer.RData"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(sf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aquifer}\SpecialCharTok{$}\NormalTok{head }\OtherTok{\textless{}{-}}\NormalTok{ aquifer}\SpecialCharTok{$}\NormalTok{head}\SpecialCharTok{/}\DecValTok{100} \CommentTok{\# en cientos de pies...}
+\NormalTok{aquifer\_sf }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(aquifer, }\AttributeTok{coords =} \FunctionTok{c}\NormalTok{(}\StringTok{"lon"}\NormalTok{, }\StringTok{"lat"}\NormalTok{), }\AttributeTok{remove =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{agr =} \StringTok{"constant"}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(gstat)}
+\NormalTok{vario }\OtherTok{\textless{}{-}} \FunctionTok{variogram}\NormalTok{(head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, aquifer\_sf, }\AttributeTok{cutoff =} \DecValTok{150}\NormalTok{)}
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{fit.variogram}\NormalTok{(vario, }\FunctionTok{vgm}\NormalTok{(}\AttributeTok{model =} \StringTok{"Sph"}\NormalTok{, }\AttributeTok{nugget =} \ConstantTok{NA}\NormalTok{), }\AttributeTok{fit.method =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Como se mostró en el Ejemplo \ref{exm:aquifer2}, para generar la rejilla de predicción podemos utilizar la función \texttt{st\_as\_stars()} del paquete \texttt{stars} considerando un buffer de radio 40 en torno a las posiciones espaciales:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{buffer }\OtherTok{\textless{}{-}}\NormalTok{ aquifer\_sf }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_geometry}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_buffer}\NormalTok{(}\DecValTok{40}\NormalTok{)}
+\FunctionTok{library}\NormalTok{(stars)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: abind
+\end{verbatim}
+
+\begin{verbatim}
+## Registered S3 methods overwritten by 'stars':
+##   method             from
+##   st_bbox.SpatRaster sf  
+##   st_crs.SpatRaster  sf
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grid }\OtherTok{\textless{}{-}}\NormalTok{ buffer }\SpecialCharTok{\%\textgreater{}\%}  \FunctionTok{st\_as\_stars}\NormalTok{(}\AttributeTok{nx =} \DecValTok{50}\NormalTok{, }\AttributeTok{ny =} \DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Como suponemos un modelo (no constante) para la tendencia, es necesario añadir los valores de las variables explicativas a la rejilla de predicción:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coord }\OtherTok{\textless{}{-}} \FunctionTok{st\_coordinates}\NormalTok{(grid)}
+\NormalTok{grid}\SpecialCharTok{$}\NormalTok{lon }\OtherTok{\textless{}{-}}\NormalTok{ coord}\SpecialCharTok{$}\NormalTok{x}
+\NormalTok{grid}\SpecialCharTok{$}\NormalTok{lat }\OtherTok{\textless{}{-}}\NormalTok{ coord}\SpecialCharTok{$}\NormalTok{y}
+\end{Highlighting}
+\end{Shaded}
+
+Además, en este caso recortamos la rejilla para filtrar predicciones alejadas de las observaciones:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grid }\OtherTok{\textless{}{-}}\NormalTok{ grid }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{st\_crop}\NormalTok{(buffer)}
+\end{Highlighting}
+\end{Shaded}
+
+Obtenemos las predicciones mediante kriging universal (Sección \ref{kuniversal}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred }\OtherTok{\textless{}{-}} \FunctionTok{krige}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, }\AttributeTok{locations =}\NormalTok{ aquifer\_sf, }\AttributeTok{model =}\NormalTok{ fit,}
+              \AttributeTok{newdata =}\NormalTok{ grid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [using universal kriging]
+\end{verbatim}
+
+Aparentemente hay un \textbf{\emph{ERROR en krige()}} y cambia las coordenadas del objeto \texttt{stars}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{st\_coordinates}\NormalTok{(grid))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        x                 y         
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(}\FunctionTok{st\_coordinates}\NormalTok{(pred))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        x                 y         
+##  Min.   :-181.86   Min.   : 53.83  
+##  1st Qu.:-100.73   1st Qu.:115.11  
+##  Median : -16.22   Median :178.95  
+##  Mean   : -16.22   Mean   :178.95  
+##  3rd Qu.:  68.29   3rd Qu.:242.79  
+##  Max.   : 149.42   Max.   :304.08
+\end{verbatim}
+
+Para evitar este problema podemos añadir los resultado al objeto \texttt{grid} y emplearlo en lugar de \texttt{pred}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{grid}\SpecialCharTok{$}\NormalTok{var1.pred }\OtherTok{\textless{}{-}}\NormalTok{ pred}\SpecialCharTok{$}\NormalTok{var1.pred}
+\NormalTok{grid}\SpecialCharTok{$}\NormalTok{var1.var }\OtherTok{\textless{}{-}}\NormalTok{ pred}\SpecialCharTok{$}\NormalTok{var1.var}
+\end{Highlighting}
+\end{Shaded}
+
+Podemos representar las predicciones y las varianzas kriging empleando \texttt{plot.stars()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(grid[}\StringTok{"var1.pred"}\NormalTok{], }\AttributeTok{breaks =} \StringTok{"equal"}\NormalTok{, }\AttributeTok{col =} \FunctionTok{sf.colors}\NormalTok{(}\DecValTok{64}\NormalTok{), }\AttributeTok{key.pos =} \DecValTok{4}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Predicciones kriging"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(grid[}\StringTok{"var1.var"}\NormalTok{], }\AttributeTok{breaks =} \StringTok{"equal"}\NormalTok{, }\AttributeTok{col =} \FunctionTok{sf.colors}\NormalTok{(}\DecValTok{64}\NormalTok{), }\AttributeTok{key.pos =} \DecValTok{4}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Varianzas kriging"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-2} \end{center}
+
+También podríamos emplear el paquete \texttt{ggplot2}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(gridExtra)}
+\NormalTok{p1 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_stars}\NormalTok{(}\AttributeTok{data =}\NormalTok{ grid, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ var1.pred, }\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{y =}\NormalTok{ y)) }\SpecialCharTok{+}
+    \FunctionTok{scale\_fill\_viridis\_c}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ aquifer\_sf) }\SpecialCharTok{+}
+    \FunctionTok{coord\_sf}\NormalTok{(}\AttributeTok{lims\_method =} \StringTok{"geometry\_bbox"}\NormalTok{)}
+\NormalTok{p2 }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_stars}\NormalTok{(}\AttributeTok{data =}\NormalTok{ grid, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ var1.var, }\AttributeTok{x =}\NormalTok{ x, }\AttributeTok{y =}\NormalTok{ y)) }\SpecialCharTok{+}
+    \FunctionTok{scale\_fill\_viridis\_c}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_sf}\NormalTok{(}\AttributeTok{data =}\NormalTok{ aquifer\_sf) }\SpecialCharTok{+}
+    \FunctionTok{coord\_sf}\NormalTok{(}\AttributeTok{lims\_method =} \StringTok{"geometry\_bbox"}\NormalTok{)}
+\FunctionTok{grid.arrange}\NormalTok{(p1, p2, }\AttributeTok{ncol =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 \hypertarget{consideraciones-kriging}{%
 \section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}}
 
-Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado
-(BLUP, \emph{best linear unbiased predictor}). Si el proceso es gaussiano, este predictor resulta ser el predictor más eficiente.
+Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado (BLUP, \emph{best linear unbiased predictor}).
+Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging.
+Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g.~Rivoirard, 1994) y del kriging trans-normal (ver Sección \ref{kriging-trans-normal}).
 
 En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
 Puede verse (Yakowitz y Szidarovszky, 1985) que, bajo condiciones muy generales, el predictor kriging con variograma estimado converge al valor correcto si la densidad de datos tiende a infinito, incluso cuando la estimación del variograma no es muy buena.
@@ -3524,7 +3797,175 @@ La sintaxis de esta función es casi idéntica a la de la función \texttt{krige
 
 El resultado (un \texttt{data.frame} o un objeto del mismo tipo que \texttt{locations}), además de las predicciones y varianzas kriging de validación cruzada (en las posiciones de observación), contiene los componentes \texttt{observed} (valor observado), \texttt{residual} (residuos), \texttt{zscore} (residuos divididos por el error estándar kriging) y \texttt{fold} (grupo de validación cruzada).
 
-Ejemplos: \href{s100.html}{s100} (KO) y \href{aquifer.html}{aquifer} (KU).
+Como ejemplo continuaremos con los datos del acuífero Wolfcamp (en \href{s100.html}{s100} se tiene un ejemplo adicional empleando KO).
+Como ya se comentó, la función \texttt{krige.cv()} emplea LOOCV por defecto y puede requerir de mucho tiempo de computación (no implementa eficientemente esta técnica):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{system.time}\NormalTok{(cv }\OtherTok{\textless{}{-}} \FunctionTok{krige.cv}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, }\AttributeTok{locations =}\NormalTok{ aquifer\_sf,}
+                           \AttributeTok{model =}\NormalTok{ fit))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##    0.46    0.00    0.47
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(cv)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Classes 'sf' and 'data.frame':   85 obs. of  7 variables:
+##  $ var1.pred: num  15 23.5 22.9 24.6 17 ...
+##  $ var1.var : num  3.08 2.85 2.32 2.81 2.05 ...
+##  $ observed : num  14.6 25.5 21.6 24.6 17.6 ...
+##  $ residual : num  -0.3357 1.9962 -1.3101 -0.0792 0.5478 ...
+##  $ zscore   : num  -0.1914 1.1821 -0.8608 -0.0472 0.3829 ...
+##  $ fold     : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ geometry :sfc_POINT of length 85; first list element:  'XY' num  42.8 127.6
+##  - attr(*, "sf_column")= chr "geometry"
+##  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA NA NA
+##   ..- attr(*, "names")= chr [1:6] "var1.pred" "var1.var" "observed" "residual" ...
+\end{verbatim}
+
+Si el número de observaciones es grande puede ser preferible emplear k-fold CV (y como la partición en grupos es aleatoria se recomendaría fijar previamente la semilla de aleatorización):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\FunctionTok{system.time}\NormalTok{(cv }\OtherTok{\textless{}{-}} \FunctionTok{krige.cv}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ head }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lon }\SpecialCharTok{+}\NormalTok{ lat, }\AttributeTok{locations =}\NormalTok{ aquifer\_sf,}
+                           \AttributeTok{model =}\NormalTok{ fit, }\AttributeTok{nfold =} \DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    user  system elapsed 
+##    0.05    0.00    0.05
+\end{verbatim}
+
+Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{summary\_cv }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(cv.data, }\AttributeTok{na.rm =} \ConstantTok{FALSE}\NormalTok{,}
+                       \AttributeTok{tol =} \FunctionTok{sqrt}\NormalTok{(.Machine}\SpecialCharTok{$}\NormalTok{double.eps)) \{}
+\NormalTok{  err }\OtherTok{\textless{}{-}}\NormalTok{ cv.data}\SpecialCharTok{$}\NormalTok{residual      }\CommentTok{\# Errores}
+\NormalTok{  obs }\OtherTok{\textless{}{-}}\NormalTok{ cv.data}\SpecialCharTok{$}\NormalTok{observed}
+\NormalTok{  z }\OtherTok{\textless{}{-}}\NormalTok{ cv.data}\SpecialCharTok{$}\NormalTok{zscore}
+\NormalTok{  w }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{/}\FunctionTok{pmax}\NormalTok{(cv.data}\SpecialCharTok{$}\NormalTok{var1.var, tol) }\CommentTok{\# Ponderación según varianza kriging}
+  \ControlFlowTok{if}\NormalTok{(na.rm) \{}
+\NormalTok{    is.a }\OtherTok{\textless{}{-}} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(err)}
+\NormalTok{    err }\OtherTok{\textless{}{-}}\NormalTok{ err[is.a]}
+\NormalTok{    obs }\OtherTok{\textless{}{-}}\NormalTok{ obs[is.a]}
+\NormalTok{    z }\OtherTok{\textless{}{-}}\NormalTok{ z[is.a]}
+\NormalTok{    w }\OtherTok{\textless{}{-}}\NormalTok{ w[is.a]}
+\NormalTok{  \}}
+\NormalTok{  perr }\OtherTok{\textless{}{-}} \DecValTok{100}\SpecialCharTok{*}\NormalTok{err}\SpecialCharTok{/}\FunctionTok{pmax}\NormalTok{(obs, tol)  }\CommentTok{\# Errores porcentuales}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(}
+    \CommentTok{\# Medidas de error tradicionales}
+    \AttributeTok{me =} \FunctionTok{mean}\NormalTok{(err),           }\CommentTok{\# Error medio}
+    \AttributeTok{rmse =} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(err}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)), }\CommentTok{\# Raíz del error cuadrático medio}
+    \AttributeTok{mae =} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(err)),     }\CommentTok{\# Error absoluto medio}
+    \AttributeTok{mpe =} \FunctionTok{mean}\NormalTok{(perr),         }\CommentTok{\# Error porcentual medio}
+    \AttributeTok{mape =} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(perr)),   }\CommentTok{\# Error porcentual absoluto medio}
+    \AttributeTok{r.squared =} \DecValTok{1} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(err}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{((obs }\SpecialCharTok{{-}} \FunctionTok{mean}\NormalTok{(obs))}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), }\CommentTok{\# Pseudo R{-}cuadrado}
+    \CommentTok{\# Medidas de error que tienen en cuenta la varianza kriging}
+    \AttributeTok{dme =} \FunctionTok{mean}\NormalTok{(z),            }\CommentTok{\# Error estandarizado medio}
+    \AttributeTok{dmse =} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{mean}\NormalTok{(z}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)),    }\CommentTok{\# Error cuadrático medio adimensional}
+    \AttributeTok{rwmse =} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{weighted.mean}\NormalTok{(err}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{, w)) }\CommentTok{\# Raíz del ECM ponderado}
+\NormalTok{  ))}
+\NormalTok{\}}
+
+\FunctionTok{summary\_cv}\NormalTok{(cv)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           me         rmse          mae          mpe         mape    r.squared 
+##  0.058039856  1.788446500  1.407874022 -0.615720059  7.852363328  0.913398424 
+##          dme         dmse        rwmse 
+##  0.001337332  1.118978878  1.665958815
+\end{verbatim}
+
+Estas medidas podrían emplearse para seleccionar modelos (de tendencia y variograma), y también para ayudar a establecer los parámetros del vecindario para kriging local.
+
+Para detectar datos atípicos, o problemas con el modelo, podemos generar distintos gráficos.
+Por ejemplo, gráficos de dispersión de valores observados o residuos estándarizados frente a predicciones:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{old\_par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(observed }\SpecialCharTok{\textasciitilde{}}\NormalTok{ var1.pred, }\AttributeTok{data =}\NormalTok{ cv, }\AttributeTok{xlab =} \StringTok{"Predicción"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Observado"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =} \DecValTok{0}\NormalTok{, }\AttributeTok{b =} \DecValTok{1}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+
+\FunctionTok{plot}\NormalTok{(zscore }\SpecialCharTok{\textasciitilde{}}\NormalTok{ var1.pred, }\AttributeTok{data =}\NormalTok{ cv, }\AttributeTok{xlab =} \StringTok{"Predicción"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Residuo estandarizado"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h =} \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{3}\NormalTok{, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-16-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(old\_par)}
+\end{Highlighting}
+\end{Shaded}
+
+Gráficos con la distribución espacial de los residuos:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cv[}\StringTok{"residual"}\NormalTok{], }\AttributeTok{pch =} \DecValTok{20}\NormalTok{, }\AttributeTok{cex =} \DecValTok{2}\NormalTok{, }\AttributeTok{breaks =} \StringTok{"quantile"}\NormalTok{, }\AttributeTok{nbreaks =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(cv[}\StringTok{"zscore"}\NormalTok{], }\AttributeTok{pch =} \DecValTok{20}\NormalTok{, }\AttributeTok{cex =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-2} \end{center}
+
+Además de los gráficos estándar para analizar la distribución de los residuos estándarizados o detectar atípicos:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Histograma}
+\NormalTok{old\_par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+\FunctionTok{hist}\NormalTok{(cv}\SpecialCharTok{$}\NormalTok{zscore, }\AttributeTok{freq =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{density}\NormalTok{(cv}\SpecialCharTok{$}\NormalTok{zscore), }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\CommentTok{\# Gráfico de normalidad}
+\FunctionTok{qqnorm}\NormalTok{(cv}\SpecialCharTok{$}\NormalTok{zscore)}
+\FunctionTok{qqline}\NormalTok{(cv}\SpecialCharTok{$}\NormalTok{zscore, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\CommentTok{\# Boxplot}
+\NormalTok{car}\SpecialCharTok{::}\FunctionTok{Boxplot}\NormalTok{(cv}\SpecialCharTok{$}\NormalTok{zscore, }\AttributeTok{ylab =} \StringTok{"Residuos estandarizados"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+\begin{verbatim}
+## [1] 78
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(old\_par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+*** AQUÍ TERMINA LA MATERIA EVALUABLE EN EL CURSO 21/22 DE AEDD ***
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{otros-muxe9todos-kriging}{%
 \section{Otros métodos kriging}\label{otros-muxe9todos-kriging}}
@@ -3599,7 +4040,7 @@ son \(k\) procesos espaciales univariantes (y que se suponen en principio interd
 lo denominaremos proceso espacial multivariante (también se denomina proceso espacial vectorial, campo vectorial espacial o vector regionalizado).
 
 \hypertarget{esp-temp}{%
-\chapter{Procesos espaciales espacio-temporales}\label{esp-temp}}
+\chapter{Procesos espacio-temporales}\label{esp-temp}}
 
 \textbf{\emph{En preparación\ldots{}}}
 
@@ -3635,10 +4076,9 @@ y no es posible la interpolación temporal sin modelado adicional (ver Sección 
 \hypertarget{intro-sp}{%
 \chapter{\texorpdfstring{Introducción al paquete \textbf{sp}}{Introducción al paquete sp}}\label{intro-sp}}
 
-El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales\ldots{}
-
-Introducción, para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013})\ldots{}
-\url{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}
+El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales.
+En este apéndice se incluyen algunos ejemplos que pueden servir como introducción a las herramientas implementadas en este paquete.
+Para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}), consular las viñetas \href{https://cran.r-project.org/web/packages/sp/vignettes/intro_sp.pdf}{sp: classes and methods for spatial data} y \href{https://edzer.github.io/sp}{Plotting maps with sp} o la \href{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}{chuleta}.
 
 \hypertarget{tipos-de-objetos}{%
 \section{Tipos de objetos}\label{tipos-de-objetos}}
@@ -4596,7 +5036,7 @@ Alternativamente gráficos ggplot (\href{https://ggplot2.tidyverse.org}{\texttt{
 
 El paquete \href{http://www.leg.ufpr.br/geoR}{\texttt{geoR}} proporciona herramientas para el análisis de datos
 geoestadísticos en \texttt{R}
-(otra alternativa es el paquete \href{http://r-spatial.github.io/gstat}{\texttt{gstat}}, por ejemplo\ldots).
+(alternativa al paquete \href{http://r-spatial.github.io/gstat}{\texttt{gstat}}).
 A continuación se ilustran algunas de las capacidades de este paquete.
 
 \hypertarget{inicio-de-una-sesiuxf3n-y-de-carga-de-datos}{%
@@ -4854,7 +5294,7 @@ Los variogramas empíricos se calculan utilizando la función \texttt{variog}:
 \end{Shaded}
 
 La recomendación es considerar solo saltos hasta la mitad de la máxima
-distancia (ver `Distance summary' en resultados del sumario).
+distancia (ver \texttt{Distance\ summary} en resultados del sumario).
 
 \begin{Shaded}
 \begin{Highlighting}[]

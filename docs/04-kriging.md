@@ -30,8 +30,6 @@ Revisar referencias páginas Chilès y Delfiner 1999 -> 2012
 
 
 
-***En preparación...***
-
 En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging^[Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso] (ver Sección \@ref(geoestadistica) para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \@ref(multivar)). 
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (2012, capítulos 3, 4 y 6).
 
@@ -45,7 +43,7 @@ Si denotamos por $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} 
 * es uniformemente insesgado, para cualquier $\mu(\cdot)$:
   $$E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),$$
   
-* y minimiza el error en media cuadrática de predicción (*mean squared prediction error*, MSPE)^[Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g. Rivoirard, 1994) y del kriging trans-normal (ver Sección \@ref(kriging-trans-normal)).]:
+* y minimiza el error en media cuadrática de predicción (*mean squared prediction error*, MSPE):
   $$E\left( \left( p(\mathbf{Z},\mathbf{s}_{0})-Z(\mathbf{s}_{0})\right)^2 \right).$$
 
 En este capítulo, al hablar de predicción óptima, nos referiremos a que se verifican estas dos últimas condiciones.
@@ -280,24 +278,174 @@ krige(formula, locations, newdata, model, ..., beta)
 * `beta`: vector con los coeficientes de tendencia (incluida la intersección) si se supone conocida (se empleará para KS, en lugar de las estimaciones GLS empleadas en KO y KU).
 
 Esta función, además de kriging univariante puntual con vecindario global, también implementa kriging por bloques, cokriging (predicción multivariante), predicción local y simulación condicional.
-Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales:
+Para predicción (o simulación) local se pueden establecer los siguientes parámetros adicionales (ver Sección \@ref(eleccion-vecindario)):
 
 * `maxdist`: solo se utilizarán las observaciones a una distancia de la posición de predicción menor de este valor. 
 * `nmax`, `nmin` (opcionales): número máximo y mínimo de observaciones más cercanas. Si el número de observaciones más cercanas dentro de la distancia `maxdist` es menor que `nmin`, se generará un valor faltante.
 * `omax` (opcional): número máximo de observaciones por octante (3D) o cuadrante (2D).
 
-Los parámetros (opcionales) para simulación condicional son:
+Los parámetros (opcionales) para simulación condicional (ver e.g. Fernández-Casal y Cao, 2020, [Sección 7.5](https://rubenfcasal.github.io/simbook/simulaci%C3%B3n-condicional-e-incondicional.html)) son:
 
-* `nsim`: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging (ver Fernández-Casal y Cao, 2020, [Sección 7.5](https://rubenfcasal.github.io/simbook/simulaci%C3%B3n-condicional-e-incondicional.html)). 
+* `nsim`: número de generaciones. Si se establece un valor distinto de cero, se emplea simulación condicional en lugar de predicción kriging. 
 * `indicators`: valor lógico que determina el método de simulación. Por defecto (`FALSE`) emplea simulación condicional gaussiana, en caso contrario (`TRUE`) simula una variable indicadora.
 
-Ejemplos: [s100](s100.html) (KO) y [aquifer](aquifer.html) (KU).
+Como ejemplo consideraremos los datos del acuífero Wolfcamp con el modelo del kriging universal ajustado en la Sección \@ref(trend-fit) (en [s100](s100.html) se tiene un ejemplo adicional empleando KO).
 
+
+```r
+load("datos/aquifer.RData")
+library(sf)
+```
+
+```
+## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+```
+
+```r
+aquifer$head <- aquifer$head/100 # en cientos de pies...
+aquifer_sf <- st_as_sf(aquifer, coords = c("lon", "lat"), remove = FALSE, agr = "constant")
+library(gstat)
+vario <- variogram(head ~ lon + lat, aquifer_sf, cutoff = 150)
+fit <- fit.variogram(vario, vgm(model = "Sph", nugget = NA), fit.method = 2)
+```
+
+Como se mostró en el Ejemplo \@ref(exm:aquifer2), para generar la rejilla de predicción podemos utilizar la función `st_as_stars()` del paquete `stars` considerando un buffer de radio 40 en torno a las posiciones espaciales:
+
+
+```r
+buffer <- aquifer_sf %>% st_geometry() %>% st_buffer(40)
+library(stars)
+```
+
+```
+## Loading required package: abind
+```
+
+```
+## Registered S3 methods overwritten by 'stars':
+##   method             from
+##   st_bbox.SpatRaster sf  
+##   st_crs.SpatRaster  sf
+```
+
+```r
+grid <- buffer %>%  st_as_stars(nx = 50, ny = 50)
+```
+
+Como suponemos un modelo (no constante) para la tendencia, es necesario añadir los valores de las variables explicativas a la rejilla de predicción:
+
+
+```r
+coord <- st_coordinates(grid)
+grid$lon <- coord$x
+grid$lat <- coord$y
+```
+
+Además, en este caso recortamos la rejilla para filtrar predicciones alejadas de las observaciones:
+
+
+```r
+grid <- grid %>% st_crop(buffer)
+```
+
+Obtenemos las predicciones mediante kriging universal (Sección \@ref(kuniversal)):
+
+
+```r
+pred <- krige(formula = head ~ lon + lat, locations = aquifer_sf, model = fit,
+              newdata = grid)
+```
+
+```
+## [using universal kriging]
+```
+
+Aparentemente hay un ***ERROR en krige()*** y cambia las coordenadas del objeto `stars`:
+
+
+```r
+summary(st_coordinates(grid))
+```
+
+```
+##        x                 y         
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21
+```
+
+```r
+summary(st_coordinates(pred))
+```
+
+```
+##        x                 y         
+##  Min.   :-181.86   Min.   : 53.83  
+##  1st Qu.:-100.73   1st Qu.:115.11  
+##  Median : -16.22   Median :178.95  
+##  Mean   : -16.22   Mean   :178.95  
+##  3rd Qu.:  68.29   3rd Qu.:242.79  
+##  Max.   : 149.42   Max.   :304.08
+```
+
+Para evitar este problema podemos añadir los resultado al objeto `grid` y emplearlo en lugar de `pred`:
+
+
+```r
+grid$var1.pred <- pred$var1.pred
+grid$var1.var <- pred$var1.var
+```
+
+Podemos representar las predicciones y las varianzas kriging empleando `plot.stars()`:
+
+
+```r
+plot(grid["var1.pred"], breaks = "equal", col = sf.colors(64), key.pos = 4,
+     main = "Predicciones kriging")
+```
+
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-1} \end{center}
+
+```r
+plot(grid["var1.var"], breaks = "equal", col = sf.colors(64), key.pos = 4,
+     main = "Varianzas kriging")
+```
+
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-2} \end{center}
+
+<!-- Error: breaks = "pretty" -->
+
+También podríamos emplear el paquete `ggplot2`:
+
+
+```r
+library(ggplot2)
+library(gridExtra)
+p1 <- ggplot() + geom_stars(data = grid, aes(fill = var1.pred, x = x, y = y)) +
+    scale_fill_viridis_c() + geom_sf(data = aquifer_sf) +
+    coord_sf(lims_method = "geometry_bbox")
+p2 <- ggplot() + geom_stars(data = grid, aes(fill = var1.var, x = x, y = y)) +
+    scale_fill_viridis_c() + geom_sf(data = aquifer_sf) +
+    coord_sf(lims_method = "geometry_bbox")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 ## Consideraciones acerca de los métodos kriging {#consideraciones-kriging}
 
-Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado
-(BLUP, *best linear unbiased predictor*). Si el proceso es gaussiano, este predictor resulta ser el predictor más eficiente.
+Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado (BLUP, *best linear unbiased predictor*). 
+Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. 
+Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g. Rivoirard, 1994) y del kriging trans-normal (ver Sección \@ref(kriging-trans-normal)).
 
 En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
 Puede verse (Yakowitz y Szidarovszky, 1985) que, bajo condiciones muy generales, el predictor kriging con variograma estimado converge al valor correcto si la densidad de datos tiende a infinito, incluso cuando la estimación del variograma no es muy buena. 
@@ -452,7 +600,169 @@ krige.cv(formula, locations, model, nfold = nrow(data), ...)
 ```
 El resultado (un `data.frame` o un objeto del mismo tipo que `locations`), además de las predicciones y varianzas kriging de validación cruzada (en las posiciones de observación), contiene los componentes `observed` (valor observado),  `residual` (residuos),  `zscore` (residuos divididos por el error estándar kriging)  y `fold` (grupo de validación cruzada).
 
-Ejemplos: [s100](s100.html) (KO) y [aquifer](aquifer.html) (KU).
+Como ejemplo continuaremos con los datos del acuífero Wolfcamp (en [s100](s100.html) se tiene un ejemplo adicional empleando KO).
+Como ya se comentó, la función `krige.cv()` emplea LOOCV por defecto y puede requerir de mucho tiempo de computación (no implementa eficientemente esta técnica):
+
+
+```r
+system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
+                           model = fit))
+```
+
+```
+##    user  system elapsed 
+##    0.46    0.00    0.47
+```
+
+```r
+str(cv)
+```
+
+```
+## Classes 'sf' and 'data.frame':	85 obs. of  7 variables:
+##  $ var1.pred: num  15 23.5 22.9 24.6 17 ...
+##  $ var1.var : num  3.08 2.85 2.32 2.81 2.05 ...
+##  $ observed : num  14.6 25.5 21.6 24.6 17.6 ...
+##  $ residual : num  -0.3357 1.9962 -1.3101 -0.0792 0.5478 ...
+##  $ zscore   : num  -0.1914 1.1821 -0.8608 -0.0472 0.3829 ...
+##  $ fold     : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ geometry :sfc_POINT of length 85; first list element:  'XY' num  42.8 127.6
+##  - attr(*, "sf_column")= chr "geometry"
+##  - attr(*, "agr")= Factor w/ 3 levels "constant","aggregate",..: NA NA NA NA NA NA
+##   ..- attr(*, "names")= chr [1:6] "var1.pred" "var1.var" "observed" "residual" ...
+```
+
+Si el número de observaciones es grande puede ser preferible emplear k-fold CV (y como la partición en grupos es aleatoria se recomendaría fijar previamente la semilla de aleatorización):
+
+
+```r
+set.seed(1)
+system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
+                           model = fit, nfold = 10))
+```
+
+```
+##    user  system elapsed 
+##    0.05    0.00    0.05
+```
+
+Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
+
+
+```r
+summary_cv <- function(cv.data, na.rm = FALSE,
+                       tol = sqrt(.Machine$double.eps)) {
+  err <- cv.data$residual      # Errores
+  obs <- cv.data$observed
+  z <- cv.data$zscore
+  w <- 1/pmax(cv.data$var1.var, tol) # Ponderación según varianza kriging
+  if(na.rm) {
+    is.a <- !is.na(err)
+    err <- err[is.a]
+    obs <- obs[is.a]
+    z <- z[is.a]
+    w <- w[is.a]
+  }
+  perr <- 100*err/pmax(obs, tol)  # Errores porcentuales
+  return(c(
+    # Medidas de error tradicionales
+    me = mean(err),           # Error medio
+    rmse = sqrt(mean(err^2)), # Raíz del error cuadrático medio
+    mae = mean(abs(err)),     # Error absoluto medio
+    mpe = mean(perr),         # Error porcentual medio
+    mape = mean(abs(perr)),   # Error porcentual absoluto medio
+    r.squared = 1 - sum(err^2)/sum((obs - mean(obs))^2), # Pseudo R-cuadrado
+    # Medidas de error que tienen en cuenta la varianza kriging
+    dme = mean(z),            # Error estandarizado medio
+    dmse = sqrt(mean(z^2)),    # Error cuadrático medio adimensional
+    rwmse = sqrt(weighted.mean(err^2, w)) # Raíz del ECM ponderado
+  ))
+}
+
+summary_cv(cv)
+```
+
+```
+##           me         rmse          mae          mpe         mape    r.squared 
+##  0.058039856  1.788446500  1.407874022 -0.615720059  7.852363328  0.913398424 
+##          dme         dmse        rwmse 
+##  0.001337332  1.118978878  1.665958815
+```
+
+Estas medidas podrían emplearse para seleccionar modelos (de tendencia y variograma), y también para ayudar a establecer los parámetros del vecindario para kriging local.
+
+Para detectar datos atípicos, o problemas con el modelo, podemos generar distintos gráficos.
+Por ejemplo, gráficos de dispersión de valores observados o residuos estándarizados frente a predicciones:
+
+
+```r
+old_par <- par(mfrow = c(1, 2))
+plot(observed ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Observado")
+abline(a = 0, b = 1, col = "blue")
+
+plot(zscore ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Residuo estandarizado")
+abline(h = c(-3, -2, 0, 2, 3), lty = 3)
+```
+
+
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-16-1} \end{center}
+
+```r
+par(old_par)
+```
+
+Gráficos con la distribución espacial de los residuos:
+
+
+```r
+plot(cv["residual"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
+```
+
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-1} \end{center}
+
+```r
+plot(cv["zscore"], pch = 20, cex = 2)
+```
+
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-2} \end{center}
+
+Además de los gráficos estándar para analizar la distribución de los residuos estándarizados o detectar atípicos:
+
+
+```r
+# Histograma
+old_par <- par(mfrow = c(1, 3))
+hist(cv$zscore, freq = FALSE)
+lines(density(cv$zscore), col = "blue")
+# Gráfico de normalidad
+qqnorm(cv$zscore)
+qqline(cv$zscore, col = "blue")
+# Boxplot
+car::Boxplot(cv$zscore, ylab = "Residuos estandarizados")
+```
+
+
+
+\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+```
+## [1] 78
+```
+
+```r
+par(old_par)
+```
+
+---
+
+*** AQUÍ TERMINA LA MATERIA EVALUABLE EN EL CURSO 21/22 DE AEDD ***
+
+---
 
 
 ## Otros métodos kriging

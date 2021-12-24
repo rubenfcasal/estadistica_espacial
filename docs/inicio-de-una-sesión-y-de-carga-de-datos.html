@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-21" />
+<meta name="date" content="2021-12-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,6 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -182,11 +183,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>1.3</b> Procesos espaciales estacionarios</a>
 <ul>
-<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.1</b> Propiedades elementales del covariograma y del variograma</a></li>
-<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.2</b> Procesos agregados</a></li>
+<li class="chapter" data-level="1.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>1.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="1.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>1.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="1.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>1.3.3</b> Procesos agregados</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y pasos</a></li>
-<li class="chapter" data-level="1.5" data-path="el-paquete-gstat.html"><a href="el-paquete-gstat.html"><i class="fa fa-check"></i><b>1.5</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>1.4</b> Objetivos y procedimiento</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>2</b> Datos espaciales</a>
 <ul>
@@ -245,7 +246,7 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>5</b> Procesos espaciales multivariantes</a></li>
-<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales espacio-temporales</a></li>
+<li class="chapter" data-level="6" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>6</b> Procesos espacio-temporales</a></li>
 <li class="appendix"><span><b>Apendices</b></span></li>
 <li class="chapter" data-level="A" data-path="intro-sp.html"><a href="intro-sp.html"><i class="fa fa-check"></i><b>A</b> Introducción al paquete <strong>sp</strong></a>
 <ul>
@@ -312,7 +313,7 @@ div.csl-indent {
 <h2><span class="header-section-number">B.1</span> Inicio de una sesión y de carga de datos</h2>
 <p>Después de iniciar la sesión R, cargar <code>geoR</code> con el comando <code>library</code> (o
 <code>require</code>). Si el paquete se carga correctamente aparece un mensaje.</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoR)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(geoR)</span></code></pre></div>
 <pre><code>## --------------------------------------------------------------
 ##  Analysis of Geostatistical Data
 ##  For an Introduction to geoR go to http://www.leg.ufpr.br/geoR
@@ -330,11 +331,11 @@ elementos:</p>
 <p>Opcionalmente pueden tener otros elementos, como covariables
 y coordenadas de las fronteras de la zona de estudio.</p>
 <p>Hay algunos conjuntos de datos incluidos en el paquete de distribución.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data()                    # lista todos los conjuntos de datos disponibles</span></span>
-<span id="cb187-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data(package = &quot;geoR&quot;)    # lista los conjuntos de datos en el paquete geoR</span></span>
-<span id="cb187-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb187-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb187-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb187-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wolfcamp)              <span class="co"># carga el archivo de datos wolfcamp</span></span>
-<span id="cb187-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb187-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wolfcamp)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data()                    # lista todos los conjuntos de datos disponibles</span></span>
+<span id="cb231-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb231-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data(package = &quot;geoR&quot;)    # lista los conjuntos de datos en el paquete geoR</span></span>
+<span id="cb231-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb231-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb231-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb231-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wolfcamp)              <span class="co"># carga el archivo de datos wolfcamp</span></span>
+<span id="cb231-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb231-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wolfcamp)</span></code></pre></div>
 <pre><code>## Number of data points: 85 
 ## 
 ## Coordinates summary
@@ -350,30 +351,30 @@ y coordenadas de las fronteras de la zona de estudio.</p>
 ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
 ##  312.1095  471.8218  547.7156  610.2845  774.1778 1088.4209</code></pre>
 <p>Se pueden importar directamente un archivo de datos en formato texto:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb189-1" aria-hidden="true" tabindex="-1"></a>ncep <span class="ot">&lt;-</span> <span class="fu">read.geodata</span>(<span class="st">&#39;ncep.txt&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">data.col =</span> <span class="dv">4</span>)</span>
-<span id="cb189-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(ncep)</span></span>
-<span id="cb189-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(ncep)</span></span></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb233-1" aria-hidden="true" tabindex="-1"></a>ncep <span class="ot">&lt;-</span> <span class="fu">read.geodata</span>(<span class="st">&#39;ncep.txt&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>, <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">data.col =</span> <span class="dv">4</span>)</span>
+<span id="cb233-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb233-2" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(ncep)</span></span>
+<span id="cb233-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb233-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(ncep)</span></span></code></pre></div>
 <p>También se puede convertir un <code>data.frame</code> a un objeto <code>geodata</code>:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-1" aria-hidden="true" tabindex="-1"></a>ncep.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;ncep.txt&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb190-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ncep.df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;x&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;z&#39;</span>)</span>
-<span id="cb190-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="co"># str(ncep.df)</span></span>
-<span id="cb190-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Nota: los datos son espacio-temporales, pero geoR sólo admite datos 2D</span></span>
-<span id="cb190-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb190-6"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-6" aria-hidden="true" tabindex="-1"></a>datgeo <span class="ot">&lt;-</span> <span class="fu">as.geodata</span>(ncep.df, <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">data.col =</span> <span class="dv">4</span>)</span>
-<span id="cb190-7"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(datgeo)</span></span>
-<span id="cb190-8"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb190-8" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(datgeo)</span></span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-1" aria-hidden="true" tabindex="-1"></a>ncep.df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&#39;ncep.txt&#39;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb234-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ncep.df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;x&#39;</span>, <span class="st">&#39;y&#39;</span>, <span class="st">&#39;t&#39;</span>, <span class="st">&#39;z&#39;</span>)</span>
+<span id="cb234-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-3" aria-hidden="true" tabindex="-1"></a><span class="co"># str(ncep.df)</span></span>
+<span id="cb234-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Nota: los datos son espacio-temporales, pero geoR sólo admite datos 2D</span></span>
+<span id="cb234-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb234-6"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-6" aria-hidden="true" tabindex="-1"></a>datgeo <span class="ot">&lt;-</span> <span class="fu">as.geodata</span>(ncep.df, <span class="at">coords.col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">data.col =</span> <span class="dv">4</span>)</span>
+<span id="cb234-7"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(datgeo)</span></span>
+<span id="cb234-8"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb234-8" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(datgeo)</span></span></code></pre></div>
 <p>O objetos de datos espaciales (entre ellos los compatibles del paquete <code>sp</code>),
 por ejemplo el siguiente código crea un objeto <code>SpatialPointsDataFrame</code>
 y lo convierte a <code>geodata</code>:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
-<span id="cb191-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;caballa.galicia.RData&quot;</span>)</span>
-<span id="cb191-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(caballa.galicia) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
-<span id="cb191-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-4" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(caballa.galicia) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)</span>
-<span id="cb191-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb191-6"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-6" aria-hidden="true" tabindex="-1"></a>datgeo <span class="ot">&lt;-</span> <span class="fu">as.geodata</span>(caballa.galicia[<span class="st">&quot;lcpue&quot;</span>])</span>
-<span id="cb191-7"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Problemas con coordenadas duplicadas  (ver ?duplicated)</span></span>
-<span id="cb191-8"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(datgeo)</span></span>
-<span id="cb191-9"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb191-9" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(datgeo)     </span></span></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb235-2"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;caballa.galicia.RData&quot;</span>)</span>
+<span id="cb235-3"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(caballa.galicia) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>,<span class="st">&quot;y&quot;</span>)</span>
+<span id="cb235-4"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-4" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(caballa.galicia) <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=WGS84&quot;</span>)</span>
+<span id="cb235-5"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb235-6"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-6" aria-hidden="true" tabindex="-1"></a>datgeo <span class="ot">&lt;-</span> <span class="fu">as.geodata</span>(caballa.galicia[<span class="st">&quot;lcpue&quot;</span>])</span>
+<span id="cb235-7"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Problemas con coordenadas duplicadas  (ver ?duplicated)</span></span>
+<span id="cb235-8"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(datgeo)</span></span>
+<span id="cb235-9"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#cb235-9" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(datgeo)     </span></span></code></pre></div>
 <p>En la documentación de las funciones <code>as.geodata</code> y <code>read.geodata</code>
 hay más información sobre cómo importar/convertir datos.</p>
 </div>

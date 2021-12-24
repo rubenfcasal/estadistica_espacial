@@ -166,25 +166,43 @@ rvario.cloud <- variogram(z ~ 1, datos, cloud = TRUE, cressie = TRUE, cutoff = 0
 rvario <- variogram(z ~ 1, datos, cloud = FALSE, cressie = TRUE, cutoff = 0.6)
 # Representar
 oldpar <- par(mfrow = c(1, 2))
-# Clásico
-with(vario.cloud,  plot(dist, gamma, col = "darkgray", 
-                        xlab = "distance", ylab =  "semivariance"))
-with(vario, points(dist, gamma, pch = 19))
-# Robusto
-with(rvario.cloud,  plot(dist, gamma, col = "darkgray", 
-                        xlab = "distance", ylab =  "semivariance"))
-with(rvario, points(dist, gamma, pch = 19))
+# Nube de semivarianzas clásicas
+with(vario.cloud,  plot(dist, gamma, xlab = "distance", ylab = "semivariances"))
+# Nube de semivarianzas robustas
+with(rvario.cloud,  plot(dist, gamma, xlab = "distance", ylab = "semivariances"))
 ```
 
+\begin{figure}[!htb]
 
+{\centering \includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-cloud-1} 
 
-\begin{center}\includegraphics[width=0.9\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} \end{center}
+}
+
+\caption{Nubes de semivarianzas clásicas (izquierda) y robustas (derecha) del conjunto de datos simulado.}(\#fig:vario-rvario-cloud)
+\end{figure}
 
 ```r
 par(oldpar)
 ```
 
-Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad):
+
+```r
+with(vario, plot(dist, gamma, pch = 19, 
+                        xlab = "distance", ylab =  "semivariance"))
+with(rvario, points(dist, gamma))
+legend("bottomright", c("clásico", "robusto"), pch = c(19, 1))
+```
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/vario-rvario-1} 
+
+}
+
+\caption{Estimaciones clásicas y robustas del semivariograma (datos simulados).}(\#fig:vario-rvario)
+\end{figure}
+
+Para detectar observaciones atípicas podríamos emplear la nube de semivarianzas (preferiblemente las robustas, ya que tienen una distribución más próxima a la normalidad)^[Estableciendo `identify = TRUE` (o `digitize = TRUE`) en `plot.variogramCloud()` podríamos identificar semivarianzas atípicas (o pares de datos atípicos) de forma interactiva.]:
 
 ```r
 res <- as.data.frame(rvario.cloud)
@@ -268,7 +286,7 @@ Estos modelos son empleados también en ciertos casos como estructuras básicas 
 ### Modelos paramétricos isotrópicos {#modelos-parametricos}
 
 A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1). 
-En la notación utilizada en las parametrizaciones $c_{0} \geq 0$ representa el efecto nugget, $c_1 \geq 0$ el umbral parcial (en el caso de variogramas acotados, con $\sigma^2= c_0 + c_1$) y $a>0$ el rango (si existe) o el parámetro de escala. 
+En la notación utilizada en las parametrizaciones $c_0 \geq 0$ representa el efecto nugget, $c_1 \geq 0$ el umbral parcial (en el caso de variogramas acotados, con $\sigma^2= c_0 + c_1$) y $a>0$ el rango (si existe) o el parámetro de escala. 
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro $a$ representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95% del umbral parcial.
 En la Figura \@ref(fig:show-vgms) se tienen algunos ejemplos de las formas de algunos de
 estos semivariogramas.
@@ -277,10 +295,10 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. ) = \left\{ 
   \begin{array}{ll}
   0 & \text{si} \left\| \mathbf{h}\right\| =0 \\
-  c_{0} +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
+  c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
   -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)
   3\right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
-  c_{0} +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
+  c_0 +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
   \end{array}
   \right.$$ 
   válido en $\mathbb{R}^{d}$, $d=1,2,3$.
@@ -289,7 +307,7 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
+  c_0 + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
   \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\  \mathbf{h}\neq
   \mathbf{0}
   \end{array}
@@ -300,7 +318,7 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
+  c_0 + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
   }{\frac{1}{19} a^2 +\left\| \mathbf{h}\right\|^2 }  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
@@ -311,7 +329,7 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + a\left\| \mathbf{h}\right\|^{\lambda }  & \text{si}\ 
+  c_0 + a\left\| \mathbf{h}\right\|^{\lambda }  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.$$ 
@@ -322,7 +340,7 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
+  c_0 + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
   \mathbf{h}\right\| }{a} \right)^{\lambda } \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
   \end{array}
@@ -339,20 +357,20 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
+  c_0 + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
   \text{sen} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right) 
   & \text{si}\  \mathbf{h}\neq \mathbf{0}
   \end{array}
   \right.$$ 
   válido en $\mathbb{R}^{d}$, $d=1,2,3$. 
-  Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( $c_{0} +1.218c_1$) cuando $\left\| \mathbf{h}\right\| \simeq 4.5a$, siendo $a$ el parámetro de escala.
+  Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( $c_0 +1.218c_1$) cuando $\left\| \mathbf{h}\right\| \simeq 4.5a$, siendo $a$ el parámetro de escala.
 
 
 * Modelo de Matérn (o K-Bessel):
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_{0} + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
+  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
@@ -608,9 +626,9 @@ Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima vero
 
 ### Estimación por mínimos cuadrados {#ls-fit}
 
-Supongamos que $2\gamma(\mathbf{h};\boldsymbol{\theta}_{0})$ es el variograma teórico y que $\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})$, $i = 1,\ldots,K$, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g. alguno de los mostrados en la Sección 4.1.1).
+Supongamos que $2\gamma(\mathbf{h};\boldsymbol{\theta}_0)$ es el variograma teórico y que $\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})$, $i = 1,\ldots,K$, son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g. alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p. 194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e. $\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}$); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e. $\left| N(\mathbf{h}_{i})\right| \geq 30$).
-Habitualmente (e.g. Cressie, 1993, p. 96-97) la estimación por mínimos cuadrados de $\boldsymbol{\theta}_{0}$ se obtiene al minimizar:
+Habitualmente (e.g. Cressie, 1993, p. 96-97) la estimación por mínimos cuadrados de $\boldsymbol{\theta}_0$ se obtiene al minimizar:
 \begin{equation} 
   \left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\boldsymbol{\theta})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),
   (\#eq:ls-obj)
@@ -653,8 +671,8 @@ Aunque para obtener las expresiones (o aproximaciones) de las varianzas y covari
 Esta es una de las principales ventajas de los métodos WLS o GLS frente a otras alternativas (como los métodos basados en máxima verosimilitud); como utilizan solamente la estructura de segundo orden (asintótica) del estimador del variograma, no es necesario hacer suposiciones sobre la distribución completa de los datos^[La distribución y eficiencia asintótica de los estimadores mínimo cuadráticos ha sido estudiada por Lahiri et al. (2003), demostrando su consistencia y normalidad asintótica bajo condiciones muy generales.]. 
 
 Como comentario final, en la función objetivo \@ref(eq:ls-obj) de los criterios WLS y GLS anteriores, la matriz de pesos utilizada en el ajuste $\mathbf{V}(\boldsymbol{\theta})$ depende también del parámetro sobre el que se realiza la minimización (y al minimizar \@ref(eq:ls-obj) en cierto sentido se están maximizando también las varianzas), por lo que puede ser preferible utilizar un algoritmo iterativo.
-Por ejemplo comenzar con pesos OLS (o WLS con $w_{i} = \left| N(\mathbf{h}_{i})\right| / \| \mathbf{h}_{i} \|^2$) y posteriormente en cada etapa $k$ obtener una nueva aproximación $\hat{\boldsymbol{\theta}}_{0}^{(k)}$ al minimizar:
-$$\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\hat{\boldsymbol{\theta}}_{0}^{(k-1)})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),$$
+Por ejemplo comenzar con pesos OLS (o WLS con $w_{i} = \left| N(\mathbf{h}_{i})\right| / \| \mathbf{h}_{i} \|^2$) y posteriormente en cada etapa $k$ obtener una nueva aproximación $\hat{\boldsymbol{\theta}}_0^{(k)}$ al minimizar:
+$$\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\hat{\boldsymbol{\theta}}_0^{(k-1)})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),$$
 repitiendo este proceso hasta convergencia (realmente muchos de los algoritmos diseñados para el ajuste por mínimos cuadrados proceden de esta forma).
 
 En `gstat` el ajuste OLS y WLS se realiza mediante la función:
@@ -698,7 +716,7 @@ fit.npairs <- fit.variogram(vario, model = fit.ols, fit.method = 1)
 
 ```r
 fit.lin <- fit.variogram(vario, model = modelo, fit.method = 7)
-fit.cressie <- fit.variogram(vario, model = fit.lin, fit.method = 2) 
+fit <- fit.variogram(vario, model = fit.lin, fit.method = 2) 
 # Representar:
 # Cuidado con plot.variogramModel() si se pretende añadir elementos
 plot(vario$dist, vario$gamma, xlab = "distance", ylab =  "semivariance", 
@@ -706,7 +724,7 @@ plot(vario$dist, vario$gamma, xlab = "distance", ylab =  "semivariance",
 lines(variogramLine(fit.ols, maxdist = 0.6), lty = 2)
 lines(variogramLine(fit.npairs, maxdist = 0.6), lty = 3)
 lines(variogramLine(fit.lin, maxdist = 0.6), lty = 4)
-lines(variogramLine(fit.cressie, maxdist = 0.6))
+lines(variogramLine(fit, maxdist = 0.6))
 legend("bottomright", c("ols", "npairs", "default (linear)", "cressie"), lty = c(2, 3, 4, 1))
 ```
 
@@ -714,9 +732,23 @@ legend("bottomright", c("ols", "npairs", "default (linear)", "cressie"), lty = c
 
 \begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
+En general, se recomendaría emplear pesos inversamente proporcionales a la varianza (`fit.method = 2`).
+Si quisiésemos comparar el ajuste de distintos modelos (con el mismo criterio de ajuste) se podría considerar el valor mínimo de la función objetivo WLS, almacenado como un atributo del resultado (aunque la recomendación sería emplear validación cruzada, Sección \@ref(validacion-cruzada)):
+
+
 ```r
-# Parámetros estimados:
-fit.cressie
+attr(fit, "SSErr")
+```
+
+```
+## [1] 52.83535
+```
+
+Imprimiendo el resultado del ajuste obtenemos las estimaciones de los parámetros, que podríamos interpretar (ver Sección \@ref(caracteristicas-variograma) y Sección \@ref(efecto-variog-kriging)).
+
+
+```r
+fit
 ```
 
 ```
@@ -726,15 +758,30 @@ fit.cressie
 ```
 
 ```r
-# Error ajuste
-attr(fit.cressie, "SSErr")
+nugget <- fit$psill[1]
+sill <- nugget + fit$psill[2]
+range <- 3*fit$range[2] # Parámetro de escala en model = "Exp"
 ```
 
-```
-## [1] 52.83535
+NOTA: Cuidado, en el caso del modelo exponencial, el parámetro que aparece como `range` es un parámetro de escala proporcional al verdadero rango práctico (tres veces ese valor).
+
+
+```r
+plot(vario$dist, vario$gamma, xlab = "distance", ylab =  "semivariance", 
+     xlim = c(0, range*1.1), ylim = c(0, sill*1.1))
+lines(variogramLine(fit, maxdist = range*1.1))
+abline(v = 0, lty = 3)
+abline(v = range, lty = 3)
+abline(h = nugget, lty = 3)
+abline(h = sill, lty = 3)
 ```
 
-En `gstat` el ajuste GLS se podría realizar mediante la función:
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-15-1} \end{center}
+
+
+En `gstat` el ajuste con el criterio GLS se podría realizar mediante la función:
 
 ```r
 fit.variogram.gls(formula, data, model, maxiter = 30, eps = .01, 
@@ -851,7 +898,7 @@ Para ilustrar este problema supongamos que el proceso de error $\varepsilon(\cdo
 $$\hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z} = \mathbf{P}_{gls}\mathbf{Z},$$
 siendo $\mathbf{P}_{gls}$ la matriz de proyección.
 Empleando este estimador obtenemos el vector de residuos:
-$$\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{ols} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},$$
+$$\mathbf{r} =\mathbf{Z}-\mathbf{X}\hat{\boldsymbol{\beta}}_{gls} =\left( \mathbf{I}_{n} - \mathbf{P}_{gls} \right)\mathbf{Z},$$
 cuya matriz de varianzas-covarianzas resulta ser:
 $$\begin{aligned}
 Var(\mathbf{r}) &=(\mathbf{I}_{n} -\mathbf{P}_{gls})\boldsymbol{\Sigma}(\mathbf{I}_{n}
@@ -898,7 +945,7 @@ donde $\boldsymbol{\Sigma}=\boldsymbol{\Sigma}(\boldsymbol{\theta})$ (utilizando
 En este caso, la función de densidad de los datos es:
 $$f(\mathbf{z})=(2\pi )^{-\frac{n}{2} } \left| \boldsymbol{\Sigma} \right|^{-\frac{1}{2} }
 \exp \left\{ -\dfrac{1}{2}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{z}-\mathbf{X}\boldsymbol{\beta})\right\}.$$
-Además en la mayoría de los casos podemos reparametrizar el covariograma^[Por ejemplo en el caso de los semivariogramas mostrados en la Sección \@ref(modelos-parametricos), si $c_{0}$ es el efecto nugget y $c_1$ el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) $\sigma^2 =c_{0} +c_1$ y la proporción de nugget en el umbral total $c_{0}^{\ast} =c_{0} /(c_{0} +c_1)$ (lo que equivale a suponer en las expresiones del covariograma que $c_1 =1$ y $0 \leq c_{0} \leq 1$).] de forma que:
+Además en la mayoría de los casos podemos reparametrizar el covariograma^[Por ejemplo en el caso de los semivariogramas mostrados en la Sección \@ref(modelos-parametricos), si $c_0$ es el efecto nugget y $c_1$ el umbral parcial, en lugar de éstos parámetros se considerarían la varianza (umbral) $\sigma^2 =c_0 +c_1$ y la proporción de nugget en el umbral total $c_0^{\ast} =c_0 /(c_0 +c_1)$ (lo que equivale a suponer en las expresiones del covariograma que $c_1 = 1 - c_0$ y $0 \leq c_0 \leq 1$).] de forma que:
 $$\boldsymbol{\Sigma}=\sigma^2 \mathbf{V}(\boldsymbol{\theta}),$$
 siendo $\sigma^2$ la varianza desconocida (o umbral total), y se obtiene que la expresión del logaritmo negativo de la función de verosimilitud (*negative log likelihood*, NLL) es:
 $$\begin{aligned}

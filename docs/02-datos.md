@@ -895,29 +895,84 @@ El resultado de las operaciones lógicas es una matriz dispersa (de clase `sgbp`
 
 ---
 
-\BeginKnitrBlock{exercise}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-117-110-97-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
-<span class="exercise" id="exr:aquifer2"><strong>(\#exr:aquifer2)  \iffalse (Creación de una rejilla de predicción) \fi{} </strong></span>
-Continuando con los datos del Ejercicio \@ref(exr:aquifer1), generar un buffer 
-(`st_buffer()`) de radio 40 en torno a las posiciones espaciales, a partir de él crear 
-una rejilla vectorial (`st_make_grid(..., what = "centers")`) de dimensiones 
-50 por 50 e intersecarla con el buffer. Representar todos los objetos.
+\BeginKnitrBlock{example}\iffalse{-91-67-114-101-97-99-105-243-110-32-100-101-32-117-110-97-32-114-101-106-105-108-108-97-32-100-101-32-112-114-101-100-105-99-99-105-243-110-93-}\fi{}
+<span class="example" id="exm:aquifer2"><strong>(\#exm:aquifer2)  \iffalse (Creación de una rejilla de predicción) \fi{} </strong></span>
+Continuando con los datos del Ejercicio \@ref(exr:aquifer1), para crear un objeto con las posiciones de predicción, podríamos generar un buffer (`st_buffer()`) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (`st_make_grid(..., what = "centers")`) de dimensiones 50 por 50 e intersecarla con el buffer. 
+\EndKnitrBlock{example}
+<!-- \@ref(exm:aquifer2) -->
 
-\EndKnitrBlock{exercise}
-<!-- \@ref(exr:aquifer2) -->
 
----
+```r
+load("datos/aquifer.RData")
+aquifer$head <- aquifer$head/100 # en cientos de pies
+aquifer_sf <- st_as_sf(aquifer, coords = c("lon", "lat"), agr = "constant")
+buffer <- aquifer_sf %>% st_geometry() %>%  st_buffer(40)
+grid <- buffer %>% st_make_grid(n = c(50, 50), what = "centers") %>% 
+  st_intersection(buffer)
+plot(buffer)
+plot(grid, pch = 3, cex = 0.5, add = TRUE)
+```
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/aquifer2-grid-1} 
+
+}
+
+\caption{Rejilla en torno a las posiciones de los datos de `aquifer`.}(\#fig:aquifer2-grid)
+\end{figure}
+
+Sin embargo, en lugar de emplear una rejilla `sf`, puede resultar preferible (por ejemplo para la representación gráfica) emplear una rejilla `stars`
+
+
+```r
+library(stars)
+```
+
+```
+## Loading required package: abind
+```
+
+```r
+grid <- buffer %>%  st_as_stars(nx = 50, ny = 50) %>% st_crop(buffer)
+idw <- gstat::idw(formula = head ~ 1, locations = aquifer_sf, newdata = grid)
+```
+
+```
+## [inverse distance weighted interpolation]
+```
+
+```r
+plot(idw["var1.pred"], col = sf.colors(64), main = "")
+```
+
+\begin{figure}[!htb]
+
+{\centering \includegraphics[width=0.7\linewidth]{02-datos_files/figure-latex/aquifer2-idw-1} 
+
+}
+
+\caption{Interpolación por IDW (Inverse Distance Weighting) de los datos del acuífero Wolfcamp.}(\#fig:aquifer2-idw)
+\end{figure}
+
+```r
+# Error gstat::idw, cambia las coordenadas del objeto stars
+# summary(st_coordinates(grid))
+# summary(st_coordinates(idw))
+# Posible solución: añadir el resultado a `grid` y emplearlo en lugar de `idw`
+# grid$var1.pred <- idw$var1.pred
+# plot(grid["var1.pred"], col = sf.colors(64), axes = TRUE, main = "")
+```
+
 
 ## Análisis exploratorio de datos espaciales {#sp-eda}
 
 Como se comentó en la Sección \@ref(objetivos-esquema), el primer paso para estimar las componentes del modelo, la tendencia $\mu(\mathbf{s})$ y el semivariograma $\gamma(\mathbf{h})$, es realizar un análisis exploratorio de los datos.
 
 Normalmente comenzaremos por un análisis descriptivo de la respuesta.
-Sería deseable que su distribución fuese aproximadamente simétrica (de forma que los métodos 
-basados en mínimos cuadrados sean adecuados).
-Si además la distribución es aproximadamente normal (después de eliminar la tendencia) tendría sentido emplear métodos basados en 
-máxima verosimilitud (Sección \@ref(ml-fit)).
-Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida
-(aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).
+Sería deseable que su distribución fuese aproximadamente simétrica (de forma que los métodos basados en mínimos cuadrados sean adecuados).
+Si además la distribución es aproximadamente normal (después de eliminar la tendencia) tendría sentido emplear métodos basados en máxima verosimilitud (Sección \@ref(ml-fit)) y los predictores kriging serían los más eficientes (Sección \@ref(consideraciones-kriging)).
+Si su distribución es muy asimétrica se puede pensar en transformarla como punto de partida (aunque podría cambiarse posteriormente dependiendo del modelo final para la tendencia).
 
 
 ```r
@@ -959,8 +1014,7 @@ lines(density(z), col = 'blue')
 \end{figure}
 
 En un segundo paso se podría tener en cuenta las coordenadas espaciales.
-Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa 
-algún patrón claro (lo que nos haría sospechar que la tendencia no es constante).
+Por ejemplo, podríamos generar un gráfico de dispersión para ver si se observa algún patrón claro (lo que nos haría sospechar que la tendencia no es constante).
 
 
 ```r
