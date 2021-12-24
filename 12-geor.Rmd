@@ -32,7 +32,7 @@ image.xxx add
 
 El paquete [`geoR`](http://www.leg.ufpr.br/geoR) proporciona herramientas para el análisis de datos
 geoestadísticos en `R` 
-(otra alternativa es el paquete [`gstat`](http://r-spatial.github.io/gstat), por ejemplo...). 
+(alternativa al paquete [`gstat`](http://r-spatial.github.io/gstat)). 
 A continuación se ilustran algunas de las capacidades de este paquete.
 
 
@@ -186,7 +186,7 @@ par(oldpar)
 ```
 
 La recomendación es considerar solo saltos hasta la mitad de la máxima 
-distancia (ver 'Distance summary' en resultados del sumario).
+distancia (ver `Distance summary` en resultados del sumario).
 
 ```{r }
 vario <- variog(s100, max.dist = 0.6)
