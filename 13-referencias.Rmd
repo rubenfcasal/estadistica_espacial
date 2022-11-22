@@ -21,3 +21,6 @@ Wikle, C.K., Zammit-Mangion, A. y Cressie, N. (2019). *Spatio-temporal Statistic
 
 ## Bibliografía completa {-}
 
+
+Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. *Economic Geography*, **46**, 234-240.
+
