@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -340,8 +340,18 @@ Sin embargo, esta suposición puede influir crucialmente en la inferencia (e.g.�
 De forma natural surge la hipótesis de que los datos cercanos en el espacio o en el tiempo están correlados y que la correlación disminuye al aumentar la separación entre ellos, por lo que se puede pensar en la presencia de una dependencia espacial o espacio-temporal.
 Esto da lugar al concepto de <em>proceso espacial o espacio-temporal</em> (Sección <a href="proc-esp.html#proc-esp">1.1</a>).
 La <em>geoestadística</em> (Sección <a href="geoestadistica.html#geoestadistica">1.2</a>) es una de las ramas de la estadística que se centra en el estudio de procesos de este tipo.</p>
+<blockquote>
+<p>“… the first law of geography: everything is related to everything else, but near things are more related than distant things”.</p>
+<p>— Tobler, 1970.</p>
+</blockquote>
+<!-- 
+"everything is related to everything else, but closer things more so" 
+The Ghost Map: Spatial Analysis in Time of Cholera (1854)
+Fisher (1935) and Mahalanobis (1944)
+PAP Moran (1948), RC Greary (1954) and P Whittle (1954) The Crime Map: Crime in Columbus (1980)
+-->
 <p>La metodología espacial y espacio-temporal ha sido utilizada de forma creciente (especialmente durante los últimos 50 años) para resolver problemas en muchos campos.
-En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, astronomía, proceso de imágenes, experimentos agrícolas, etc.
+En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, economía, astronomía, proceso de imágenes, experimentos agrícolas, etc.
 En estas disciplinas la metodología espacial puede ser de ayuda en alguna o en muchas etapas del estudio, desde el diseño inicial del muestreo hasta la representación final de los resultados obtenidos (p.e. para la generación de mapas o animaciones).</p>
 </div>
             </section>

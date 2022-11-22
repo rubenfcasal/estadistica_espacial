@@ -38,7 +38,7 @@ Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1
 Si denotamos por $\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} )\right)^\top$ valores observados del proceso, los distintos métodos kriging proporcionan un predictor $p(\mathbf{Z},\mathbf{s}_{0})$ de $Z(\mathbf{s}_{0})$ verificando que:
 
 * es lineal:
-  $$p(\mathbf{Z},\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) +\lambda_{0},$$
+  $$p(\mathbf{Z},\mathbf{s}_{0}) = \lambda_{0} + \sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}),$$
   
 * es uniformemente insesgado, para cualquier $\mu(\cdot)$:
   $$E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),$$
@@ -76,7 +76,7 @@ en lugar de suponer que son funciones de $\mathbf{s}_{1}-\mathbf{s}_{2}$.
 Supongamos que el proceso $Z(\cdot)$ admite una descomposición de la forma:
 $$Z(\mathbf{s})=\mu(\mathbf{s})+\varepsilon(\mathbf{s}),$$
 siendo $\mu(\cdot)$ la función de tendencia conocida y $\varepsilon(\cdot)$ un proceso espacial de media cero con covariograma conocido $C(\mathbf{s}_{1}, \mathbf{s}_{2}) =Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))$ (no necesariamente estacionario, aunque en la práctica se suele suponer que $\varepsilon(\cdot)$ es un proceso estacionario de segundo orden).
-El predictor óptimo será de la forma y tal que minimiza el MSPE , que puede expresarse como:
+El predictor lineal óptimo minimiza el MSPE, que puede expresarse como:
 $$\begin{aligned}
 E\left[ \left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right)^2 \right]  
 & = Var\left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right) 
@@ -112,7 +112,7 @@ $$\sigma_{KS}^{2} (\mathbf{s}_{0})=C(\mathbf{s}_{0},\mathbf{s}_{0}
 Una de las principales utilidades de la varianza kriging es la construcción de intervalos de confianza (normalmente basados en la hipótesis de normalidad).
 
 Para que exista una única solución del sistema la matriz $\boldsymbol{\Sigma}$ debe ser no singular. 
-Una condición suficiente para que esto ocurra es que el covariograma $C(\cdot ,\cdot)$ sea una función semidefinida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección \@ref(anisotropia)) y las posiciones de los datos sean distintas.
+Una condición suficiente para que esto ocurra es que el covariograma $C(\cdot ,\cdot)$ sea una función definida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección \@ref(anisotropia)) y las posiciones de los datos sean distintas.
 En la práctica suele interesar la predicción en múltiples posiciones.
 Teniendo en cuenta que la matriz del sistema no depende de la posición
 de predicción^[Además, tanto los pesos kriging como la varianza kriging no dependen de los datos observados, solamente de las posiciones y del covariograma (lo que por ejemplo, entre otras cosas, facilita el diseño de la configuración espacial de muestreo).], el procedimiento recomendado sería calcular la factorización Cholesky de la matriz $\boldsymbol{\Sigma}$ y posteriormente emplear esta factorización para resolver el sistema en cada posición de predicción $\mathbf{s}_{0}$.
@@ -611,7 +611,7 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.46    0.00    0.47
+##    0.58    0.00    0.57
 ```
 
 ```r
@@ -643,7 +643,7 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.05    0.00    0.05
+##    0.06    0.00    0.07
 ```
 
 Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
@@ -758,12 +758,13 @@ car::Boxplot(cv$zscore, ylab = "Residuos estandarizados")
 par(old_par)
 ```
 
----
+<!-- 
+--- 
 
 *** AQUÍ TERMINA LA MATERIA EVALUABLE EN EL CURSO 21/22 DE AEDD ***
 
 ---
-
+-->
 
 ## Otros métodos kriging
 

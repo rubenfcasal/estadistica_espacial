@@ -35,8 +35,22 @@ De forma natural surge la hipótesis de que los datos cercanos en el espacio o e
 Esto da lugar al concepto de *proceso espacial o espacio-temporal* (Sección \@ref(proc-esp)).
 La *geoestadística* (Sección \@ref(geoestadistica)) es una de las ramas de la estadística que se centra en el estudio de procesos de este tipo.
 
+
+
+
+> "... the first law of geography: everything is related to everything else, but near things are more related than distant things".
+>
+> --- Tobler, 1970.
+
+<!-- 
+"everything is related to everything else, but closer things more so" 
+The Ghost Map: Spatial Analysis in Time of Cholera (1854)
+Fisher (1935) and Mahalanobis (1944)
+PAP Moran (1948), RC Greary (1954) and P Whittle (1954) The Crime Map: Crime in Columbus (1980)
+-->
+
 La metodología espacial y espacio-temporal ha sido utilizada de forma creciente (especialmente durante los últimos 50 años) para resolver problemas en muchos campos. 
-En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, astronomía, proceso de imágenes, experimentos agrícolas, etc. 
+En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, economía, astronomía, proceso de imágenes, experimentos agrícolas, etc. 
 En estas disciplinas la metodología espacial puede ser de ayuda en alguna o en muchas etapas del estudio, desde el diseño inicial del muestreo hasta la representación final de los resultados obtenidos (p.e. para la generación de mapas o animaciones). 
 
 
@@ -73,13 +87,18 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     países, provincias, ayuntamientos, zonas sanitarias...). Son muy comunes en 
     econometría o epidemiología. [Figura \@ref(fig:mortalidad)]
 
+    
+    ```
+    ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+    ```
+    
     \begin{figure}[!htb]
     
     {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/mortalidad-1} 
     
     }
     
-    \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856)).}(\#fig:mortalidad)
+    \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546)).}(\#fig:mortalidad)
     \end{figure}
     
 -   **Procesos/patrones puntuales** (índice espacial aleatorio):
@@ -139,7 +158,7 @@ En este libro emplearemos principalmente el paquete `gstat` para el análisis de
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
 -->
 
-### El paquete **gstat**
+### El paquete **gstat** {#gstat-pkg}
 
 El paquete [`gstat`](https://r-spatial.github.io/gstat) permite la modelización geoestadística (univariante, Capítulo \@ref(modelado), y multivariante, Capítulo \@ref(multivar)), espacial y espacio-temporal (Capítulo \@ref(esp-temp)), incluyendo predicción y simulación (Capítulo \@ref(kriging) y secciones 5.X y 6.X). 
 
@@ -199,7 +218,7 @@ donde:
 
 Como en condiciones normales únicamente se dispone de una realización parcial del proceso, se suelen asumir hipótesis adicionales de estacionariedad sobre el proceso de error $\varepsilon(\mathbf{s})$ para hacer posible la inferencia.
 En la Sección \@ref(procesos-estacionarios) se definen los principales tipos de estacionariedad habitualmente considerados en geoestadística y se introducen dos funciones relacionadas con procesos estacionarios, el covariograma y el variograma. 
-Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección 2.2.
+Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección \@ref(procesos-estacionarios).
 
 <!-- 
 Se podrían considerar un modelo aún más general heterocedástico (ver Fernández-Casal *et al.*, 2017). 
@@ -251,7 +270,7 @@ donde $\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0}
 Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia $\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{ols}$ (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
 $$\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},$$ 
-sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
+sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección \@ref(kriging-residual)) que en este caso el mejor predictor lineal insesgado es:
 \begin{equation} 
   \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   (\#eq:predictor-kriging)
@@ -310,7 +329,7 @@ El proceso $Z(\cdot)$ se dice *estacionario de segundo orden* (también proceso 
 -   $Cov(Z(\mathbf{s}_1), Z(\mathbf{s}_2)) = C(\mathbf{s}_1 -\mathbf{s}_2),\ \forall \mathbf{s}_1 ,\mathbf{s}_2 \in D$.
 
 La función $C(\cdot)$ se denomina *covariograma* (también autocovariograma o función de covarianzas).
-Si además $C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)$ (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es *isotrópico* (en caso contrario se dice que es *anisotrópico*; \@ref(anisotropia)).
+Si además $C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)$ (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es *isotrópico* (en caso contrario se dice que es *anisotrópico*; Sección \@ref(anisotropia)).
 
 Si un proceso es estrictamente estacionario y $Var(Z(\mathbf{s}))$ es finita, entonces es estacionario de segundo orden. 
 Además, como es bien conocido, en el caso de procesos normales ambas propiedades son equivalentes (ya que están caracterizados por su media y covarianza).
@@ -339,7 +358,7 @@ entonces su semivariograma viene dado por:
 $$\gamma (\mathbf{h}) = C(\mathbf{0})-C(\mathbf{h}),$$
 y por tanto es un proceso intrínsecamente estacionario. 
 El reciproco en general no es cierto (por ejemplo el caso de un [movimiento browniano](https://es.wikipedia.org/wiki/Movimiento_browniano#Matem%C3%A1ticas)), aunque sí se verifica en muchos casos.
-Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente).
+Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente; ver Sección \@ref(trend-fit)).
 
 Si el variograma está acotado y:
 $$\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty }\gamma(\mathbf{h})=\sigma^2,$$
@@ -484,7 +503,7 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 4.  Empleo del modelo aceptado (Capítulo \@ref(kriging)).
 
 
-Como ya se comentó, emplearemos el paquete [`gstat`](https://r-spatial.github.io/gstat) en este proceso.
+Como ya se comentó, emplearemos el paquete [`gstat`](https://r-spatial.github.io/gstat) en este proceso (Sección \@ref(gstat-pkg)).
 
 
 

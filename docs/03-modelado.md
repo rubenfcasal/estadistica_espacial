@@ -187,7 +187,7 @@ par(oldpar)
 
 
 ```r
-with(vario, plot(dist, gamma, pch = 19, 
+with(vario, plot(dist, gamma, pch = 19, ylim = c(0, 1),
                         xlab = "distance", ylab =  "semivariance"))
 with(rvario, points(dist, gamma))
 legend("bottomright", c("clásico", "robusto"), pch = c(19, 1))

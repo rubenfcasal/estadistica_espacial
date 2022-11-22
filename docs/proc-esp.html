@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -336,10 +336,11 @@ observado en determinadas posiciones. Es habitual que los datos se correspondan
 con agregaciones (totales o valores medios) de una determinada zona (por ejemplo,
 países, provincias, ayuntamientos, zonas sanitarias…). Son muy comunes en
 econometría o epidemiología.</p>
+<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:mortalidad"></span>
-<img src="01-introduccion_files/figure-html/mortalidad-1.png" alt="Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856))." width="70%" />
+<img src="01-introduccion_files/figure-html/mortalidad-1.png" alt="Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546&amp;L=0))." width="70%" />
 <p class="caption">
-Figura 1.2: Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales <a href="https://www.ine.es/jaxi/Tabla.htm?tpx=21856">INE</a>).
+Figura 1.2: Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos <a href="https://www.ine.es/jaxiT3/Tabla.htm?t=6546&amp;L=0">INE</a>).
 </p>
 </div></li>
 <li><p><strong>Procesos/patrones puntuales</strong> (índice espacial aleatorio):
@@ -387,10 +388,10 @@ En la Sección <a href="datos-tipos.html#datos-tipos">2.1</a> se incluye informa
 Para detalles sobre la evolución de los distintos paquetes: https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
 -->
 </div>
-<div id="el-paquete-gstat" class="section level3" number="1.1.2">
+<div id="gstat-pkg" class="section level3" number="1.1.2">
 <h3><span class="header-section-number">1.1.2</span> El paquete <strong>gstat</strong></h3>
 <p>El paquete <a href="https://r-spatial.github.io/gstat"><code>gstat</code></a> permite la modelización geoestadística (univariante, Capítulo <a href="modelado.html#modelado">3</a>, y multivariante, Capítulo <a href="multivar.html#multivar">5</a>), espacial y espacio-temporal (Capítulo <a href="esp-temp.html#esp-temp">6</a>), incluyendo predicción y simulación (Capítulo <a href="kriging.html#kriging">4</a> y secciones 5.X y 6.X).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="proc-esp.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="proc-esp.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span></code></pre></div>
 <p>Este paquete implementa su propia estructura de datos (S3, basada en <code>data.frame</code>) pero también es compatible con los objetos <code>Spatial*</code> del paquete <code>sp</code> (Apéndice <a href="intro-sp.html#intro-sp">A</a>) y los objetos de datos de los paquetes <code>sf</code> y <code>stars</code> (Capítulo <a href="datos.html#datos">2</a>).</p>
 <p>Para más información se pueden consultar la <a href="https://r-spatial.github.io/gstat/reference/index.html">referencia</a>, las viñetas del paquete:</p>
 <ul>

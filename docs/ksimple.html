@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -314,7 +314,7 @@ div.csl-indent {
 <p>Supongamos que el proceso <span class="math inline">\(Z(\cdot)\)</span> admite una descomposición de la forma:
 <span class="math display">\[Z(\mathbf{s})=\mu(\mathbf{s})+\varepsilon(\mathbf{s}),\]</span>
 siendo <span class="math inline">\(\mu(\cdot)\)</span> la función de tendencia conocida y <span class="math inline">\(\varepsilon(\cdot)\)</span> un proceso espacial de media cero con covariograma conocido <span class="math inline">\(C(\mathbf{s}_{1}, \mathbf{s}_{2}) =Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))\)</span> (no necesariamente estacionario, aunque en la práctica se suele suponer que <span class="math inline">\(\varepsilon(\cdot)\)</span> es un proceso estacionario de segundo orden).
-El predictor óptimo será de la forma y tal que minimiza el MSPE , que puede expresarse como:
+El predictor lineal óptimo minimiza el MSPE, que puede expresarse como:
 <span class="math display">\[\begin{aligned}
 E\left[ \left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right)^2 \right]  
 &amp; = Var\left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right) 
@@ -349,7 +349,7 @@ donde <span class="math inline">\(\boldsymbol{\mu}=\left( \mu(\mathbf{s}_{1}), \
 )-\mathbf{c^\top }\boldsymbol{\Sigma}^{-1} \mathbf{c}.\]</span>
 Una de las principales utilidades de la varianza kriging es la construcción de intervalos de confianza (normalmente basados en la hipótesis de normalidad).</p>
 <p>Para que exista una única solución del sistema la matriz <span class="math inline">\(\boldsymbol{\Sigma}\)</span> debe ser no singular.
-Una condición suficiente para que esto ocurra es que el covariograma <span class="math inline">\(C(\cdot ,\cdot)\)</span> sea una función semidefinida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>) y las posiciones de los datos sean distintas.
+Una condición suficiente para que esto ocurra es que el covariograma <span class="math inline">\(C(\cdot ,\cdot)\)</span> sea una función definida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>) y las posiciones de los datos sean distintas.
 En la práctica suele interesar la predicción en múltiples posiciones.
 Teniendo en cuenta que la matriz del sistema no depende de la posición
 de predicción<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>, el procedimiento recomendado sería calcular la factorización Cholesky de la matriz <span class="math inline">\(\boldsymbol{\Sigma}\)</span> y posteriormente emplear esta factorización para resolver el sistema en cada posición de predicción <span class="math inline">\(\mathbf{s}_{0}\)</span>.</p>

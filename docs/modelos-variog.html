@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -405,7 +405,7 @@ siendo <span class="math inline">\(\nu \geq 0\)</span> (un parámetro de suaviza
 Este modelo es válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>. El modelo exponencial se obtiene como caso particular cuando <span class="math inline">\(\nu =\frac{1}{2}\)</span> y en el límite <span class="math inline">\(\nu \rightarrow \infty\)</span> el modelo gausiano.</p></li>
 </ul>
 <p>En <code>gstat</code> se emplea la función <code>vgm()</code> (<em>Variogram Model</em>) para definir un modelo de variograma:</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="modelos-variog.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>(<span class="at">psill =</span> <span class="cn">NA</span>, model, <span class="at">range =</span> <span class="cn">NA</span>, nugget, add.to, anis, <span class="at">kappa =</span> <span class="fl">0.5</span>, ...)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="modelos-variog.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>(<span class="at">psill =</span> <span class="cn">NA</span>, model, <span class="at">range =</span> <span class="cn">NA</span>, nugget, add.to, anis, <span class="at">kappa =</span> <span class="fl">0.5</span>, ...)</span></code></pre></div>
 <ul>
 <li><code>psill</code>: umbral parcial (<span class="math inline">\(c_1\)</span>).</li>
 <li><code>model</code>: cadena de texto que identifica el modelo (e.g. <code>"Exp"</code>, <code>"Sph"</code>, <code>"Gau"</code>, <code>"Mat"</code>…).</li>
@@ -417,7 +417,7 @@ Este modelo es válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <
 </ul>
 <p>Lo habitual es definir un modelo para posteriormente estimar sus parámetros utilizando los empleados en la definición como valores iniciales. También se puede llamar a esta función con el modelo como primer y único argumento, indicando que los parámetros son desconocidos (para que tome los valores por defecto en el ajuste). Por defecto considerará que el nugget es nulo (y no se estimará), únicamente se considerará un efecto nugget si se especifica, aunque sea <code>nugget = NA</code>.
 Si se ejecuta sin argumentos devuelve un listado de todos los modelos:</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="modelos-variog.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="modelos-variog.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vgm</span>()</span></code></pre></div>
 <pre><code>##    short                                      long
 ## 1    Nug                              Nug (nugget)
 ## 2    Exp                         Exp (exponential)
@@ -440,26 +440,26 @@ Si se ejecuta sin argumentos devuelve un listado de todos los modelos:</p>
 ## 19   Err                   Err (Measurement error)
 ## 20   Int                           Int (Intercept)</code></pre>
 <p>La función <code>show.vgms()</code> genera gráficos con los distintos modelos (por defecto los 17 primeros):</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="modelos-variog.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="modelos-variog.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-vgms"></span>
 <img src="03-modelado_files/figure-html/show-vgms-1.png" alt="Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete `gstat`." width="70%" />
 <p class="caption">
 Figura 3.4: Representaciones de los modelos paramétricos isotrópicos de semivariogramas implementados en el paquete <code>gstat</code>.
 </p>
 </div>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="modelos-variog.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>(<span class="at">kappa.range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">max =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="modelos-variog.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show.vgms</span>(<span class="at">kappa.range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="at">max =</span> <span class="dv">10</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:show-matern"></span>
 <img src="03-modelado_files/figure-html/show-matern-1.png" alt="Modelo de Matérn con distintos valores del parámetro de suavizado." width="70%" />
 <p class="caption">
 Figura 3.5: Modelo de Matérn con distintos valores del parámetro de suavizado.
 </p>
 </div>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="modelos-variog.html#cb92-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
-<span id="cb92-2"><a href="modelos-variog.html#cb92-2" aria-hidden="true" tabindex="-1"></a>v1</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="modelos-variog.html#cb93-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Exp&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">nugget =</span> <span class="dv">0</span>)</span>
+<span id="cb93-2"><a href="modelos-variog.html#cb93-2" aria-hidden="true" tabindex="-1"></a>v1</span></code></pre></div>
 <pre><code>##   model psill range
 ## 1   Nug     0   0.0
 ## 2   Exp     1   0.5</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="modelos-variog.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v1, <span class="at">cutoff =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="modelos-variog.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(v1, <span class="at">cutoff =</span> <span class="dv">3</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:vgm-exp"></span>
 <img src="03-modelado_files/figure-html/vgm-exp-1.png" alt="Ejemplo de modelo exponencial." width="70%" />
 <p class="caption">
@@ -501,8 +501,8 @@ Esto puede extenderse fácilmente para el caso tridimensional (ver e.g. Chilès
 <p>En <code>gstat</code> se puede definir<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> anisotropía mediante el argumento <code>anis</code> de la función <code>vgm()</code>.
 En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)</code>, <code>alpha</code> es el ángulo para la dirección principal de variabilidad (en grados, medido en el sentido del reloj partiendo de la dirección norte, i.e. <code>phi = (90 - alpha)*pi/180</code>) y <code>ratio</code> la relación entre el rango mínimo y máximo (<span class="math inline">\(0 \leq ratio = a_2/a_1 \leq 1\)</span>).</p>
 <p>Ejemplo:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="modelos-variog.html#cb95-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">1</span>, <span class="st">&quot;Exp&quot;</span>, <span class="dv">5</span>, <span class="at">anis =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="fl">0.1</span>))</span>
-<span id="cb95-2"><a href="modelos-variog.html#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(v)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="modelos-variog.html#cb96-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="dv">1</span>, <span class="st">&quot;Exp&quot;</span>, <span class="dv">5</span>, <span class="at">anis =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="fl">0.1</span>))</span>
+<span id="cb96-2"><a href="modelos-variog.html#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(v)</span></code></pre></div>
 <pre><code>## Classes &#39;variogramModel&#39; and &#39;data.frame&#39;:   1 obs. of  9 variables:
 ##  $ model: Factor w/ 20 levels &quot;Nug&quot;,&quot;Exp&quot;,&quot;Sph&quot;,..: 2
 ##  $ psill: num 1
@@ -513,21 +513,21 @@ En dos dimensiones es un vector con dos componentes <code>anis = c(alpha, ratio)
 ##  $ ang3 : num 0
 ##  $ anis1: num 0.1
 ##  $ anis2: num 1</code></pre>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="modelos-variog.html#cb97-1" aria-hidden="true" tabindex="-1"></a>plot_ellipse_2d <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">xc =</span> <span class="dv">0</span>, <span class="at">yc =</span> <span class="dv">0</span>, <span class="at">l1 =</span> <span class="dv">10</span>, <span class="at">l2 =</span> <span class="dv">1</span>, <span class="at">phi =</span> pi<span class="sc">/</span><span class="dv">3</span>, </span>
-<span id="cb97-2"><a href="modelos-variog.html#cb97-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="fl">0.01</span>, <span class="at">asp =</span> <span class="dv">1</span>, ...) {</span>
-<span id="cb97-3"><a href="modelos-variog.html#cb97-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># xc, yc: centro</span></span>
-<span id="cb97-4"><a href="modelos-variog.html#cb97-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># l1, l2: longitud semiejes</span></span>
-<span id="cb97-5"><a href="modelos-variog.html#cb97-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># phi: angulo del eje 1 respecto al eje x</span></span>
-<span id="cb97-6"><a href="modelos-variog.html#cb97-6" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi, by)</span>
-<span id="cb97-7"><a href="modelos-variog.html#cb97-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> xc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi) <span class="sc">-</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi)</span>
-<span id="cb97-8"><a href="modelos-variog.html#cb97-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> yc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi) <span class="sc">+</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi)</span>
-<span id="cb97-9"><a href="modelos-variog.html#cb97-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">asp =</span> asp, ...)</span>
-<span id="cb97-10"><a href="modelos-variog.html#cb97-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb97-11"><a href="modelos-variog.html#cb97-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-12"><a href="modelos-variog.html#cb97-12" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(v, <span class="fu">plot_ellipse_2d</span>(<span class="at">l1 =</span> range, <span class="at">l2 =</span> range<span class="sc">*</span>anis1, </span>
-<span id="cb97-13"><a href="modelos-variog.html#cb97-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">phi =</span> (<span class="dv">90</span> <span class="sc">-</span> ang1)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
-<span id="cb97-14"><a href="modelos-variog.html#cb97-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb97-15"><a href="modelos-variog.html#cb97-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="modelos-variog.html#cb98-1" aria-hidden="true" tabindex="-1"></a>plot_ellipse_2d <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">xc =</span> <span class="dv">0</span>, <span class="at">yc =</span> <span class="dv">0</span>, <span class="at">l1 =</span> <span class="dv">10</span>, <span class="at">l2 =</span> <span class="dv">1</span>, <span class="at">phi =</span> pi<span class="sc">/</span><span class="dv">3</span>, </span>
+<span id="cb98-2"><a href="modelos-variog.html#cb98-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">by =</span> <span class="fl">0.01</span>, <span class="at">asp =</span> <span class="dv">1</span>, ...) {</span>
+<span id="cb98-3"><a href="modelos-variog.html#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># xc, yc: centro</span></span>
+<span id="cb98-4"><a href="modelos-variog.html#cb98-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># l1, l2: longitud semiejes</span></span>
+<span id="cb98-5"><a href="modelos-variog.html#cb98-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># phi: angulo del eje 1 respecto al eje x</span></span>
+<span id="cb98-6"><a href="modelos-variog.html#cb98-6" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="sc">*</span>pi, by)</span>
+<span id="cb98-7"><a href="modelos-variog.html#cb98-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> xc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi) <span class="sc">-</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi)</span>
+<span id="cb98-8"><a href="modelos-variog.html#cb98-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> yc <span class="sc">+</span> l1<span class="sc">*</span><span class="fu">cos</span>(t)<span class="sc">*</span><span class="fu">sin</span>(phi) <span class="sc">+</span> l2<span class="sc">*</span><span class="fu">sin</span>(t)<span class="sc">*</span><span class="fu">cos</span>(phi)</span>
+<span id="cb98-9"><a href="modelos-variog.html#cb98-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(x, y, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">asp =</span> asp, ...)</span>
+<span id="cb98-10"><a href="modelos-variog.html#cb98-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb98-11"><a href="modelos-variog.html#cb98-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-12"><a href="modelos-variog.html#cb98-12" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(v, <span class="fu">plot_ellipse_2d</span>(<span class="at">l1 =</span> range, <span class="at">l2 =</span> range<span class="sc">*</span>anis1, </span>
+<span id="cb98-13"><a href="modelos-variog.html#cb98-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">phi =</span> (<span class="dv">90</span> <span class="sc">-</span> ang1)<span class="sc">*</span>pi<span class="sc">/</span><span class="dv">180</span>))</span>
+<span id="cb98-14"><a href="modelos-variog.html#cb98-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb98-15"><a href="modelos-variog.html#cb98-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="03-modelado_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>En el caso de la anisotropía zonal se suele considerar una combinación de un semivariograma isotrópico más otros “zonales” que depende solamente de la distancia en ciertas direcciones (o componentes del vector de salto).
 Por ejemplo, en el caso bidimensional, si <span class="math inline">\(\phi\)</span> es la dirección de mayor varianza se suele considerar una combinación de la forma:
@@ -556,19 +556,19 @@ Sin embargo, es difícil establecer un procedimiento automático (o semi-automá
 Esto provoca que el proceso normalmente se realice en la práctica de forma interactiva por el usuario y utilizando principalmente herramientas gráficas<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>; siendo por tanto poco recomendables para algunos casos.
 En primer lugar hay que especificar el número y tipo de estructuras básicas, y en segundo lugar (aunque se suele hacer en la práctica de forma simultánea) está el problema de la estimación de los parámetros, donde puede ser especialmente complicado la determinación de los rangos y los parámetros de anisotropía de los distintos componentes (es de esperar que aparezcan problemas en la optimización).</p>
 <p>En <code>gstat</code> se pueden definir modelos de este tipo empleando el parámetro <code>add.to</code> de la función <code>vgm()</code>.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="modelos-variog.html#cb98-1" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>)</span>
-<span id="cb98-2"><a href="modelos-variog.html#cb98-2" aria-hidden="true" tabindex="-1"></a>v12 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">add.to =</span> v1)</span>
-<span id="cb98-3"><a href="modelos-variog.html#cb98-3" aria-hidden="true" tabindex="-1"></a>v12</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="modelos-variog.html#cb99-1" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>)</span>
+<span id="cb99-2"><a href="modelos-variog.html#cb99-2" aria-hidden="true" tabindex="-1"></a>v12 <span class="ot">&lt;-</span> <span class="fu">vgm</span>(<span class="at">psill =</span> <span class="dv">1</span>, <span class="at">model =</span> <span class="st">&quot;Gau&quot;</span>, <span class="at">range =</span> <span class="fl">0.5</span>, <span class="at">add.to =</span> v1)</span>
+<span id="cb99-3"><a href="modelos-variog.html#cb99-3" aria-hidden="true" tabindex="-1"></a>v12</span></code></pre></div>
 <pre><code>##   model psill range
 ## 1   Nug     0   0.0
 ## 2   Exp     1   0.5
 ## 3   Gau     1   0.5</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="modelos-variog.html#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado con plot.variogramModel() si se pretende añadir elementos</span></span>
-<span id="cb100-2"><a href="modelos-variog.html#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variogramLine</span>(v12, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.25</span>))</span>
-<span id="cb100-3"><a href="modelos-variog.html#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v1, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb100-4"><a href="modelos-variog.html#cb100-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v2, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb100-5"><a href="modelos-variog.html#cb100-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Exponencial&quot;</span>, <span class="st">&quot;Gaussiano&quot;</span>, <span class="st">&quot;Anidado&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>), </span>
-<span id="cb100-6"><a href="modelos-variog.html#cb100-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="modelos-variog.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado con plot.variogramModel() si se pretende añadir elementos</span></span>
+<span id="cb101-2"><a href="modelos-variog.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variogramLine</span>(v12, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.25</span>))</span>
+<span id="cb101-3"><a href="modelos-variog.html#cb101-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v1, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb101-4"><a href="modelos-variog.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">variogramLine</span>(v2, <span class="at">maxdist =</span> <span class="dv">3</span>), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb101-5"><a href="modelos-variog.html#cb101-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Exponencial&quot;</span>, <span class="st">&quot;Gaussiano&quot;</span>, <span class="st">&quot;Anidado&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>), </span>
+<span id="cb101-6"><a href="modelos-variog.html#cb101-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>), <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
 <p><img src="03-modelado_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
 </div>

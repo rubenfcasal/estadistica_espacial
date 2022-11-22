@@ -3,7 +3,7 @@ title: "Estadística Espacial con R"
 author: 
   - "Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)"
   - "Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)"
-date: "2021-12-24"
+date: "2022-11-22"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book

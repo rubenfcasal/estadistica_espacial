@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -328,7 +328,7 @@ Lo habitual es asumir algún tipo de estacionariedad del proceso (o del proceso 
 <li><p><span class="math inline">\(Cov(Z(\mathbf{s}_1), Z(\mathbf{s}_2)) = C(\mathbf{s}_1 -\mathbf{s}_2),\ \forall \mathbf{s}_1 ,\mathbf{s}_2 \in D\)</span>.</p></li>
 </ul>
 <p>La función <span class="math inline">\(C(\cdot)\)</span> se denomina <em>covariograma</em> (también autocovariograma o función de covarianzas).
-Si además <span class="math inline">\(C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)\)</span> (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es <em>isotrópico</em> (en caso contrario se dice que es <em>anisotrópico</em>; <a href="modelos-variog.html#anisotropia">3.2.2</a>).</p>
+Si además <span class="math inline">\(C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)\)</span> (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es <em>isotrópico</em> (en caso contrario se dice que es <em>anisotrópico</em>; Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>).</p>
 <p>Si un proceso es estrictamente estacionario y <span class="math inline">\(Var(Z(\mathbf{s}))\)</span> es finita, entonces es estacionario de segundo orden.
 Además, como es bien conocido, en el caso de procesos normales ambas propiedades son equivalentes (ya que están caracterizados por su media y covarianza).</p>
 <p>En algunos casos en lugar del covariograma se utiliza el correlograma:
@@ -352,7 +352,7 @@ entonces su semivariograma viene dado por:
 <span class="math display">\[\gamma (\mathbf{h}) = C(\mathbf{0})-C(\mathbf{h}),\]</span>
 y por tanto es un proceso intrínsecamente estacionario.
 El reciproco en general no es cierto (por ejemplo el caso de un <a href="https://es.wikipedia.org/wiki/Movimiento_browniano#Matem%C3%A1ticas">movimiento browniano</a>), aunque sí se verifica en muchos casos.
-Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente).</p>
+Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente; ver Sección <a href="ajuste-variog.html#trend-fit">3.3.2</a>).</p>
 <p>Si el variograma está acotado y:
 <span class="math display">\[\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty }\gamma(\mathbf{h})=\sigma^2,\]</span>
 entonces<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> podemos obtener el covariograma correspondiente como:

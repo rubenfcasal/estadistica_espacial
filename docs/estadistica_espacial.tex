@@ -179,7 +179,7 @@
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2021-12-24}
+\date{2022-11-22}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -289,8 +289,14 @@ De forma natural surge la hipótesis de que los datos cercanos en el espacio o e
 Esto da lugar al concepto de \emph{proceso espacial o espacio-temporal} (Sección \ref{proc-esp}).
 La \emph{geoestadística} (Sección \ref{geoestadistica}) es una de las ramas de la estadística que se centra en el estudio de procesos de este tipo.
 
+\begin{quote}
+``\ldots{} the first law of geography: everything is related to everything else, but near things are more related than distant things''.
+
+--- Tobler, 1970.
+\end{quote}
+
 La metodología espacial y espacio-temporal ha sido utilizada de forma creciente (especialmente durante los últimos 50 años) para resolver problemas en muchos campos.
-En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, astronomía, proceso de imágenes, experimentos agrícolas, etc.
+En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, economía, astronomía, proceso de imágenes, experimentos agrícolas, etc.
 En estas disciplinas la metodología espacial puede ser de ayuda en alguna o en muchas etapas del estudio, desde el diseño inicial del muestreo hasta la representación final de los resultados obtenidos (p.e. para la generación de mapas o animaciones).
 
 \hypertarget{proc-esp}{%
@@ -329,13 +335,17 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
   países, provincias, ayuntamientos, zonas sanitarias\ldots). Son muy comunes en
   econometría o epidemiología. {[}Figura \ref{fig:mortalidad}{]}
 
+\begin{verbatim}
+## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+\end{verbatim}
+
   \begin{figure}[!htb]
 
   {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/mortalidad-1} 
 
   }
 
-  \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856)).}\label{fig:mortalidad}
+  \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546)).}\label{fig:mortalidad}
   \end{figure}
 \item
   \textbf{Procesos/patrones puntuales} (índice espacial aleatorio):
@@ -391,8 +401,8 @@ En la Sección \ref{datos-tipos} se incluye información adicional sobre estos p
 
 En este libro emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (siguiente sección; aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice \ref{intro-geoR}) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
 
-\hypertarget{el-paquete-gstat}{%
-\subsection{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{el-paquete-gstat}}
+\hypertarget{gstat-pkg}{%
+\subsection{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{gstat-pkg}}
 
 El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo \ref{modelado}, y multivariante, Capítulo \ref{multivar}), espacial y espacio-temporal (Capítulo \ref{esp-temp}), incluyendo predicción y simulación (Capítulo \ref{kriging} y secciones 5.X y 6.X).
 
@@ -458,7 +468,7 @@ donde:
 
 Como en condiciones normales únicamente se dispone de una realización parcial del proceso, se suelen asumir hipótesis adicionales de estacionariedad sobre el proceso de error \(\varepsilon(\mathbf{s})\) para hacer posible la inferencia.
 En la Sección \ref{procesos-estacionarios} se definen los principales tipos de estacionariedad habitualmente considerados en geoestadística y se introducen dos funciones relacionadas con procesos estacionarios, el covariograma y el variograma.
-Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección 2.2.
+Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección \ref{procesos-estacionarios}.
 
 \hypertarget{modelos-clasicos-espaciales}{%
 \subsection{Modelos clásicos y modelos espaciales}\label{modelos-clasicos-espaciales}}
@@ -504,7 +514,7 @@ donde \(\mathbf{x}_0=\left( X_{0} (\mathbf{s}_{0} ), \ldots,X_{p} (\mathbf{s}_{0
 Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimación de la tendencia \(\hat{\mu}(\mathbf{s}_{0} ) = \mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{ols}\) (el predictor óptimo de un error independiente sería cero).
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
 \[\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},\]
-sin embargo no es el predictor lineal óptimo. Puede verse (e.g.~Goldberger, 1962; Sección 4.X) que en este caso el mejor predictor lineal insesgado es:
+sin embargo no es el predictor lineal óptimo. Puede verse (e.g.~Goldberger, 1962; Sección \ref{kriging-residual}) que en este caso el mejor predictor lineal insesgado es:
 \begin{equation} 
   \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   \label{eq:predictor-kriging}
@@ -569,7 +579,7 @@ El proceso \(Z(\cdot)\) se dice \emph{estacionario de segundo orden} (también p
 \end{itemize}
 
 La función \(C(\cdot)\) se denomina \emph{covariograma} (también autocovariograma o función de covarianzas).
-Si además \(C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)\) (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es \emph{isotrópico} (en caso contrario se dice que es \emph{anisotrópico}; \ref{anisotropia}).
+Si además \(C(\mathbf{h}) \equiv C(\left\| \mathbf{h}\right\|)\) (sólo depende de la magnitud y no de la dirección del salto) se dice que el covariograma es \emph{isotrópico} (en caso contrario se dice que es \emph{anisotrópico}; Sección \ref{anisotropia}).
 
 Si un proceso es estrictamente estacionario y \(Var(Z(\mathbf{s}))\) es finita, entonces es estacionario de segundo orden.
 Además, como es bien conocido, en el caso de procesos normales ambas propiedades son equivalentes (ya que están caracterizados por su media y covarianza).
@@ -601,7 +611,7 @@ entonces su semivariograma viene dado por:
 \[\gamma (\mathbf{h}) = C(\mathbf{0})-C(\mathbf{h}),\]
 y por tanto es un proceso intrínsecamente estacionario.
 El reciproco en general no es cierto (por ejemplo el caso de un \href{https://es.wikipedia.org/wiki/Movimiento_browniano\#Matem\%C3\%A1ticas}{movimiento browniano}), aunque sí se verifica en muchos casos.
-Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente).
+Normalmente cuando no se verifica es debido a que el proceso no tiene media constante y puede ser modelado como una función de tendencia más un error estacionario de segundo orden (o cuando se consideran los errores del modelo general, la tendencia no está especificada correctamente; ver Sección \ref{trend-fit}).
 
 Si el variograma está acotado y:
 \[\lim \limits_{\left\| \mathbf{h}\right\| \rightarrow \infty }\gamma(\mathbf{h})=\sigma^2,\]
@@ -764,12 +774,12 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
   Empleo del modelo aceptado (Capítulo \ref{kriging}).
 \end{enumerate}
 
-Como ya se comentó, emplearemos el paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} en este proceso.
+Como ya se comentó, emplearemos el paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} en este proceso (Sección \ref{gstat-pkg}).
 
 \hypertarget{datos}{%
 \chapter{Datos espaciales}\label{datos}}
 
-En este capítulo se incluye una breve introducción a los tipos de datos espaciales (Sección \ref{datos-tipos}) y a su manipulación en R con el paquete \texttt{sf} (secciones \ref{sf-intro} y \ref{operaciones-datos}).
+En este capítulo se incluye una breve introducción a los tipos de datos espaciales (Sección \ref{datos-tipos}) y a su manipulación en R con el paquete \texttt{sf} (secciones \ref{sf-intro}, \ref{sf-plot} y \ref{operaciones-datos}).
 La parte final se centra en el análisis exploratorio de datos espaciales (Sección \ref{sp-eda}).
 
 \hypertarget{datos-tipos}{%
@@ -781,7 +791,7 @@ En el campo de los datos espaciales se suele distinguir entre dos tipos de datos
 \item
   \emph{Datos vectoriales}: en los que se emplean coordenadas para definir las posiciones espaciales ``exactas'' de los datos. Entre ellos estarían los asociados a las geometrías habituales: puntos, líneas, polígonos y rejillas.
 \item
-  \emph{Datos ráster}: se utilizan habitualmente para representar una superficie continua. Un ráster no es más que una rejilla regular que determina un conjunto de rectángulos denominados celdas (o píxeles en el análisis de imágenes de satélite y teledetección) que tienen asociados uno o más valores. Este tipo de datos también se denominan \emph{arrays} o \emph{data cubes} espaciales (o espacio-temporales). El valor de una celda ráster suele ser el valor medio (o el total) de una variable en el área que representa (se trataría de observaciones de un proceso agregado, descritos en la Sección \ref{procesos-agregados}), aunque en algunos casos es el valor puntual correspondiente al centro de la celda (nodo de una rejilla vectorial).
+  \emph{Datos ráster}: se utilizan habitualmente para representar una superficie continua. Un ráster no es más que una rejilla regular que determina un conjunto de rectángulos denominados celdas (o píxeles en el análisis de imágenes y teledetección) que tienen asociados uno o más valores. Este tipo de datos también se denominan \emph{arrays} o \emph{data cubes} espaciales (o espacio-temporales). El valor de una celda ráster suele ser el valor medio (o el total) de una variable en el área que representa (se trataría de observaciones de un proceso agregado, descritos en la Sección \ref{procesos-agregados}), aunque en algunos casos es el valor puntual correspondiente al centro de la celda (nodo de una rejilla vectorial).
 \end{itemize}
 
 En este libro entenderemos que \emph{ráster} hace referencia a agregaciones espaciales y nos centraremos principalmente en datos vectoriales (incluyendo rejillas de datos), aunque hoy en día cada vez es más habitual disponer de datos ráster gracias a la fotografía aérea y a la teledetección por satélite.
@@ -1314,18 +1324,28 @@ En el caso del paquete \href{https://ggplot2.tidyverse.org}{\texttt{ggplot2}} se
   \href{https://r-spatial.org/r/2018/10/25/ggplot2-sf-3.html}{Part 3: Layouts (Positioning and layout for complex maps)}.
 \end{itemize}
 
-Por ejemplo, se puede generar un gráfico similar al de la Figura \ref{fig:mortalidad} (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos provisionales \href{https://www.ine.es/jaxi/Tabla.htm?tpx=21856\&L=0}{INE}), con el siguiente código:
+Por ejemplo, se puede generar un gráfico similar al de la Figura \ref{fig:mortalidad} (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos \href{https://www.ine.es/jaxiT3/Tabla.htm?t=6546}{INE}), con el siguiente código:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(dplyr)}
-\FunctionTok{library}\NormalTok{(mapSpain) }
-\NormalTok{mortalidad }\OtherTok{\textless{}{-}} \FunctionTok{read.csv2}\NormalTok{(}\StringTok{"datos/mortalidad.csv"}\NormalTok{)}
-\NormalTok{CCAA\_sf }\OtherTok{\textless{}{-}} \FunctionTok{esp\_get\_ccaa}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{left\_join}\NormalTok{(mortalidad) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{library}\NormalTok{(tidyr)}
+\FunctionTok{library}\NormalTok{(sf)}
+\FunctionTok{library}\NormalTok{(mapSpain) }\CommentTok{\# install.packages("mapSpain")}
+\FunctionTok{load}\NormalTok{(}\StringTok{"datos/mortalidad.RData"}\NormalTok{)}
+
+\NormalTok{mort\_sf }\OtherTok{\textless{}{-}}\NormalTok{ mortalidad }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{ccaa.code }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"00"}\NormalTok{, }\StringTok{"99"}\NormalTok{), periodo }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"2019"}\NormalTok{, }\StringTok{"2020"}\NormalTok{), sexo }\SpecialCharTok{==} \StringTok{"Total"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{sexo, }\SpecialCharTok{{-}}\NormalTok{ccaa.name) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ periodo, }\AttributeTok{values\_from =}\NormalTok{ value, }\AttributeTok{names\_prefix =} \StringTok{"mort."}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{incremento =} \DecValTok{100}\SpecialCharTok{*}\NormalTok{(mort}\FloatTok{.2020} \SpecialCharTok{{-}}\NormalTok{ mort}\FloatTok{.2019}\NormalTok{)}\SpecialCharTok{/}\NormalTok{mort}\FloatTok{.2019}\NormalTok{)}
 
+\CommentTok{\# CUIDADO: el primer elemento de xxx\_join debe ser un objeto sf}
+\CommentTok{\# para que lo procese el paquete sf}
+\NormalTok{mort\_sf }\OtherTok{\textless{}{-}} \FunctionTok{esp\_get\_ccaa}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{left\_join}\NormalTok{(mort\_sf, }\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"codauto"} \OtherTok{=} \StringTok{"ccaa.code"}\NormalTok{))}
 \FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{ggplot}\NormalTok{(CCAA\_sf) }\SpecialCharTok{+}
+\FunctionTok{ggplot}\NormalTok{(mort\_sf) }\SpecialCharTok{+}
   \FunctionTok{geom\_sf}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{fill =}\NormalTok{ incremento), }\AttributeTok{color =} \StringTok{"grey70"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{scale\_fill\_gradientn}\NormalTok{(}\AttributeTok{colors =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{10}\NormalTok{, }\StringTok{"Blues"}\NormalTok{, }\AttributeTok{rev =} \ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{+}
   \FunctionTok{geom\_sf\_label}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \FunctionTok{paste0}\NormalTok{(}\FunctionTok{round}\NormalTok{(incremento, }\DecValTok{1}\NormalTok{), }\StringTok{"\%"}\NormalTok{)), }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
@@ -1354,8 +1374,8 @@ Este operador permite canalizar la salida de una función a la entrada de otra.
 Por ejemplo \texttt{segundo(primero(datos))} se traduce en \texttt{datos\ \%\textgreater{}\%\ primero\ \%\textgreater{}\%\ segundo}
 (facilitando la lectura de expresiones de izquierda a derecha).
 
-\hypertarget{representaciuxf3n-de-datos-espaciales}{%
-\section{Representación de datos espaciales}\label{representaciuxf3n-de-datos-espaciales}}
+\hypertarget{sf-plot}{%
+\section{Representación de datos espaciales}\label{sf-plot}}
 
 El paquete \texttt{sf} implementa métodos \texttt{plot()} para la representación de objetos espaciales (ver \href{https://r-spatial.github.io/sf/reference/plot.html}{\texttt{?plot.sf}}).
 Estos métodos suelen ser la forma más rápida de generar gráficos básicos (estáticos), pero también se pueden emplear otros paquetes como \href{https://ggplot2.tidyverse.org}{\texttt{ggplot2}} (Sección \ref{tidyverse-sf}), \href{https://r-tmap.github.io/tmap}{\texttt{tmap}}, \href{https://riatelab.github.io/mapsf}{\texttt{mapsf}}, \href{https://rstudio.github.io/leaflet}{\texttt{leaflet}}, \href{https://r-spatial.github.io/mapview}{\texttt{mapview}}, \href{https://symbolixau.github.io/mapdeck}{\texttt{mapdeck}} o \href{https://github.com/dkahle/ggmap}{\texttt{ggmap}}, para generar mapas más avanzados, incluyendo mapas dinámicos.
@@ -1398,7 +1418,7 @@ El método \texttt{plot()} es de la forma:
 \item
   \texttt{border}: color de los bordes de polígonos.
 \item
-  \texttt{reset}: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (\texttt{reset\ =\ TRUE}). Solo en ese caso es necesario establecer \texttt{reset\ =\ FALSE} para continuar añadiendo elementos, con \texttt{add\ =\ TRUE} (para restaurarlos hay que ejecutar \texttt{dev.off()}) (ver figuras: \ref{fig:meuse-sf}, \ref{fig:multi-plot-sf}).
+  \texttt{reset}: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (\texttt{reset\ =\ TRUE}). Solo en ese caso es necesario establecer \texttt{reset\ =\ FALSE} para continuar añadiendo elementos, con \texttt{add\ =\ TRUE} (para restaurarlos hay que ejecutar \texttt{dev.off()}) (ver figuras: \ref{fig:meuse-sf}, \ref{fig:transform}).
 \item
   \texttt{...}: otros parámetros gráficos (ver \texttt{?plot.default} y \texttt{?par}).
 \end{itemize}
@@ -2143,7 +2163,7 @@ En el resultado, la componente \texttt{dist} contiene los saltos, \texttt{gamma}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{with}\NormalTok{(vario, }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }
+\FunctionTok{with}\NormalTok{(vario, }\FunctionTok{plot}\NormalTok{(dist, gamma, }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
                         \AttributeTok{xlab =} \StringTok{"distance"}\NormalTok{, }\AttributeTok{ylab =}  \StringTok{"semivariance"}\NormalTok{))}
 \FunctionTok{with}\NormalTok{(rvario, }\FunctionTok{points}\NormalTok{(dist, gamma))}
 \FunctionTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\StringTok{"clásico"}\NormalTok{, }\StringTok{"robusto"}\NormalTok{), }\AttributeTok{pch =} \FunctionTok{c}\NormalTok{(}\DecValTok{19}\NormalTok{, }\DecValTok{1}\NormalTok{))}
@@ -3177,7 +3197,7 @@ Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n}
 \begin{itemize}
 \item
   es lineal:
-  \[p(\mathbf{Z},\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}) +\lambda_{0},\]
+  \[p(\mathbf{Z},\mathbf{s}_{0}) = \lambda_{0} + \sum\limits_{i=1}^{n}\lambda_{i} Z(\mathbf{s}_{i}),\]
 \item
   es uniformemente insesgado, para cualquier \(\mu(\cdot)\):
   \[E(p(\mathbf{Z},\mathbf{s}_{0}))=\mu(\mathbf{s}_{0}),\]
@@ -3221,7 +3241,7 @@ en lugar de suponer que son funciones de \(\mathbf{s}_{1}-\mathbf{s}_{2}\).
 Supongamos que el proceso \(Z(\cdot)\) admite una descomposición de la forma:
 \[Z(\mathbf{s})=\mu(\mathbf{s})+\varepsilon(\mathbf{s}),\]
 siendo \(\mu(\cdot)\) la función de tendencia conocida y \(\varepsilon(\cdot)\) un proceso espacial de media cero con covariograma conocido \(C(\mathbf{s}_{1}, \mathbf{s}_{2}) =Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))\) (no necesariamente estacionario, aunque en la práctica se suele suponer que \(\varepsilon(\cdot)\) es un proceso estacionario de segundo orden).
-El predictor óptimo será de la forma y tal que minimiza el MSPE , que puede expresarse como:
+El predictor lineal óptimo minimiza el MSPE, que puede expresarse como:
 \[\begin{aligned}
 E\left[ \left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right)^2 \right]  
 & = Var\left( p(\mathbf{Z},\mathbf{s}_{0}) - Z(\mathbf{s}_{0})\right) 
@@ -3257,7 +3277,7 @@ donde \(\boldsymbol{\mu}=\left( \mu(\mathbf{s}_{1}), \ldots,\mu(\mathbf{s}_{n} )
 Una de las principales utilidades de la varianza kriging es la construcción de intervalos de confianza (normalmente basados en la hipótesis de normalidad).
 
 Para que exista una única solución del sistema la matriz \(\boldsymbol{\Sigma}\) debe ser no singular.
-Una condición suficiente para que esto ocurra es que el covariograma \(C(\cdot ,\cdot)\) sea una función semidefinida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección \ref{anisotropia}) y las posiciones de los datos sean distintas.
+Una condición suficiente para que esto ocurra es que el covariograma \(C(\cdot ,\cdot)\) sea una función definida positiva (hay que tener cuidado con la anisotropía zonal, ver Sección \ref{anisotropia}) y las posiciones de los datos sean distintas.
 En la práctica suele interesar la predicción en múltiples posiciones.
 Teniendo en cuenta que la matriz del sistema no depende de la posición
 de predicción\footnote{Además, tanto los pesos kriging como la varianza kriging no dependen de los datos observados, solamente de las posiciones y del covariograma (lo que por ejemplo, entre otras cosas, facilita el diseño de la configuración espacial de muestreo).}, el procedimiento recomendado sería calcular la factorización Cholesky de la matriz \(\boldsymbol{\Sigma}\) y posteriormente emplear esta factorización para resolver el sistema en cada posición de predicción \(\mathbf{s}_{0}\).
@@ -3809,7 +3829,7 @@ Como ya se comentó, la función \texttt{krige.cv()} emplea LOOCV por defecto y 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.46    0.00    0.47
+##    0.58    0.00    0.57
 \end{verbatim}
 
 \begin{Shaded}
@@ -3844,7 +3864,7 @@ Si el número de observaciones es grande puede ser preferible emplear k-fold CV 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.05    0.00    0.05
+##    0.06    0.00    0.07
 \end{verbatim}
 
 Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
@@ -3960,12 +3980,6 @@ Además de los gráficos estándar para analizar la distribución de los residuo
 \FunctionTok{par}\NormalTok{(old\_par)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
-
-*** AQUÍ TERMINA LA MATERIA EVALUABLE EN EL CURSO 21/22 DE AEDD ***
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{otros-muxe9todos-kriging}{%
 \section{Otros métodos kriging}\label{otros-muxe9todos-kriging}}
@@ -6284,6 +6298,8 @@ Wikle, C.K., Zammit-Mangion, A. y Cressie, N. (2019). \emph{Spatio-temporal Stat
 \hypertarget{bibliografuxeda-completa}{%
 \section*{Bibliografía completa}\label{bibliografuxeda-completa}}
 \addcontentsline{toc}{section}{Bibliografía completa}
+
+Tobler, W. (1970). A computer movie simulating urban growth in the Detroit region. \emph{Economic Geography}, \textbf{46}, 234-240.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}

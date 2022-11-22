@@ -25,7 +25,7 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2021-12-24" />
+<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -174,7 +174,7 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>1.1</b> Procesos espaciales</a>
 <ul>
 <li class="chapter" data-level="1.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>1.1.1</b> Paquetes de R</a></li>
-<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#el-paquete-gstat"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="1.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>1.1.2</b> El paquete <strong>gstat</strong></a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>1.2</b> Geoestadística</a>
 <ul>
@@ -197,7 +197,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>2.2.1</b> Sistemas de referencia de coordenadas</a></li>
 <li class="chapter" data-level="2.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>2.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="representación-de-datos-espaciales.html"><a href="representación-de-datos-espaciales.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="2.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>2.3</b> Representación de datos espaciales</a></li>
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
@@ -313,34 +313,34 @@ div.csl-indent {
 <h2><span class="header-section-number">A.3</span> Representaciones gráficas</h2>
 <div id="gráficos-estándar" class="section level3" number="7.3.1">
 <h3><span class="header-section-number">A.3.1</span> Gráficos estándar</h3>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="representaciones-gráficas.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">1</span>)</span>
-<span id="cb222-2"><a href="representaciones-gráficas.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="representaciones-gráficas.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">1</span>)</span>
+<span id="cb223-2"><a href="representaciones-gráficas.html#cb223-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Color en función de una variable categórica:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="representaciones-gráficas.html#cb223-1" aria-hidden="true" tabindex="-1"></a>sdf<span class="sc">$</span>ano <span class="ot">&lt;-</span> <span class="fu">factor</span>(sdf<span class="sc">$</span>ano)   <span class="co"># convertir año a factor</span></span>
-<span id="cb223-2"><a href="representaciones-gráficas.html#cb223-2" aria-hidden="true" tabindex="-1"></a>colores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb223-3"><a href="representaciones-gráficas.html#cb223-3" aria-hidden="true" tabindex="-1"></a>color <span class="ot">&lt;-</span> colores[<span class="fu">as.numeric</span>(sdf<span class="sc">$</span>ano)]</span>
-<span id="cb223-4"><a href="representaciones-gráficas.html#cb223-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> color, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb223-5"><a href="representaciones-gráficas.html#cb223-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">fill =</span> colores, <span class="at">legend =</span> <span class="fu">levels</span>(sdf<span class="sc">$</span>ano), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb223-6"><a href="representaciones-gráficas.html#cb223-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="representaciones-gráficas.html#cb224-1" aria-hidden="true" tabindex="-1"></a>sdf<span class="sc">$</span>ano <span class="ot">&lt;-</span> <span class="fu">factor</span>(sdf<span class="sc">$</span>ano)   <span class="co"># convertir año a factor</span></span>
+<span id="cb224-2"><a href="representaciones-gráficas.html#cb224-2" aria-hidden="true" tabindex="-1"></a>colores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb224-3"><a href="representaciones-gráficas.html#cb224-3" aria-hidden="true" tabindex="-1"></a>color <span class="ot">&lt;-</span> colores[<span class="fu">as.numeric</span>(sdf<span class="sc">$</span>ano)]</span>
+<span id="cb224-4"><a href="representaciones-gráficas.html#cb224-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">axes =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> color, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb224-5"><a href="representaciones-gráficas.html#cb224-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">fill =</span> colores, <span class="at">legend =</span> <span class="fu">levels</span>(sdf<span class="sc">$</span>ano), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb224-6"><a href="representaciones-gráficas.html#cb224-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Usando p.e. la función classIntervals del paquete classInt
 se puede establecer los colores en función de una variable continua:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="representaciones-gráficas.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt) <span class="co"># install.packages(&#39;classInt&#39;)</span></span>
-<span id="cb224-2"><a href="representaciones-gráficas.html#cb224-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb224-3"><a href="representaciones-gráficas.html#cb224-3" aria-hidden="true" tabindex="-1"></a>class.int <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(sdf<span class="sc">$</span>lcpue, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">style =</span> <span class="st">&quot;quantile&quot;</span>)</span>
-<span id="cb224-4"><a href="representaciones-gráficas.html#cb224-4" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)</span>
-<span id="cb224-5"><a href="representaciones-gráficas.html#cb224-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(class.int, pal = pal)</span></span>
-<span id="cb224-6"><a href="representaciones-gráficas.html#cb224-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb224-7"><a href="representaciones-gráficas.html#cb224-7" aria-hidden="true" tabindex="-1"></a>class.col <span class="ot">&lt;-</span> <span class="fu">findColours</span>(class.int, <span class="at">pal =</span> pal)</span>
-<span id="cb224-8"><a href="representaciones-gráficas.html#cb224-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb224-9"><a href="representaciones-gráficas.html#cb224-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">col =</span> class.col, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb224-10"><a href="representaciones-gráficas.html#cb224-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">fill =</span> <span class="fu">attr</span>(class.col, <span class="st">&quot;palette&quot;</span>), </span>
-<span id="cb224-11"><a href="representaciones-gráficas.html#cb224-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">names</span>(<span class="fu">attr</span>(class.col, <span class="st">&quot;table&quot;</span>)), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb224-12"><a href="representaciones-gráficas.html#cb224-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="representaciones-gráficas.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(classInt) <span class="co"># install.packages(&#39;classInt&#39;)</span></span>
+<span id="cb225-2"><a href="representaciones-gráficas.html#cb225-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-3"><a href="representaciones-gráficas.html#cb225-3" aria-hidden="true" tabindex="-1"></a>class.int <span class="ot">&lt;-</span> <span class="fu">classIntervals</span>(sdf<span class="sc">$</span>lcpue, <span class="at">n =</span> <span class="dv">5</span>, <span class="at">style =</span> <span class="st">&quot;quantile&quot;</span>)</span>
+<span id="cb225-4"><a href="representaciones-gráficas.html#cb225-4" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb225-5"><a href="representaciones-gráficas.html#cb225-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(class.int, pal = pal)</span></span>
+<span id="cb225-6"><a href="representaciones-gráficas.html#cb225-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-7"><a href="representaciones-gráficas.html#cb225-7" aria-hidden="true" tabindex="-1"></a>class.col <span class="ot">&lt;-</span> <span class="fu">findColours</span>(class.int, <span class="at">pal =</span> pal)</span>
+<span id="cb225-8"><a href="representaciones-gráficas.html#cb225-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb225-9"><a href="representaciones-gráficas.html#cb225-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdf, <span class="at">col =</span> class.col, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb225-10"><a href="representaciones-gráficas.html#cb225-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="at">fill =</span> <span class="fu">attr</span>(class.col, <span class="st">&quot;palette&quot;</span>), </span>
+<span id="cb225-11"><a href="representaciones-gráficas.html#cb225-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">names</span>(<span class="fu">attr</span>(class.col, <span class="st">&quot;table&quot;</span>)), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb225-12"><a href="representaciones-gráficas.html#cb225-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(galicia, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="representaciones-gráficas.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="co"># methods(image) para rejillas</span></span>
-<span id="cb225-2"><a href="representaciones-gráficas.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ver tambien splot, simage,... en library(npsp)</span></span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="representaciones-gráficas.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="co"># methods(image) para rejillas</span></span>
+<span id="cb226-2"><a href="representaciones-gráficas.html#cb226-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ver tambien splot, simage,... en library(npsp)</span></span></code></pre></div>
 </div>
 <div id="gráficos-lattice-spplot" class="section level3" number="7.3.2">
 <h3><span class="header-section-number">A.3.2</span> Gráficos lattice: spplot</h3>
@@ -348,17 +348,17 @@ se puede establecer los colores en función de una variable continua:</p>
 <li><p>Ventajas: “Ideales” para las clases sp (para gráfico automáticos…)</p></li>
 <li><p>Inconveniente: los gráficos lattice requieren mayor tiempo de aprendizaje (dificultades para personalizarlos…)</p></li>
 </ul>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="representaciones-gráficas.html#cb226-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
-<span id="cb226-2"><a href="representaciones-gráficas.html#cb226-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb226-3"><a href="representaciones-gráficas.html#cb226-3" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE (escala logarítmica)&quot;</span>, </span>
-<span id="cb226-4"><a href="representaciones-gráficas.html#cb226-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">col.regions =</span> <span class="fu">topo.colors</span>(<span class="dv">6</span>), <span class="at">cuts=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="representaciones-gráficas.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lattice)</span>
+<span id="cb227-2"><a href="representaciones-gráficas.html#cb227-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb227-3"><a href="representaciones-gráficas.html#cb227-3" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE (escala logarítmica)&quot;</span>, </span>
+<span id="cb227-4"><a href="representaciones-gráficas.html#cb227-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">col.regions =</span> <span class="fu">topo.colors</span>(<span class="dv">6</span>), <span class="at">cuts=</span><span class="dv">5</span>)</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="representaciones-gráficas.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(sdf, <span class="st">&quot;cpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="representaciones-gráficas.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bubble</span>(sdf, <span class="st">&quot;cpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE&quot;</span>) </span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-22-2.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Añadir perfil de Galicia:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="representaciones-gráficas.html#cb228-1" aria-hidden="true" tabindex="-1"></a>sp.layout <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;sp.polygons&quot;</span>, galicia)   <span class="co"># Para añadir elementos se utiliza el parámetro sp.layout</span></span>
-<span id="cb228-2"><a href="representaciones-gráficas.html#cb228-2" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE (escala logarítmica)&quot;</span>, </span>
-<span id="cb228-3"><a href="representaciones-gráficas.html#cb228-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">col.regions =</span> <span class="fu">topo.colors</span>(<span class="dv">6</span>), <span class="at">cuts =</span> <span class="dv">5</span>, <span class="at">sp.layout =</span> sp.layout )</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="representaciones-gráficas.html#cb229-1" aria-hidden="true" tabindex="-1"></a>sp.layout <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;sp.polygons&quot;</span>, galicia)   <span class="co"># Para añadir elementos se utiliza el parámetro sp.layout</span></span>
+<span id="cb229-2"><a href="representaciones-gráficas.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">spplot</span>(sdf, <span class="st">&quot;lcpue&quot;</span>, <span class="at">main =</span> <span class="st">&quot;CPUE (escala logarítmica)&quot;</span>, </span>
+<span id="cb229-3"><a href="representaciones-gráficas.html#cb229-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">col.regions =</span> <span class="fu">topo.colors</span>(<span class="dv">6</span>), <span class="at">cuts =</span> <span class="dv">5</span>, <span class="at">sp.layout =</span> sp.layout )</span></code></pre></div>
 <p><img src="11-sp_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Alternativamente gráficos ggplot (<a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a>) con el paquete <a href="https://paleolimbot.github.io/ggspatial"><code>ggspatial</code></a>…</p>
 <!-- 

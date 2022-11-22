@@ -26,21 +26,20 @@ knitr::spin("02-datos.R",knit = FALSE)
 ```{r , child = '_global_options.Rmd'}
 ```
 
-En este capítulo se incluye una breve introducción a los tipos de datos espaciales (Sección \@ref(datos-tipos)) y a su manipulación en R con el paquete `sf` (secciones \@ref(sf-intro) y \@ref(operaciones-datos)).
+En este capítulo se incluye una breve introducción a los tipos de datos espaciales (Sección \@ref(datos-tipos)) y a su manipulación en R con el paquete `sf` (secciones \@ref(sf-intro), \@ref(sf-plot) y \@ref(operaciones-datos)).
 La parte final se centra en el análisis exploratorio de datos espaciales (Sección \@ref(sp-eda)).
 
-## Tipos de datos espaciales {#datos-tipos}
 
+## Tipos de datos espaciales {#datos-tipos}
 
 En el campo de los datos espaciales se suele distinguir entre dos tipos de datos:
 
 -   *Datos vectoriales*: en los que se emplean coordenadas para definir las posiciones espaciales "exactas" de los datos. Entre ellos estarían los asociados a las geometrías habituales: puntos, líneas, polígonos y rejillas.
 
--   *Datos ráster*: se utilizan habitualmente para representar una superficie continua. Un ráster no es más que una rejilla regular que determina un conjunto de rectángulos denominados celdas (o píxeles en el análisis de imágenes de satélite y teledetección) que tienen asociados uno o más valores. Este tipo de datos también se denominan *arrays* o *data cubes* espaciales (o espacio-temporales). El valor de una celda ráster suele ser el valor medio (o el total) de una variable en el área que representa (se trataría de observaciones de un proceso agregado, descritos en la Sección \@ref(procesos-agregados)), aunque en algunos casos es el valor puntual correspondiente al centro de la celda (nodo de una rejilla vectorial). 
+-   *Datos ráster*: se utilizan habitualmente para representar una superficie continua. Un ráster no es más que una rejilla regular que determina un conjunto de rectángulos denominados celdas (o píxeles en el análisis de imágenes y teledetección) que tienen asociados uno o más valores. Este tipo de datos también se denominan *arrays* o *data cubes* espaciales (o espacio-temporales). El valor de una celda ráster suele ser el valor medio (o el total) de una variable en el área que representa (se trataría de observaciones de un proceso agregado, descritos en la Sección \@ref(procesos-agregados)), aunque en algunos casos es el valor puntual correspondiente al centro de la celda (nodo de una rejilla vectorial). 
 
 En este libro entenderemos que *ráster* hace referencia a agregaciones espaciales y nos centraremos principalmente en datos vectoriales (incluyendo rejillas de datos), aunque hoy en día cada vez es más habitual disponer de datos ráster gracias a la fotografía aérea y a la teledetección por satélite.
 Como se comentó en la Sección \@ref(procesos-agregados), muchos métodos geoestadísticos admiten datos en distintos soportes (por ejemplo el *block kriging* descrito en la Sección \@ref(block-kriging)), aunque combinar datos en diferentes soportes puede presentar en la práctica serias dificultades (para más detalles ver referencias al final de la Sección \@ref(procesos-agregados)).
-
 
 Como ya se comentó en la Sección \@ref(proc-esp), dependiendo de las suposiciones sobre el soporte del proceso (índice espacial) se distingue entre distintos tipos de procesos espaciales.
 Sin embargo, aunque en principio los objetivos pueden ser muy distintos, en todos estos casos se trabaja con datos similares (espaciales y espacio-temporales):
@@ -65,7 +64,6 @@ Sin embargo, aunque en principio los objetivos pueden ser muy distintos, en todo
 
     -   *Resultados*: superficie de incidencia o probabilidad (rejilla).
         
-
 Este es el principal motivo de que se hayan desarrollado paquetes de R para facilitar su manipulación (y permitiendo el intercambio de datos entre herramientas).
 Entre ellos destacan:
 
@@ -288,17 +286,27 @@ En el caso del paquete `r citepkg("ggplot2", "https://ggplot2.tidyverse.org")` s
 * [Part 2: Layers (Adding additional layers: an example with points and polygons)](https://r-spatial.org/r/2018/10/25/ggplot2-sf-2.html).
 * [Part 3: Layouts (Positioning and layout for complex maps)](https://r-spatial.org/r/2018/10/25/ggplot2-sf-3.html).
 
-Por ejemplo, se puede generar un gráfico similar al de la Figura \@ref(fig:mortalidad) (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos provisionales [INE](https://www.ine.es/jaxi/Tabla.htm?tpx=21856&L=0)), con el siguiente código:
+Por ejemplo, se puede generar un gráfico similar al de la Figura \@ref(fig:mortalidad) (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546)), con el siguiente código:
 
 ```{r dplyr-ggplot, fig.dim = c(8, 6), message=FALSE, fig.cap="Ejemplo de gráfico generado empleando los paquetes `dplyr` y `ggplot2`."}
 library(dplyr)
-library(mapSpain) 
-mortalidad <- read.csv2("datos/mortalidad.csv")
-CCAA_sf <- esp_get_ccaa() %>% left_join(mortalidad) %>%
+library(tidyr)
+library(sf)
+library(mapSpain) # install.packages("mapSpain")
+load("datos/mortalidad.RData")
+
+mort_sf <- mortalidad %>%
+  filter(!ccaa.code %in% c("00", "99"), periodo %in% c("2019", "2020"), sexo == "Total") %>%
+  select(-sexo, -ccaa.name) %>%
+  pivot_wider(names_from = periodo, values_from = value, names_prefix = "mort.") %>%
   mutate(incremento = 100*(mort.2020 - mort.2019)/mort.2019)
 
+# CUIDADO: el primer elemento de xxx_join debe ser un objeto sf
+# para que lo procese el paquete sf
+mort_sf <- esp_get_ccaa() %>%
+  left_join(mort_sf, by = c("codauto" = "ccaa.code"))
 library(ggplot2)
-ggplot(CCAA_sf) +
+ggplot(mort_sf) +
   geom_sf(aes(fill = incremento), color = "grey70") +
   scale_fill_gradientn(colors = hcl.colors(10, "Blues", rev = TRUE)) +
   geom_sf_label(aes(label = paste0(round(incremento, 1), "%")), alpha = 0.5) +
@@ -317,7 +325,7 @@ Por ejemplo `segundo(primero(datos))` se traduce en `datos %>% primero %>% segun
 (facilitando la lectura de expresiones de izquierda a derecha).
 
 
-## Representación de datos espaciales
+## Representación de datos espaciales {#sf-plot}
 
 El paquete `sf` implementa métodos `plot()` para la representación de objetos espaciales (ver [`?plot.sf`](https://r-spatial.github.io/sf/reference/plot.html)). 
 Estos métodos suelen ser la forma más rápida de generar gráficos básicos (estáticos), pero también se pueden emplear otros paquetes como `r citepkg("ggplot2", "https://ggplot2.tidyverse.org")` (Sección \@ref(tidyverse-sf)), `r citepkg("tmap", "https://r-tmap.github.io/tmap")`, `r citepkg("mapsf", "https://riatelab.github.io/mapsf")`, `r citepkg("leaflet", "https://rstudio.github.io/leaflet")`, `r citepkg("mapview", "https://r-spatial.github.io/mapview")`, `r citepkg("mapdeck", "https://symbolixau.github.io/mapdeck")` o `r citepkg("ggmap", "https://github.com/dkahle/ggmap")`, para generar mapas más avanzados, incluyendo mapas dinámicos.
@@ -342,7 +350,7 @@ plot(x, ..., max.plot, pal = NULL, nbreaks, breaks = "pretty",
 * `graticule`: lógico, objeto de clase `crs` (`st_crs()`) u objeto creado por `st_graticule`; `TRUE` representará la gratícula `st_graticule(x)` `r citefig("transform")`.
 * `col_graticule`: color de la gratícula.
 * `border`: color de los bordes de polígonos.
-* `reset`: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (`reset = TRUE`). Solo en ese caso es necesario establecer `reset = FALSE` para continuar añadiendo elementos, con `add = TRUE` (para restaurarlos hay que ejecutar `dev.off()`) `r citefig("meuse-sf", "multi-plot-sf")`. 
+* `reset`: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (`reset = TRUE`). Solo en ese caso es necesario establecer `reset = FALSE` para continuar añadiendo elementos, con `add = TRUE` (para restaurarlos hay que ejecutar `dev.off()`) `r citefig("meuse-sf", "transform")`. 
 * `...`: otros parámetros gráficos (ver `?plot.default` y `?par`).
 
 Ejemplo:
