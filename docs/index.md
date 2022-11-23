@@ -3,7 +3,7 @@ title: "Estadística Espacial con R"
 author: 
   - "Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)"
   - "Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)"
-date: "2022-11-22"
+date: "Edición: Enero de 2022. Impresión: 2022-11-23"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -38,6 +38,7 @@ donde puede descargarse en formato [pdf](https://rubenfcasal.github.io/estadisti
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
 [`sf`](https://CRAN.R-project.org/package=sf), [`sp`](https://CRAN.R-project.org/package=sp), [`starts`](https://CRAN.R-project.org/package=starts), [`gstat`](https://CRAN.R-project.org/package=gstat), [`geoR`](https://CRAN.R-project.org/package=geoR), [`spacetime`](https://CRAN.R-project.org/package=spacetime), [`sm`](https://CRAN.R-project.org/package=sm), [`fields`](https://CRAN.R-project.org/package=fields), [`rgdal`](https://CRAN.R-project.org/package=rgdal), [`rgeos`](https://CRAN.R-project.org/package=rgeos), [`maps`](https://CRAN.R-project.org/package=maps), [`maptools`](https://CRAN.R-project.org/package=maptools), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2), [`plot3D`](https://CRAN.R-project.org/package=plot3D), [`lattice`](https://CRAN.R-project.org/package=lattice), [`classInt`](https://CRAN.R-project.org/package=classInt), [`viridis`](https://CRAN.R-project.org/package=viridis), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`mapSpain`](https://CRAN.R-project.org/package=mapSpain), [`tmap`](https://CRAN.R-project.org/package=tmap), [`mapview`](https://CRAN.R-project.org/package=mapview), [`osmdata`](https://CRAN.R-project.org/package=osmdata), [`rnaturalearth`](https://CRAN.R-project.org/package=rnaturalearth), [`ncdf`](https://CRAN.R-project.org/package=ncdf), [`quadprog`](https://CRAN.R-project.org/package=quadprog), [`spam`](https://CRAN.R-project.org/package=spam), [`DEoptim`](https://CRAN.R-project.org/package=DEoptim).
 <!-- 
+cholera
 raster, terra
 "quadprog", "spam", "DEoptim"
 Comprobar si es necesario añadir: 

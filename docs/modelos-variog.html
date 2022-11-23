@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3.2 Modelos de semivariogramas | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3.2 Modelos de semivariogramas | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -25,7 +24,6 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +32,6 @@
   
 <link rel="prev" href="vario-muestrales.html"/>
 <link rel="next" href="ajuste-variog.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,16 +49,17 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -285,6 +283,10 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
 <ul>
 <li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
@@ -309,14 +311,14 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelos-variog" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Modelos de semivariogramas</h2>
+<div id="modelos-variog" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Modelos de semivariogramas<a href="modelos-variog.html#modelos-variog" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Los variogramas deben ser condicionalmente semidefinidos negativos, una propiedad que los estimadores tradicionales normalmente no poseen.
 Tradicionalmente esto se remedia ajustando un modelo paramétrico válido al estimador muestral (Sección <a href="ajuste-variog.html#ajuste-variog">3.3</a>).
 En la Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a> se presentan algunos de los modelos isotrópicos tradicionalmente utilizados en geoestadística.
 Estos modelos son empleados también en ciertos casos como estructuras básicas a partir de las cuales se construyen modelos más complejos, como modelos anisotrópicos (Sección <a href="modelos-variog.html#anisotropia">3.2.2</a>) o los denominados modelos lineales de regionalización (Sección <a href="modelos-variog.html#vario-lin-reg">3.2.3</a>).</p>
-<div id="modelos-parametricos" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Modelos paramétricos isotrópicos</h3>
+<div id="modelos-parametricos" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Modelos paramétricos isotrópicos<a href="modelos-variog.html#modelos-parametricos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
 En la notación utilizada en las parametrizaciones <span class="math inline">\(c_0 \geq 0\)</span> representa el efecto nugget, <span class="math inline">\(c_1 \geq 0\)</span> el umbral parcial (en el caso de variogramas acotados, con <span class="math inline">\(\sigma^2= c_0 + c_1\)</span>) y <span class="math inline">\(a&gt;0\)</span> el rango (si existe) o el parámetro de escala.
 En el caso de semivariogramas acotados que alcanzan el umbral asintóticamente (rango infinito), el parámetro <span class="math inline">\(a\)</span> representa el rango práctico, definido como la distancia en la que el valor del semivariograma es el 95% del umbral parcial.
@@ -324,7 +326,7 @@ En la Figura <a href="modelos-variog.html#fig:show-vgms">3.4</a> se tienen algun
 estos semivariogramas.</p>
 <ul>
 <li><p>Modelo esférico:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. ) = \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. ) = \left\{
 \begin{array}{ll}
 0 &amp; \text{si} \left\| \mathbf{h}\right\| =0 \\
 c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
@@ -335,7 +337,7 @@ c_0 +c_1  &amp; \text{si} \left\| \mathbf{h}\right\| &gt;a
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(d=1,2,3\)</span>.</p></li>
 <li><p>Modelo exponencial:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
 c_0 + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
@@ -345,31 +347,31 @@ c_0 + c_1 \left( 1-\exp \left( -\dfrac{3\left\|
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>.</p></li>
 <li><p>Modelo racional cuadrático:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
 c_0 + c_1 \dfrac{\left\| \mathbf{h}\right\|^2
-}{\frac{1}{19} a^2 +\left\| \mathbf{h}\right\|^2 }  &amp; \text{si}\ 
+}{\frac{1}{19} a^2 +\left\| \mathbf{h}\right\|^2 }  &amp; \text{si}\
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>.</p></li>
 <li><p>Modelo potencial:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
-c_0 + a\left\| \mathbf{h}\right\|^{\lambda }  &amp; \text{si}\ 
+c_0 + a\left\| \mathbf{h}\right\|^{\lambda }  &amp; \text{si}\
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
 con <span class="math inline">\(0\leq \lambda &lt;2\)</span> y válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(\forall d \geq 1\)</span>.
 En el caso de <span class="math inline">\(\lambda =1\)</span> se obtiene el conocido modelo lineal.</p></li>
 <li><p>Modelo exponencial-potencial:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
 c_0 + c_1 \left( 1-\exp \left( -3\left( \dfrac{\left\|
-\mathbf{h}\right\| }{a} \right)^{\lambda } \right) \right)  &amp; \text{si}\ 
+\mathbf{h}\right\| }{a} \right)^{\lambda } \right) \right)  &amp; \text{si}\
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
@@ -381,23 +383,23 @@ algoritmos kriging (especialmente cuando el efecto nugget es grande; ver
 e.g. Wackernagel, 1998, pp. 120-123).
 El modelo exponencial se obtiene también como caso particular cuando <span class="math inline">\(\lambda =1\)</span>.</p></li>
 <li><p>Modelo oscilatorio:
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
 c_0 + c_1 \left( 1-\dfrac{a}{\left\| \mathbf{h}\right\| }
-\text{sen} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right) 
+\text{sen} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)
 &amp; \text{si}\  \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
 válido en <span class="math inline">\(\mathbb{R}^{d}\)</span>, <span class="math inline">\(d=1,2,3\)</span>.
 Este modelo con forma de onda (hay correlaciones negativas) alcanza su valor máximo ( <span class="math inline">\(c_0 +1.218c_1\)</span>) cuando <span class="math inline">\(\left\| \mathbf{h}\right\| \simeq 4.5a\)</span>, siendo <span class="math inline">\(a\)</span> el parámetro de escala.</p></li>
 <li><p>Modelo de Matérn (o K-Bessel):
-<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
+<span class="math display">\[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{
 \begin{array}{ll}
 0 &amp; \text{si}\  \mathbf{h}=\mathbf{0} \\
 c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
 \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
-\dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  &amp; \text{si}\ 
+\dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  &amp; \text{si}\
 \mathbf{h}\neq \mathbf{0}
 \end{array}
 \right.\]</span>
@@ -467,8 +469,8 @@ Figura 3.6: Ejemplo de modelo exponencial.
 </p>
 </div>
 </div>
-<div id="anisotropia" class="section level3" number="3.2.2">
-<h3><span class="header-section-number">3.2.2</span> Modelado de anisotropía</h3>
+<div id="anisotropia" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Modelado de anisotropía<a href="modelos-variog.html#anisotropia" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección <a href="modelos-variog.html#modelos-parametricos">3.2.1</a>).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
 En esos casos se suelen considerar ligeras variaciones de la hipótesis de isotropía para modelar la dependencia espacial.
@@ -485,15 +487,15 @@ Los tipos de anisotropía habitualmente considerados son:</p>
 siendo <span class="math inline">\(\mathbf{A}\)</span> una matriz cuadrada <span class="math inline">\(d\times d\)</span> y <span class="math inline">\(\gamma^{0} (\cdot)\)</span> un semivariograma isotrópico<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a>.
 En este caso se dice que el variograma es <em>geométricamente anisotrópico</em>.
 Por ejemplo, en el caso bidimensional, se suele considerar una matriz de la forma:
-<span class="math display">\[\mathbf{A}=\left( 
+<span class="math display">\[\mathbf{A}=\left(
 \begin{array}{cc}
 1  &amp; 0 \\
-0 &amp; a_2/a_1 
+0 &amp; a_2/a_1
 \end{array}
-\right) \left( 
+\right) \left(
 \begin{array}{cc}
 \cos \phi  &amp; \sin\phi  \\
-\text{-} \sin\phi  &amp; \cos \phi 
+\text{-} \sin\phi  &amp; \cos \phi
 \end{array}
 \right),\]</span>
 que se corresponde con las direcciones principales de anisotropía <span class="math inline">\(\phi\)</span> y <span class="math inline">\(\phi + \frac{\pi }{\text{2}}\)</span> (normalmente se toma <span class="math inline">\(\phi\)</span> igual a la dirección de máximo rango).
@@ -541,8 +543,8 @@ Por ejemplo, un covariograma completamente separable en <span class="math inline
 En este caso se puede pensar que el proceso espacial se obtiene como producto de procesos unidimensionales independientes definidos sobre cada uno de los ejes de coordenadas.
 Este tipo de modelos se utilizan habitualmente en geoestadística espacio-temporal (aunque no permiten modelar interacciones).</p>
 </div>
-<div id="vario-lin-reg" class="section level3" number="3.2.3">
-<h3><span class="header-section-number">3.2.3</span> El modelo lineal de regionalización</h3>
+<div id="vario-lin-reg" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> El modelo lineal de regionalización<a href="modelos-variog.html#vario-lin-reg" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A partir de las propiedades 1 y 2 del semivariograma mostradas en la Sección <a href="procesos-estacionarios.html#propiedades-elementales">1.3.2</a>, se obtienen los denominados <em>modelos lineales de regionalización</em> (también <em>modelos anidados</em> o <em>nested models</em>):
 <span class="math display">\[\gamma(\mathbf{h}) = \sum\limits_{k=0}^{q}b_{k} \gamma_{k}(\mathbf{h}),\]</span>
 siendo <span class="math inline">\(b_k \ge 0\)</span> y <span class="math inline">\(\gamma_{k}(\mathbf{h})\)</span> modelos básicos de semivariogramas, <span class="math inline">\(k=1, \ldots, q\)</span>.
@@ -646,7 +648,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

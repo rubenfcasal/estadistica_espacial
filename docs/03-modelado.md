@@ -134,7 +134,7 @@ library(sf)
 ```
 
 ```
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 ```
 
 ```r
@@ -253,7 +253,7 @@ library(sm)
 ```
 
 ```
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 ```
 
 ```r
@@ -1013,8 +1013,8 @@ fit.variogram.reml(head ~ 1, data = as(aquifer_sf, "Spatial"), model = model, de
 
 ```
 ##   model      psill range
-## 1   Nug -0.7976219     0
-## 2   Sph 12.5397527    75
+## 1   Nug -0.7976298     0
+## 2   Sph 12.5398687    75
 ```
 Como aparece en la ayuda de esta función, es preferible usar el paquete `geoR` (ver Sección \@ref(geor-ajuste) del apéndice; también se podría emplear el paquete `nlme`), empleando la función `geoR::likfit()` para el ajuste y posteriormente `as.vgm.variomodel()` para convertir el modelo ajustado a un objeto de `gstat`.
 

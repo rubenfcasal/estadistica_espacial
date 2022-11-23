@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>B.3 Modelado de la dependencia | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="B.3 Modelado de la dependencia | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -25,7 +24,6 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +32,6 @@
   
 <link rel="prev" href="análisis-descriptivo-de-datos-geoestadísticos.html"/>
 <link rel="next" href="predicción-espacial-kriging.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,16 +49,17 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -285,6 +283,10 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
 <ul>
 <li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
@@ -309,12 +311,12 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="modelado-de-la-dependencia" class="section level2" number="8.3">
-<h2><span class="header-section-number">B.3</span> Modelado de la dependencia</h2>
+<div id="modelado-de-la-dependencia" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">B.3</span> Modelado de la dependencia<a href="modelado-de-la-dependencia.html#modelado-de-la-dependencia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>En la primera parte de esta sección consideraremos un proceso espacial sin
 tendencia:</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="modelado-de-la-dependencia.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(s100) <span class="co"># Cargar datos estacionarios</span></span>
-<span id="cb242-2"><a href="modelado-de-la-dependencia.html#cb242-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(s100)</span></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="modelado-de-la-dependencia.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(s100) <span class="co"># Cargar datos estacionarios</span></span>
+<span id="cb241-2"><a href="modelado-de-la-dependencia.html#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(s100)</span></code></pre></div>
 <pre><code>## Number of data points: 100 
 ## 
 ## Coordinates summary
@@ -332,78 +334,78 @@ tendencia:</p>
 ## 
 ## Other elements in the geodata object
 ## [1] &quot;cov.model&quot; &quot;nugget&quot;    &quot;cov.pars&quot;  &quot;kappa&quot;     &quot;lambda&quot;</code></pre>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="modelado-de-la-dependencia.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s100)</span></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="modelado-de-la-dependencia.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s100)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-s100-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>En el último apartado se tratará el caso general.</p>
-<div id="variogramas-empíricos" class="section level3" number="8.3.1">
-<h3><span class="header-section-number">B.3.1</span> Variogramas empíricos</h3>
+<div id="variogramas-empíricos" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">B.3.1</span> Variogramas empíricos<a href="modelado-de-la-dependencia.html#variogramas-empíricos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Los variogramas empíricos se calculan utilizando la función <code>variog</code>:</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="modelado-de-la-dependencia.html#cb245-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
-<span id="cb245-2"><a href="modelado-de-la-dependencia.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100))</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="modelado-de-la-dependencia.html#cb244-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
+<span id="cb244-2"><a href="modelado-de-la-dependencia.html#cb244-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100))</span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="modelado-de-la-dependencia.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="modelado-de-la-dependencia.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>))</span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
 <p><img src="12-geor_files/figure-html/plot-variog1-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="modelado-de-la-dependencia.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="modelado-de-la-dependencia.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
 <p>La recomendación es considerar solo saltos hasta la mitad de la máxima
 distancia (ver <code>Distance summary</code> en resultados del sumario).</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="modelado-de-la-dependencia.html#cb250-1" aria-hidden="true" tabindex="-1"></a>vario <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="modelado-de-la-dependencia.html#cb249-1" aria-hidden="true" tabindex="-1"></a>vario <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="modelado-de-la-dependencia.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vario)</span></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="modelado-de-la-dependencia.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vario)</span></code></pre></div>
 <pre><code>##  [1] &quot;u&quot;                &quot;v&quot;                &quot;n&quot;                &quot;sd&quot;              
 ##  [5] &quot;bins.lim&quot;         &quot;ind.bin&quot;          &quot;var.mark&quot;         &quot;beta.ols&quot;        
 ##  [9] &quot;output.type&quot;      &quot;max.dist&quot;         &quot;estimator.type&quot;   &quot;n.data&quot;          
 ## [13] &quot;lambda&quot;           &quot;trend&quot;            &quot;pairs.min&quot;        &quot;nugget.tolerance&quot;
 ## [17] &quot;direction&quot;        &quot;tolerance&quot;        &quot;uvec&quot;             &quot;call&quot;</code></pre>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="modelado-de-la-dependencia.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(vario)</span></span></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="modelado-de-la-dependencia.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="co"># str(vario)</span></span></code></pre></div>
 <p>NOTA: La componente <code>u</code> contiene los saltos, <code>v</code> las estimaciones del
 semivariograma (semivarianzas) y <code>n</code> el número de aportaciones.</p>
 <p>Los resultados pueden ser nubes de puntos (semivarianzas), valores
 discretizados (binned) o suavizados, dependiendo del parámetro:
 <code>option = c("bin", "cloud", "smooth")</code></p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="modelado-de-la-dependencia.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculo de los variogramas empíricos</span></span>
-<span id="cb255-2"><a href="modelado-de-la-dependencia.html#cb255-2" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="modelado-de-la-dependencia.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculo de los variogramas empíricos</span></span>
+<span id="cb254-2"><a href="modelado-de-la-dependencia.html#cb254-2" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="modelado-de-la-dependencia.html#cb257-1" aria-hidden="true" tabindex="-1"></a>vario.c <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;cloud&quot;</span>)  <span class="co">#nube</span></span></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="modelado-de-la-dependencia.html#cb256-1" aria-hidden="true" tabindex="-1"></a>vario.c <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;cloud&quot;</span>)  <span class="co">#nube</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="modelado-de-la-dependencia.html#cb259-1" aria-hidden="true" tabindex="-1"></a>vario.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)  <span class="co">#discretizado+nube</span></span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="modelado-de-la-dependencia.html#cb258-1" aria-hidden="true" tabindex="-1"></a>vario.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)  <span class="co">#discretizado+nube</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="modelado-de-la-dependencia.html#cb261-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;sm&quot;</span>, <span class="at">band=</span><span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="modelado-de-la-dependencia.html#cb260-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">op=</span><span class="st">&quot;sm&quot;</span>, <span class="at">band=</span><span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="modelado-de-la-dependencia.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Representación gráfica</span></span>
-<span id="cb263-2"><a href="modelado-de-la-dependencia.html#cb263-2" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># Preparar para 4 gráficos por ventana</span></span>
-<span id="cb263-3"><a href="modelado-de-la-dependencia.html#cb263-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Variograma empírico&quot;</span>)</span>
-<span id="cb263-4"><a href="modelado-de-la-dependencia.html#cb263-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.c, <span class="at">main=</span><span class="st">&quot;Nube de puntos variograma&quot;</span>)</span>
-<span id="cb263-5"><a href="modelado-de-la-dependencia.html#cb263-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">&quot;Graficos de cajas&quot;</span>)</span>
-<span id="cb263-6"><a href="modelado-de-la-dependencia.html#cb263-6" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;Gráficos de cajas&quot;</span>) <span class="co"># Corregir fallo del comando anterior</span></span>
-<span id="cb263-7"><a href="modelado-de-la-dependencia.html#cb263-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.s, <span class="at">main=</span><span class="st">&quot;Variograma suavizado&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="modelado-de-la-dependencia.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Representación gráfica</span></span>
+<span id="cb262-2"><a href="modelado-de-la-dependencia.html#cb262-2" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co"># Preparar para 4 gráficos por ventana</span></span>
+<span id="cb262-3"><a href="modelado-de-la-dependencia.html#cb262-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Variograma empírico&quot;</span>)</span>
+<span id="cb262-4"><a href="modelado-de-la-dependencia.html#cb262-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.c, <span class="at">main=</span><span class="st">&quot;Nube de puntos variograma&quot;</span>)</span>
+<span id="cb262-5"><a href="modelado-de-la-dependencia.html#cb262-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">&quot;Graficos de cajas&quot;</span>)</span>
+<span id="cb262-6"><a href="modelado-de-la-dependencia.html#cb262-6" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;Gráficos de cajas&quot;</span>) <span class="co"># Corregir fallo del comando anterior</span></span>
+<span id="cb262-7"><a href="modelado-de-la-dependencia.html#cb262-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.s, <span class="at">main=</span><span class="st">&quot;Variograma suavizado&quot;</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-variog2-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="modelado-de-la-dependencia.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co"># Restaurar opciones de gráficos</span></span></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="modelado-de-la-dependencia.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co"># Restaurar opciones de gráficos</span></span></code></pre></div>
 <p>Si hay valores atípicos (o la distribución de los datos es asimétrica)
 puede ser preferible utilizar el estimador robusto. Se puede
 calcular este estimador estableciendo <code>estimator.type = "modulus"</code>:</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="modelado-de-la-dependencia.html#cb265-1" aria-hidden="true" tabindex="-1"></a>varior.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="modelado-de-la-dependencia.html#cb264-1" aria-hidden="true" tabindex="-1"></a>varior.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>)</span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="modelado-de-la-dependencia.html#cb267-1" aria-hidden="true" tabindex="-1"></a>varior.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="modelado-de-la-dependencia.html#cb266-1" aria-hidden="true" tabindex="-1"></a>varior.bc <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">estimator.type =</span> <span class="st">&quot;modulus&quot;</span>, <span class="at">max.dist=</span><span class="fl">0.6</span>, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="modelado-de-la-dependencia.html#cb269-1" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co">#Preparar para 4 gráficos por ventana</span></span>
-<span id="cb269-2"><a href="modelado-de-la-dependencia.html#cb269-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Estimador clásico&quot;</span>)</span>
-<span id="cb269-3"><a href="modelado-de-la-dependencia.html#cb269-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.b, <span class="at">main=</span><span class="st">&quot;Estimador robusto&quot;</span>)</span>
-<span id="cb269-4"><a href="modelado-de-la-dependencia.html#cb269-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span>
-<span id="cb269-5"><a href="modelado-de-la-dependencia.html#cb269-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="modelado-de-la-dependencia.html#cb268-1" aria-hidden="true" tabindex="-1"></a>oldpar<span class="ot">&lt;-</span><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="co">#Preparar para 4 gráficos por ventana</span></span>
+<span id="cb268-2"><a href="modelado-de-la-dependencia.html#cb268-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main=</span><span class="st">&quot;Estimador clásico&quot;</span>)</span>
+<span id="cb268-3"><a href="modelado-de-la-dependencia.html#cb268-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.b, <span class="at">main=</span><span class="st">&quot;Estimador robusto&quot;</span>)</span>
+<span id="cb268-4"><a href="modelado-de-la-dependencia.html#cb268-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span>
+<span id="cb268-5"><a href="modelado-de-la-dependencia.html#cb268-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(varior.bc, <span class="at">bin.cloud=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-variog3-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="modelado-de-la-dependencia.html#cb270-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co">#Restaurar opciones de gráficos</span></span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="modelado-de-la-dependencia.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar) <span class="co">#Restaurar opciones de gráficos</span></span></code></pre></div>
 <p>En el caso de anisotropía, también se pueden obtener variogramas direccionales con la función
 <code>variog</code> mediante los argumentos <code>direction</code> y <code>tolerance</code>. Por ejemplo,
 para calcular un variograma en la dirección de 60 grados (con la
 tolerancia angular por defecto de 22.5 grados):</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="modelado-de-la-dependencia.html#cb271-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">direction =</span> pi<span class="sc">/</span><span class="dv">3</span>) <span class="co">#variograma en la dirección de 60 grados</span></span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="modelado-de-la-dependencia.html#cb270-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.60</span> <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">direction =</span> pi<span class="sc">/</span><span class="dv">3</span>) <span class="co">#variograma en la dirección de 60 grados</span></span></code></pre></div>
 <pre><code>## variog: computing variogram for direction = 60 degrees (1.047 radians)
 ##         tolerance angle = 22.5 degrees (0.393 radians)</code></pre>
 <p>Para estudiar si hay anisotropía, se pueden cálcular de forma rápida variogramas
 direccionales con la función <code>variog4</code>. Por defecto calcula cuatro variogramas
 direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="modelado-de-la-dependencia.html#cb273-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">variog4</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="modelado-de-la-dependencia.html#cb272-1" aria-hidden="true" tabindex="-1"></a>vario<span class="fl">.4</span> <span class="ot">&lt;-</span> <span class="fu">variog4</span>(s100, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
 <pre><code>## variog: computing variogram for direction = 0 degrees (0 radians)
 ##         tolerance angle = 22.5 degrees (0.393 radians)
 ## variog: computing variogram for direction = 45 degrees (0.785 radians)
@@ -413,15 +415,15 @@ direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:</p>
 ## variog: computing variogram for direction = 135 degrees (2.356 radians)
 ##         tolerance angle = 22.5 degrees (0.393 radians)
 ## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="modelado-de-la-dependencia.html#cb275-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
-<span id="cb275-2"><a href="modelado-de-la-dependencia.html#cb275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.60</span>)</span>
-<span id="cb275-3"><a href="modelado-de-la-dependencia.html#cb275-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;direccional, angulo = &quot;</span>, <span class="dv">60</span> <span class="sc">*</span> degree)))</span>
-<span id="cb275-4"><a href="modelado-de-la-dependencia.html#cb275-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.4</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="modelado-de-la-dependencia.html#cb274-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb274-2"><a href="modelado-de-la-dependencia.html#cb274-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.60</span>)</span>
+<span id="cb274-3"><a href="modelado-de-la-dependencia.html#cb274-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;direccional, angulo = &quot;</span>, <span class="dv">60</span> <span class="sc">*</span> degree)))</span>
+<span id="cb274-4"><a href="modelado-de-la-dependencia.html#cb274-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario<span class="fl">.4</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-variog4-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="modelado-de-la-dependencia.html#cb276-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="modelado-de-la-dependencia.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
 </div>
-<div id="geor-ajuste" class="section level3" number="8.3.2">
-<h3><span class="header-section-number">B.3.2</span> Ajuste de un modelo de variograma</h3>
+<div id="geor-ajuste" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">B.3.2</span> Ajuste de un modelo de variograma<a href="modelado-de-la-dependencia.html#geor-ajuste" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Los estimadores empíricos no pueden ser empleados en la práctica (no
 verifican necesariamente las propiedades de un variograma válido), por
 lo que se suele recurrir en la práctica al ajuste de un modelo válido.
@@ -439,28 +441,28 @@ los datos (utilizando la función <code>likfit</code>),</p></li>
 <li><p>Métodos bayesianos (utilizando la función <code>krige.bayes</code>).</p></li>
 </ol>
 <p>Ejemplo de ajuste “a ojo”:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="modelado-de-la-dependencia.html#cb277-1" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="modelado-de-la-dependencia.html#cb276-1" aria-hidden="true" tabindex="-1"></a>vario.b <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>) <span class="co">#discretizado</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="modelado-de-la-dependencia.html#cb279-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>,<span class="at">option =</span> <span class="st">&quot;smooth&quot;</span>, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">band =</span> <span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="modelado-de-la-dependencia.html#cb278-1" aria-hidden="true" tabindex="-1"></a>vario.s <span class="ot">&lt;-</span> <span class="fu">variog</span>(s100, <span class="at">max.dist=</span><span class="fl">0.6</span>,<span class="at">option =</span> <span class="st">&quot;smooth&quot;</span>, <span class="at">kernel =</span> <span class="st">&quot;normal&quot;</span>, <span class="at">band =</span> <span class="fl">0.2</span>)  <span class="co">#suavizado</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="modelado-de-la-dependencia.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
-<span id="cb281-2"><a href="modelado-de-la-dependencia.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.s, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb281-3"><a href="modelado-de-la-dependencia.html#cb281-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb281-4"><a href="modelado-de-la-dependencia.html#cb281-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.3</span>), <span class="at">nugget =</span> <span class="dv">0</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
-<span id="cb281-5"><a href="modelado-de-la-dependencia.html#cb281-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fu">c</span>(<span class="st">&quot;empirico&quot;</span>, <span class="st">&quot;suavizado&quot;</span>, <span class="st">&quot;modelo exponencial&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="modelado-de-la-dependencia.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
+<span id="cb280-2"><a href="modelado-de-la-dependencia.html#cb280-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.s, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb280-3"><a href="modelado-de-la-dependencia.html#cb280-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb280-4"><a href="modelado-de-la-dependencia.html#cb280-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.3</span>), <span class="at">nugget =</span> <span class="dv">0</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb280-5"><a href="modelado-de-la-dependencia.html#cb280-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="fu">c</span>(<span class="st">&quot;empirico&quot;</span>, <span class="st">&quot;suavizado&quot;</span>, <span class="st">&quot;modelo exponencial&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>))</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Otros ajustes:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="modelado-de-la-dependencia.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
-<span id="cb282-2"><a href="modelado-de-la-dependencia.html#cb282-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.3</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
-<span id="cb282-3"><a href="modelado-de-la-dependencia.html#cb282-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;mat&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.85</span>,<span class="fl">0.2</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">kappa =</span> <span class="dv">1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>,<span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb282-4"><a href="modelado-de-la-dependencia.html#cb282-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;sph&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.8</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="modelado-de-la-dependencia.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b)</span>
+<span id="cb281-2"><a href="modelado-de-la-dependencia.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;exp&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.9</span>,<span class="fl">0.3</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb281-3"><a href="modelado-de-la-dependencia.html#cb281-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;mat&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.85</span>,<span class="fl">0.2</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">kappa =</span> <span class="dv">1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>,<span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb281-4"><a href="modelado-de-la-dependencia.html#cb281-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines.variomodel</span>(<span class="at">cov.model =</span> <span class="st">&quot;sph&quot;</span>, <span class="at">cov.pars =</span> <span class="fu">c</span>(<span class="fl">0.8</span>,<span class="fl">0.8</span>), <span class="at">nug =</span> <span class="fl">0.1</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Nota: no hace falta escribir el nombre completo de los parámetros
 (basta con que no dé lugar a confusión).</p>
 <p>En las versiones recientes de <code>geoR</code> está disponible una función para
 realizar el ajuste gráficamente de forma interactiva
 (cuadro de diálogo en tcl/tk):</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="modelado-de-la-dependencia.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eyefit</span>(vario.b)</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="modelado-de-la-dependencia.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eyefit</span>(vario.b)</span></code></pre></div>
 <p>Cuando se utilizan las funciones <code>variofit</code> y <code>likfit</code> para la
 estimación de parámetros, el efecto pepita (nugget) puede ser estimado o
 establecido a un valor fijo. Lo mismo ocurre con los parámetros de
@@ -469,16 +471,16 @@ de opciones para incluir una tendencia. Las tendencias pueden ser
 polinomios en función de las coordenadas y/o funciones lineales de otras
 covariables.</p>
 <p>Ejemplos de estimación por mínimos cuadrados (llamadas a <code>variofit</code>):</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="modelado-de-la-dependencia.html#cb284-1" aria-hidden="true" tabindex="-1"></a><span class="co">#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango = 1.5)</span></span>
-<span id="cb284-2"><a href="modelado-de-la-dependencia.html#cb284-2" aria-hidden="true" tabindex="-1"></a>vario.ols <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;equal&quot;</span>)  <span class="co">#ordinarios</span></span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="modelado-de-la-dependencia.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co">#   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango = 1.5)</span></span>
+<span id="cb283-2"><a href="modelado-de-la-dependencia.html#cb283-2" aria-hidden="true" tabindex="-1"></a>vario.ols <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;equal&quot;</span>)  <span class="co">#ordinarios</span></span></code></pre></div>
 <pre><code>## variofit: covariance model used is matern 
 ## variofit: weights used: equal 
 ## variofit: minimisation function used: optim</code></pre>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="modelado-de-la-dependencia.html#cb286-1" aria-hidden="true" tabindex="-1"></a>vario.wls <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;cressie&quot;</span>)  <span class="co">#ponderados</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="modelado-de-la-dependencia.html#cb285-1" aria-hidden="true" tabindex="-1"></a>vario.wls <span class="ot">&lt;-</span> <span class="fu">variofit</span>(vario.b, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">weights =</span> <span class="st">&quot;cressie&quot;</span>)  <span class="co">#ponderados</span></span></code></pre></div>
 <pre><code>## variofit: covariance model used is matern 
 ## variofit: weights used: cressie 
 ## variofit: minimisation function used: optim</code></pre>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="modelado-de-la-dependencia.html#cb288-1" aria-hidden="true" tabindex="-1"></a>vario.wls</span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="modelado-de-la-dependencia.html#cb287-1" aria-hidden="true" tabindex="-1"></a>vario.wls</span></code></pre></div>
 <pre><code>## variofit: model parameters estimated by WLS (weighted least squares):
 ## covariance model is: matern with fixed kappa = 0.5 (exponential)
 ## parameter estimates:
@@ -487,7 +489,7 @@ covariables.</p>
 ## Practical Range with cor=0.05 for asymptotic range: 4.437092
 ## 
 ## variofit: minimised weighted sum of squares = 31.5115</code></pre>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="modelado-de-la-dependencia.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.wls)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="modelado-de-la-dependencia.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.wls)</span></code></pre></div>
 <pre><code>## $pmethod
 ## [1] &quot;WLS (weighted least squares)&quot;
 ## 
@@ -532,7 +534,7 @@ covariables.</p>
 ## attr(,&quot;class&quot;)
 ## [1] &quot;summary.variomodel&quot;</code></pre>
 <p>Ejemplo de estimación por máxima verosimilitud (llamada a <code>likfit</code>):</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="modelado-de-la-dependencia.html#cb292-1" aria-hidden="true" tabindex="-1"></a>vario.ml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>)) <span class="co">#Modelo exponencial con par ini umbral y escala (1/3 rango)</span></span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="modelado-de-la-dependencia.html#cb291-1" aria-hidden="true" tabindex="-1"></a>vario.ml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>)) <span class="co">#Modelo exponencial con par ini umbral y escala (1/3 rango)</span></span></code></pre></div>
 <pre><code>## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
 ## likfit: Use control() to pass additional
@@ -543,14 +545,14 @@ covariables.</p>
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="modelado-de-la-dependencia.html#cb294-1" aria-hidden="true" tabindex="-1"></a>vario.ml</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="modelado-de-la-dependencia.html#cb293-1" aria-hidden="true" tabindex="-1"></a>vario.ml</span></code></pre></div>
 <pre><code>## likfit: estimated model parameters:
 ##     beta    tausq  sigmasq      phi 
 ## &quot;0.7766&quot; &quot;0.0000&quot; &quot;0.7517&quot; &quot;0.1827&quot; 
 ## Practical Range with cor=0.05 for asymptotic range: 0.547383
 ## 
 ## likfit: maximised log-likelihood = -83.57</code></pre>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="modelado-de-la-dependencia.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.ml)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="modelado-de-la-dependencia.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.ml)</span></code></pre></div>
 <pre><code>## Summary of the parameter estimation
 ## -----------------------------------
 ## Estimation method: maximum likelihood 
@@ -587,7 +589,7 @@ covariables.</p>
 ## likfit(geodata = s100, ini.cov.pars = c(1, 0.5))</code></pre>
 <p>Ejemplo de estimación por máxima verosimilitud restringida (opción de
 <code>likfit</code>):</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="modelado-de-la-dependencia.html#cb298-1" aria-hidden="true" tabindex="-1"></a>vario.reml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">lik.method =</span> <span class="st">&quot;RML&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="modelado-de-la-dependencia.html#cb297-1" aria-hidden="true" tabindex="-1"></a>vario.reml <span class="ot">&lt;-</span> <span class="fu">likfit</span>(s100, <span class="at">ini =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>), <span class="at">lik.method =</span> <span class="st">&quot;RML&quot;</span>)</span></code></pre></div>
 <pre><code>## ---------------------------------------------------------------
 ## likfit: likelihood maximisation using the function optim.
 ## likfit: Use control() to pass additional
@@ -598,7 +600,7 @@ covariables.</p>
 ## likfit: WARNING: This step can be time demanding!
 ## ---------------------------------------------------------------
 ## likfit: end of numerical maximisation.</code></pre>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="modelado-de-la-dependencia.html#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.reml)</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="modelado-de-la-dependencia.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vario.reml)</span></code></pre></div>
 <pre><code>## Summary of the parameter estimation
 ## -----------------------------------
 ## Estimation method: restricted maximum likelihood 
@@ -645,16 +647,16 @@ rangos máximo y mínimo). Se pueden fijar a distintos valores o
 estimarlos incluyendo las opciones <code>fix.psiA = FALSE</code> y <code>fix.psiR =     FALSE</code> en las llamadas a las rutinas de ajuste.)</p></li>
 </ul>
 <p>Representación gráfica junto al estimador empírico:</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="modelado-de-la-dependencia.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main =</span> <span class="st">&quot;Estimador empírico y modelos ajustados&quot;</span>)</span>
-<span id="cb302-2"><a href="modelado-de-la-dependencia.html#cb302-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ml, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
-<span id="cb302-3"><a href="modelado-de-la-dependencia.html#cb302-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.reml, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
-<span id="cb302-4"><a href="modelado-de-la-dependencia.html#cb302-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ols, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
-<span id="cb302-5"><a href="modelado-de-la-dependencia.html#cb302-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
-<span id="cb302-6"><a href="modelado-de-la-dependencia.html#cb302-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;ML&quot;</span>, <span class="st">&quot;REML&quot;</span>, <span class="st">&quot;OLS&quot;</span>, <span class="st">&quot;WLS&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">2</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="modelado-de-la-dependencia.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">main =</span> <span class="st">&quot;Estimador empírico y modelos ajustados&quot;</span>)</span>
+<span id="cb301-2"><a href="modelado-de-la-dependencia.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ml, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb301-3"><a href="modelado-de-la-dependencia.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.reml, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb301-4"><a href="modelado-de-la-dependencia.html#cb301-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.ols, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb301-5"><a href="modelado-de-la-dependencia.html#cb301-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span>
+<span id="cb301-6"><a href="modelado-de-la-dependencia.html#cb301-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fl">0.3</span>, <span class="fl">0.3</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;ML&quot;</span>, <span class="st">&quot;REML&quot;</span>, <span class="st">&quot;OLS&quot;</span>, <span class="st">&quot;WLS&quot;</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">1</span>, <span class="dv">2</span>)) </span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="inferencia-sobre-el-variograma" class="section level3" number="8.3.3">
-<h3><span class="header-section-number">B.3.3</span> Inferencia sobre el variograma</h3>
+<div id="inferencia-sobre-el-variograma" class="section level3 hasAnchor" number="8.3.3">
+<h3><span class="header-section-number">B.3.3</span> Inferencia sobre el variograma<a href="modelado-de-la-dependencia.html#inferencia-sobre-el-variograma" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Se pueden obtener dos tipos de envolventes (envelopes, i.e. valores
 máximos y mínimos aproximados) del variograma empírico mediante
 simulación:</p>
@@ -666,21 +668,21 @@ espacial “significativa”.</p></li>
 <li><p>Bajo un modelo de variograma, para ilustrar la variabilidad del
 variograma empírico.</p></li>
 </ul>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="modelado-de-la-dependencia.html#cb303-1" aria-hidden="true" tabindex="-1"></a>env.indep <span class="ot">&lt;-</span> <span class="fu">variog.mc.env</span>(s100, <span class="at">obj.var =</span> vario.b)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="modelado-de-la-dependencia.html#cb302-1" aria-hidden="true" tabindex="-1"></a>env.indep <span class="ot">&lt;-</span> <span class="fu">variog.mc.env</span>(s100, <span class="at">obj.var =</span> vario.b)</span></code></pre></div>
 <pre><code>## variog.env: generating 99 simulations by permutating data values
 ## variog.env: computing the empirical variogram for the 99 simulations
 ## variog.env: computing the envelops</code></pre>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="modelado-de-la-dependencia.html#cb305-1" aria-hidden="true" tabindex="-1"></a>env.model <span class="ot">&lt;-</span> <span class="fu">variog.model.env</span>(s100, <span class="at">obj.var =</span> vario.b, <span class="at">model =</span> vario.wls)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="modelado-de-la-dependencia.html#cb304-1" aria-hidden="true" tabindex="-1"></a>env.model <span class="ot">&lt;-</span> <span class="fu">variog.model.env</span>(s100, <span class="at">obj.var =</span> vario.b, <span class="at">model =</span> vario.wls)</span></code></pre></div>
 <pre><code>## variog.env: generating 99 simulations (with  100 points each) using the function grf
 ## variog.env: adding the mean or trend
 ## variog.env: computing the empirical variogram for the 99 simulations
 ## variog.env: computing the envelops</code></pre>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="modelado-de-la-dependencia.html#cb307-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb307-2"><a href="modelado-de-la-dependencia.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.indep)</span>
-<span id="cb307-3"><a href="modelado-de-la-dependencia.html#cb307-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.model)</span>
-<span id="cb307-4"><a href="modelado-de-la-dependencia.html#cb307-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="modelado-de-la-dependencia.html#cb306-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb306-2"><a href="modelado-de-la-dependencia.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.indep)</span>
+<span id="cb306-3"><a href="modelado-de-la-dependencia.html#cb306-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(vario.b, <span class="at">envelope =</span> env.model)</span>
+<span id="cb306-4"><a href="modelado-de-la-dependencia.html#cb306-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(vario.wls, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">max.dist =</span> <span class="fl">0.6</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-variog-env-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="modelado-de-la-dependencia.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)     </span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="modelado-de-la-dependencia.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)     </span></code></pre></div>
 <p>Para estudiar si hay una dependencia espacial “significativa” se puede
 emplear también la rutina <code>sm.variogram</code> del paquete <code>sm</code>.
 Estableciendo <code>model = "independent"</code>
@@ -690,25 +692,25 @@ y un gráfico en el que se muestra el estimador empírico robusto, un estimador
 suavizado y una región de confianza para el variograma suponiendo que el
 proceso es independiente (i.e. consideraríamos que hay dependencia
 espacial si el variograma suavizado no está contenido en esa región).</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="modelado-de-la-dependencia.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sm)</span></code></pre></div>
-<pre><code>## Package &#39;sm&#39;, version 2.2-5.6: type help(sm) for summary information</code></pre>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="modelado-de-la-dependencia.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sm.variogram</span>(s100<span class="sc">$</span>coords, s100<span class="sc">$</span>data, <span class="at">model =</span> <span class="st">&quot;independent&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="modelado-de-la-dependencia.html#cb308-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sm)</span></code></pre></div>
+<pre><code>## Package &#39;sm&#39;, version 2.2-5.7: type help(sm) for summary information</code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="modelado-de-la-dependencia.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sm.variogram</span>(s100<span class="sc">$</span>coords, s100<span class="sc">$</span>data, <span class="at">model =</span> <span class="st">&quot;independent&quot;</span>)</span></code></pre></div>
 <pre><code>## Test of spatial independence: p =  0.024</code></pre>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p><strong>Nota</strong>: Se puede realizar contrastes adicionales estableciendo el parámetro <code>model</code>
 a <code>"isotropic"</code> o <code>"stationary"</code>.</p>
 </div>
-<div id="estimación-del-variograma-en-procesos-no-estacionarios" class="section level3" number="8.3.4">
-<h3><span class="header-section-number">B.3.4</span> Estimación del variograma en procesos no estacionarios</h3>
+<div id="estimación-del-variograma-en-procesos-no-estacionarios" class="section level3 hasAnchor" number="8.3.4">
+<h3><span class="header-section-number">B.3.4</span> Estimación del variograma en procesos no estacionarios<a href="modelado-de-la-dependencia.html#estimación-del-variograma-en-procesos-no-estacionarios" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Cuando el proceso no es estacionario (no se puede emplear directamente los
 estimadores empíricos) hay que eliminar la tendencia para estimar el variograma:</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="modelado-de-la-dependencia.html#cb313-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
-<span id="cb313-2"><a href="modelado-de-la-dependencia.html#cb313-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Supone que el proceso es estacionario</span></span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="modelado-de-la-dependencia.html#cb312-1" aria-hidden="true" tabindex="-1"></a>oldpar <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) </span>
+<span id="cb312-2"><a href="modelado-de-la-dependencia.html#cb312-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Supone que el proceso es estacionario</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="modelado-de-la-dependencia.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">trend =</span> <span class="sc">~</span>coords, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Asume una tendencia lineal en las coordenadas</span></span></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="modelado-de-la-dependencia.html#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">variog</span>(wolfcamp, <span class="at">trend =</span> <span class="sc">~</span>coords, <span class="at">max.dist =</span> <span class="dv">200</span>)) <span class="co"># Asume una tendencia lineal en las coordenadas</span></span></code></pre></div>
 <pre><code>## variog: computing omnidirectional variogram</code></pre>
 <p><img src="12-geor_files/figure-html/plot-variog-wolf-1.png" width="80%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="modelado-de-la-dependencia.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="modelado-de-la-dependencia.html#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(oldpar)</span></code></pre></div>
 </div>
 </div>
             </section>
@@ -777,7 +779,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

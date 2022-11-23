@@ -89,7 +89,7 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
 
     
     ```
-    ## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+    ## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
     ```
     
     \begin{figure}[!htb]

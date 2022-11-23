@@ -298,7 +298,7 @@ library(sf)
 ```
 
 ```
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 ```
 
 ```r
@@ -319,13 +319,6 @@ library(stars)
 
 ```
 ## Loading required package: abind
-```
-
-```
-## Registered S3 methods overwritten by 'stars':
-##   method             from
-##   st_bbox.SpatRaster sf  
-##   st_crs.SpatRaster  sf
 ```
 
 ```r
@@ -611,7 +604,7 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.58    0.00    0.57
+##    0.46    0.00    0.47
 ```
 
 ```r
@@ -643,7 +636,7 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.06    0.00    0.07
+##    0.06    0.00    0.06
 ```
 
 Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):

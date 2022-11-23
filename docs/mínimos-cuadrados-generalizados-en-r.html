@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>B Mínimos cuadrados generalizados en R | Estadística Espacial con R</title>
+  <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="B Mínimos cuadrados generalizados en R | Estadística Espacial con R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="B Mínimos cuadrados generalizados en R | Estadística Espacial con R" />
+  
+  <meta name="twitter:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
+  
+
+<meta name="author" content="Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)" />
+<meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="predicción-espacial-kriging.html"/>
+<link rel="next" href="motivación.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Estadística Espacial con R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> biblio-style: “apalike”</a></li>
+<li class="chapter" data-level="2" data-path="intro-estesp.html"><a href="intro-estesp.html"><i class="fa fa-check"></i><b>2</b> Introducción: Procesos espaciales y Geoestadística</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="proc-esp.html"><a href="proc-esp.html"><i class="fa fa-check"></i><b>2.1</b> Procesos espaciales</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="proc-esp.html"><a href="proc-esp.html#paquetes-r"><i class="fa fa-check"></i><b>2.1.1</b> Paquetes de R</a></li>
+<li class="chapter" data-level="2.1.2" data-path="proc-esp.html"><a href="proc-esp.html#gstat-pkg"><i class="fa fa-check"></i><b>2.1.2</b> El paquete <strong>gstat</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="geoestadistica.html"><a href="geoestadistica.html"><i class="fa fa-check"></i><b>2.2</b> Geoestadística</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="geoestadistica.html"><a href="geoestadistica.html#modelos-clasicos-espaciales"><i class="fa fa-check"></i><b>2.2.1</b> Modelos clásicos y modelos espaciales</a></li>
+<li class="chapter" data-level="2.2.2" data-path="geoestadistica.html"><a href="geoestadistica.html#ventajas-de-la-aproximación-espacial-y-espacio-temporal"><i class="fa fa-check"></i><b>2.2.2</b> Ventajas de la aproximación espacial (y espacio-temporal)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html"><i class="fa fa-check"></i><b>2.3</b> Procesos espaciales estacionarios</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#caracteristicas-variograma"><i class="fa fa-check"></i><b>2.3.1</b> Características del variograma</a></li>
+<li class="chapter" data-level="2.3.2" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#propiedades-elementales"><i class="fa fa-check"></i><b>2.3.2</b> Propiedades elementales del covariograma y del variograma</a></li>
+<li class="chapter" data-level="2.3.3" data-path="procesos-estacionarios.html"><a href="procesos-estacionarios.html#procesos-agregados"><i class="fa fa-check"></i><b>2.3.3</b> Procesos agregados</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="objetivos-esquema.html"><a href="objetivos-esquema.html"><i class="fa fa-check"></i><b>2.4</b> Objetivos y procedimiento</a></li>
+<li class="chapter" data-level="2.5" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>2.5</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="datos.html"><a href="datos.html"><i class="fa fa-check"></i><b>3</b> Datos espaciales</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="datos-tipos.html"><a href="datos-tipos.html"><i class="fa fa-check"></i><b>3.1</b> Tipos de datos espaciales</a></li>
+<li class="chapter" data-level="3.2" data-path="sf-intro.html"><a href="sf-intro.html"><i class="fa fa-check"></i><b>3.2</b> Introducción al paquete <strong>sf</strong></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="sf-intro.html"><a href="sf-intro.html#crs"><i class="fa fa-check"></i><b>3.2.1</b> Sistemas de referencia de coordenadas</a></li>
+<li class="chapter" data-level="3.2.2" data-path="sf-intro.html"><a href="sf-intro.html#tidyverse-sf"><i class="fa fa-check"></i><b>3.2.2</b> Integración con el ecosistema <strong>tidyverse</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="sf-plot.html"><a href="sf-plot.html"><i class="fa fa-check"></i><b>3.3</b> Representación de datos espaciales</a></li>
+<li class="chapter" data-level="3.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>3.4</b> Operaciones con datos espaciales</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>3.4.1</b> Importación y exportación de datos espaciales</a></li>
+<li class="chapter" data-level="3.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>3.4.2</b> Operaciones con geometrías</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>3.5</b> Análisis exploratorio de datos espaciales</a></li>
+<li class="chapter" data-level="3.6" data-path="referencias-1.html"><a href="referencias-1.html"><i class="fa fa-check"></i><b>3.6</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>4</b> Modelado de procesos geoestadísticos</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="vario-muestrales.html"><a href="vario-muestrales.html"><i class="fa fa-check"></i><b>4.1</b> Estimadores muestrales del semivariograma</a></li>
+<li class="chapter" data-level="4.2" data-path="modelos-variog.html"><a href="modelos-variog.html"><i class="fa fa-check"></i><b>4.2</b> Modelos de semivariogramas</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="modelos-variog.html"><a href="modelos-variog.html#modelos-parametricos"><i class="fa fa-check"></i><b>4.2.1</b> Modelos paramétricos isotrópicos</a></li>
+<li class="chapter" data-level="4.2.2" data-path="modelos-variog.html"><a href="modelos-variog.html#anisotropia"><i class="fa fa-check"></i><b>4.2.2</b> Modelado de anisotropía</a></li>
+<li class="chapter" data-level="4.2.3" data-path="modelos-variog.html"><a href="modelos-variog.html#vario-lin-reg"><i class="fa fa-check"></i><b>4.2.3</b> El modelo lineal de regionalización</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html"><i class="fa fa-check"></i><b>4.3</b> Ajuste de un modelo válido</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ls-fit"><i class="fa fa-check"></i><b>4.3.1</b> Estimación por mínimos cuadrados</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ajuste-variog.html"><a href="ajuste-variog.html#trend-fit"><i class="fa fa-check"></i><b>4.3.2</b> Modelado del variograma en procesos no estacionarios</a></li>
+<li class="chapter" data-level="4.3.3" data-path="ajuste-variog.html"><a href="ajuste-variog.html#ml-fit"><i class="fa fa-check"></i><b>4.3.3</b> Estimación por máxima verosimilitud</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="comentarios-sobre-los-distintos-métodos.html"><a href="comentarios-sobre-los-distintos-métodos.html"><i class="fa fa-check"></i><b>4.4</b> Comentarios sobre los distintos métodos</a></li>
+<li class="chapter" data-level="4.5" data-path="referencias-2.html"><a href="referencias-2.html"><i class="fa fa-check"></i><b>4.5</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="kriging.html"><a href="kriging.html"><i class="fa fa-check"></i><b>5</b> Predicción Kriging</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="introduccion.html"><a href="introduccion.html"><i class="fa fa-check"></i><b>5.1</b> Introducción</a></li>
+<li class="chapter" data-level="5.2" data-path="ksimple.html"><a href="ksimple.html"><i class="fa fa-check"></i><b>5.2</b> Kriging con media conocida: kriging simple</a></li>
+<li class="chapter" data-level="5.3" data-path="kuniversal.html"><a href="kuniversal.html"><i class="fa fa-check"></i><b>5.3</b> Kriging con media desconocida: kriging universal y kriging residual</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="kuniversal.html"><a href="kuniversal.html#ku-covariograma"><i class="fa fa-check"></i><b>5.3.1</b> Ecuaciones en función del covariograma</a></li>
+<li class="chapter" data-level="5.3.2" data-path="kuniversal.html"><a href="kuniversal.html#kriging-residual"><i class="fa fa-check"></i><b>5.3.2</b> Kriging residual</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="kriging-gstat.html"><a href="kriging-gstat.html"><i class="fa fa-check"></i><b>5.4</b> Kriging con el paquete <strong>gstat</strong></a></li>
+<li class="chapter" data-level="5.5" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html"><i class="fa fa-check"></i><b>5.5</b> Consideraciones acerca de los métodos kriging</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#kriging-interpolador"><i class="fa fa-check"></i><b>5.5.1</b> Kriging como interpolador</a></li>
+<li class="chapter" data-level="5.5.2" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#efecto-variog-kriging"><i class="fa fa-check"></i><b>5.5.2</b> Efecto del variograma (covariograma) en el kriging</a></li>
+<li class="chapter" data-level="5.5.3" data-path="consideraciones-kriging.html"><a href="consideraciones-kriging.html#eleccion-vecindario"><i class="fa fa-check"></i><b>5.5.3</b> Elección del vecindario</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="validacion-cruzada.html"><a href="validacion-cruzada.html"><i class="fa fa-check"></i><b>5.6</b> Validación cruzada del modelo ajustado</a></li>
+<li class="chapter" data-level="5.7" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html"><i class="fa fa-check"></i><b>5.7</b> Otros métodos kriging</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#block-kriging"><i class="fa fa-check"></i><b>5.7.1</b> Block kriging</a></li>
+<li class="chapter" data-level="5.7.2" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-trans-normal"><i class="fa fa-check"></i><b>5.7.2</b> Kriging trans-normal</a></li>
+<li class="chapter" data-level="5.7.3" data-path="otros-métodos-kriging.html"><a href="otros-métodos-kriging.html#kriging-indicador"><i class="fa fa-check"></i><b>5.7.3</b> Kriging indicador</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="referencias-3.html"><a href="referencias-3.html"><i class="fa fa-check"></i><b>5.8</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multivar.html"><a href="multivar.html"><i class="fa fa-check"></i><b>6</b> Procesos espaciales multivariantes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="referencias-4.html"><a href="referencias-4.html"><i class="fa fa-check"></i><b>6.1</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="esp-temp.html"><a href="esp-temp.html"><i class="fa fa-check"></i><b>7</b> Procesos espacio-temporales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="referencias-5.html"><a href="referencias-5.html"><i class="fa fa-check"></i><b>7.1</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#appendix-apendices"><i class="fa fa-check"></i>(APPENDIX) Apendices</a>
+<ul>
+<li class="chapter" data-level="7.2" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html"><i class="fa fa-check"></i><b>7.2</b> Tipos de objetos</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialpoints-y-spatialpointsdataframe"><i class="fa fa-check"></i><b>7.2.1</b> SpatialPoints y SpatialPointsDataFrame</a></li>
+<li class="chapter" data-level="7.2.2" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatiallines-y-spatialpolygons"><i class="fa fa-check"></i><b>7.2.2</b> SpatialLines y SpatialPolygons</a></li>
+<li class="chapter" data-level="7.2.3" data-path="tipos-de-objetos.html"><a href="tipos-de-objetos.html#spatialgrid-y-spatialpixels"><i class="fa fa-check"></i><b>7.2.3</b> SpatialGrid y SpatialPixels</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html"><i class="fa fa-check"></i><b>7.3</b> Métodos y procedimientos clases sp</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="métodos-y-procedimientos-clases-sp.html"><a href="métodos-y-procedimientos-clases-sp.html#importarexportartransformar"><i class="fa fa-check"></i><b>7.3.1</b> Importar/exportar/transformar</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html"><i class="fa fa-check"></i><b>7.4</b> Representaciones gráficas</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-estándar"><i class="fa fa-check"></i><b>7.4.1</b> Gráficos estándar</a></li>
+<li class="chapter" data-level="7.4.2" data-path="representaciones-gráficas.html"><a href="representaciones-gráficas.html#gráficos-lattice-spplot"><i class="fa fa-check"></i><b>7.4.2</b> Gráficos lattice: spplot</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="referencias-6.html"><a href="referencias-6.html"><i class="fa fa-check"></i><b>7.5</b> Referencias</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="intro-geoR.html"><a href="intro-geoR.html"><i class="fa fa-check"></i><b>8</b> Introducción al paquete <strong>geoR</strong></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html"><i class="fa fa-check"></i><b>8.1</b> Inicio de una sesión y de carga de datos</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="inicio-de-una-sesión-y-de-carga-de-datos.html"><a href="inicio-de-una-sesión-y-de-carga-de-datos.html#archivos-de-datos"><i class="fa fa-check"></i><b>8.1.1</b> Archivos de datos</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="análisis-descriptivo-de-datos-geoestadísticos.html"><a href="análisis-descriptivo-de-datos-geoestadísticos.html"><i class="fa fa-check"></i><b>8.2</b> Análisis descriptivo de datos geoestadísticos</a></li>
+<li class="chapter" data-level="8.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html"><i class="fa fa-check"></i><b>8.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#variogramas-empíricos"><i class="fa fa-check"></i><b>8.3.1</b> Variogramas empíricos</a></li>
+<li class="chapter" data-level="8.3.2" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#geor-ajuste"><i class="fa fa-check"></i><b>8.3.2</b> Ajuste de un modelo de variograma</a></li>
+<li class="chapter" data-level="8.3.3" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#inferencia-sobre-el-variograma"><i class="fa fa-check"></i><b>8.3.3</b> Inferencia sobre el variograma</a></li>
+<li class="chapter" data-level="8.3.4" data-path="modelado-de-la-dependencia.html"><a href="modelado-de-la-dependencia.html#estimación-del-variograma-en-procesos-no-estacionarios"><i class="fa fa-check"></i><b>8.3.4</b> Estimación del variograma en procesos no estacionarios</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html"><i class="fa fa-check"></i><b>8.4</b> Predicción espacial (kriging)</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>8.4.1</b> Validación cruzada</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="mínimos-cuadrados-generalizados-en-r.html"><a href="mínimos-cuadrados-generalizados-en-r.html"><i class="fa fa-check"></i><b>9</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>9.1</b> Motivación</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias-7.html"><a href="referencias-7.html"><i class="fa fa-check"></i>Referencias</a>
+<ul>
+<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Estadística Espacial con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mínimos-cuadrados-generalizados-en-r" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">B</span> Mínimos cuadrados generalizados en R<a href="mínimos-cuadrados-generalizados-en-r.html#mínimos-cuadrados-generalizados-en-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<!-- 
+---
+title: "Mínimos cuadrados generalizados en R"
+author: "Estadística Espacial"
+date: "Análisis estadístico de datos con dependencia (GCED)"
+output: 
+  bookdown::html_document2:
+    pandoc_args: ["--number-offset", "0,0"]
+    toc: yes 
+    # mathjax: local            # copia local de MathJax, hay que establecer:
+    # self_contained: false     # las dependencias se guardan en ficheros externos 
+  bookdown::pdf_document2:
+    keep_tex: yes
+    toc: yes 
+---
+-->
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="predicción-espacial-kriging.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="motivación.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/13-gls.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["estadistica_espacial.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

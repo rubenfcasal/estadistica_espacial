@@ -3,7 +3,7 @@ title: "Estadística Espacial con R"
 author: 
   - "Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)"
   - "Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)"
-date: "`r Sys.Date()`"
+date: "Edición: Enero de 2022. Impresión: `r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -42,6 +42,7 @@ donde puede descargarse en formato [pdf](https://rubenfcasal.github.io/estadisti
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
 `r citepkgs(c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", "rgdal", "rgeos", "maps", "maptools", "ggplot2", "plot3D", "lattice", "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" ))`.
 <!-- 
+cholera
 raster, terra
 "quadprog", "spam", "DEoptim"
 Comprobar si es necesario añadir: 

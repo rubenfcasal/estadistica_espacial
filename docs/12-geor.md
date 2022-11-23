@@ -50,7 +50,7 @@ library(geoR)
 ## --------------------------------------------------------------
 ##  Analysis of Geostatistical Data
 ##  For an Introduction to geoR go to http://www.leg.ufpr.br/geoR
-##  geoR version 1.8-1 (built on 2020-02-08) is now loaded
+##  geoR version 1.9-2 (built on 2022-08-09) is now loaded
 ## --------------------------------------------------------------
 ```
 
@@ -873,7 +873,7 @@ library(sm)
 ```
 
 ```
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 ```
 
 ```r
@@ -1073,7 +1073,7 @@ if(!require(npsp)) {
 
 ```
 ##  Package npsp: Nonparametric Spatial Statistics,
-##  version 0.7-8 (built on 2021-05-10).
+##  version 0.7-9 (built on 2021-05-17).
 ##  Copyright (C) R. Fernandez-Casal 2012-2021.
 ##  Type `help(npsp)` for an overview of the package or
 ##  visit https://rubenfcasal.github.io/npsp.

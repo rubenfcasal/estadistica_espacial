@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>B.2 Análisis descriptivo de datos geoestadísticos | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="B.2 Análisis descriptivo de datos geoestadísticos | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -25,7 +24,6 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +32,6 @@
   
 <link rel="prev" href="inicio-de-una-sesión-y-de-carga-de-datos.html"/>
 <link rel="next" href="modelado-de-la-dependencia.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,16 +49,17 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -285,6 +283,10 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
 <ul>
 <li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
@@ -309,33 +311,33 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="análisis-descriptivo-de-datos-geoestadísticos" class="section level2" number="8.2">
-<h2><span class="header-section-number">B.2</span> Análisis descriptivo de datos geoestadísticos</h2>
+<div id="análisis-descriptivo-de-datos-geoestadísticos" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">B.2</span> Análisis descriptivo de datos geoestadísticos<a href="análisis-descriptivo-de-datos-geoestadísticos.html#análisis-descriptivo-de-datos-geoestadísticos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Como se mostró anteriormente, el método <code>summary</code> proporciona un breve resumen
 descriptivo de los datos (ver <code>?summary.geodata</code>).</p>
 <p>La función <code>plot()</code> genera por defecto gráficos de los
 valores en las posiciones espaciales (distinguiendo según cuartiles),
 los datos frente a las coordenadas y un histograma de los datos:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp)</span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo1-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Los gráficos de dispersión de los datos frente a las coordenadas nos pueden ayudar
 a determinar si hay una tendencia. También, en lugar del histograma,
 nos puede interesar un gráfico de dispersión 3D</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">lowess =</span> <span class="cn">TRUE</span>, <span class="at">scatter3d =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">lowess =</span> <span class="cn">TRUE</span>, <span class="at">scatter3d =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo2-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Si se asume que hay una tendencia puede interesar eliminarla:</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">trend=</span><span class="sc">~</span>coords)</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(wolfcamp, <span class="at">trend=</span><span class="sc">~</span>coords)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/plot-geo3-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>El comando <code>points(geodata)</code> (función <code>points.geodata</code>) genera un gráfico con
 las posiciones de los datos (y por defecto con el tamaño de los puntos proporcional
 al valor):</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" /></p>
 <p>Se pueden establecer los tamaños de los puntos, simbolos y colores a
 partir de los valores de los datos. Por ejemplo, para los puntos, empleando el argumento:
 <code>pt.divide = c("data.proportional", "rank.proportional", "quintiles",</code>
 <code>"quartiles", "deciles", "equal")</code>.</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">pt.divide =</span> <span class="st">&quot;equal&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="análisis-descriptivo-de-datos-geoestadísticos.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(wolfcamp, <span class="at">col =</span> <span class="st">&quot;gray&quot;</span>, <span class="at">pt.divide =</span> <span class="st">&quot;equal&quot;</span>)</span></code></pre></div>
 <p><img src="12-geor_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
 </div>
             </section>
@@ -404,7 +406,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

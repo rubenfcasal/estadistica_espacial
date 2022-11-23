@@ -3,12 +3,11 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  spanish,
 ]{book}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -34,15 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Estadística Espacial con R},
-  pdfauthor={Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es); Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)},
-  pdflang={es},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -110,6 +100,38 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{spanish}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
 \usepackage{booktabs}
 \usepackage{amsthm}
 \usepackage[a4paper, top=3.25cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
@@ -143,43 +165,22 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
-\ifxetex
-  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{spanish}
-\else
-  \usepackage[main=spanish]{babel}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\fi
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Estadística Espacial con R},
+  pdfauthor={Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es); Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)},
+  pdflang={es},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{2022-11-22}
+\date{Edición: Enero de 2022. Impresión: 2022-11-23}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -336,7 +337,7 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
   econometría o epidemiología. {[}Figura \ref{fig:mortalidad}{]}
 
 \begin{verbatim}
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 \end{verbatim}
 
   \begin{figure}[!htb]
@@ -395,7 +396,7 @@ Algunos de estos paquetes son la referencia para el análisis de este tipo de da
 aunque también están disponibles otros, como por ejemplo \texttt{maptools}, \texttt{geosphere}, \texttt{tmap}, \texttt{mapsf}, \texttt{leaflet}, \texttt{mapview}, \texttt{mapdeck}, \texttt{ggmap}, \texttt{rgrass7}, \texttt{RSAGA}, \texttt{RPyGeo}, \texttt{RQGIS} o \texttt{r-arcgis}, que implementan herramientas adicionales y permiten, por ejemplo, generar gráficos interactivos o interactuar con sistemas externos de información geográfica (GIS).
 
 En todos estos paquetes se trabajan con similares tipos de datos (espaciales y espacio-temporales) por lo que se han desarrollado paquetes que facilitan su manejo.
-Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}) y el paquete \href{https://r-spatial.github.io/sf}{\texttt{sf}} \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}).
+Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} Bivand et~al. (\protect\hyperlink{ref-Bivand2013}{2013}) y el paquete \href{https://r-spatial.github.io/sf}{\texttt{sf}} E. Pebesma y Bivand (\protect\hyperlink{ref-Pebesma2021}{2021}).
 Otros paquetes para la manipulación de datos que pueden ser de interés son: \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}}, \href{https://r-spatial.github.io/stars}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, entre otros.
 En la Sección \ref{datos-tipos} se incluye información adicional sobre estos paquetes.
 
@@ -837,14 +838,14 @@ Entre ellos destacan:
 
 \begin{itemize}
 \item
-  \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} (Classes and methods for spatial data, \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand, 2005}): se corresponde con \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}) y emplea clases S4. Se complementa con los paquetes \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} (interfaz a la \emph{geospatial data abstraction library}, para la lectura y escritura de datos espaciales) y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}} (interfaz a la librería \emph{Geometry Engine Open Source}, para operaciones geométricas).
+  \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} (Classes and methods for spatial data, \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand, 2005}): se corresponde con Bivand et~al. (\protect\hyperlink{ref-Bivand2013}{2013}) y emplea clases S4. Se complementa con los paquetes \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} (interfaz a la \emph{geospatial data abstraction library}, para la lectura y escritura de datos espaciales) y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}} (interfaz a la librería \emph{Geometry Engine Open Source}, para operaciones geométricas).
 \item
-  \href{https://r-spatial.github.io/sf}{\texttt{sf}} (Simple Features for R, \protect\hyperlink{ref-Pebesma2018}{E. Pebesma, 2018}): alternativa en desarrollo con objetos más simples S3 (compatible con \href{http://tidyverse.org}{\texttt{tidyverse}} y que proporciona una interfaz directa a las librerías \href{https://gdal.org}{GDAL} y \href{https://trac.osgeo.org/geos}{GEOS}) que aspira a reemplazar el paquete \texttt{sp} a corto plazo. Se corresponde con \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}) (disponible \href{https://keen-swartz-3146c4.netlify.app}{online}).
+  \href{https://r-spatial.github.io/sf}{\texttt{sf}} (Simple Features for R, \protect\hyperlink{ref-Pebesma2018}{E. Pebesma, 2018}): alternativa en desarrollo con objetos más simples S3 (compatible con \href{http://tidyverse.org}{\texttt{tidyverse}} y que proporciona una interfaz directa a las librerías \href{https://gdal.org}{GDAL} y \href{https://trac.osgeo.org/geos}{GEOS}) que aspira a reemplazar el paquete \texttt{sp} a corto plazo. Se corresponde con E. Pebesma y Bivand (\protect\hyperlink{ref-Pebesma2021}{2021}) (disponible \href{https://keen-swartz-3146c4.netlify.app}{online}).
 \end{itemize}
 
 El paquete \texttt{sp} tiene un soporte limitado para datos ráster, este es uno de los motivos por los que surgió el paquete \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, que actualmente está siendo reemplazado por el paquete \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}} (información sobre estos paquetes está disponible en el \href{https://rspatial.org/}{manual online}).
 El paquete \texttt{sf} no implementa datos ráster (y tiene un soporte muy limitado para rejillas de datos), para manejar este tipo de datos se complementa con el paquete \href{https://r-spatial.github.io/stars}{\texttt{starts}} (Spatiotemporal Arrays: Raster and Vector Datacubes).
-Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones \href{https://keen-swartz-3146c4.netlify.app/sf.html\#raster-to-vector}{7.5} y \href{https://keen-swartz-3146c4.netlify.app/sf.html\#warp}{7.7} de \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}).
+Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones \href{https://keen-swartz-3146c4.netlify.app/sf.html\#raster-to-vector}{7.5} y \href{https://keen-swartz-3146c4.netlify.app/sf.html\#warp}{7.7} de E. Pebesma y Bivand (\protect\hyperlink{ref-Pebesma2021}{2021}).
 
 En este capítulo emplearemos el paquete \texttt{sf} para la manipulación de datos espaciales, aunque en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp}, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
 
@@ -864,7 +865,7 @@ Cada fila, incluyendo la geometría y otras posibles variables (denominados atri
 \end{Shaded}
 
 \begin{verbatim}
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 \end{verbatim}
 
 \begin{Shaded}
@@ -980,30 +981,43 @@ En este paquete, todos los métodos y funciones que operan sobre datos espaciale
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] $<-                   [                     [[<-                 
-##  [4] aggregate             as.data.frame         cbind                
-##  [7] coerce                dbDataType            dbWriteTable         
-## [10] filter                identify              initialize           
-## [13] merge                 plot                  print                
-## [16] rbind                 show                  slotsFromS3          
-## [19] st_agr                st_agr<-              st_area              
-## [22] st_as_s2              st_as_sf              st_bbox              
-## [25] st_boundary           st_buffer             st_cast              
-## [28] st_centroid           st_collection_extract st_convex_hull       
-## [31] st_coordinates        st_crop               st_crs               
-## [34] st_crs<-              st_difference         st_filter            
-## [37] st_geometry           st_geometry<-         st_inscribed_circle  
-## [40] st_interpolate_aw     st_intersection       st_intersects        
-## [43] st_is                 st_is_valid           st_join              
-## [46] st_line_merge         st_m_range            st_make_valid        
-## [49] st_nearest_points     st_node               st_normalize         
-## [52] st_point_on_surface   st_polygonize         st_precision         
-## [55] st_reverse            st_sample             st_segmentize        
-## [58] st_set_precision      st_shift_longitude    st_simplify          
-## [61] st_snap               st_sym_difference     st_transform         
-## [64] st_triangulate        st_union              st_voronoi           
-## [67] st_wrap_dateline      st_write              st_z_range           
-## [70] st_zm                 transform            
+##  [1] $<-                          [                           
+##  [3] [[<-                         aggregate                   
+##  [5] as.data.frame                cbind                       
+##  [7] coerce                       dbDataType                  
+##  [9] dbWriteTable                 filter                      
+## [11] identify                     initialize                  
+## [13] merge                        plot                        
+## [15] print                        rbind                       
+## [17] show                         slotsFromS3                 
+## [19] st_agr                       st_agr<-                    
+## [21] st_area                      st_as_s2                    
+## [23] st_as_sf                     st_as_sfc                   
+## [25] st_bbox                      st_boundary                 
+## [27] st_buffer                    st_cast                     
+## [29] st_centroid                  st_collection_extract       
+## [31] st_convex_hull               st_coordinates              
+## [33] st_crop                      st_crs                      
+## [35] st_crs<-                     st_difference               
+## [37] st_drop_geometry             st_filter                   
+## [39] st_geometry                  st_geometry<-               
+## [41] st_inscribed_circle          st_interpolate_aw           
+## [43] st_intersection              st_intersects               
+## [45] st_is                        st_is_valid                 
+## [47] st_join                      st_line_merge               
+## [49] st_m_range                   st_make_valid               
+## [51] st_minimum_rotated_rectangle st_nearest_points           
+## [53] st_node                      st_normalize                
+## [55] st_point_on_surface          st_polygonize               
+## [57] st_precision                 st_reverse                  
+## [59] st_sample                    st_segmentize               
+## [61] st_set_precision             st_shift_longitude          
+## [63] st_simplify                  st_snap                     
+## [65] st_sym_difference            st_transform                
+## [67] st_triangulate               st_union                    
+## [69] st_voronoi                   st_wrap_dateline            
+## [71] st_write                     st_z_range                  
+## [73] st_zm                        transform                   
 ## see '?methods' for accessing help and source code
 \end{verbatim}
 
@@ -1011,18 +1025,24 @@ Los objetos geométricos básicos son del tipo \texttt{sfg} (\emph{simple featur
 Admite los 17 tipos de geometrías simples del estándar, pero de forma completa los 7 tipos básicos:
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.20}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.61}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.20}}@{}}
-\toprule
-Tipo & Description & Creación \\
-\midrule
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1951}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6098}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1951}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Tipo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Creación
+\end{minipage} \\
+\midrule()
 \endhead
 \texttt{POINT}, \texttt{MULTIPOINT} & Punto o conjunto de puntos & \texttt{st\_point()}, \texttt{st\_multipoint()} \\
 \texttt{LINESTRING}, \texttt{MULTILINESTRING} & Línea o conjunto de líneas & \texttt{st\_linestring()}, \texttt{st\_multilinestring()} \\
 \texttt{POLYGON}, \texttt{MULTIPOLYGON} & Polígono\footnote{Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.} o conjunto de polígonos & \texttt{st\_polygon()}, \texttt{st\_multipolygon()} \\
 \texttt{GEOMETRYCOLLECTION} & Conjunto de geometrías de los tipos anteriores & \texttt{st\_geometrycollection()} \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 Las geometrías se imprimen empleando la representación \emph{well-known text} (WKT) del estándar (se exportan empleando la representación \emph{well-known binary}, WKB).
@@ -1072,7 +1092,7 @@ Esta forma de proceder puede resultar de interés cuando se construyen geometrí
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Creación de una columna de geometrías]
-\protect\hypertarget{exr:sfc}{}{\label{exr:sfc} \iffalse (Creación de una columna de geometrías) \fi{} }Crear una geometría (un objeto \texttt{sfc}) formada por: dos puntos en las posiciones
+\protect\hypertarget{exr:sfc}{}\label{exr:sfc}Crear una geometría (un objeto \texttt{sfc}) formada por: dos puntos en las posiciones
 (1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices
 \{(0,0), (6,0), (6,6), (0,6), (0,0)\} y con un agujero con vértices \{(2,2), (2,4),
 (4,4), (4,2), (2,2)\} (NOTA: consultar la ayuda \texttt{?st}, puede resultar cómodo emplear
@@ -1173,7 +1193,7 @@ Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \tex
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Creación y representación de datos espaciales]
-\protect\hypertarget{exr:aquifer1}{}{\label{exr:aquifer1} \iffalse (Creación y representación de datos espaciales) \fi{} }Cargar los datos del acuífero Wolfcamp (\emph{aquifer.RData}), generar el correspondiente
+\protect\hypertarget{exr:aquifer1}{}\label{exr:aquifer1}Cargar los datos del acuífero Wolfcamp (\emph{aquifer.RData}), generar el correspondiente
 objeto \texttt{sf} y representarlo mostrando los ejes.
 \end{exercise}
 
@@ -1528,7 +1548,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp"
+## [1] "C:/Program Files/R/R-4.2.2/library/sf/shape/nc.shp"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1539,7 +1559,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 
 \begin{verbatim}
 ## Reading layer `nc' from data source 
-##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
+##   `C:\Program Files\R\R-4.2.2\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -1558,14 +1578,14 @@ se puede obtener un listado con la función \texttt{st\_drivers()}:
 \end{Shaded}
 
 \begin{verbatim}
-## 'data.frame':    89 obs. of  7 variables:
-##  $ name     : chr  "ESRIC" "FITS" "PCIDSK" "netCDF" ...
-##  $ long_name: chr  "Esri Compact Cache" "Flexible Image Transport System" "PCIDSK Database File" "Network Common Data Format" ...
-##  $ write    : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
-##  $ copy     : logi  FALSE FALSE FALSE TRUE TRUE TRUE ...
+## 'data.frame':    72 obs. of  7 variables:
+##  $ name     : chr  "ESRIC" "netCDF" "PDS4" "VICAR" ...
+##  $ long_name: chr  "Esri Compact Cache" "Network Common Data Format" "NASA Planetary Data System 4" "MIPL VICAR file" ...
+##  $ write    : logi  FALSE TRUE TRUE TRUE FALSE TRUE ...
+##  $ copy     : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
 ##  $ is_raster: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
 ##  $ is_vector: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
-##  $ vsi      : logi  TRUE FALSE TRUE FALSE TRUE TRUE ...
+##  $ vsi      : logi  TRUE FALSE TRUE TRUE TRUE TRUE ...
 \end{verbatim}
 
 Además, se han desarrollado una gran cantidad de paquetes de R que permiten acceder directamente desde R a datos espaciales.
@@ -1779,8 +1799,7 @@ El resultado de las operaciones lógicas es una matriz dispersa (de clase \textt
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{example}[Creación de una rejilla de predicción]
-\protect\hypertarget{exm:aquifer2}{}{\label{exm:aquifer2} \iffalse (Creación de una rejilla de predicción) \fi{} }
-Continuando con los datos del Ejercicio \ref{exr:aquifer1}, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones 50 por 50 e intersecarla con el buffer.
+\protect\hypertarget{exm:aquifer2}{}\label{exm:aquifer2}Continuando con los datos del Ejercicio \ref{exr:aquifer1}, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones 50 por 50 e intersecarla con el buffer.
 \end{example}
 
 \begin{Shaded}
@@ -1959,15 +1978,13 @@ En este caso concreto parece que una tendencia lineal es adecuada.
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Análisis exploratorio de la tendencia]
-\protect\hypertarget{exr:descriptiva}{}{\label{exr:descriptiva} \iffalse (Análisis exploratorio de la tendencia) \fi{} }
-Realizar un análisis exploratorio del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
+\protect\hypertarget{exr:descriptiva}{}\label{exr:descriptiva}Realizar un análisis exploratorio del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
 (que contiene una simulación de un proceso espacial estacionario, sin tendencia;
 ver Sección \ref{vario-muestrales}).
 \end{exercise}
 
 \begin{exercise}[Análisis exploratorio con variables explicativas]
-\protect\hypertarget{exr:descriptiva2}{}{\label{exr:descriptiva2} \iffalse (Análisis exploratorio con variables explicativas) \fi{} }
-Realizar un análisis exploratorio del conjunto de datos \texttt{meuse\_sf} (almacenado en
+\protect\hypertarget{exr:descriptiva2}{}\label{exr:descriptiva2}Realizar un análisis exploratorio del conjunto de datos \texttt{meuse\_sf} (almacenado en
 el archivo \emph{st\_meuse.RData}; ver Figura \ref{fig:meuse-sf}) considerando como
 respuesta la concentración de zinc y como variables explicativas, además de las
 coordenadas espaciales, las variables que comparte con la rejilla \texttt{meuse\_grid}
@@ -2104,7 +2121,7 @@ En primer lugar emplearemos el conjunto de datos \texttt{s100} del paquete \text
 \end{Shaded}
 
 \begin{verbatim}
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 \end{verbatim}
 
 \begin{Shaded}
@@ -2231,7 +2248,7 @@ Estableciendo \texttt{model\ =\ "independent"} devuelve un p-valor para contrast
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -3066,8 +3083,8 @@ Sin embargo, aparentemente \textbf{\emph{el método no está bien implementado}}
 
 \begin{verbatim}
 ##   model      psill range
-## 1   Nug -0.7976219     0
-## 2   Sph 12.5397527    75
+## 1   Nug -0.7976298     0
+## 2   Sph 12.5398687    75
 \end{verbatim}
 
 Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt{geoR} (ver Sección \ref{geor-ajuste} del apéndice; también se podría emplear el paquete \texttt{nlme}), empleando la función \texttt{geoR::likfit()} para el ajuste y posteriormente \texttt{as.vgm.variomodel()} para convertir el modelo ajustado a un objeto de \texttt{gstat}.
@@ -3485,7 +3502,7 @@ Como ejemplo consideraremos los datos del acuífero Wolfcamp con el modelo del k
 \end{Shaded}
 
 \begin{verbatim}
-## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 \end{verbatim}
 
 \begin{Shaded}
@@ -3509,13 +3526,6 @@ Como se mostró en el Ejemplo \ref{exm:aquifer2}, para generar la rejilla de pre
 
 \begin{verbatim}
 ## Loading required package: abind
-\end{verbatim}
-
-\begin{verbatim}
-## Registered S3 methods overwritten by 'stars':
-##   method             from
-##   st_bbox.SpatRaster sf  
-##   st_crs.SpatRaster  sf
 \end{verbatim}
 
 \begin{Shaded}
@@ -3829,7 +3839,7 @@ Como ya se comentó, la función \texttt{krige.cv()} emplea LOOCV por defecto y 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.58    0.00    0.57
+##    0.46    0.00    0.47
 \end{verbatim}
 
 \begin{Shaded}
@@ -3864,7 +3874,7 @@ Si el número de observaciones es grande puede ser preferible emplear k-fold CV 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.06    0.00    0.07
+##    0.06    0.00    0.06
 \end{verbatim}
 
 Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
@@ -4090,9 +4100,9 @@ y no es posible la interpolación temporal sin modelado adicional (ver Sección 
 \hypertarget{intro-sp}{%
 \chapter{\texorpdfstring{Introducción al paquete \textbf{sp}}{Introducción al paquete sp}}\label{intro-sp}}
 
-El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales.
+El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; E. J. Pebesma y Bivand (\protect\hyperlink{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales.
 En este apéndice se incluyen algunos ejemplos que pueden servir como introducción a las herramientas implementadas en este paquete.
-Para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}), consular las viñetas \href{https://cran.r-project.org/web/packages/sp/vignettes/intro_sp.pdf}{sp: classes and methods for spatial data} y \href{https://edzer.github.io/sp}{Plotting maps with sp} o la \href{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}{chuleta}.
+Para más detalles ver Bivand et~al. (\protect\hyperlink{ref-Bivand2013}{2013}), consular las viñetas \href{https://cran.r-project.org/web/packages/sp/vignettes/intro_sp.pdf}{sp: classes and methods for spatial data} y \href{https://edzer.github.io/sp}{Plotting maps with sp} o la \href{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}{chuleta}.
 
 \hypertarget{tipos-de-objetos}{%
 \section{Tipos de objetos}\label{tipos-de-objetos}}
@@ -4177,7 +4187,8 @@ Para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\prote
 ## [2,]   0   1
 ## 
 ## Slot "proj4string":
-## CRS arguments: NA
+## Coordinate Reference System:
+## Deprecated Proj.4 representation: NA
 \end{verbatim}
 
 Los objetos son del tipo S4.
@@ -4585,6 +4596,9 @@ Descargada del (difunto) \href{http://www.ngdc.noaa.gov/mgg/shorelines/shoreline
 
 \begin{verbatim}
 ## Checking rgeos availability: TRUE
+## Please note that 'maptools' will be retired during 2023,
+## plan transition at your earliest convenience;
+## some functionality will be moved to 'sp'.
 \end{verbatim}
 
 \begin{Shaded}
@@ -4898,11 +4912,15 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 \section{Métodos y procedimientos clases sp}\label{muxe9todos-y-procedimientos-clases-sp}}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.13}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.87}}@{}}
-\toprule
-Método & Descripción \\
-\midrule
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1325}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8675}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+Método
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Descripción
+\end{minipage} \\
+\midrule()
 \endhead
 \texttt{{[}} & selecciona elementos espaciales (puntos, líneas, polígonos, filas/columnas de una rejilla) y/o variables. \\
 \texttt{\$,\ {[}{[}} & obtiene, establece o agrega variables (columnas). \\
@@ -4910,7 +4928,7 @@ Método & Descripción \\
 \texttt{as(obj,\ clase)} & convierte un objeto a una clase. \\
 \texttt{over,\ overlay} & combina objetos espaciales. \\
 \texttt{spsample} & muestrea puntos dentro de una región (rectangular, polígono, línea o rejilla). \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 \hypertarget{importarexportartransformar}{%
@@ -5069,7 +5087,7 @@ Después de iniciar la sesión R, cargar \texttt{geoR} con el comando \texttt{li
 ## --------------------------------------------------------------
 ##  Analysis of Geostatistical Data
 ##  For an Introduction to geoR go to http://www.leg.ufpr.br/geoR
-##  geoR version 1.8-1 (built on 2020-02-08) is now loaded
+##  geoR version 1.9-2 (built on 2022-08-09) is now loaded
 ## --------------------------------------------------------------
 \end{verbatim}
 
@@ -5946,7 +5964,7 @@ espacial si el variograma suavizado no está contenido en esa región).
 \end{Shaded}
 
 \begin{verbatim}
-## Package 'sm', version 2.2-5.6: type help(sm) for summary information
+## Package 'sm', version 2.2-5.7: type help(sm) for summary information
 \end{verbatim}
 
 \begin{Shaded}
@@ -6157,7 +6175,7 @@ Otras opciones:
 
 \begin{verbatim}
 ##  Package npsp: Nonparametric Spatial Statistics,
-##  version 0.7-8 (built on 2021-05-10).
+##  version 0.7-9 (built on 2021-05-17).
 ##  Copyright (C) R. Fernandez-Casal 2012-2021.
 ##  Type `help(npsp)` for an overview of the package or
 ##  visit https://rubenfcasal.github.io/npsp.
@@ -6275,6 +6293,71 @@ elimina una observación (i.e.~validar el procedimiento de estimación)
 añadir la opción \texttt{reest\ =\ TRUE} (puede requerir mucho tiempo de
 computación).
 
+\hypertarget{gls}{%
+\chapter{Mínimos cuadrados generalizados en R}\label{gls}}
+
+\hypertarget{motivaciuxf3n}{%
+\section{Motivación}\label{motivaciuxf3n}}
+
+Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal:
+\[Y =\sum\limits_{j=0}^{p}X_{j}\beta_{j} +\varepsilon,\]
+donde \(\boldsymbol{\beta }=(\beta_{0}, \ldots,\beta_{p})^{\top}\in \mathbb{R}^{p+1}\) es un vector desconocido, \(\left\{ X_{j}:j=0, \ldots,p\right\}\) un conjunto de variables explicativas (por comodidad asumiremos que \(X_0=1\)) y \(\varepsilon\) un error aleatorio (independiente) de media cero con \(Var(\varepsilon)=\sigma^{2}\).
+
+Supongamos que el objetivo es la estimación eficiente de los parámetros de \(\boldsymbol{\beta}\) (\emph{variación de gran escala}), a partir de una muestra aleatoria simple (los datos observados)
+\[\left\{ \left( X_{1_i}, \ldots, X_{p_i}, Y_{i} \right)  : i = 1, \ldots, n \right\}.\]
+Bajo las hipótesis anteriores:
+\[\mathbf{Y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},\]
+siendo \(\mathbf{Y}=\left( Y_1, \ldots, Y_n \right)^{\top}\), \(\mathbf{X}\) una matriz \(n\times (p+1)\) con \(\mathbf{X}_{ij} = X_{{j-1}_i}\) y \(\boldsymbol{\varepsilon} = \left( \varepsilon_1, \ldots,\varepsilon_n \right)^{\top}\), con
+\[Var\left( \mathbf{Y} \right) =Var\left( \boldsymbol{\varepsilon} \right) = \sigma^{2} \mathbf{I}_{n},\]
+siendo \(\mathbf{I}_{n}\) la matriz identidad \(n\times n\).
+En estas condiciones el estimador lineal insesgado de \(\boldsymbol{\beta}\) más eficiente (el óptimo bajo normalidad) resulta ser el estimador de mínimos cuadrados ordinarios (OLS, \emph{ordinary least squares}):
+\begin{equation} 
+  \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Y},
+  \label{eq:beta-ols-rlm}
+\end{equation}
+que se obtiene al minimizar la correspondiente suma de cuadrados
+\[\hat{\boldsymbol{\beta}}_{ols} = \arg \min_{\mathbf{\beta }}\left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right)^{\top }\left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right)\]
+o al maximizar la verosimilitud asumiendo normalidad.
+Además, puede verse fácilmente que
+\[Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(\mathbf{X}^{\top}\mathbf{X})^{-1}.\]
+
+Sin embargo la suposición de que los errores son independientes e idénticamente distribuidos influye crucialmente en la inferencia.
+En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
+\[Var\left( \boldsymbol{\varepsilon} \right) =\boldsymbol{\Sigma},\]
+obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de \(\boldsymbol{\beta}\) es el estimador de mínimos cuadrados generalizados (GLS, \emph{generalized least squares}; WLS, \emph{weighted least squares}, como caso particular si es diagonal):
+\begin{equation} 
+  \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Y}.
+  \label{eq:beta-gls-rlm}
+\end{equation}
+
+Podemos ver cómo se obtiene este estimador desde varios puntos de vista.
+Uno de ellos es aplicar una transformación lineal a los datos de forma que sean incorrelados y tenga sentido aplicar el estimador OLS.
+Para ello se emplea una factorización de la matriz de covarianzas (ver p.e. la \href{https://rubenfcasal.github.io/simbook/fact-cov.html}{Sección 7.3} de Fernández-Casal y Cao, 2021), por ejemplo la factorización de Cholesky:
+\[\Sigma=LL^\top,\]
+donde \(L\) es una matriz triangular inferior (fácilmente invertible), por lo que:
+\[Var\left( L^{-1}\mathbf{Y} \right) =Var\left( L^{-1}\boldsymbol{\varepsilon} \right) = L^{-1} \boldsymbol{\Sigma} L^{{-1}^\top} \\
+= L^{-1} LL^\top L^{\top^{-1}} = \mathbf{I}_{n}.\]
+Aplicando esta transformación al modelo anterior:
+\[L^{-1}\mathbf{Y} = L^{-1}\mathbf{X}\boldsymbol{\beta} + L^{-1}\boldsymbol{\varepsilon}\\
+\tilde{\mathbf{Y}} = \tilde{\mathbf{X}}\boldsymbol{\beta} + \tilde{\boldsymbol{\varepsilon}},\]
+al minimizar la suma de cuadrados
+\[\left( \tilde{\mathbf{Y}}-\tilde{\mathbf{X}}\mathbf{\beta }\right)^{\top }\left( \tilde{\mathbf{Y}}-\tilde{\mathbf{X}}\mathbf{\beta }\right) \\ 
+= \left( L^{-1}\mathbf{Y}-L^{-1}\mathbf{X}\mathbf{\beta }\right)^{\top }\left( L^{-1}\mathbf{Y}-L^{-1}\mathbf{X}\mathbf{\beta }\right) \\
+= \left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right)^{\top } L^{{-1}^\top}L^{-1}  \left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right) \\
+= \left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right)^{\top } \boldsymbol{\Sigma}^{-1}\left( \mathbf{Y}-\mathbf{X}\mathbf{\beta }\right)\]
+obtenemos el estimador lineal óptimo:
+\[\hat{\boldsymbol{\beta}}_{gls}=(\tilde{\mathbf{X}}^{\top}\tilde{\mathbf{X}})^{-1}\tilde{\mathbf{X}}^{\top}\tilde{\mathbf{Y}} 
+= (\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Y}.\]
+
+Si \(\boldsymbol{\Sigma}=\sigma^{2} \mathbf{I}_{n}\), los estimadores \eqref{eq:beta-ols-rlm} y \eqref{eq:beta-gls-rlm} coinciden; pero en caso contrario las estimaciones basadas en el modelo anterior pueden llegar a ser altamente ineficientes.
+Puede verse fácilmente que en el caso general:
+\[Var\left( \hat{\boldsymbol{\beta}}_{gls} \right)=(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1}, \\
+Var\left( \hat{\boldsymbol{\beta}}_{ols} \right) =(\mathbf{X}^{\top}\mathbf{X})^{-1} (\mathbf{X}^{\top}\boldsymbol{\Sigma}\mathbf{X})(\mathbf{X}^{\top}\mathbf{X})^{-1},\]
+resultando además que \(Var( \hat{\boldsymbol{\beta}}_{ols}) - Var( \hat{\boldsymbol{\beta}}_{gls} )\) es una matriz semidefinida positiva (e.g.~Searle, 1971, Sección 3.3).
+
+En la práctica la matriz de covarianzas suele ser desconocida y habría que estimarla.
+Para más detalles, incluyendo el enfoque de máxima verosimilitud y su aplicación en la práctica para la regresión con series de tiempo, ver por ejemplo el apéndice \href{https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Timeseries-Regression.pdf}{Time-Series Regression and Generalized Least Squares in R} de \href{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}{Fox (2019)}.
+
 \hypertarget{referencias}{%
 \chapter*{Referencias}\label{referencias}}
 \addcontentsline{toc}{chapter}{Referencias}
@@ -6303,17 +6386,17 @@ Tobler, W. (1970). A computer movie simulating urban growth in the Detroit regio
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
-\leavevmode\hypertarget{ref-Bivand2013}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Bivand2013}{}}%
 Bivand, R. S., Pebesma, E., y Gómez-Rubio, V. (2013). \emph{Applied Spatial Data Analysis with {R}} (Second). Springer. \url{http://www.asdar-book.org/}
 
-\leavevmode\hypertarget{ref-Pebesma2018}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Pebesma2018}{}}%
 Pebesma, E. (2018). {Simple Features for R: Standardized Support for Spatial Vector Data}. \emph{{The R Journal}}, \emph{10}(1), 439-446. \url{https://doi.org/10.32614/RJ-2018-009}
 
-\leavevmode\hypertarget{ref-Pebesma2021}{}%
-Pebesma, E., y Bivand, R. (2021). \emph{Spatial Data Science}. \url{https://keen-swartz-3146c4.netlify.app}
-
-\leavevmode\hypertarget{ref-Pebesma2005}{}%
+\leavevmode\vadjust pre{\hypertarget{ref-Pebesma2005}{}}%
 Pebesma, E. J., y Bivand, R. S. (2005). Classes and methods for spatial data in {R}. \emph{R News}, \emph{5}(2), 9-13. \url{https://CRAN.R-project.org/doc/Rnews/}
+
+\leavevmode\vadjust pre{\hypertarget{ref-Pebesma2021}{}}%
+Pebesma, E., y Bivand, R. (2021). \emph{Spatial Data Science}. \url{https://keen-swartz-3146c4.netlify.app}
 
 \end{CSLReferences}
 

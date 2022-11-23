@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.2 Introducción al paquete sf | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.2 Introducción al paquete sf | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -25,7 +24,6 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +32,6 @@
   
 <link rel="prev" href="datos-tipos.html"/>
 <link rel="next" href="sf-plot.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,16 +49,17 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -285,6 +283,10 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
 <ul>
 <li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
@@ -309,14 +311,14 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sf-intro" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Introducción al paquete <strong>sf</strong></h2>
+<div id="sf-intro" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Introducción al paquete <strong>sf</strong><a href="sf-intro.html#sf-intro" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>El modelo de geometrías de <em><a href="https://en.wikipedia.org/wiki/Simple_Features">características simples</a></em> (o rasgos simples) es un estándar (<a href="https://www.iso.org/standard/40114.html">ISO 19125</a>) desarrollado por el <a href="https://www.ogc.org">Open Geospatial Consortium</a> (OGC) para formas geográficas vectoriales, que ha sido adoptado por gran cantidad de software geográfico (entre otros por GeoJSON, ArcGIS, QGIS, PostGIS, MySQL Spatial Extensions, Microsoft SQL Server…).
 Como ya se comentó, este tipo de datos espaciales está implementado en R en el paquete <a href="https://r-spatial.github.io/sf"><code>sf</code></a>.</p>
 <p>Los objetos principales, del tipo <code>sf</code>, son extensiones de <code>data.frame</code> (o <code>tibble</code>) y como mínimo contienen una columna denominada <em>simple feature geometry list column</em> que contiene la geometría de cada observación (se trata de una columna tipo <code>list</code>).
 Cada fila, incluyendo la geometría y otras posibles variables (denominados atributos de la geometría), se considera una característica simple (SF).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="sf-intro.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div>
-<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1</code></pre>
+<pre><code>## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="sf-intro.html#cb9-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">&quot;shape/nc.shp&quot;</span>, <span class="at">package=</span><span class="st">&quot;sf&quot;</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb9-2"><a href="sf-intro.html#cb9-2" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> nc[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">15</span>)]</span>
 <span id="cb9-3"><a href="sf-intro.html#cb9-3" aria-hidden="true" tabindex="-1"></a>nc</span></code></pre></div>
@@ -383,30 +385,43 @@ Esta columna es un objeto de tipo <code>sfc</code> (<em>simple feature geometry 
 <pre><code>## MULTIPOLYGON (((-77.21767 36.24098, -77.23461 3...</code></pre>
 <p>En este paquete, todos los métodos y funciones que operan sobre datos espaciales comienzan por <code>st_</code> (<em>spatial type</em>; siguiendo la implementación de PostGIS):</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="sf-intro.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="at">class=</span><span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
-<pre><code>##  [1] $&lt;-                   [                     [[&lt;-                 
-##  [4] aggregate             as.data.frame         cbind                
-##  [7] coerce                dbDataType            dbWriteTable         
-## [10] filter                identify              initialize           
-## [13] merge                 plot                  print                
-## [16] rbind                 show                  slotsFromS3          
-## [19] st_agr                st_agr&lt;-              st_area              
-## [22] st_as_s2              st_as_sf              st_bbox              
-## [25] st_boundary           st_buffer             st_cast              
-## [28] st_centroid           st_collection_extract st_convex_hull       
-## [31] st_coordinates        st_crop               st_crs               
-## [34] st_crs&lt;-              st_difference         st_filter            
-## [37] st_geometry           st_geometry&lt;-         st_inscribed_circle  
-## [40] st_interpolate_aw     st_intersection       st_intersects        
-## [43] st_is                 st_is_valid           st_join              
-## [46] st_line_merge         st_m_range            st_make_valid        
-## [49] st_nearest_points     st_node               st_normalize         
-## [52] st_point_on_surface   st_polygonize         st_precision         
-## [55] st_reverse            st_sample             st_segmentize        
-## [58] st_set_precision      st_shift_longitude    st_simplify          
-## [61] st_snap               st_sym_difference     st_transform         
-## [64] st_triangulate        st_union              st_voronoi           
-## [67] st_wrap_dateline      st_write              st_z_range           
-## [70] st_zm                 transform            
+<pre><code>##  [1] $&lt;-                          [                           
+##  [3] [[&lt;-                         aggregate                   
+##  [5] as.data.frame                cbind                       
+##  [7] coerce                       dbDataType                  
+##  [9] dbWriteTable                 filter                      
+## [11] identify                     initialize                  
+## [13] merge                        plot                        
+## [15] print                        rbind                       
+## [17] show                         slotsFromS3                 
+## [19] st_agr                       st_agr&lt;-                    
+## [21] st_area                      st_as_s2                    
+## [23] st_as_sf                     st_as_sfc                   
+## [25] st_bbox                      st_boundary                 
+## [27] st_buffer                    st_cast                     
+## [29] st_centroid                  st_collection_extract       
+## [31] st_convex_hull               st_coordinates              
+## [33] st_crop                      st_crs                      
+## [35] st_crs&lt;-                     st_difference               
+## [37] st_drop_geometry             st_filter                   
+## [39] st_geometry                  st_geometry&lt;-               
+## [41] st_inscribed_circle          st_interpolate_aw           
+## [43] st_intersection              st_intersects               
+## [45] st_is                        st_is_valid                 
+## [47] st_join                      st_line_merge               
+## [49] st_m_range                   st_make_valid               
+## [51] st_minimum_rotated_rectangle st_nearest_points           
+## [53] st_node                      st_normalize                
+## [55] st_point_on_surface          st_polygonize               
+## [57] st_precision                 st_reverse                  
+## [59] st_sample                    st_segmentize               
+## [61] st_set_precision             st_shift_longitude          
+## [63] st_simplify                  st_snap                     
+## [65] st_sym_difference            st_transform                
+## [67] st_triangulate               st_union                    
+## [69] st_voronoi                   st_wrap_dateline            
+## [71] st_write                     st_z_range                  
+## [73] st_zm                        transform                   
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>Los objetos geométricos básicos son del tipo <code>sfg</code> (<em>simple feature geometry</em>) que contienen la geometría de una única característica definida a partir de puntos en dos (XY), tres (XYZ, XYM) o cuatro dimensiones (XYZM).
 Admite los 17 tipos de geometrías simples del estándar, pero de forma completa los 7 tipos básicos:</p>
@@ -472,9 +487,8 @@ Posteriormente se puede crear un objeto <code>sf</code> mediante la función <co
 ## 4 Pontevedra POINT (-8.648053 42.43362)</code></pre>
 <p>Esta forma de proceder puede resultar de interés cuando se construyen geometrías tipo líneas o polígonos, pero en el caso de datos puntuales (las observaciones habituales en geoestadística), resulta mucho más cómodo emplear un <code>data.frame</code> que incluya las coordenadas en columnas y convertirlo a un objeto <code>sf</code> mediante la función <code>st_as_sf()</code>.</p>
 <hr />
-
 <div class="exercise">
-<p><span id="exr:sfc" class="exercise"><strong>Ejercicio 2.1  (Creación de una columna de geometrías)  </strong></span>Crear una geometría (un objeto <code>sfc</code>) formada por: dos puntos en las posiciones
+<p><span id="exr:sfc" class="exercise"><strong>Ejercicio 2.1  (Creación de una columna de geometrías) </strong></span>Crear una geometría (un objeto <code>sfc</code>) formada por: dos puntos en las posiciones
 (1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices
 {(0,0), (6,0), (6,6), (0,6), (0,0)} y con un agujero con vértices {(2,2), (2,4),
 (4,4), (4,2), (2,2)} (NOTA: consultar la ayuda <code>?st</code>, puede resultar cómodo emplear
@@ -539,15 +553,14 @@ Figura 2.1: Concentración de zinc (ppm) en el entorno del río Meuse (datos <co
 </p>
 </div>
 <hr />
-
 <div class="exercise">
-<p><span id="exr:aquifer1" class="exercise"><strong>Ejercicio 2.2  (Creación y representación de datos espaciales)  </strong></span>Cargar los datos del acuífero Wolfcamp (<em>aquifer.RData</em>), generar el correspondiente
+<p><span id="exr:aquifer1" class="exercise"><strong>Ejercicio 2.2  (Creación y representación de datos espaciales) </strong></span>Cargar los datos del acuífero Wolfcamp (<em>aquifer.RData</em>), generar el correspondiente
 objeto <code>sf</code> y representarlo mostrando los ejes.</p>
 </div>
 <!-- \@ref(exr:aquifer1) -->
 <hr />
-<div id="crs" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Sistemas de referencia de coordenadas</h3>
+<div id="crs" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Sistemas de referencia de coordenadas<a href="sf-intro.html#crs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>El sistema de referencia de coordenadas (CRS) especifica la correspondencia entre valores de las coordenadas y puntos concretos en la superficie de la Tierra (o del espacio), y resulta fundamental cuando se combinan datos espaciales.
 En general se consideran dos tipos de CRS:</p>
 <ul>
@@ -627,8 +640,8 @@ Es importante destacar que cambiar el CRS no reproyecta los datos, hay que emple
 <p>Finalmente hay que insistir también en que el campo de aplicación de la estadística espacial no se restringe al análisis de datos geográficos (por ejemplo nos puede interesar analizar el desgaste en la pared de un crisol empleado en fundición) y en estos casos los CRS geográficos carecen de sentido.
 De todos modos habrá que emplear un sistema de coordenadas que permita calcular algún tipo de salto o distancia entre puntos (aunque siempre se pueden considerar coordenadas espaciales tres dimensiones con la distancia euclídea).</p>
 </div>
-<div id="tidyverse-sf" class="section level3" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Integración con el ecosistema <strong>tidyverse</strong></h3>
+<div id="tidyverse-sf" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Integración con el ecosistema <strong>tidyverse</strong><a href="sf-intro.html#tidyverse-sf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>El paquete <code>sf</code> es compatible con <a href="http://tidyverse.org"><code>tidyverse</code></a> y proporciona métodos para interactuar con los paquetes <a href="https://dplyr.tidyverse.org"><code>dplyr</code></a>,
 <a href="http://tidyr.tidyverse.org"><code>tidyr</code></a> y <a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a>.</p>
 <p>Algunos de los métodos de interés para manipular datos espaciales con el paquete <a href="https://dplyr.tidyverse.org"><code>dplyr</code></a> son:</p>
@@ -645,7 +658,7 @@ De todos modos habrá que emplear un sistema de coordenadas que permita calcular
 <li><a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf-2.html">Part 2: Layers (Adding additional layers: an example with points and polygons)</a>.</li>
 <li><a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf-3.html">Part 3: Layouts (Positioning and layout for complex maps)</a>.</li>
 </ul>
-<p>Por ejemplo, se puede generar un gráfico similar al de la Figura <a href="proc-esp.html#fig:mortalidad">1.2</a> (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos <a href="https://www.ine.es/jaxiT3/Tabla.htm?t=6546&amp;L=0">INE</a>), con el siguiente código:</p>
+<p>Por ejemplo, se puede generar un gráfico similar al de la Figura <a href="proc-esp.html#fig:mortalidad">1.2</a> (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos <a href="https://www.ine.es/jaxiT3/Tabla.htm?t=6546">INE</a>), con el siguiente código:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="sf-intro.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb39-2"><a href="sf-intro.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb39-3"><a href="sf-intro.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
@@ -759,7 +772,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

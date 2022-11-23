@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.4 Kriging con el paquete gstat | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.4 Kriging con el paquete gstat | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -25,7 +24,6 @@
 <meta name="author" content="Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)" />
 
 
-<meta name="date" content="2022-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +32,6 @@
   
 <link rel="prev" href="kuniversal.html"/>
 <link rel="next" href="consideraciones-kriging.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,16 +49,17 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.26/datatables.js"></script>
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -102,7 +100,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -115,7 +113,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -285,6 +283,10 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<ul>
+<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
 <ul>
 <li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
@@ -309,8 +311,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="kriging-gstat" class="section level2" number="4.4">
-<h2><span class="header-section-number">4.4</span> Kriging con el paquete <strong>gstat</strong></h2>
+<div id="kriging-gstat" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Kriging con el paquete <strong>gstat</strong><a href="kriging-gstat.html#kriging-gstat" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Los métodos kriging (KS, KO y KU) están implementados en la función <code>krige()</code> del paquete <code>gstat</code>.
 Normalmente la sintaxis empleada es:</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="kriging-gstat.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">krige</span>(formula, locations, newdata, model, ..., beta)</span></code></pre></div>
@@ -336,7 +338,7 @@ Para predicción (o simulación) local se pueden establecer los siguientes pará
 <p>Como ejemplo consideraremos los datos del acuífero Wolfcamp con el modelo del kriging universal ajustado en la Sección <a href="ajuste-variog.html#trend-fit">3.3.2</a> (en <a href="s100.html">s100</a> se tiene un ejemplo adicional empleando KO).</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="kriging-gstat.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
 <span id="cb129-2"><a href="kriging-gstat.html#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div>
-<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1</code></pre>
+<pre><code>## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE</code></pre>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="kriging-gstat.html#cb131-1" aria-hidden="true" tabindex="-1"></a>aquifer<span class="sc">$</span>head <span class="ot">&lt;-</span> aquifer<span class="sc">$</span>head<span class="sc">/</span><span class="dv">100</span> <span class="co"># en cientos de pies...</span></span>
 <span id="cb131-2"><a href="kriging-gstat.html#cb131-2" aria-hidden="true" tabindex="-1"></a>aquifer_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(aquifer, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>, <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
 <span id="cb131-3"><a href="kriging-gstat.html#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
@@ -346,23 +348,19 @@ Para predicción (o simulación) local se pueden establecer los siguientes pará
 <div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="kriging-gstat.html#cb132-1" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> aquifer_sf <span class="sc">%&gt;%</span> <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">st_buffer</span>(<span class="dv">40</span>)</span>
 <span id="cb132-2"><a href="kriging-gstat.html#cb132-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span></code></pre></div>
 <pre><code>## Loading required package: abind</code></pre>
-<pre><code>## Registered S3 methods overwritten by &#39;stars&#39;:
-##   method             from
-##   st_bbox.SpatRaster sf  
-##   st_crs.SpatRaster  sf</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="kriging-gstat.html#cb135-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="kriging-gstat.html#cb134-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>)</span></code></pre></div>
 <p>Como suponemos un modelo (no constante) para la tendencia, es necesario añadir los valores de las variables explicativas a la rejilla de predicción:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="kriging-gstat.html#cb136-1" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(grid)</span>
-<span id="cb136-2"><a href="kriging-gstat.html#cb136-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lon <span class="ot">&lt;-</span> coord<span class="sc">$</span>x</span>
-<span id="cb136-3"><a href="kriging-gstat.html#cb136-3" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lat <span class="ot">&lt;-</span> coord<span class="sc">$</span>y</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="kriging-gstat.html#cb135-1" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(grid)</span>
+<span id="cb135-2"><a href="kriging-gstat.html#cb135-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lon <span class="ot">&lt;-</span> coord<span class="sc">$</span>x</span>
+<span id="cb135-3"><a href="kriging-gstat.html#cb135-3" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lat <span class="ot">&lt;-</span> coord<span class="sc">$</span>y</span></code></pre></div>
 <p>Además, en este caso recortamos la rejilla para filtrar predicciones alejadas de las observaciones:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="kriging-gstat.html#cb137-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="kriging-gstat.html#cb136-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span></code></pre></div>
 <p>Obtenemos las predicciones mediante kriging universal (Sección <a href="kuniversal.html#kuniversal">4.3</a>):</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="kriging-gstat.html#cb138-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">krige</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf, <span class="at">model =</span> fit,</span>
-<span id="cb138-2"><a href="kriging-gstat.html#cb138-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">newdata =</span> grid)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="kriging-gstat.html#cb137-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">krige</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf, <span class="at">model =</span> fit,</span>
+<span id="cb137-2"><a href="kriging-gstat.html#cb137-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">newdata =</span> grid)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
 <p>Aparentemente hay un <strong><em>ERROR en krige()</em></strong> y cambia las coordenadas del objeto <code>stars</code>:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="kriging-gstat.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(grid))</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="kriging-gstat.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(grid))</span></code></pre></div>
 <pre><code>##        x                 y         
 ##  Min.   :-181.86   Min.   :-28.03  
 ##  1st Qu.:-100.73   1st Qu.: 33.25  
@@ -370,7 +368,7 @@ Para predicción (o simulación) local se pueden establecer los siguientes pará
 ##  Mean   : -16.22   Mean   : 97.09  
 ##  3rd Qu.:  68.29   3rd Qu.:160.93  
 ##  Max.   : 149.42   Max.   :222.21</code></pre>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="kriging-gstat.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(pred))</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="kriging-gstat.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(pred))</span></code></pre></div>
 <pre><code>##        x                 y         
 ##  Min.   :-181.86   Min.   : 53.83  
 ##  1st Qu.:-100.73   1st Qu.:115.11  
@@ -379,26 +377,26 @@ Para predicción (o simulación) local se pueden establecer los siguientes pará
 ##  3rd Qu.:  68.29   3rd Qu.:242.79  
 ##  Max.   : 149.42   Max.   :304.08</code></pre>
 <p>Para evitar este problema podemos añadir los resultado al objeto <code>grid</code> y emplearlo en lugar de <code>pred</code>:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="kriging-gstat.html#cb144-1" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.pred <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.pred</span>
-<span id="cb144-2"><a href="kriging-gstat.html#cb144-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.var <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.var</span></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="kriging-gstat.html#cb143-1" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.pred <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.pred</span>
+<span id="cb143-2"><a href="kriging-gstat.html#cb143-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.var <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.var</span></code></pre></div>
 <p>Podemos representar las predicciones y las varianzas kriging empleando <code>plot.stars()</code>:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="kriging-gstat.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
-<span id="cb145-2"><a href="kriging-gstat.html#cb145-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicciones kriging&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="kriging-gstat.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
+<span id="cb144-2"><a href="kriging-gstat.html#cb144-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicciones kriging&quot;</span>)</span></code></pre></div>
 <p><img src="04-kriging_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="kriging-gstat.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.var&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
-<span id="cb146-2"><a href="kriging-gstat.html#cb146-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Varianzas kriging&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="kriging-gstat.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.var&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
+<span id="cb145-2"><a href="kriging-gstat.html#cb145-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Varianzas kriging&quot;</span>)</span></code></pre></div>
 <p><img src="04-kriging_files/figure-html/unnamed-chunk-10-2.png" width="70%" style="display: block; margin: auto;" /></p>
 <!-- Error: breaks = "pretty" -->
 <p>También podríamos emplear el paquete <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="kriging-gstat.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb147-2"><a href="kriging-gstat.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb147-3"><a href="kriging-gstat.html#cb147-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.pred, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb147-4"><a href="kriging-gstat.html#cb147-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
-<span id="cb147-5"><a href="kriging-gstat.html#cb147-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
-<span id="cb147-6"><a href="kriging-gstat.html#cb147-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.var, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb147-7"><a href="kriging-gstat.html#cb147-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
-<span id="cb147-8"><a href="kriging-gstat.html#cb147-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
-<span id="cb147-9"><a href="kriging-gstat.html#cb147-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="kriging-gstat.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb146-2"><a href="kriging-gstat.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb146-3"><a href="kriging-gstat.html#cb146-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.pred, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb146-4"><a href="kriging-gstat.html#cb146-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
+<span id="cb146-5"><a href="kriging-gstat.html#cb146-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
+<span id="cb146-6"><a href="kriging-gstat.html#cb146-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.var, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb146-7"><a href="kriging-gstat.html#cb146-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
+<span id="cb146-8"><a href="kriging-gstat.html#cb146-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
+<span id="cb146-9"><a href="kriging-gstat.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="04-kriging_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
             </section>
@@ -467,7 +465,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');
