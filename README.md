@@ -47,8 +47,4 @@ para lo que se recomendaría consultar el libro de ["Escritura de libros con boo
 Este obra está bajo una licencia de [Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es_ES) 
 (esperamos poder liberarlo bajo una licencia menos restrictiva más adelante...).
 
-
-Este obra está bajo una licencia de [Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional ](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es_ES) 
-(esperamos poder liberarlo bajo una licencia menos restrictiva más adelante...).
-
 ![](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)

@@ -295,13 +295,6 @@ Como ejemplo consideraremos los datos del acuífero Wolfcamp con el modelo del k
 ```r
 load("datos/aquifer.RData")
 library(sf)
-```
-
-```
-## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
-```
-
-```r
 aquifer$head <- aquifer$head/100 # en cientos de pies...
 aquifer_sf <- st_as_sf(aquifer, coords = c("lon", "lat"), remove = FALSE, agr = "constant")
 library(gstat)
@@ -315,13 +308,6 @@ Como se mostró en el Ejemplo \@ref(exm:aquifer2), para generar la rejilla de pr
 ```r
 buffer <- aquifer_sf %>% st_geometry() %>% st_buffer(40)
 library(stars)
-```
-
-```
-## Loading required package: abind
-```
-
-```r
 grid <- buffer %>%  st_as_stars(nx = 50, ny = 50)
 ```
 
@@ -400,18 +386,14 @@ plot(grid["var1.pred"], breaks = "equal", col = sf.colors(64), key.pos = 4,
      main = "Predicciones kriging")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
 
 ```r
 plot(grid["var1.var"], breaks = "equal", col = sf.colors(64), key.pos = 4,
      main = "Varianzas kriging")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-10-2} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-10-2.png" width="70%" style="display: block; margin: auto;" />
 
 <!-- Error: breaks = "pretty" -->
 
@@ -430,9 +412,7 @@ p2 <- ggplot() + geom_stars(data = grid, aes(fill = var1.var, x = x, y = y)) +
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-11-1} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-11-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Consideraciones acerca de los métodos kriging {#consideraciones-kriging}
 
@@ -604,7 +584,7 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.46    0.00    0.47
+##    0.64    0.08    0.76
 ```
 
 ```r
@@ -697,9 +677,7 @@ plot(zscore ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Residuo estand
 abline(h = c(-3, -2, 0, 2, 3), lty = 3)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" />
 
 ```r
 par(old_par)
@@ -712,17 +690,13 @@ Gráficos con la distribución espacial de los residuos:
 plot(cv["residual"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-1} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" />
 
 ```r
 plot(cv["zscore"], pch = 20, cex = 2)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.7\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-17-2} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-17-2.png" width="70%" style="display: block; margin: auto;" />
 
 Además de los gráficos estándar para analizar la distribución de los residuos estándarizados o detectar atípicos:
 
@@ -739,9 +713,7 @@ qqline(cv$zscore, col = "blue")
 car::Boxplot(cv$zscore, ylab = "Residuos estandarizados")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-18-1} \end{center}
+<img src="04-kriging_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" />
 
 ```
 ## [1] 78

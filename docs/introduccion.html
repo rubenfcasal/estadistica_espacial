@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.1 Introducción | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.1 Introducción | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="kriging.html"/>
 <link rel="next" href="ksimple.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,17 +51,16 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -100,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -199,7 +200,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
-<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-geometrias"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
 </ul></li>
@@ -283,13 +284,23 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a></li>
+<li class="chapter" data-level="D" data-path="ejemplo-aquifer.html"><a href="ejemplo-aquifer.html"><i class="fa fa-check"></i><b>D</b> Ejemplo de análisis geoestadístico</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+<li class="chapter" data-level="D.1" data-path="carga-de-datos-y-creación-del-objeto-sf.html"><a href="carga-de-datos-y-creación-del-objeto-sf.html"><i class="fa fa-check"></i><b>D.1</b> Carga de datos y creación del objeto <code>sf</code>:</a></li>
+<li class="chapter" data-level="D.2" data-path="análisis-exploratorio.html"><a href="análisis-exploratorio.html"><i class="fa fa-check"></i><b>D.2</b> Análisis exploratorio</a></li>
+<li class="chapter" data-level="D.3" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html"><i class="fa fa-check"></i><b>D.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="D.3.1" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#estimación-experimental-del-variograma"><i class="fa fa-check"></i><b>D.3.1</b> Estimación experimental del variograma</a></li>
+<li class="chapter" data-level="D.3.2" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#ajuste-de-un-modelo-válido"><i class="fa fa-check"></i><b>D.3.2</b> Ajuste de un modelo válido</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<li class="chapter" data-level="D.4" data-path="predicción-espacial-ku.html"><a href="predicción-espacial-ku.html"><i class="fa fa-check"></i><b>D.4</b> Predicción espacial (KU)</a></li>
+<li class="chapter" data-level="D.5" data-path="validación-cruzada-1.html"><a href="validación-cruzada-1.html"><i class="fa fa-check"></i><b>D.5</b> Validación cruzada</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>E</b> Referencias</a>
 <ul>
-<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+<li class="chapter" data-level="E.1" data-path="links.html"><a href="links.html"><i class="fa fa-check"></i><b>E.1</b> Enlaces</a></li>
+<li class="chapter" data-level="E.2" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i><b>E.2</b> Bibliografía completa</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -311,8 +322,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduccion" class="section level2 hasAnchor" number="4.1">
-<h2><span class="header-section-number">4.1</span> Introducción<a href="introduccion.html#introduccion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="introduccion" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Introducción</h2>
 <p>Si denotamos por <span class="math inline">\(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} )\right)^\top\)</span> valores observados del proceso, los distintos métodos kriging proporcionan un predictor <span class="math inline">\(p(\mathbf{Z},\mathbf{s}_{0})\)</span> de <span class="math inline">\(Z(\mathbf{s}_{0})\)</span> verificando que:</p>
 <ul>
 <li><p>es lineal:
@@ -415,7 +426,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

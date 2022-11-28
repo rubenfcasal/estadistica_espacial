@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1.2 Geoestadística | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1.2 Geoestadística | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="proc-esp.html"/>
 <link rel="next" href="procesos-estacionarios.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,17 +51,16 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -100,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -199,7 +200,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
-<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-geometrias"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
 </ul></li>
@@ -283,13 +284,23 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a></li>
+<li class="chapter" data-level="D" data-path="ejemplo-aquifer.html"><a href="ejemplo-aquifer.html"><i class="fa fa-check"></i><b>D</b> Ejemplo de análisis geoestadístico</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+<li class="chapter" data-level="D.1" data-path="carga-de-datos-y-creación-del-objeto-sf.html"><a href="carga-de-datos-y-creación-del-objeto-sf.html"><i class="fa fa-check"></i><b>D.1</b> Carga de datos y creación del objeto <code>sf</code>:</a></li>
+<li class="chapter" data-level="D.2" data-path="análisis-exploratorio.html"><a href="análisis-exploratorio.html"><i class="fa fa-check"></i><b>D.2</b> Análisis exploratorio</a></li>
+<li class="chapter" data-level="D.3" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html"><i class="fa fa-check"></i><b>D.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="D.3.1" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#estimación-experimental-del-variograma"><i class="fa fa-check"></i><b>D.3.1</b> Estimación experimental del variograma</a></li>
+<li class="chapter" data-level="D.3.2" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#ajuste-de-un-modelo-válido"><i class="fa fa-check"></i><b>D.3.2</b> Ajuste de un modelo válido</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<li class="chapter" data-level="D.4" data-path="predicción-espacial-ku.html"><a href="predicción-espacial-ku.html"><i class="fa fa-check"></i><b>D.4</b> Predicción espacial (KU)</a></li>
+<li class="chapter" data-level="D.5" data-path="validación-cruzada-1.html"><a href="validación-cruzada-1.html"><i class="fa fa-check"></i><b>D.5</b> Validación cruzada</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>E</b> Referencias</a>
 <ul>
-<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+<li class="chapter" data-level="E.1" data-path="links.html"><a href="links.html"><i class="fa fa-check"></i><b>E.1</b> Enlaces</a></li>
+<li class="chapter" data-level="E.2" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i><b>E.2</b> Bibliografía completa</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -311,8 +322,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="geoestadistica" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Geoestadística<a href="geoestadistica.html#geoestadistica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="geoestadistica" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Geoestadística</h2>
 <p>La geoestadística (Matheron 1962) surgió como una mezcla de varias disciplinas: ingeniería de minas, geología, matemáticas y estadística, para dar respuesta a problemas como, por ejemplo, el de la estimación de los recursos de una explotación minera (se desarrolló principalmente a partir de los años 80).
 La diferencia (ventaja) respecto a otras aproximaciones es que, además de tener en cuenta la tendencia espacial (variación de gran escala), también tiene en cuenta la correlación espacial (variación de pequeña escala).
 Otros métodos sin embargo, sólo incluyen la variación de larga escala y suponen que los errores son independientes (Sección <a href="geoestadistica.html#modelos-clasicos-espaciales">1.2.1</a>).
@@ -335,8 +346,8 @@ Algunas propiedades de estas funciones, que podríamos decir que son las herrami
 <!-- 
 Se podrían considerar un modelo aún más general heterocedástico (ver Fernández-Casal *et al.*, 2017). 
 -->
-<div id="modelos-clasicos-espaciales" class="section level3 hasAnchor" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Modelos clásicos y modelos espaciales<a href="geoestadistica.html#modelos-clasicos-espaciales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="modelos-clasicos-espaciales" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Modelos clásicos y modelos espaciales</h3>
 <p>En general, cuando se considera que la componente espacial (o espacio-temporal) puede ser importante en el modelado y el análisis de los datos es necesaria una aproximación estadística distinta a la tradicionalmente usada.</p>
 <p>Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal.
 Si <span class="math inline">\(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mathbb{R}^{d} \right\}\)</span> es un proceso espacial, podemos suponer que:
@@ -349,7 +360,7 @@ Si <span class="math inline">\(\left\{ Z(\mathbf{s}):\mathbf{s}\in D\subset \mat
 Bajo las hipótesis anteriores:
 <span class="math display">\[\mathbf{Z} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon},\]</span>
 siendo <span class="math inline">\(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots,Z(\mathbf{s}_{n}) \right)^{\top}\)</span>, <span class="math inline">\(\mathbf{X}\)</span> una matriz <span class="math inline">\(n\times (p+1)\)</span> con <span class="math inline">\(\mathbf{X}_{ij}=X_{j-1}(\mathbf{s}_{i})\)</span> y <span class="math inline">\(\boldsymbol{\varepsilon} = \left( \varepsilon (\mathbf{s}_{1}), \ldots,\varepsilon (\mathbf{s}_{n})\right)^{\top}\)</span>; y el estimador lineal insesgado de <span class="math inline">\(\boldsymbol{\beta}\)</span> más eficiente resulta ser el estimador de mínimos cuadrados ordinarios (OLS, <em>ordinary least squares</em>):
-<span class="math display" id="eq:beta-ols">\[\begin{equation}
+<span class="math display" id="eq:beta-ols">\[\begin{equation} 
   \hat{\boldsymbol{\beta}}_{ols}=(\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{Z},
   \tag{1.3}
 \end{equation}\]</span>
@@ -359,7 +370,7 @@ con <span class="math display">\[Var(\hat{\boldsymbol{\beta}}_{ols})=\sigma^{2}(
 En el modelo anterior, en lugar de errores incorrelados, si suponemos que:
 <span class="math display">\[Var\left( \boldsymbol{\varepsilon} \right) =\boldsymbol{\Sigma},\]</span>
 obtenemos el modelo lineal de regresión generalizado y en este caso el estimador lineal óptimo de <span class="math inline">\(\boldsymbol{\beta}\)</span> es el estimador de mínimos cuadrados generalizados (GLS, <em>generalized least squares</em>):
-<span class="math display" id="eq:beta-gls">\[\begin{equation}
+<span class="math display" id="eq:beta-gls">\[\begin{equation} 
   \hat{\boldsymbol{\beta}}_{gls} =(\mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{X})^{-1} \mathbf{X}^{\top}\boldsymbol{\Sigma}^{-1} \mathbf{Z}.
   \tag{1.4}
 \end{equation}\]</span>
@@ -376,7 +387,7 @@ Bajo las hipótesis del modelo clásico el predictor óptimo sería la estimaci�
 En el caso general, siguiendo esta aproximación, podríamos pensar en utilizar como predictor el estimador más eficiente de la tendencia:
 <span class="math display">\[\hat{Z} (\mathbf{s}_{0})=\mathbf{x}_0^\top \hat{\boldsymbol{\beta}}_{gls},\]</span>
 sin embargo no es el predictor lineal óptimo. Puede verse (e.g. Goldberger, 1962; Sección <a href="kuniversal.html#kriging-residual">4.3.2</a>) que en este caso el mejor predictor lineal insesgado es:
-<span class="math display" id="eq:predictor-kriging">\[\begin{equation}
+<span class="math display" id="eq:predictor-kriging">\[\begin{equation} 
   \tilde{Z}(\mathbf{s}_{0}) = \mathbf{x}_0^{\top}\hat{\boldsymbol{\beta}}_{gls} + \mathbf{c}^{\top} \boldsymbol{\Sigma}^{-1} \left( \mathbf{Z} - \mathbf{X}\hat{\boldsymbol{\beta}}_{gls} \right),
   \tag{1.5}
 \end{equation}\]</span>
@@ -397,8 +408,8 @@ Por ejemplo, podemos considerar:
 con <span class="math inline">\(\sigma^{2} \geq 0\)</span> y <span class="math inline">\(0&lt;\rho &lt;1\)</span>.
 De esta forma, si <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es un estimador de <span class="math inline">\(\boldsymbol{\theta}\)</span> (ver Sección <a href="ajuste-variog.html#ajuste-variog">3.3</a>), podemos obtener por ejemplo una aproximación del predictor óptimo de <span class="math inline">\(Z(\mathbf{s}_{0} )\)</span> sustituyendo en <a href="geoestadistica.html#eq:predictor-kriging">(1.5)</a> <span class="math inline">\(\boldsymbol{\Sigma}(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\boldsymbol{\Sigma}(\hat{\boldsymbol{\theta}} )\)</span> y <span class="math inline">\(\mathbf{c}(\boldsymbol{\theta})\)</span> por <span class="math inline">\(\mathbf{c}(\hat{\boldsymbol{\theta}} )\)</span>.</p>
 </div>
-<div id="ventajas-de-la-aproximación-espacial-y-espacio-temporal" class="section level3 hasAnchor" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Ventajas de la aproximación espacial (y espacio-temporal)<a href="geoestadistica.html#ventajas-de-la-aproximación-espacial-y-espacio-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="ventajas-de-la-aproximación-espacial-y-espacio-temporal" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Ventajas de la aproximación espacial (y espacio-temporal)</h3>
 <p>Algunos de los beneficios de utilizar modelos espaciales para caracterizar y explotar la dependencia espacial de un conjunto de datos son los siguientes:</p>
 <ul>
 <li><p>Modelos más generales: en la mayoría de los casos, los modelos clásicos no espaciales son un caso particular de un modelo espacial.</p></li>
@@ -491,7 +502,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.1 Tipos de datos espaciales | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.1 Tipos de datos espaciales | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="datos.html"/>
 <link rel="next" href="sf-intro.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,17 +51,16 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -100,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -199,7 +200,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
-<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-geometrias"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
 </ul></li>
@@ -283,13 +284,23 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a></li>
+<li class="chapter" data-level="D" data-path="ejemplo-aquifer.html"><a href="ejemplo-aquifer.html"><i class="fa fa-check"></i><b>D</b> Ejemplo de análisis geoestadístico</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+<li class="chapter" data-level="D.1" data-path="carga-de-datos-y-creación-del-objeto-sf.html"><a href="carga-de-datos-y-creación-del-objeto-sf.html"><i class="fa fa-check"></i><b>D.1</b> Carga de datos y creación del objeto <code>sf</code>:</a></li>
+<li class="chapter" data-level="D.2" data-path="análisis-exploratorio.html"><a href="análisis-exploratorio.html"><i class="fa fa-check"></i><b>D.2</b> Análisis exploratorio</a></li>
+<li class="chapter" data-level="D.3" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html"><i class="fa fa-check"></i><b>D.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="D.3.1" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#estimación-experimental-del-variograma"><i class="fa fa-check"></i><b>D.3.1</b> Estimación experimental del variograma</a></li>
+<li class="chapter" data-level="D.3.2" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#ajuste-de-un-modelo-válido"><i class="fa fa-check"></i><b>D.3.2</b> Ajuste de un modelo válido</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<li class="chapter" data-level="D.4" data-path="predicción-espacial-ku.html"><a href="predicción-espacial-ku.html"><i class="fa fa-check"></i><b>D.4</b> Predicción espacial (KU)</a></li>
+<li class="chapter" data-level="D.5" data-path="validación-cruzada-1.html"><a href="validación-cruzada-1.html"><i class="fa fa-check"></i><b>D.5</b> Validación cruzada</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>E</b> Referencias</a>
 <ul>
-<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+<li class="chapter" data-level="E.1" data-path="links.html"><a href="links.html"><i class="fa fa-check"></i><b>E.1</b> Enlaces</a></li>
+<li class="chapter" data-level="E.2" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i><b>E.2</b> Bibliografía completa</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -311,8 +322,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="datos-tipos" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Tipos de datos espaciales<a href="datos-tipos.html#datos-tipos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="datos-tipos" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Tipos de datos espaciales</h2>
 <p>En el campo de los datos espaciales se suele distinguir entre dos tipos de datos:</p>
 <ul>
 <li><p><em>Datos vectoriales</em>: en los que se emplean coordenadas para definir las posiciones espaciales “exactas” de los datos. Entre ellos estarían los asociados a las geometrías habituales: puntos, líneas, polígonos y rejillas.</p></li>
@@ -344,12 +355,12 @@ límites región de observación (polígonos).</p></li>
 <p>Este es el principal motivo de que se hayan desarrollado paquetes de R para facilitar su manipulación (y permitiendo el intercambio de datos entre herramientas).
 Entre ellos destacan:</p>
 <ul>
-<li><p><a href="https://CRAN.R-project.org/package=sp"><code>sp</code></a> <span class="citation">(Classes and methods for spatial data, <a href="#ref-Pebesma2005" role="doc-biblioref">E. J. Pebesma y Bivand, 2005</a>)</span>: se corresponde con <span class="citation">Bivand et al. (<a href="#ref-Bivand2013" role="doc-biblioref">2013</a>)</span> y emplea clases S4. Se complementa con los paquetes <a href="https://CRAN.R-project.org/package=rgdal"><code>rgdal</code></a> (interfaz a la <em>geospatial data abstraction library</em>, para la lectura y escritura de datos espaciales) y <a href="https://CRAN.R-project.org/package=rgeos"><code>rgeos</code></a> (interfaz a la librería <em>Geometry Engine Open Source</em>, para operaciones geométricas).</p></li>
-<li><p><a href="https://r-spatial.github.io/sf"><code>sf</code></a> <span class="citation">(Simple Features for R, <a href="#ref-Pebesma2018" role="doc-biblioref">E. Pebesma, 2018</a>)</span>: alternativa en desarrollo con objetos más simples S3 (compatible con <a href="http://tidyverse.org"><code>tidyverse</code></a> y que proporciona una interfaz directa a las librerías <a href="https://gdal.org">GDAL</a> y <a href="https://trac.osgeo.org/geos">GEOS</a>) que aspira a reemplazar el paquete <code>sp</code> a corto plazo. Se corresponde con <span class="citation">E. Pebesma y Bivand (<a href="#ref-Pebesma2021" role="doc-biblioref">2021</a>)</span> (disponible <a href="https://keen-swartz-3146c4.netlify.app">online</a>).</p></li>
+<li><p><a href="https://CRAN.R-project.org/package=sp"><code>sp</code></a> <span class="citation">(Classes and methods for spatial data, <a href="#ref-Pebesma2005" role="doc-biblioref">E. J. Pebesma y Bivand, 2005</a>)</span>: se corresponde con <span class="citation"><a href="#ref-Bivand2013" role="doc-biblioref">Bivand et al.</a> (<a href="#ref-Bivand2013" role="doc-biblioref">2013</a>)</span> y emplea clases S4. Se complementa con los paquetes <a href="https://CRAN.R-project.org/package=rgdal"><code>rgdal</code></a> (interfaz a la <em>geospatial data abstraction library</em>, para la lectura y escritura de datos espaciales) y <a href="https://CRAN.R-project.org/package=rgeos"><code>rgeos</code></a> (interfaz a la librería <em>Geometry Engine Open Source</em>, para operaciones geométricas).</p></li>
+<li><p><a href="https://r-spatial.github.io/sf"><code>sf</code></a> <span class="citation">(Simple Features for R, <a href="#ref-Pebesma2018" role="doc-biblioref">E. Pebesma, 2018</a>)</span>: alternativa en desarrollo con objetos más simples S3 (compatible con <a href="http://tidyverse.org"><code>tidyverse</code></a> y que proporciona una interfaz directa a las librerías <a href="https://gdal.org">GDAL</a> y <a href="https://trac.osgeo.org/geos">GEOS</a>) que aspira a reemplazar el paquete <code>sp</code> a corto plazo. Se corresponde con <span class="citation"><a href="#ref-Pebesma2021" role="doc-biblioref">E. Pebesma y Bivand</a> (<a href="#ref-Pebesma2021" role="doc-biblioref">2021</a>)</span> (disponible <a href="https://keen-swartz-3146c4.netlify.app">online</a>).</p></li>
 </ul>
 <p>El paquete <code>sp</code> tiene un soporte limitado para datos ráster, este es uno de los motivos por los que surgió el paquete <a href="https://CRAN.R-project.org/package=raster"><code>raster</code></a>, que actualmente está siendo reemplazado por el paquete <a href="https://CRAN.R-project.org/package=terra"><code>terra</code></a> (información sobre estos paquetes está disponible en el <a href="https://rspatial.org/">manual online</a>).
 El paquete <code>sf</code> no implementa datos ráster (y tiene un soporte muy limitado para rejillas de datos), para manejar este tipo de datos se complementa con el paquete <a href="https://r-spatial.github.io/stars"><code>starts</code></a> (Spatiotemporal Arrays: Raster and Vector Datacubes).
-Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones <a href="https://keen-swartz-3146c4.netlify.app/sf.html#raster-to-vector">7.5</a> y <a href="https://keen-swartz-3146c4.netlify.app/sf.html#warp">7.7</a> de <span class="citation">E. Pebesma y Bivand (<a href="#ref-Pebesma2021" role="doc-biblioref">2021</a>)</span>.</p>
+Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones <a href="https://keen-swartz-3146c4.netlify.app/sf.html#raster-to-vector">7.5</a> y <a href="https://keen-swartz-3146c4.netlify.app/sf.html#warp">7.7</a> de <span class="citation"><a href="#ref-Pebesma2021" role="doc-biblioref">E. Pebesma y Bivand</a> (<a href="#ref-Pebesma2021" role="doc-biblioref">2021</a>)</span>.</p>
 <p>En este capítulo emplearemos el paquete <code>sf</code> <!--y puntualmente el paquete `stars` --> para la manipulación de datos espaciales, aunque en el Apéndice <a href="intro-sp.html#intro-sp">A</a> se incluye una breve introducción a las clases <code>sp</code>, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).</p>
 <!-- 
 Pendiente:
@@ -372,11 +383,11 @@ Bivand, R. S., Pebesma, E., y Gómez-Rubio, V. (2013). <em>Applied Spatial Data 
 <div id="ref-Pebesma2018" class="csl-entry">
 Pebesma, E. (2018). <span>Simple Features for R: Standardized Support for Spatial Vector Data</span>. <em><span>The R Journal</span></em>, <em>10</em>(1), 439-446. <a href="https://doi.org/10.32614/RJ-2018-009">https://doi.org/10.32614/RJ-2018-009</a>
 </div>
-<div id="ref-Pebesma2005" class="csl-entry">
-Pebesma, E. J., y Bivand, R. S. (2005). Classes and methods for spatial data in <span>R</span>. <em>R News</em>, <em>5</em>(2), 9-13. <a href="https://CRAN.R-project.org/doc/Rnews/">https://CRAN.R-project.org/doc/Rnews/</a>
-</div>
 <div id="ref-Pebesma2021" class="csl-entry">
 Pebesma, E., y Bivand, R. (2021). <em>Spatial Data Science</em>. <a href="https://keen-swartz-3146c4.netlify.app">https://keen-swartz-3146c4.netlify.app</a>
+</div>
+<div id="ref-Pebesma2005" class="csl-entry">
+Pebesma, E. J., y Bivand, R. S. (2005). Classes and methods for spatial data in <span>R</span>. <em>R News</em>, <em>5</em>(2), 9-13. <a href="https://CRAN.R-project.org/doc/Rnews/">https://CRAN.R-project.org/doc/Rnews/</a>
 </div>
 </div>
             </section>
@@ -445,7 +456,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

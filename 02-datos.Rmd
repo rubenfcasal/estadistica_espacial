@@ -500,7 +500,7 @@ Muchos de los archivos de datos están en formato [NetCDF](https://www.unidata.u
 <!-- Ver https://geocompr.robinlovelace.net/read-write.html -->
 
 
-### Operaciones con geometrías
+### Operaciones con geometrías {#operaciones-geometrias}
 
 Operaciones [unarias](https://r-spatial.github.io/sf/reference/geos_unary.html) (operan sobre un único conjunto de geometrías simples, el primer argumento) con resultado geométrico:
 

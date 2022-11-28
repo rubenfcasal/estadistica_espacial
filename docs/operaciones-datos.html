@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.4 Operaciones con datos espaciales | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.4 Operaciones con datos espaciales | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="sf-plot.html"/>
 <link rel="next" href="sp-eda.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,17 +51,16 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -100,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -199,7 +200,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
-<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-geometrias"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
 </ul></li>
@@ -283,13 +284,23 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a></li>
+<li class="chapter" data-level="D" data-path="ejemplo-aquifer.html"><a href="ejemplo-aquifer.html"><i class="fa fa-check"></i><b>D</b> Ejemplo de análisis geoestadístico</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+<li class="chapter" data-level="D.1" data-path="carga-de-datos-y-creación-del-objeto-sf.html"><a href="carga-de-datos-y-creación-del-objeto-sf.html"><i class="fa fa-check"></i><b>D.1</b> Carga de datos y creación del objeto <code>sf</code>:</a></li>
+<li class="chapter" data-level="D.2" data-path="análisis-exploratorio.html"><a href="análisis-exploratorio.html"><i class="fa fa-check"></i><b>D.2</b> Análisis exploratorio</a></li>
+<li class="chapter" data-level="D.3" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html"><i class="fa fa-check"></i><b>D.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="D.3.1" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#estimación-experimental-del-variograma"><i class="fa fa-check"></i><b>D.3.1</b> Estimación experimental del variograma</a></li>
+<li class="chapter" data-level="D.3.2" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#ajuste-de-un-modelo-válido"><i class="fa fa-check"></i><b>D.3.2</b> Ajuste de un modelo válido</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<li class="chapter" data-level="D.4" data-path="predicción-espacial-ku.html"><a href="predicción-espacial-ku.html"><i class="fa fa-check"></i><b>D.4</b> Predicción espacial (KU)</a></li>
+<li class="chapter" data-level="D.5" data-path="validación-cruzada-1.html"><a href="validación-cruzada-1.html"><i class="fa fa-check"></i><b>D.5</b> Validación cruzada</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>E</b> Referencias</a>
 <ul>
-<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+<li class="chapter" data-level="E.1" data-path="links.html"><a href="links.html"><i class="fa fa-check"></i><b>E.1</b> Enlaces</a></li>
+<li class="chapter" data-level="E.2" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i><b>E.2</b> Bibliografía completa</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -311,8 +322,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="operaciones-datos" class="section level2 hasAnchor" number="2.4">
-<h2><span class="header-section-number">2.4</span> Operaciones con datos espaciales<a href="operaciones-datos.html#operaciones-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="operaciones-datos" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Operaciones con datos espaciales</h2>
 <p>A continuación se describe una selección de las herramientas disponibles para datos espaciales.
 Para un listado completo de las funciones implementadas en el paquete <code>sf</code> se puede consultar la <a href="https://r-spatial.github.io/sf/reference/index.html">referencia</a> (o la “<a href="https://github.com/rstudio/cheatsheets/blob/master/sf.pdf">chuleta</a>”, aunque puede contener algunos errores).</p>
 <p>Puede que algunas herramientas (o recursos) admitan únicamente objetos <code>Spatial*</code> del paquete <code>sp</code>, aunque siempre se pueden emplear las funciones para convertir tipos de objetos:</p>
@@ -320,20 +331,20 @@ Para un listado completo de las funciones implementadas en el paquete <code>sf</
 <li><code>st_as_sf(x, ...)</code>: convierte <code>x</code> a un objeto <code>sf</code> (por ejemplo objetos <code>Spatial*</code>).</li>
 <li><code>as(x, "Spatial")</code>: convierte <code>x</code> a un objeto <code>Spatial*</code>.</li>
 </ul>
-<div id="importación-y-exportación-de-datos-espaciales" class="section level3 hasAnchor" number="2.4.1">
-<h3><span class="header-section-number">2.4.1</span> Importación y exportación de datos espaciales<a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="importación-y-exportación-de-datos-espaciales" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Importación y exportación de datos espaciales</h3>
 <p>El paquete <code>sf</code> permite importar y exportar una gran cantidad de formatos de datos espaciales, almacenados en ficheros o en bases de datos, mediante las funciones <code>st_read()</code> y <code>st_write()</code>.
 Como se mostró al principio de la Sección <a href="sf-intro.html#sf-intro">2.2</a>, estas funciones deducen el formato automáticamente a partir de la extensión del archivo (por ejemplo <em>.shp</em> para <em>ESRI Shapefile</em>) o a partir del prefijo (por ejemplo <em>PG:</em> para <em>PostGIS/PostgreSQL</em>):</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="operaciones-datos.html#cb45-1" aria-hidden="true" tabindex="-1"></a>dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;shape&quot;</span>, <span class="at">package=</span><span class="st">&quot;sf&quot;</span>)</span>
-<span id="cb45-2"><a href="operaciones-datos.html#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(dir, <span class="at">pattern=</span><span class="st">&quot;^[nc]&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="operaciones-datos.html#cb42-1" aria-hidden="true" tabindex="-1"></a>dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;shape&quot;</span>, <span class="at">package=</span><span class="st">&quot;sf&quot;</span>)</span>
+<span id="cb42-2"><a href="operaciones-datos.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(dir, <span class="at">pattern=</span><span class="st">&quot;^[nc]&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;nc.dbf&quot; &quot;nc.prj&quot; &quot;nc.shp&quot; &quot;nc.shx&quot;</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="operaciones-datos.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ESRI Shapefile, consta de por lo menos de 3 ficheros, el principal .shp</span></span>
-<span id="cb47-2"><a href="operaciones-datos.html#cb47-2" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(dir, <span class="st">&quot;/nc.shp&quot;</span>)</span>
-<span id="cb47-3"><a href="operaciones-datos.html#cb47-3" aria-hidden="true" tabindex="-1"></a>file</span></code></pre></div>
-<pre><code>## [1] &quot;C:/Program Files/R/R-4.2.2/library/sf/shape/nc.shp&quot;</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="operaciones-datos.html#cb49-1" aria-hidden="true" tabindex="-1"></a>nc_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(file)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="operaciones-datos.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ESRI Shapefile, consta de por lo menos de 3 ficheros, el principal .shp</span></span>
+<span id="cb44-2"><a href="operaciones-datos.html#cb44-2" aria-hidden="true" tabindex="-1"></a>file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(dir, <span class="st">&quot;/nc.shp&quot;</span>)</span>
+<span id="cb44-3"><a href="operaciones-datos.html#cb44-3" aria-hidden="true" tabindex="-1"></a>file</span></code></pre></div>
+<pre><code>## [1] &quot;C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp&quot;</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="operaciones-datos.html#cb46-1" aria-hidden="true" tabindex="-1"></a>nc_sf <span class="ot">&lt;-</span> <span class="fu">st_read</span>(file)</span></code></pre></div>
 <pre><code>## Reading layer `nc&#39; from data source 
-##   `C:\Program Files\R\R-4.2.2\library\sf\shape\nc.shp&#39; using driver `ESRI Shapefile&#39;
+##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp&#39; using driver `ESRI Shapefile&#39;
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -341,19 +352,19 @@ Como se mostró al principio de la Sección <a href="sf-intro.html#sf-intro">2.2
 ## Geodetic CRS:  NAD27</code></pre>
 <p>Se admiten los formatos de datos vectoriales <a href="https://gdal.org/drivers/vector/index.html">soportados por GDAL</a> (que emplea internamente),
 se puede obtener un listado con la función <code>st_drivers()</code>:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="operaciones-datos.html#cb51-1" aria-hidden="true" tabindex="-1"></a>drivers <span class="ot">&lt;-</span> <span class="fu">st_drivers</span>()</span>
-<span id="cb51-2"><a href="operaciones-datos.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(drivers)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    72 obs. of  7 variables:
-##  $ name     : chr  &quot;ESRIC&quot; &quot;netCDF&quot; &quot;PDS4&quot; &quot;VICAR&quot; ...
-##  $ long_name: chr  &quot;Esri Compact Cache&quot; &quot;Network Common Data Format&quot; &quot;NASA Planetary Data System 4&quot; &quot;MIPL VICAR file&quot; ...
-##  $ write    : logi  FALSE TRUE TRUE TRUE FALSE TRUE ...
-##  $ copy     : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="operaciones-datos.html#cb48-1" aria-hidden="true" tabindex="-1"></a>drivers <span class="ot">&lt;-</span> <span class="fu">st_drivers</span>()</span>
+<span id="cb48-2"><a href="operaciones-datos.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(drivers)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    89 obs. of  7 variables:
+##  $ name     : chr  &quot;ESRIC&quot; &quot;FITS&quot; &quot;PCIDSK&quot; &quot;netCDF&quot; ...
+##  $ long_name: chr  &quot;Esri Compact Cache&quot; &quot;Flexible Image Transport System&quot; &quot;PCIDSK Database File&quot; &quot;Network Common Data Format&quot; ...
+##  $ write    : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
+##  $ copy     : logi  FALSE FALSE FALSE TRUE TRUE TRUE ...
 ##  $ is_raster: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
 ##  $ is_vector: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
-##  $ vsi      : logi  TRUE FALSE TRUE TRUE TRUE TRUE ...</code></pre>
+##  $ vsi      : logi  TRUE FALSE TRUE FALSE TRUE TRUE ...</code></pre>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:drivers-gdal-table"></span>
-<div id="htmlwidget-0f84470669afd86c571a" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0f84470669afd86c571a">{"x":{"filter":"none","vertical":false,"data":[["ESRIC","netCDF","PDS4","VICAR","JP2OpenJPEG","PDF","MBTiles","BAG","EEDA","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","LVBAG","OGR_SDTS","S57","DGN","OGR_VRT","REC","Memory","CSV","GML","GPX","KML","GeoJSON","GeoJSONSeq","ESRIJSON","TopoJSON","OGR_GMT","GPKG","SQLite","WAsP","MySQL","OpenFileGDB","DXF","CAD","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","VFK","PGDUMP","OSM","GPSBabel","OGR_PDS","WFS","OAPIF","EDIGEO","SVG","CouchDB","Cloudant","Idrisi","ARCGEN","XLS","ODS","XLSX","Elasticsearch","Carto","AmigoCloud","SXF","Selafin","JML","PLSCENES","CSW","VDV","MVT","NGW","MapML","TIGER","AVCBin","AVCE00","HTTP"],["Esri Compact Cache","Network Common Data Format","NASA Planetary Data System 4","MIPL VICAR file","JPEG-2000 driver based on OpenJPEG library","Geospatial PDF","MBTiles","Bathymetry Attributed Grid","Earth Engine Data API","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","Kadaster LV BAG Extract 2.0","SDTS","IHO S-57 (ENC)","Microstation DGN","VRT - Virtual Datasource","EPIInfo .REC ","Memory","Comma Separated Value (.csv)","Geography Markup Language (GML)","GPX","Keyhole Markup Language (KML)","GeoJSON","GeoJSON Sequence","ESRIJSON","TopoJSON","GMT ASCII Vectors (.gmt)","GeoPackage","SQLite / Spatialite","WAsP .map format","MySQL","ESRI FileGDB","AutoCAD DXF","AutoCAD Driver","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","Czech Cadastral Exchange Data Format","PostgreSQL SQL dump","OpenStreetMap XML and PBF","GPSBabel","Planetary Data Systems TABLE","OGC WFS (Web Feature Service)","OGC API - Features","French EDIGEO exchange format","Scalable Vector Graphics","CouchDB / GeoCouch","Cloudant / CouchDB","Idrisi Vector (.vct)","Arc/Info Generate","MS Excel format","Open Document/ LibreOffice / OpenOffice Spreadsheet ","MS Office Open XML spreadsheet","Elastic Search","Carto","AmigoCloud","Storage and eXchange Format","Selafin","OpenJUMP JML","Planet Labs Scenes API","OGC CSW (Catalog  Service for the Web)","VDV-451/VDV-452/INTREST Data Format","Mapbox Vector Tiles","NextGIS Web","MapML","U.S. Census TIGER/Line","Arc/Info Binary Coverage","Arc/Info E00 (ASCII) Coverage","HTTP Fetching Wrapper"],[false,true,true,true,false,true,true,true,false,false,true,true,false,false,false,true,true,false,false,true,true,true,true,true,true,true,false,false,true,true,true,true,true,false,true,false,true,true,true,true,false,true,false,true,false,false,false,false,false,true,true,false,false,false,true,true,true,true,true,false,true,true,false,false,true,true,true,true,true,false,false,false],[false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[true,true,true,true,true,true,true,true,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true,false,false,false,false,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,false,true,true,true,true,true,true,false,true,true,true,true,true,true,true,true,true,false,false,true,true,true,true,true,true,true,true,true,true,true,true,false,true,true,true,true,true,true,true,false,true,true,false,true,true,false,true,true,false,false,true,true,false,true,true,false,false,false,true,true,true,false,false,true,true,false,true,true,true,true,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>name<\/th>\n      <th>long_name<\/th>\n      <th>write<\/th>\n      <th>copy<\/th>\n      <th>is_raster<\/th>\n      <th>is_vector<\/th>\n      <th>vsi<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-left","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6406f3889a26d70e6dce" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6406f3889a26d70e6dce">{"x":{"filter":"none","vertical":false,"data":[["ESRIC","FITS","PCIDSK","netCDF","PDS4","VICAR","JP2OpenJPEG","JPEG2000","PDF","MBTiles","BAG","EEDA","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","LVBAG","OGR_SDTS","S57","DGN","OGR_VRT","REC","Memory","BNA","CSV","GML","GPX","KML","GeoJSON","GeoJSONSeq","ESRIJSON","TopoJSON","OGR_GMT","GPKG","SQLite","ODBC","WAsP","PGeo","MSSQLSpatial","PostgreSQL","MySQL","OpenFileGDB","XPlane","DXF","CAD","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","VFK","PGDUMP","OSM","GPSBabel","SUA","OpenAir","OGR_PDS","WFS","OAPIF","HTF","AeronavFAA","Geomedia","EDIGEO","SVG","CouchDB","Cloudant","Idrisi","ARCGEN","SEGUKOOA","SEGY","XLS","ODS","XLSX","Elasticsearch","Walk","Carto","AmigoCloud","SXF","Selafin","JML","PLSCENES","CSW","VDV","MVT","NGW","MapML","TIGER","AVCBin","AVCE00","HTTP"],["Esri Compact Cache","Flexible Image Transport System","PCIDSK Database File","Network Common Data Format","NASA Planetary Data System 4","MIPL VICAR file","JPEG-2000 driver based on OpenJPEG library","JPEG-2000 part 1 (ISO/IEC 15444-1), based on Jasper library","Geospatial PDF","MBTiles","Bathymetry Attributed Grid","Earth Engine Data API","OGCAPI","ESRI Shapefile","MapInfo File","UK .NTF","Kadaster LV BAG Extract 2.0","SDTS","IHO S-57 (ENC)","Microstation DGN","VRT - Virtual Datasource","EPIInfo .REC ","Memory","Atlas BNA","Comma Separated Value (.csv)","Geography Markup Language (GML)","GPX","Keyhole Markup Language (KML)","GeoJSON","GeoJSON Sequence","ESRIJSON","TopoJSON","GMT ASCII Vectors (.gmt)","GeoPackage","SQLite / Spatialite","ODBC","WAsP .map format","ESRI Personal GeoDatabase","Microsoft SQL Server Spatial Database","PostgreSQL/PostGIS","MySQL","ESRI FileGDB","X-Plane/Flightgear aeronautical data","AutoCAD DXF","AutoCAD Driver","FlatGeobuf","Geoconcept","GeoRSS","GPSTrackMaker","Czech Cadastral Exchange Data Format","PostgreSQL SQL dump","OpenStreetMap XML and PBF","GPSBabel","Tim Newport-Peace's Special Use Airspace Format","OpenAir","Planetary Data Systems TABLE","OGC WFS (Web Feature Service)","OGC API - Features","Hydrographic Transfer Vector","Aeronav FAA","Geomedia .mdb","French EDIGEO exchange format","Scalable Vector Graphics","CouchDB / GeoCouch","Cloudant / CouchDB","Idrisi Vector (.vct)","Arc/Info Generate","SEG-P1 / UKOOA P1/90","SEG-Y","MS Excel format","Open Document/ LibreOffice / OpenOffice Spreadsheet ","MS Office Open XML spreadsheet","Elastic Search","Walk","Carto","AmigoCloud","Storage and eXchange Format","Selafin","OpenJUMP JML","Planet Labs Scenes API","OGC CSW (Catalog  Service for the Web)","VDV-451/VDV-452/INTREST Data Format","Mapbox Vector Tiles","NextGIS Web","MapML","U.S. Census TIGER/Line","Arc/Info Binary Coverage","Arc/Info E00 (ASCII) Coverage","HTTP Fetching Wrapper"],[false,true,true,true,true,true,false,false,true,true,true,false,false,true,true,false,false,false,true,true,false,false,true,true,true,true,true,true,true,true,false,false,true,true,true,true,true,false,true,true,true,false,false,true,false,true,true,true,true,false,true,false,true,false,false,false,false,false,false,false,false,false,false,true,true,false,false,false,false,false,true,true,true,false,true,true,false,true,true,false,false,true,true,true,true,true,false,false,false],[false,false,false,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[true,true,true,true,true,true,true,true,true,true,true,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,true,false,false,false,false,true],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[true,false,true,false,true,true,true,true,false,true,true,false,true,true,true,true,true,true,true,true,true,false,false,true,true,true,true,true,true,true,true,true,true,true,true,false,true,false,false,false,false,true,true,true,true,true,true,true,true,false,true,true,false,true,true,true,true,false,true,true,false,true,true,false,false,true,true,true,true,false,true,true,false,false,false,false,true,true,true,false,false,true,true,false,true,true,true,true,false]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>name<\/th>\n      <th>long_name<\/th>\n      <th>write<\/th>\n      <th>copy<\/th>\n      <th>is_raster<\/th>\n      <th>is_vector<\/th>\n      <th>vsi<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-left","targets":[0,1]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Figura 2.6: Listado de drivers en la instalación (local) de GDAL`.
 </p>
@@ -377,15 +388,15 @@ Algunos de ellos son los siguientes:</p>
 <li><a href="https://github.com/spatialstatisticsupna/RGISTools"><code>RGISTools</code></a>: permite importar datos de imágenes de satélite de Landsat, MODIS y Sentinel.</li>
 <li><a href="https://CRAN.R-project.org/package=maptools"><code>maptools</code></a>,<a href="https://CRAN.R-project.org/package=spData"><code>spData</code></a>,<a href="https://CRAN.R-project.org/package=spDataLarge"><code>spDataLarge</code></a>,<a href="https://CRAN.R-project.org/package=getlandsat"><code>getlandsat</code></a>…</li>
 </ul>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="operaciones-datos.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(osmdata) </span>
-<span id="cb53-2"><a href="operaciones-datos.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado: descarga mucha información</span></span>
-<span id="cb53-3"><a href="operaciones-datos.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># https://nominatim.openstreetmap.org/ui/search.html</span></span>
-<span id="cb53-4"><a href="operaciones-datos.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># https://wiki.openstreetmap.org/wiki/Map_features</span></span>
-<span id="cb53-5"><a href="operaciones-datos.html#cb53-5" aria-hidden="true" tabindex="-1"></a>osm_coru <span class="ot">&lt;-</span> <span class="fu">opq</span>(<span class="st">&#39;A Coruña&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-6"><a href="operaciones-datos.html#cb53-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_osm_feature</span>(<span class="at">key =</span> <span class="st">&#39;highway&#39;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-7"><a href="operaciones-datos.html#cb53-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">osmdata_sf</span>() </span>
-<span id="cb53-8"><a href="operaciones-datos.html#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(osm_coru<span class="sc">$</span>osm_lines), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb53-9"><a href="operaciones-datos.html#cb53-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.45</span>, <span class="sc">-</span><span class="fl">8.38</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">43.32</span>, <span class="fl">43.39</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="operaciones-datos.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(osmdata) </span>
+<span id="cb50-2"><a href="operaciones-datos.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Cuidado: descarga mucha información</span></span>
+<span id="cb50-3"><a href="operaciones-datos.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># https://nominatim.openstreetmap.org/ui/search.html</span></span>
+<span id="cb50-4"><a href="operaciones-datos.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># https://wiki.openstreetmap.org/wiki/Map_features</span></span>
+<span id="cb50-5"><a href="operaciones-datos.html#cb50-5" aria-hidden="true" tabindex="-1"></a>osm_coru <span class="ot">&lt;-</span> <span class="fu">opq</span>(<span class="st">&#39;A Coruña&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-6"><a href="operaciones-datos.html#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_osm_feature</span>(<span class="at">key =</span> <span class="st">&#39;highway&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb50-7"><a href="operaciones-datos.html#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">osmdata_sf</span>() </span>
+<span id="cb50-8"><a href="operaciones-datos.html#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(osm_coru<span class="sc">$</span>osm_lines), <span class="at">main =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb50-9"><a href="operaciones-datos.html#cb50-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.45</span>, <span class="sc">-</span><span class="fl">8.38</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">43.32</span>, <span class="fl">43.39</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:osm-coru-plot"></span>
 <img src="images/osmdata-1.png" alt="Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`)." width="70%" />
 <p class="caption">
@@ -404,8 +415,8 @@ Algunas de ellas son:</p>
 <p>Muchos de los archivos de datos están en formato <a href="https://www.unidata.ucar.edu/software/netcdf">NetCDF</a> (<em>Network Common Data Form</em>) y se pueden importar a R con el paquete <a href="http://cirrus.ucsd.edu/~pierce/ncdf"><code>ncdf4</code></a>.</p>
 <!-- Ver https://geocompr.robinlovelace.net/read-write.html -->
 </div>
-<div id="operaciones-con-geometrías" class="section level3 hasAnchor" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Operaciones con geometrías<a href="operaciones-datos.html#operaciones-con-geometrías" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="operaciones-geometrias" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Operaciones con geometrías</h3>
 <p>Operaciones <a href="https://r-spatial.github.io/sf/reference/geos_unary.html">unarias</a> (operan sobre un único conjunto de geometrías simples, el primer argumento) con resultado geométrico:</p>
 <ul>
 <li><code>st_geometry()</code>: devuelve (o establece) la columna <code>sfc</code> de un objeto <code>sf</code>.</li>
@@ -420,25 +431,25 @@ Algunas de ellas son:</p>
 </ul>
 <p>Como ya se comentó en la Sección <a href="sf-intro.html#crs">2.2.1</a>, nos puede interesar transformar las coordenadas a un nuevo sistema de referencia (algo necesario para poder combinar conjuntos de datos espaciales con distintos CRS).
 Por ejemplo podemos utilizar la <a href="https://en.wikipedia.org/wiki/Mollweide_projection">proyección de Mollweide</a> para representar datos globales (en este caso estimaciones de la población de países; Figura <a href="operaciones-datos.html#fig:transform">2.8</a> derecha).</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="operaciones-datos.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth) </span>
-<span id="cb54-2"><a href="operaciones-datos.html#cb54-2" aria-hidden="true" tabindex="-1"></a>par_old <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="at">bottom =</span> <span class="dv">0</span>, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">top =</span> <span class="dv">0</span>, <span class="at">right =</span> <span class="dv">0</span>))</span>
-<span id="cb54-3"><a href="operaciones-datos.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTA: plot.sf() con escala no es compatible con mfrow </span></span>
-<span id="cb54-4"><a href="operaciones-datos.html#cb54-4" aria-hidden="true" tabindex="-1"></a>world_pop <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>)[<span class="st">&quot;pop_est&quot;</span>]</span>
-<span id="cb54-5"><a href="operaciones-datos.html#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pop, <span class="at">logz =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">key.pos =</span> <span class="cn">NULL</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb54-6"><a href="operaciones-datos.html#cb54-6" aria-hidden="true" tabindex="-1"></a>grat <span class="ot">&lt;-</span> <span class="fu">st_graticule</span>(<span class="at">crs=</span><span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>), <span class="at">lon =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">20</span>), <span class="at">lat =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
-<span id="cb54-7"><a href="operaciones-datos.html#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grat[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">&#39;darkgray&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb54-8"><a href="operaciones-datos.html#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="co"># https://spatialreference.org/ref/esri/54009/</span></span>
-<span id="cb54-9"><a href="operaciones-datos.html#cb54-9" aria-hidden="true" tabindex="-1"></a>world_pop2 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(world_pop, <span class="st">&quot;ESRI:54009&quot;</span>) </span>
-<span id="cb54-10"><a href="operaciones-datos.html#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pop2, <span class="at">logz =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">key.pos =</span> <span class="cn">NULL</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb54-11"><a href="operaciones-datos.html#cb54-11" aria-hidden="true" tabindex="-1"></a>grat <span class="ot">&lt;-</span> <span class="fu">st_graticule</span>(world_pop2, <span class="at">lon =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">20</span>), <span class="at">lat =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
-<span id="cb54-12"><a href="operaciones-datos.html#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grat[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">&#39;darkgray&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="operaciones-datos.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth) </span>
+<span id="cb51-2"><a href="operaciones-datos.html#cb51-2" aria-hidden="true" tabindex="-1"></a>par_old <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="at">bottom =</span> <span class="dv">0</span>, <span class="at">left =</span> <span class="dv">0</span>, <span class="at">top =</span> <span class="dv">0</span>, <span class="at">right =</span> <span class="dv">0</span>))</span>
+<span id="cb51-3"><a href="operaciones-datos.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTA: plot.sf() con escala no es compatible con mfrow </span></span>
+<span id="cb51-4"><a href="operaciones-datos.html#cb51-4" aria-hidden="true" tabindex="-1"></a>world_pop <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>)[<span class="st">&quot;pop_est&quot;</span>]</span>
+<span id="cb51-5"><a href="operaciones-datos.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pop, <span class="at">logz =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">key.pos =</span> <span class="cn">NULL</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-6"><a href="operaciones-datos.html#cb51-6" aria-hidden="true" tabindex="-1"></a>grat <span class="ot">&lt;-</span> <span class="fu">st_graticule</span>(<span class="at">crs=</span><span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>), <span class="at">lon =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">20</span>), <span class="at">lat =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
+<span id="cb51-7"><a href="operaciones-datos.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grat[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">&#39;darkgray&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-8"><a href="operaciones-datos.html#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co"># https://spatialreference.org/ref/esri/54009/</span></span>
+<span id="cb51-9"><a href="operaciones-datos.html#cb51-9" aria-hidden="true" tabindex="-1"></a>world_pop2 <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(world_pop, <span class="st">&quot;ESRI:54009&quot;</span>) </span>
+<span id="cb51-10"><a href="operaciones-datos.html#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(world_pop2, <span class="at">logz =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>, <span class="at">key.pos =</span> <span class="cn">NULL</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-11"><a href="operaciones-datos.html#cb51-11" aria-hidden="true" tabindex="-1"></a>grat <span class="ot">&lt;-</span> <span class="fu">st_graticule</span>(world_pop2, <span class="at">lon =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">180</span>, <span class="dv">180</span>, <span class="at">by =</span> <span class="dv">20</span>), <span class="at">lat =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">90</span>, <span class="dv">90</span>, <span class="at">by =</span> <span class="dv">10</span>))</span>
+<span id="cb51-12"><a href="operaciones-datos.html#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grat[<span class="dv">1</span>], <span class="at">col =</span> <span class="st">&#39;darkgray&#39;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:transform"></span>
 <img src="02-datos_files/figure-html/transform-1.png" alt="Mapa de la población estimada por paises (en escala logarítmica), datos sin proyectar (izquierda) y con proyección de Mollweide (derecha)." width="100%" />
 <p class="caption">
 Figura 2.8: Mapa de la población estimada por paises (en escala logarítmica), datos sin proyectar (izquierda) y con proyección de Mollweide (derecha).
 </p>
 </div>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="operaciones-datos.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(par_old)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="operaciones-datos.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(par_old)</span></code></pre></div>
 <p>Operaciones <a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">binarias</a> (operan sobre dos conjuntos de geometrías simples) con resultado geométrico:</p>
 <ul>
 <li><code>st_union(x, y, ..., by_feature)</code>: une varias geometrías.</li>
@@ -474,18 +485,20 @@ Figura 2.8: Mapa de la población estimada por paises (en escala logarítmica), 
 </ul>
 <p>El resultado de las operaciones lógicas es una matriz dispersa (de clase <code>sgbp</code>, <em>sparse geometry binary predicate</em>), que se puede convertir a una matriz densa con <code>as.matrix()</code>.</p>
 <hr />
+
 <div class="example">
-<p><span id="exm:aquifer2" class="example"><strong>Ejemplo 2.1  (Creación de una rejilla de predicción) </strong></span>Continuando con los datos del Ejercicio <a href="sf-intro.html#exr:aquifer1">2.2</a>, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (<code>st_buffer()</code>) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (<code>st_make_grid(..., what = "centers")</code>) de dimensiones 50 por 50 e intersecarla con el buffer.</p>
+<span id="exm:aquifer2" class="example"><strong>Ejemplo 2.1  (Creación de una rejilla de predicción)  </strong></span>
+Continuando con los datos del Ejercicio <a href="sf-intro.html#exr:aquifer1">2.2</a>, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (<code>st_buffer()</code>) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (<code>st_make_grid(..., what = "centers")</code>) de dimensiones 50 por 50 e intersecarla con el buffer.
 </div>
 <!-- \@ref(exm:aquifer2) -->
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="operaciones-datos.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
-<span id="cb56-2"><a href="operaciones-datos.html#cb56-2" aria-hidden="true" tabindex="-1"></a>aquifer<span class="sc">$</span>head <span class="ot">&lt;-</span> aquifer<span class="sc">$</span>head<span class="sc">/</span><span class="dv">100</span> <span class="co"># en cientos de pies</span></span>
-<span id="cb56-3"><a href="operaciones-datos.html#cb56-3" aria-hidden="true" tabindex="-1"></a>aquifer_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(aquifer, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
-<span id="cb56-4"><a href="operaciones-datos.html#cb56-4" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> aquifer_sf <span class="sc">%&gt;%</span> <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span>  <span class="fu">st_buffer</span>(<span class="dv">40</span>)</span>
-<span id="cb56-5"><a href="operaciones-datos.html#cb56-5" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span> <span class="fu">st_make_grid</span>(<span class="at">n =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="at">what =</span> <span class="st">&quot;centers&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb56-6"><a href="operaciones-datos.html#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(buffer)</span>
-<span id="cb56-7"><a href="operaciones-datos.html#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(buffer)</span>
-<span id="cb56-8"><a href="operaciones-datos.html#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.5</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="operaciones-datos.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/aquifer.RData&quot;</span>)</span>
+<span id="cb53-2"><a href="operaciones-datos.html#cb53-2" aria-hidden="true" tabindex="-1"></a>aquifer<span class="sc">$</span>head <span class="ot">&lt;-</span> aquifer<span class="sc">$</span>head<span class="sc">/</span><span class="dv">100</span> <span class="co"># en cientos de pies</span></span>
+<span id="cb53-3"><a href="operaciones-datos.html#cb53-3" aria-hidden="true" tabindex="-1"></a>aquifer_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(aquifer, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
+<span id="cb53-4"><a href="operaciones-datos.html#cb53-4" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> aquifer_sf <span class="sc">%&gt;%</span> <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span>  <span class="fu">st_buffer</span>(<span class="dv">40</span>)</span>
+<span id="cb53-5"><a href="operaciones-datos.html#cb53-5" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span> <span class="fu">st_make_grid</span>(<span class="at">n =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">50</span>), <span class="at">what =</span> <span class="st">&quot;centers&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-6"><a href="operaciones-datos.html#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_intersection</span>(buffer)</span>
+<span id="cb53-7"><a href="operaciones-datos.html#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(buffer)</span>
+<span id="cb53-8"><a href="operaciones-datos.html#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid, <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.5</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:aquifer2-grid"></span>
 <img src="02-datos_files/figure-html/aquifer2-grid-1.png" alt="Rejilla en torno a las posiciones de los datos de `aquifer`." width="70%" />
 <p class="caption">
@@ -493,24 +506,23 @@ Figura 2.9: Rejilla en torno a las posiciones de los datos de <code>aquifer</cod
 </p>
 </div>
 <p>Sin embargo, en lugar de emplear una rejilla <code>sf</code>, puede resultar preferible (por ejemplo para la representación gráfica) emplear una rejilla <code>stars</code></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="operaciones-datos.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span></code></pre></div>
-<pre><code>## Loading required package: abind</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="operaciones-datos.html#cb59-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span>
-<span id="cb59-2"><a href="operaciones-datos.html#cb59-2" aria-hidden="true" tabindex="-1"></a>idw <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">idw</span>(<span class="at">formula =</span> head <span class="sc">~</span> <span class="dv">1</span>, <span class="at">locations =</span> aquifer_sf, <span class="at">newdata =</span> grid)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="operaciones-datos.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb54-2"><a href="operaciones-datos.html#cb54-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span>
+<span id="cb54-3"><a href="operaciones-datos.html#cb54-3" aria-hidden="true" tabindex="-1"></a>idw <span class="ot">&lt;-</span> gstat<span class="sc">::</span><span class="fu">idw</span>(<span class="at">formula =</span> head <span class="sc">~</span> <span class="dv">1</span>, <span class="at">locations =</span> aquifer_sf, <span class="at">newdata =</span> grid)</span></code></pre></div>
 <pre><code>## [inverse distance weighted interpolation]</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="operaciones-datos.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(idw[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="operaciones-datos.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(idw[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:aquifer2-idw"></span>
 <img src="02-datos_files/figure-html/aquifer2-idw-1.png" alt="Interpolación por IDW (Inverse Distance Weighting) de los datos del acuífero Wolfcamp." width="70%" />
 <p class="caption">
 Figura 2.10: Interpolación por IDW (Inverse Distance Weighting) de los datos del acuífero Wolfcamp.
 </p>
 </div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="operaciones-datos.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error gstat::idw, cambia las coordenadas del objeto stars</span></span>
-<span id="cb62-2"><a href="operaciones-datos.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(st_coordinates(grid))</span></span>
-<span id="cb62-3"><a href="operaciones-datos.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(st_coordinates(idw))</span></span>
-<span id="cb62-4"><a href="operaciones-datos.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Posible solución: añadir el resultado a `grid` y emplearlo en lugar de `idw`</span></span>
-<span id="cb62-5"><a href="operaciones-datos.html#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="co"># grid$var1.pred &lt;- idw$var1.pred</span></span>
-<span id="cb62-6"><a href="operaciones-datos.html#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(grid[&quot;var1.pred&quot;], col = sf.colors(64), axes = TRUE, main = &quot;&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="operaciones-datos.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error gstat::idw, cambia las coordenadas del objeto stars</span></span>
+<span id="cb57-2"><a href="operaciones-datos.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(st_coordinates(grid))</span></span>
+<span id="cb57-3"><a href="operaciones-datos.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(st_coordinates(idw))</span></span>
+<span id="cb57-4"><a href="operaciones-datos.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Posible solución: añadir el resultado a `grid` y emplearlo en lugar de `idw`</span></span>
+<span id="cb57-5"><a href="operaciones-datos.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># grid$var1.pred &lt;- idw$var1.pred</span></span>
+<span id="cb57-6"><a href="operaciones-datos.html#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(grid[&quot;var1.pred&quot;], col = sf.colors(64), axes = TRUE, main = &quot;&quot;)</span></span></code></pre></div>
 </div>
 </div>
             </section>
@@ -579,7 +591,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

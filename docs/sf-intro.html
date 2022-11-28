@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2.2 Introducción al paquete sf | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2.2 Introducción al paquete sf | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
+  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -32,6 +33,7 @@
   
 <link rel="prev" href="datos-tipos.html"/>
 <link rel="next" href="sf-plot.html"/>
+<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -49,17 +51,16 @@
 
 
 
-<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
-<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.26/datatables.js"></script>
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.12.1/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.12.1/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.19/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
@@ -100,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
+code span.bu { } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -113,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.im { } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -199,7 +200,7 @@ div.csl-indent {
 <li class="chapter" data-level="2.4" data-path="operaciones-datos.html"><a href="operaciones-datos.html"><i class="fa fa-check"></i><b>2.4</b> Operaciones con datos espaciales</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="operaciones-datos.html"><a href="operaciones-datos.html#importación-y-exportación-de-datos-espaciales"><i class="fa fa-check"></i><b>2.4.1</b> Importación y exportación de datos espaciales</a></li>
-<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-con-geometrías"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
+<li class="chapter" data-level="2.4.2" data-path="operaciones-datos.html"><a href="operaciones-datos.html#operaciones-geometrias"><i class="fa fa-check"></i><b>2.4.2</b> Operaciones con geometrías</a></li>
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="sp-eda.html"><a href="sp-eda.html"><i class="fa fa-check"></i><b>2.5</b> Análisis exploratorio de datos espaciales</a></li>
 </ul></li>
@@ -283,13 +284,23 @@ div.csl-indent {
 <li class="chapter" data-level="B.4.1" data-path="predicción-espacial-kriging.html"><a href="predicción-espacial-kriging.html#validación-cruzada"><i class="fa fa-check"></i><b>B.4.1</b> Validación cruzada</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a>
+<li class="chapter" data-level="C" data-path="gls.html"><a href="gls.html"><i class="fa fa-check"></i><b>C</b> Mínimos cuadrados generalizados en R</a></li>
+<li class="chapter" data-level="D" data-path="ejemplo-aquifer.html"><a href="ejemplo-aquifer.html"><i class="fa fa-check"></i><b>D</b> Ejemplo de análisis geoestadístico</a>
 <ul>
-<li class="chapter" data-level="C.1" data-path="motivación.html"><a href="motivación.html"><i class="fa fa-check"></i><b>C.1</b> Motivación</a></li>
+<li class="chapter" data-level="D.1" data-path="carga-de-datos-y-creación-del-objeto-sf.html"><a href="carga-de-datos-y-creación-del-objeto-sf.html"><i class="fa fa-check"></i><b>D.1</b> Carga de datos y creación del objeto <code>sf</code>:</a></li>
+<li class="chapter" data-level="D.2" data-path="análisis-exploratorio.html"><a href="análisis-exploratorio.html"><i class="fa fa-check"></i><b>D.2</b> Análisis exploratorio</a></li>
+<li class="chapter" data-level="D.3" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html"><i class="fa fa-check"></i><b>D.3</b> Modelado de la dependencia</a>
+<ul>
+<li class="chapter" data-level="D.3.1" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#estimación-experimental-del-variograma"><i class="fa fa-check"></i><b>D.3.1</b> Estimación experimental del variograma</a></li>
+<li class="chapter" data-level="D.3.2" data-path="modelado-de-la-dependencia-1.html"><a href="modelado-de-la-dependencia-1.html#ajuste-de-un-modelo-válido"><i class="fa fa-check"></i><b>D.3.2</b> Ajuste de un modelo válido</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referencias</a>
+<li class="chapter" data-level="D.4" data-path="predicción-espacial-ku.html"><a href="predicción-espacial-ku.html"><i class="fa fa-check"></i><b>D.4</b> Predicción espacial (KU)</a></li>
+<li class="chapter" data-level="D.5" data-path="validación-cruzada-1.html"><a href="validación-cruzada-1.html"><i class="fa fa-check"></i><b>D.5</b> Validación cruzada</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>E</b> Referencias</a>
 <ul>
-<li class="chapter" data-level="" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i>Bibliografía completa</a></li>
+<li class="chapter" data-level="E.1" data-path="links.html"><a href="links.html"><i class="fa fa-check"></i><b>E.1</b> Enlaces</a></li>
+<li class="chapter" data-level="E.2" data-path="bibliografía-completa.html"><a href="bibliografía-completa.html"><i class="fa fa-check"></i><b>E.2</b> Bibliografía completa</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -311,17 +322,16 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sf-intro" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Introducción al paquete <strong>sf</strong><a href="sf-intro.html#sf-intro" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="sf-intro" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Introducción al paquete <strong>sf</strong></h2>
 <p>El modelo de geometrías de <em><a href="https://en.wikipedia.org/wiki/Simple_Features">características simples</a></em> (o rasgos simples) es un estándar (<a href="https://www.iso.org/standard/40114.html">ISO 19125</a>) desarrollado por el <a href="https://www.ogc.org">Open Geospatial Consortium</a> (OGC) para formas geográficas vectoriales, que ha sido adoptado por gran cantidad de software geográfico (entre otros por GeoJSON, ArcGIS, QGIS, PostGIS, MySQL Spatial Extensions, Microsoft SQL Server…).
 Como ya se comentó, este tipo de datos espaciales está implementado en R en el paquete <a href="https://r-spatial.github.io/sf"><code>sf</code></a>.</p>
 <p>Los objetos principales, del tipo <code>sf</code>, son extensiones de <code>data.frame</code> (o <code>tibble</code>) y como mínimo contienen una columna denominada <em>simple feature geometry list column</em> que contiene la geometría de cada observación (se trata de una columna tipo <code>list</code>).
 Cada fila, incluyendo la geometría y otras posibles variables (denominados atributos de la geometría), se considera una característica simple (SF).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="sf-intro.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code></pre></div>
-<pre><code>## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="sf-intro.html#cb9-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">&quot;shape/nc.shp&quot;</span>, <span class="at">package=</span><span class="st">&quot;sf&quot;</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-2"><a href="sf-intro.html#cb9-2" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> nc[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">15</span>)]</span>
-<span id="cb9-3"><a href="sf-intro.html#cb9-3" aria-hidden="true" tabindex="-1"></a>nc</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="sf-intro.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb6-2"><a href="sf-intro.html#cb6-2" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">&quot;shape/nc.shp&quot;</span>, <span class="at">package=</span><span class="st">&quot;sf&quot;</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="sf-intro.html#cb6-3" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> nc[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span><span class="sc">:</span><span class="dv">15</span>)]</span>
+<span id="cb6-4"><a href="sf-intro.html#cb6-4" aria-hidden="true" tabindex="-1"></a>nc</span></code></pre></div>
 <pre><code>## Simple feature collection with 100 features and 7 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -350,7 +360,7 @@ Cada fila, incluyendo la geometría y otras posibles variables (denominados atri
 ## 8  MULTIPOLYGON (((-76.56251 3...
 ## 9  MULTIPOLYGON (((-78.30876 3...
 ## 10 MULTIPOLYGON (((-80.02567 3...</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="sf-intro.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nc)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="sf-intro.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nc)</span></code></pre></div>
 <pre><code>## Classes &#39;sf&#39; and &#39;data.frame&#39;:   100 obs. of  8 variables:
 ##  $ NAME    : chr  &quot;Ashe&quot; &quot;Alleghany&quot; &quot;Surry&quot; &quot;Currituck&quot; ...
 ##  $ BIR74   : num  1091 487 3188 508 1421 ...
@@ -368,10 +378,10 @@ Cada fila, incluyendo la geometría y otras posibles variables (denominados atri
 ##   ..- attr(*, &quot;names&quot;)= chr [1:7] &quot;NAME&quot; &quot;BIR74&quot; &quot;SID74&quot; &quot;NWBIR74&quot; ...</code></pre>
 <p>El nombre de la columna de geometrías está almacenado en el atributo <code>"sf_column"</code> del objeto y se puede acceder a ella mediante la función <code>st_geometry()</code> (además de poder emplear los procedimientos habituales para acceder a los componentes de un <code>data.frame</code>).
 Esta columna es un objeto de tipo <code>sfc</code> (<em>simple feature geometry list column</em>), descritos más adelante.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="sf-intro.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># geom_name &lt;- attr(nc, &quot;sf_column&quot;)</span></span>
-<span id="cb13-2"><a href="sf-intro.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># nc[, geom_name]; nc[[geom_name]]</span></span>
-<span id="cb13-3"><a href="sf-intro.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nc$geometry</span></span>
-<span id="cb13-4"><a href="sf-intro.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(nc)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="sf-intro.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># geom_name &lt;- attr(nc, &quot;sf_column&quot;)</span></span>
+<span id="cb10-2"><a href="sf-intro.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># nc[, geom_name]; nc[[geom_name]]</span></span>
+<span id="cb10-3"><a href="sf-intro.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nc$geometry</span></span>
+<span id="cb10-4"><a href="sf-intro.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">st_geometry</span>(nc)</span></code></pre></div>
 <pre><code>## Geometry set for 100 features 
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -384,44 +394,42 @@ Esta columna es un objeto de tipo <code>sfc</code> (<em>simple feature geometry 
 <pre><code>## MULTIPOLYGON (((-76.00897 36.3196, -76.01735 36...</code></pre>
 <pre><code>## MULTIPOLYGON (((-77.21767 36.24098, -77.23461 3...</code></pre>
 <p>En este paquete, todos los métodos y funciones que operan sobre datos espaciales comienzan por <code>st_</code> (<em>spatial type</em>; siguiendo la implementación de PostGIS):</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="sf-intro.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="at">class=</span><span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
-<pre><code>##  [1] $&lt;-                          [                           
-##  [3] [[&lt;-                         aggregate                   
-##  [5] as.data.frame                cbind                       
-##  [7] coerce                       dbDataType                  
-##  [9] dbWriteTable                 filter                      
-## [11] identify                     initialize                  
-## [13] merge                        plot                        
-## [15] print                        rbind                       
-## [17] show                         slotsFromS3                 
-## [19] st_agr                       st_agr&lt;-                    
-## [21] st_area                      st_as_s2                    
-## [23] st_as_sf                     st_as_sfc                   
-## [25] st_bbox                      st_boundary                 
-## [27] st_buffer                    st_cast                     
-## [29] st_centroid                  st_collection_extract       
-## [31] st_convex_hull               st_coordinates              
-## [33] st_crop                      st_crs                      
-## [35] st_crs&lt;-                     st_difference               
-## [37] st_drop_geometry             st_filter                   
-## [39] st_geometry                  st_geometry&lt;-               
-## [41] st_inscribed_circle          st_interpolate_aw           
-## [43] st_intersection              st_intersects               
-## [45] st_is                        st_is_valid                 
-## [47] st_join                      st_line_merge               
-## [49] st_m_range                   st_make_valid               
-## [51] st_minimum_rotated_rectangle st_nearest_points           
-## [53] st_node                      st_normalize                
-## [55] st_point_on_surface          st_polygonize               
-## [57] st_precision                 st_reverse                  
-## [59] st_sample                    st_segmentize               
-## [61] st_set_precision             st_shift_longitude          
-## [63] st_simplify                  st_snap                     
-## [65] st_sym_difference            st_transform                
-## [67] st_triangulate               st_union                    
-## [69] st_voronoi                   st_wrap_dateline            
-## [71] st_write                     st_z_range                  
-## [73] st_zm                        transform                   
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="sf-intro.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="at">class=</span><span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
+<pre><code>##   [1] $&lt;-                   [                     [[&lt;-                 
+##   [4] aggregate             anti_join             arrange              
+##   [7] as.data.frame         cbind                 coerce               
+##  [10] dbDataType            dbWriteTable          distinct             
+##  [13] dplyr_reconstruct     filter                full_join            
+##  [16] gather                group_by              group_split          
+##  [19] identify              idw                   initialize           
+##  [22] inner_join            krige                 krige.cv             
+##  [25] left_join             merge                 mutate               
+##  [28] nest                  pivot_longer          plot                 
+##  [31] print                 rbind                 rename               
+##  [34] right_join            rowwise               sample_frac          
+##  [37] sample_n              select                semi_join            
+##  [40] separate              separate_rows         show                 
+##  [43] slice                 slotsFromS3           spread               
+##  [46] st_agr                st_agr&lt;-              st_area              
+##  [49] st_as_s2              st_as_sf              st_as_stars          
+##  [52] st_bbox               st_boundary           st_buffer            
+##  [55] st_cast               st_centroid           st_collection_extract
+##  [58] st_convex_hull        st_coordinates        st_crop              
+##  [61] st_crs                st_crs&lt;-              st_difference        
+##  [64] st_filter             st_geometry           st_geometry&lt;-        
+##  [67] st_inscribed_circle   st_interpolate_aw     st_intersection      
+##  [70] st_intersects         st_is                 st_is_valid          
+##  [73] st_join               st_line_merge         st_m_range           
+##  [76] st_make_valid         st_nearest_points     st_node              
+##  [79] st_normalize          st_point_on_surface   st_polygonize        
+##  [82] st_precision          st_reverse            st_sample            
+##  [85] st_segmentize         st_set_precision      st_shift_longitude   
+##  [88] st_simplify           st_snap               st_sym_difference    
+##  [91] st_transform          st_transform_proj     st_triangulate       
+##  [94] st_union              st_voronoi            st_wrap_dateline     
+##  [97] st_write              st_z_range            st_zm                
+## [100] summarise             transform             transmute            
+## [103] ungroup               unite                 unnest               
 ## see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>Los objetos geométricos básicos son del tipo <code>sfg</code> (<em>simple feature geometry</em>) que contienen la geometría de una única característica definida a partir de puntos en dos (XY), tres (XYZ, XYM) o cuatro dimensiones (XYZM).
 Admite los 17 tipos de geometrías simples del estándar, pero de forma completa los 7 tipos básicos:</p>
@@ -462,19 +470,19 @@ Admite los 17 tipos de geometrías simples del estándar, pero de forma completa
 </tbody>
 </table>
 <p>Las geometrías se imprimen empleando la representación <em>well-known text</em> (WKT) del estándar (se exportan empleando la representación <em>well-known binary</em>, WKB).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="sf-intro.html#cb22-1" aria-hidden="true" tabindex="-1"></a>nc<span class="sc">$</span>geometry[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="sf-intro.html#cb19-1" aria-hidden="true" tabindex="-1"></a>nc<span class="sc">$</span>geometry[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## MULTIPOLYGON (((-81.47276 36.23436, -81.54084 36.27251, -81.56198 36.27359, -81.63306 36.34069, -81.74107 36.39178, -81.69828 36.47178, -81.7028 36.51934, -81.67 36.58965, -81.3453 36.57286, -81.34754 36.53791, -81.32478 36.51368, -81.31332 36.4807, -81.26624 36.43721, -81.26284 36.40504, -81.24069 36.37942, -81.23989 36.36536, -81.26424 36.35241, -81.32899 36.3635, -81.36137 36.35316, -81.36569 36.33905, -81.35413 36.29972, -81.36745 36.2787, -81.40639 36.28505, -81.41233 36.26729, -81.43104 36.26072, -81.45289 36.23959, -81.47276 36.23436)))</code></pre>
 <p>Los objetos básicos <code>sfg</code> (normalmente del mismo tipo) se pueden combinar en un objeto <code>sfc</code> (<em>simple feature geometry list column</em>) mediante la función <code>st_sfg()</code>.
 Estos objetos pueden incorporar un sistema de referencia de coordenadas (por defecto <code>NA_crs_</code>), descritos en la Sección <a href="sf-intro.html#crs">2.2.1</a>.
 Posteriormente se puede crear un objeto <code>sf</code> mediante la función <code>st_sf()</code>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="sf-intro.html#cb24-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.395835</span>, <span class="fl">43.37087</span>))</span>
-<span id="cb24-2"><a href="sf-intro.html#cb24-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.555851</span>, <span class="fl">43.01208</span>))</span>
-<span id="cb24-3"><a href="sf-intro.html#cb24-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.864641</span>, <span class="fl">42.34001</span>))</span>
-<span id="cb24-4"><a href="sf-intro.html#cb24-4" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.648053</span>, <span class="fl">42.43362</span>))</span>
-<span id="cb24-5"><a href="sf-intro.html#cb24-5" aria-hidden="true" tabindex="-1"></a>sfc <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">list</span>(p1, p2, p3, p4))</span>
-<span id="cb24-6"><a href="sf-intro.html#cb24-6" aria-hidden="true" tabindex="-1"></a>cprov <span class="ot">&lt;-</span> <span class="fu">st_sf</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">&#39;Coruña (A)&#39;</span>, <span class="st">&#39;Lugo&#39;</span>, <span class="st">&#39;Ourense&#39;</span>, <span class="st">&#39;Pontevedra&#39;</span>),</span>
-<span id="cb24-7"><a href="sf-intro.html#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> sfc)</span>
-<span id="cb24-8"><a href="sf-intro.html#cb24-8" aria-hidden="true" tabindex="-1"></a>cprov</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="sf-intro.html#cb21-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.395835</span>, <span class="fl">43.37087</span>))</span>
+<span id="cb21-2"><a href="sf-intro.html#cb21-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.555851</span>, <span class="fl">43.01208</span>))</span>
+<span id="cb21-3"><a href="sf-intro.html#cb21-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">7.864641</span>, <span class="fl">42.34001</span>))</span>
+<span id="cb21-4"><a href="sf-intro.html#cb21-4" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">8.648053</span>, <span class="fl">42.43362</span>))</span>
+<span id="cb21-5"><a href="sf-intro.html#cb21-5" aria-hidden="true" tabindex="-1"></a>sfc <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">list</span>(p1, p2, p3, p4))</span>
+<span id="cb21-6"><a href="sf-intro.html#cb21-6" aria-hidden="true" tabindex="-1"></a>cprov <span class="ot">&lt;-</span> <span class="fu">st_sf</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">&#39;Coruña (A)&#39;</span>, <span class="st">&#39;Lugo&#39;</span>, <span class="st">&#39;Ourense&#39;</span>, <span class="st">&#39;Pontevedra&#39;</span>),</span>
+<span id="cb21-7"><a href="sf-intro.html#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> sfc)</span>
+<span id="cb21-8"><a href="sf-intro.html#cb21-8" aria-hidden="true" tabindex="-1"></a>cprov</span></code></pre></div>
 <pre><code>## Simple feature collection with 4 features and 1 field
 ## Geometry type: POINT
 ## Dimension:     XY
@@ -487,8 +495,9 @@ Posteriormente se puede crear un objeto <code>sf</code> mediante la función <co
 ## 4 Pontevedra POINT (-8.648053 42.43362)</code></pre>
 <p>Esta forma de proceder puede resultar de interés cuando se construyen geometrías tipo líneas o polígonos, pero en el caso de datos puntuales (las observaciones habituales en geoestadística), resulta mucho más cómodo emplear un <code>data.frame</code> que incluya las coordenadas en columnas y convertirlo a un objeto <code>sf</code> mediante la función <code>st_as_sf()</code>.</p>
 <hr />
+
 <div class="exercise">
-<p><span id="exr:sfc" class="exercise"><strong>Ejercicio 2.1  (Creación de una columna de geometrías) </strong></span>Crear una geometría (un objeto <code>sfc</code>) formada por: dos puntos en las posiciones
+<p><span id="exr:sfc" class="exercise"><strong>Ejercicio 2.1  (Creación de una columna de geometrías)  </strong></span>Crear una geometría (un objeto <code>sfc</code>) formada por: dos puntos en las posiciones
 (1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices
 {(0,0), (6,0), (6,6), (0,6), (0,0)} y con un agujero con vértices {(2,2), (2,4),
 (4,4), (4,2), (2,2)} (NOTA: consultar la ayuda <code>?st</code>, puede resultar cómodo emplear
@@ -497,8 +506,8 @@ Posteriormente se puede crear un objeto <code>sf</code> mediante la función <co
 <!-- \@ref(exr:sfc) -->
 <hr />
 <p>Como ejemplo consideraremos el conjunto de datos <code>meuse</code> del paquete <code>sp</code> que contiene concentraciones de metales pesados, junto con otras variables del terreno, en una zona de inundación del río Meuse (cerca de Stein, Holanda)<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> (ver Figura <a href="sf-intro.html#fig:meuse-sf">2.1</a>).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="sf-intro.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
-<span id="cb26-2"><a href="sf-intro.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="sf-intro.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
+<span id="cb23-2"><a href="sf-intro.html#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    155 obs. of  14 variables:
 ##  $ x      : num  181072 181025 181165 181298 181307 ...
 ##  $ y      : num  333611 333558 333537 333484 333330 ...
@@ -514,20 +523,20 @@ Posteriormente se puede crear un objeto <code>sf</code> mediante la función <co
 ##  $ lime   : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 1 1 1 1 1 1 1 ...
 ##  $ landuse: Factor w/ 15 levels &quot;Aa&quot;,&quot;Ab&quot;,&quot;Ag&quot;,..: 4 4 4 11 4 11 4 2 2 15 ...
 ##  $ dist.m : num  50 30 150 270 380 470 240 120 240 420 ...</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="sf-intro.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?meuse </span></span>
-<span id="cb28-2"><a href="sf-intro.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Sistema de coordenadas Rijksdriehoek (RDH) (Netherlands topographical) </span></span>
-<span id="cb28-3"><a href="sf-intro.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># https://epsg.io/28992 # EPSG:28992</span></span>
-<span id="cb28-4"><a href="sf-intro.html#cb28-4" aria-hidden="true" tabindex="-1"></a>meuse_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(meuse, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> <span class="dv">28992</span>, <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
-<span id="cb28-5"><a href="sf-intro.html#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="sf-intro.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Rio Meuse </span></span>
-<span id="cb28-7"><a href="sf-intro.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse.riv, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
-<span id="cb28-8"><a href="sf-intro.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse.riv)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="sf-intro.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?meuse </span></span>
+<span id="cb25-2"><a href="sf-intro.html#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Sistema de coordenadas Rijksdriehoek (RDH) (Netherlands topographical) </span></span>
+<span id="cb25-3"><a href="sf-intro.html#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># https://epsg.io/28992 # EPSG:28992</span></span>
+<span id="cb25-4"><a href="sf-intro.html#cb25-4" aria-hidden="true" tabindex="-1"></a>meuse_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(meuse, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> <span class="dv">28992</span>, <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
+<span id="cb25-5"><a href="sf-intro.html#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="sf-intro.html#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Rio Meuse </span></span>
+<span id="cb25-7"><a href="sf-intro.html#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse.riv, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
+<span id="cb25-8"><a href="sf-intro.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse.riv)</span></code></pre></div>
 <pre><code>##  num [1:176, 1:2] 182004 182137 182252 182315 182332 ...</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="sf-intro.html#cb30-1" aria-hidden="true" tabindex="-1"></a>meuse_riv <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">st_polygon</span>(<span class="fu">list</span>(meuse.riv)), <span class="at">crs =</span> <span class="dv">28992</span>)</span>
-<span id="cb30-2"><a href="sf-intro.html#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="sf-intro.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rejilla</span></span>
-<span id="cb30-4"><a href="sf-intro.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse.grid, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
-<span id="cb30-5"><a href="sf-intro.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse.grid)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="sf-intro.html#cb27-1" aria-hidden="true" tabindex="-1"></a>meuse_riv <span class="ot">&lt;-</span> <span class="fu">st_sfc</span>(<span class="fu">st_polygon</span>(<span class="fu">list</span>(meuse.riv)), <span class="at">crs =</span> <span class="dv">28992</span>)</span>
+<span id="cb27-2"><a href="sf-intro.html#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="sf-intro.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rejilla</span></span>
+<span id="cb27-4"><a href="sf-intro.html#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(meuse.grid, <span class="at">package=</span><span class="st">&quot;sp&quot;</span>)</span>
+<span id="cb27-5"><a href="sf-intro.html#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(meuse.grid)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    3103 obs. of  7 variables:
 ##  $ x     : num  181180 181140 181180 181220 181100 ...
 ##  $ y     : num  333740 333700 333700 333700 333660 ...
@@ -536,16 +545,16 @@ Posteriormente se puede crear un objeto <code>sf</code> mediante la función <co
 ##  $ dist  : num  0 0 0.0122 0.0435 0 ...
 ##  $ soil  : Factor w/ 3 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ ffreq : Factor w/ 3 levels &quot;1&quot;,&quot;2&quot;,&quot;3&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="sf-intro.html#cb32-1" aria-hidden="true" tabindex="-1"></a>meuse_grid <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(meuse.grid, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
-<span id="cb32-2"><a href="sf-intro.html#cb32-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs =</span> <span class="dv">28992</span>, <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
-<span id="cb32-3"><a href="sf-intro.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Almacenar</span></span>
-<span id="cb32-4"><a href="sf-intro.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save(meuse_sf, meuse_riv, meuse_grid, file = &quot;datos/st_meuse.RData&quot;)</span></span>
-<span id="cb32-5"><a href="sf-intro.html#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="sf-intro.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Representar</span></span>
-<span id="cb32-7"><a href="sf-intro.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(meuse_sf[<span class="st">&quot;zinc&quot;</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>,</span>
-<span id="cb32-8"><a href="sf-intro.html#cb32-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">key.pos =</span> <span class="dv">4</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb32-9"><a href="sf-intro.html#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(meuse_riv, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb32-10"><a href="sf-intro.html#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(meuse_grid), <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.2</span>, <span class="at">col =</span> <span class="st">&quot;lightgray&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="sf-intro.html#cb29-1" aria-hidden="true" tabindex="-1"></a>meuse_grid <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(meuse.grid, <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
+<span id="cb29-2"><a href="sf-intro.html#cb29-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">crs =</span> <span class="dv">28992</span>, <span class="at">agr =</span> <span class="st">&quot;constant&quot;</span>)</span>
+<span id="cb29-3"><a href="sf-intro.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Almacenar</span></span>
+<span id="cb29-4"><a href="sf-intro.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># save(meuse_sf, meuse_riv, meuse_grid, file = &quot;datos/st_meuse.RData&quot;)</span></span>
+<span id="cb29-5"><a href="sf-intro.html#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="sf-intro.html#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Representar</span></span>
+<span id="cb29-7"><a href="sf-intro.html#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(meuse_sf[<span class="st">&quot;zinc&quot;</span>], <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">1.5</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb29-8"><a href="sf-intro.html#cb29-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">key.pos =</span> <span class="dv">4</span>, <span class="at">reset =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-9"><a href="sf-intro.html#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(meuse_riv, <span class="at">col =</span> <span class="st">&quot;lightblue&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-10"><a href="sf-intro.html#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(meuse_grid), <span class="at">pch =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.2</span>, <span class="at">col =</span> <span class="st">&quot;lightgray&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:meuse-sf"></span>
 <img src="02-datos_files/figure-html/meuse-sf-1.png" alt="Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`)." width="70%" />
 <p class="caption">
@@ -553,14 +562,15 @@ Figura 2.1: Concentración de zinc (ppm) en el entorno del río Meuse (datos <co
 </p>
 </div>
 <hr />
+
 <div class="exercise">
-<p><span id="exr:aquifer1" class="exercise"><strong>Ejercicio 2.2  (Creación y representación de datos espaciales) </strong></span>Cargar los datos del acuífero Wolfcamp (<em>aquifer.RData</em>), generar el correspondiente
+<p><span id="exr:aquifer1" class="exercise"><strong>Ejercicio 2.2  (Creación y representación de datos espaciales)  </strong></span>Cargar los datos del acuífero Wolfcamp (<em>aquifer.RData</em>), generar el correspondiente
 objeto <code>sf</code> y representarlo mostrando los ejes.</p>
 </div>
 <!-- \@ref(exr:aquifer1) -->
 <hr />
-<div id="crs" class="section level3 hasAnchor" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> Sistemas de referencia de coordenadas<a href="sf-intro.html#crs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="crs" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Sistemas de referencia de coordenadas</h3>
 <p>El sistema de referencia de coordenadas (CRS) especifica la correspondencia entre valores de las coordenadas y puntos concretos en la superficie de la Tierra (o del espacio), y resulta fundamental cuando se combinan datos espaciales.
 En general se consideran dos tipos de CRS:</p>
 <ul>
@@ -588,7 +598,7 @@ Para obtener o establecer el CRS se puede emplear la función <code>st_crs()</co
 Se puede especificar mediante una cadena de texto que admita <a href="https://gdal.org/tutorials/osr_api_tut.html">GDAL</a> (por ejemplo <code>"WGS84"</code>, que se corresponde con el <em>World Geodetic System 1984</em>), que típicamente es de la forma ESTÁNDAR:CÓDIGO (también puede ser una cadena de texto <em>PROJ.4</em>).
 El estándar más empleado es el <a href="https://epsg.org">EPSG</a> (<em>European Petroleum Survey Group</em>), y es que que da por hecho el paquete <code>sf</code> cuando se especifica el CRS mediante un número.
 También admite el estándar <a href="http://www.opengeospatial.org/standards/wkt-crs">OGC WKT</a> (<em>Open Geospatial Consortium well-known text</em>) que es el que emplea internamente, pero resulta complicado manejar en la práctica.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="sf-intro.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="sf-intro.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>)</span></code></pre></div>
 <pre><code>## Coordinate Reference System:
 ##   User input: WGS84 
 ##   wkt:
@@ -606,9 +616,9 @@ También admite el estándar <a href="http://www.opengeospatial.org/standards/wk
 ##             ORDER[2],
 ##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
 ##     ID[&quot;EPSG&quot;,4326]]</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="sf-intro.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">st_crs</span>(<span class="dv">4326</span>), <span class="fu">st_crs</span>(<span class="st">&quot;EPSG:4326&quot;</span>), <span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="sf-intro.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">st_crs</span>(<span class="dv">4326</span>), <span class="fu">st_crs</span>(<span class="st">&quot;EPSG:4326&quot;</span>), <span class="fu">st_crs</span>(<span class="st">&quot;WGS84&quot;</span>))</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="sf-intro.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(nc)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="sf-intro.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(nc)</span></code></pre></div>
 <pre><code>## Coordinate Reference System:
 ##   User input: NAD27 
 ##   wkt:
@@ -640,8 +650,8 @@ Es importante destacar que cambiar el CRS no reproyecta los datos, hay que emple
 <p>Finalmente hay que insistir también en que el campo de aplicación de la estadística espacial no se restringe al análisis de datos geográficos (por ejemplo nos puede interesar analizar el desgaste en la pared de un crisol empleado en fundición) y en estos casos los CRS geográficos carecen de sentido.
 De todos modos habrá que emplear un sistema de coordenadas que permita calcular algún tipo de salto o distancia entre puntos (aunque siempre se pueden considerar coordenadas espaciales tres dimensiones con la distancia euclídea).</p>
 </div>
-<div id="tidyverse-sf" class="section level3 hasAnchor" number="2.2.2">
-<h3><span class="header-section-number">2.2.2</span> Integración con el ecosistema <strong>tidyverse</strong><a href="sf-intro.html#tidyverse-sf" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="tidyverse-sf" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Integración con el ecosistema <strong>tidyverse</strong></h3>
 <p>El paquete <code>sf</code> es compatible con <a href="http://tidyverse.org"><code>tidyverse</code></a> y proporciona métodos para interactuar con los paquetes <a href="https://dplyr.tidyverse.org"><code>dplyr</code></a>,
 <a href="http://tidyr.tidyverse.org"><code>tidyr</code></a> y <a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a>.</p>
 <p>Algunos de los métodos de interés para manipular datos espaciales con el paquete <a href="https://dplyr.tidyverse.org"><code>dplyr</code></a> son:</p>
@@ -659,29 +669,29 @@ De todos modos habrá que emplear un sistema de coordenadas que permita calcular
 <li><a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf-3.html">Part 3: Layouts (Positioning and layout for complex maps)</a>.</li>
 </ul>
 <p>Por ejemplo, se puede generar un gráfico similar al de la Figura <a href="proc-esp.html#fig:mortalidad">1.2</a> (porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 en las CCAA españolas; datos <a href="https://www.ine.es/jaxiT3/Tabla.htm?t=6546">INE</a>), con el siguiente código:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="sf-intro.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb39-2"><a href="sf-intro.html#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb39-3"><a href="sf-intro.html#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb39-4"><a href="sf-intro.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapSpain) <span class="co"># install.packages(&quot;mapSpain&quot;)</span></span>
-<span id="cb39-5"><a href="sf-intro.html#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/mortalidad.RData&quot;</span>)</span>
-<span id="cb39-6"><a href="sf-intro.html#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="sf-intro.html#cb39-7" aria-hidden="true" tabindex="-1"></a>mort_sf <span class="ot">&lt;-</span> mortalidad <span class="sc">%&gt;%</span></span>
-<span id="cb39-8"><a href="sf-intro.html#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>ccaa.code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;00&quot;</span>, <span class="st">&quot;99&quot;</span>), periodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;2019&quot;</span>, <span class="st">&quot;2020&quot;</span>), sexo <span class="sc">==</span> <span class="st">&quot;Total&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-9"><a href="sf-intro.html#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>sexo, <span class="sc">-</span>ccaa.name) <span class="sc">%&gt;%</span></span>
-<span id="cb39-10"><a href="sf-intro.html#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> periodo, <span class="at">values_from =</span> value, <span class="at">names_prefix =</span> <span class="st">&quot;mort.&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb39-11"><a href="sf-intro.html#cb39-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">incremento =</span> <span class="dv">100</span><span class="sc">*</span>(mort<span class="fl">.2020</span> <span class="sc">-</span> mort<span class="fl">.2019</span>)<span class="sc">/</span>mort<span class="fl">.2019</span>)</span>
-<span id="cb39-12"><a href="sf-intro.html#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-13"><a href="sf-intro.html#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># CUIDADO: el primer elemento de xxx_join debe ser un objeto sf</span></span>
-<span id="cb39-14"><a href="sf-intro.html#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="co"># para que lo procese el paquete sf</span></span>
-<span id="cb39-15"><a href="sf-intro.html#cb39-15" aria-hidden="true" tabindex="-1"></a>mort_sf <span class="ot">&lt;-</span> <span class="fu">esp_get_ccaa</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb39-16"><a href="sf-intro.html#cb39-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(mort_sf, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;codauto&quot;</span> <span class="ot">=</span> <span class="st">&quot;ccaa.code&quot;</span>))</span>
-<span id="cb39-17"><a href="sf-intro.html#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb39-18"><a href="sf-intro.html#cb39-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mort_sf) <span class="sc">+</span></span>
-<span id="cb39-19"><a href="sf-intro.html#cb39-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> incremento), <span class="at">color =</span> <span class="st">&quot;grey70&quot;</span>) <span class="sc">+</span></span>
-<span id="cb39-20"><a href="sf-intro.html#cb39-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">hcl.colors</span>(<span class="dv">10</span>, <span class="st">&quot;Blues&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
-<span id="cb39-21"><a href="sf-intro.html#cb39-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(incremento, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb39-22"><a href="sf-intro.html#cb39-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">esp_get_can_box</span>(), <span class="at">color =</span> <span class="st">&quot;grey70&quot;</span>) <span class="sc">+</span> </span>
-<span id="cb39-23"><a href="sf-intro.html#cb39-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="sf-intro.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb36-2"><a href="sf-intro.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb36-3"><a href="sf-intro.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb36-4"><a href="sf-intro.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapSpain) <span class="co"># install.packages(&quot;mapSpain&quot;)</span></span>
+<span id="cb36-5"><a href="sf-intro.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;datos/mortalidad.RData&quot;</span>)</span>
+<span id="cb36-6"><a href="sf-intro.html#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="sf-intro.html#cb36-7" aria-hidden="true" tabindex="-1"></a>mort_sf <span class="ot">&lt;-</span> mortalidad <span class="sc">%&gt;%</span></span>
+<span id="cb36-8"><a href="sf-intro.html#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>ccaa.code <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;00&quot;</span>, <span class="st">&quot;99&quot;</span>), periodo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;2019&quot;</span>, <span class="st">&quot;2020&quot;</span>), sexo <span class="sc">==</span> <span class="st">&quot;Total&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-9"><a href="sf-intro.html#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>sexo, <span class="sc">-</span>ccaa.name) <span class="sc">%&gt;%</span></span>
+<span id="cb36-10"><a href="sf-intro.html#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> periodo, <span class="at">values_from =</span> value, <span class="at">names_prefix =</span> <span class="st">&quot;mort.&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-11"><a href="sf-intro.html#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">incremento =</span> <span class="dv">100</span><span class="sc">*</span>(mort<span class="fl">.2020</span> <span class="sc">-</span> mort<span class="fl">.2019</span>)<span class="sc">/</span>mort<span class="fl">.2019</span>)</span>
+<span id="cb36-12"><a href="sf-intro.html#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="sf-intro.html#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># CUIDADO: el primer elemento de xxx_join debe ser un objeto sf</span></span>
+<span id="cb36-14"><a href="sf-intro.html#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># para que lo procese el paquete sf</span></span>
+<span id="cb36-15"><a href="sf-intro.html#cb36-15" aria-hidden="true" tabindex="-1"></a>mort_sf <span class="ot">&lt;-</span> <span class="fu">esp_get_ccaa</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-16"><a href="sf-intro.html#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(mort_sf, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;codauto&quot;</span> <span class="ot">=</span> <span class="st">&quot;ccaa.code&quot;</span>))</span>
+<span id="cb36-17"><a href="sf-intro.html#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb36-18"><a href="sf-intro.html#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mort_sf) <span class="sc">+</span></span>
+<span id="cb36-19"><a href="sf-intro.html#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> incremento), <span class="at">color =</span> <span class="st">&quot;grey70&quot;</span>) <span class="sc">+</span></span>
+<span id="cb36-20"><a href="sf-intro.html#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(<span class="at">colors =</span> <span class="fu">hcl.colors</span>(<span class="dv">10</span>, <span class="st">&quot;Blues&quot;</span>, <span class="at">rev =</span> <span class="cn">TRUE</span>)) <span class="sc">+</span></span>
+<span id="cb36-21"><a href="sf-intro.html#cb36-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(incremento, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb36-22"><a href="sf-intro.html#cb36-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">esp_get_can_box</span>(), <span class="at">color =</span> <span class="st">&quot;grey70&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb36-23"><a href="sf-intro.html#cb36-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:dplyr-ggplot"></span>
 <img src="02-datos_files/figure-html/dplyr-ggplot-1.png" alt="Ejemplo de gráfico generado empleando los paquetes `dplyr` y `ggplot2`." width="70%" />
 <p class="caption">
@@ -772,7 +782,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

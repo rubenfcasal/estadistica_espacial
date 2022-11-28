@@ -3,7 +3,7 @@ title: "Estadística Espacial con R"
 author: 
   - "Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)"
   - "Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)"
-date: "Edición: Enero de 2022. Impresión: 2022-11-23"
+date: "Edición: Enero de 2022. Impresión: 2022-11-28"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -80,8 +80,7 @@ install.packages('https://github.com/rubenfcasal/npsp/releases/download/v0.7-8/n
 Para generar el libro (compilar) serán necesarios paquetes adicionales, 
 para lo que se recomendaría consultar el libro de ["Escritura de libros con bookdown" ](https://rubenfcasal.github.io/bookdown_intro) en castellano.
 
-
-\includegraphics[width=1.22in]{images/by-nc-nd-88x31} 
+<img src="images/by-nc-nd-88x31.png" width="44" />
 
 Este obra está bajo una licencia de [Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es_ES) 
 (esperamos poder liberarlo bajo una licencia menos restrictiva más adelante...).

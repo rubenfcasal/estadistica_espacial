@@ -69,37 +69,24 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     positivo. El proceso puede ser observado de forma continua dentro del dominio.
     Un ejemplo claro sería la temperatura, aunque normalmente solo se dispone de datos en
     estaciones meteorológicas fijas, se podría observar en cualquier posición 
-    (y por tanto tiene sentido predecirla). [Figura \@ref(fig:aquifer)]
+    (y por tanto tiene sentido predecirla). 
 
-    \begin{figure}[!htb]
-    
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/aquifer-1} 
-    
-    }
-    
-    \caption{Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).}(\#fig:aquifer)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/aquifer-1.png" alt="Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares)." width="70%" />
+    <p class="caption">(\#fig:aquifer)Nivel del agua subterránea en 85 localizaciones del acuífero Wolfcamp (obtenidas durante un estudio sobre el posible emplazamiento de un depósito de residuos nucleares).</p>
+    </div>
 
 -   **Procesos reticulares/regionales** (índice espacial discreto):
     $D$ es un conjunto numerable de posiciones o regiones. El proceso solo puede ser 
     observado en determinadas posiciones. Es habitual que los datos se correspondan 
     con agregaciones (totales o valores medios) de una determinada zona (por ejemplo, 
     países, provincias, ayuntamientos, zonas sanitarias...). Son muy comunes en 
-    econometría o epidemiología. [Figura \@ref(fig:mortalidad)]
+    econometría o epidemiología. 
 
-    
-    ```
-    ## Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
-    ```
-    
-    \begin{figure}[!htb]
-    
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/mortalidad-1} 
-    
-    }
-    
-    \caption{Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546)).}(\#fig:mortalidad)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/mortalidad-1.png" alt="Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546))." width="70%" />
+    <p class="caption">(\#fig:mortalidad)Porcentaje de incremento de las defunciones en el año 2020 respecto al 2019 por CCAA (datos [INE](https://www.ine.es/jaxiT3/Tabla.htm?t=6546)).</p>
+    </div>
     
 -   **Procesos/patrones puntuales** (índice espacial aleatorio):
     $D$ es un proceso puntual en $\mathbb{R}^{d}$. Las posiciones en las que se 
@@ -109,16 +96,12 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     se podría observar alguna otra característica (una marca; por ejemplo la altura o 
     el diámetro del árbol), es lo que se conoce como *proceso puntual marcado*. 
     Este tipo de datos son habituales en biología, ecología, criminología, etc. 
-    [Figura \@ref(fig:cholera)]
     
-    \begin{figure}[!htb]
     
-    {\centering \includegraphics[width=0.7\linewidth]{01-introduccion_files/figure-latex/cholera-1} 
-    
-    }
-    
-    \caption{Mapa (de John Snow) del brote de cólera de 1854 en Londres.}(\#fig:cholera)
-    \end{figure}
+    <div class="figure" style="text-align: center">
+    <img src="01-introduccion_files/figure-html/cholera-1.png" alt="Mapa (de John Snow) del brote de cólera de 1854 en Londres." width="70%" />
+    <p class="caption">(\#fig:cholera)Mapa (de John Snow) del brote de cólera de 1854 en Londres.</p>
+    </div>
         
 
 Nos centraremos en el caso de procesos geoestadísticos (también denominados procesos espaciales continuos). 
@@ -374,14 +357,10 @@ La Figura \@ref(fig:var-gen) ilustra las distintas características del semivari
 
 (ref:var-gen-label) Relación entre el covariograma (línea discontinua) y el variograma (línea continua) en el caso unidimensional (o isotrópico), y principales características: nugget ($c_0$), umbral ($\sigma^2$; umbral parcial $\sigma^2 - c_0$) y rango ($a$).
 
-\begin{figure}[!htb]
-
-{\centering \includegraphics[width=0.8\linewidth]{01-introduccion_files/figure-latex/var-gen-1} 
-
-}
-
-\caption{(ref:var-gen-label)}(\#fig:var-gen)
-\end{figure}
+<div class="figure" style="text-align: center">
+<img src="01-introduccion_files/figure-html/var-gen-1.png" alt="(ref:var-gen-label)" width="80%" />
+<p class="caption">(\#fig:var-gen)(ref:var-gen-label)</p>
+</div>
 
 Siempre se verifica que $\gamma (\mathbf{0})=0$, sin embargo puede ser que:
 $$\lim \limits_{\mathbf{h}\rightarrow \mathbf{0}} \gamma(\mathbf{h}) = c_0 > 0.$$
