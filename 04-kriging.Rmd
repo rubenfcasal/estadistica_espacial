@@ -372,7 +372,7 @@ grid.arrange(p1, p2, ncol = 2)
 ## Consideraciones acerca de los métodos kriging {#consideraciones-kriging}
 
 Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado (BLUP, *best linear unbiased predictor*). 
-Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. 
+Como es bien sabido, en el caso de normalidad el predictor insesgado óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging. 
 Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g. Rivoirard, 1994) y del kriging trans-normal (ver Sección \@ref(kriging-trans-normal)).
 
 En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
