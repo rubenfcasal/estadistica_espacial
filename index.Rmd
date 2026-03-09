@@ -40,7 +40,7 @@ Se puede acceder a la versión en línea a través del siguiente enlace:
 donde puede descargarse en formato [pdf](https://rubenfcasal.github.io/estadistica_espacial/estadistica_espacial.pdf).
 
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
-`r citepkgs(c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", "rgdal", "rgeos", "maps", "maptools", "ggplot2", "plot3D", "lattice", "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" ))`.
+`r citepkgs(c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", "rgdal", "rgeos", "ggplot2", "plot3D", "lattice", "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" ))`.
 <!-- 
 cholera
 raster, terra
@@ -51,7 +51,7 @@ remotes::install_github("r-spatial/mapview")
 Por ejemplo mediante los siguientes comandos:
 ```{r eval=FALSE}
 pkgs <- c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", 
-          "rgdal", "rgeos", "maps", "maptools", "ggplot2", "plot3D", "lattice", 
+          "rgdal", "rgeos", "ggplot2", "plot3D", "lattice", 
           "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", 
           "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" )
 
@@ -92,10 +92,11 @@ Este obra está bajo una licencia de [Creative Commons Reconocimiento-NoComercia
 
 ```{r include=FALSE}
 # Automatically create a bib database for R packages
-pkgs <- c("caret", "rattle", "gbm", "car", "leaps", "MASS", "RcmdrMisc", 
-          "lmtest", "glmnet", "mgcv", "np", "NeuralNetTools", "pdp", "vivid",
-          "plot3D", "AppliedPredictiveModeling", "ISLR")
-knitr::write_bib(c(pkgs, "e1071", "KernSmooth"), 'packages.bib')
+pkgs <- c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", 
+          "rgdal", "rgeos", "ggplot2", "plot3D", "lattice", 
+          "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", 
+          "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" )
+knitr::write_bib(pkgs, 'packages.bib')
 # Create .nojekyll file in the /docs folder
 file.create('docs/.nojekyll')
 ```

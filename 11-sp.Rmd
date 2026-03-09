@@ -197,7 +197,9 @@ spplot(sdf, "lcpue")
 El fichero *costa.galicia.txt* contiene la costa de Galicia en formato Mapgen.
 Descargada del (difunto) [Coastline Extractor](http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html)
 
-````{r }
+**El siguiente código no se evalúa, ya que el paquete `maptools` se archivó por petición del creador del paquete**
+
+````{r eval = FALSE}
 library(maptools) # Utilidades para convertir datos entre diferentes formatos espaciales
 
 costa.galicia <- MapGen2SL("datos/costa.galicia.txt", CRS("+proj=longlat +ellps=WGS84"))
@@ -357,12 +359,14 @@ jet.colors <- colorRampPalette(c("#00007F", "blue", "#007FFF", "cyan", "#7FFF7F"
 image(sstsp, col = jet.colors(128), axes = TRUE)
 title(attr(sstsp@data, "label"))
 
-# Ejemplo importar datos de otros paquetes:
-library(maps)
-library(maptools)
-world <- map("world", fill = TRUE, plot = FALSE)   # Hay un mapa con mayor resolución en mapdata::worldHires
-world_pol <- map2SpatialPolygons(world, world$names, CRS("+proj=longlat +ellps=WGS84"))
-plot(world_pol, col = 'white', add = TRUE) 
+
+# El siguiente código está comentado, ya que el paquete `maptools` se archivó por petición del creador del paquete
+# # Ejemplo importar datos de otros paquetes:
+# library(maps)
+# library(maptools)
+# world <- map("world", fill = TRUE, plot = FALSE)   # Hay un mapa con mayor resolución en mapdata::worldHires
+# world_pol <- map2SpatialPolygons(world, world$names, CRS("+proj=longlat +ellps=WGS84"))
+# plot(world_pol, col = 'white', add = TRUE) 
 ````
 
 

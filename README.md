@@ -15,7 +15,7 @@ donde puede descargarse en formato [pdf](https://rubenfcasal.github.io/estadisti
 Para instalar los paquetes necesarios para poder ejecutar los ejemplos mostrados en el libro se puede emplear el siguiente código:
 ```{r eval=FALSE}
 pkgs <- c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", 
-          "rgdal", "rgeos", "maps", "maptools", "ggplot2", "plot3D", "lattice", 
+          "rgdal", "rgeos", "ggplot2", "plot3D", "lattice", 
           "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", 
           "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" )
 
