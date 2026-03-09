@@ -136,8 +136,9 @@ Se suele distinguir entre distintos tipos de procesos espaciales dependiendo de 
     `r latexfig("cholera")`
     
     ```{r cholera, echo=FALSE, fig.cap="Mapa (de John Snow) del brote de cólera de 1854 en Londres." }
-    old.par <- par(mar = c(bottom = 2, left = 0, top = 2, right = 0))
-    plot(cholera::fatalities[-1], asp = 1, pch = 16, 
+    old.par <- par(mar = c(bottom = 2, left = 0, top = 2, right = 0), asp = 1)
+    # cholera::snowMap()
+    plot(cholera::fatalities[c("x", "y")], asp = 1, pch = 16,
          axes= FALSE, frame.plot = FALSE)
     cholera::addPump(col = "darkgray")
     cholera::addRoads()
