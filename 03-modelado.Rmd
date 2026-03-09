@@ -82,6 +82,10 @@ $$N(\mathbf{h}) = \left\{ (i,j):\mathbf{s}_{i} -\mathbf{s}_{j} \in Tol(\mathbf{h
 $Tol(\mathbf{h})\subset \mathbb{R}^{d}$ es una región de tolerancia en torno a $\mathbf{h}$ y $\left| N(\mathbf{h})\right|$ es el número de pares distintos en $N(\mathbf{h})$.
 La región de tolerancia debería ser lo suficientemente grande como para que no aparezcan inestabilidades, por lo que se recomienda (Journel y Huijbregts 1978, p.194) que el numero de aportaciones a la estimación en un salto $\mathbf{h}$ sea por lo menos de treinta (i.e. $\left| N(\mathbf{h})\right| \geq 30$).
 
+<!-- 
+Pendiente: regiones de tolerancia en el caso isotrópico.
+-->
+
 De forma análoga, suponiendo estacionariedad de segundo orden, se obtiene el estimador clásico del covariograma:
 $$\hat{C} (\mathbf{h}) = \dfrac{1}{\left| N(\mathbf{h})\right| }
 \sum\limits_{N(\mathbf{h})}\left( Z(\mathbf{s}_{i})-\bar{Z} \right)
@@ -117,13 +121,27 @@ Dependiendo de la elección de estos pesos obtenemos distintos estimadores:
 * $\omega_{ij}(r)=K\left( \frac{\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| -r}{h} \right) \times$ $\sum\limits_{k}\sum\limits_{l}K\left( \frac{\left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r}{h} \right)   \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r\right) \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| \right)$ se obtiene el estimador lineal local del semivariograma (García-Soidán et al., 2003).
 
 
-La función [`variogram()`](https://r-spatial.github.io/gstat/reference/variogram.html) del paquete `gstat`: 
+La función [`variogram()`](https://r-spatial.github.io/gstat/reference/variogram.html) del paquete `gstat` permite calcular los estimadores muestrales del semivariograma (por defecto el estimador clásico asumiendo isotropía), además de muchas otras posibilidades.
+Habitualmente se emplea de la forma: 
 ```{reval=FALSE}
-variogram(formula, locations = coordinates(data), data, cutoff, width = cutoff/15,
-          cressie = FALSE, cloud = FALSE, covariogram = FALSE, ...)
+variogram(formula, locations = coordinates(data), data, cutoff, 
+          width = cutoff/15, cressie = FALSE, cloud = FALSE, ...)
 ```
-permite obtener la nube de semivarianzas (`cloud = TRUE`) y las estimaciones 
-empíricas o robustas (`cressie = TRUE`), además de otras posibilidades.
+
+* `formula`: especifica el modelo lineal de tendencia espacial. Si se asume un proceso estacionario sin tendencia será de la forma `respuesta ~ 1`. Si se especifica otro modelo, empleará los residuos del correspondiente ajuste OLS (ver Sección \@ref(trend-fit)).
+
+* `cutoff`: máxima distancia considerada, por defecto 1/3 de la máxima distancia posible (en el rango de las observaciones).
+
+* `width`: amplitud de los intervalos (regiones de tolerancia) empleados para discretizar las distancias en el cálculo de los estimadores muestrales (si `cloud = FALSE`). Por defecto se establece de forma que el número de saltos es 15.
+
+* `cressie`: determina si se emplean las semivarianzas clásicas (por defecto) o robustas (`cressie = TRUE`).
+
+* `cloud`: determina si se calculan los estimadores muestrales (por defecto) o la nube de semivarianzas sin discretizar (`cloud = TRUE`) .
+
+
+*NOTA*: Si las coordenadas de los datos están proyectadas, `gstat` emplea la distancia euclídea (en la misma escala). En el caso de coordenadas geodésicas sin proyectar (latitud/longitud) emplea distancias ortodrómicas (longitud del arco del círculo máximo que une los puntos) en kilómetros.
+Hay que tener esto en cuenta para establecer `cutoff` o `width`.
+Además, si `width` es demasiado pequeño pueden aparecer problemas (por ejemplo al representar el estimador) si no hay semivarianzas muestrales en algún intervalo.
 
 En primer lugar emplearemos el conjunto de datos `s100` del paquete `geoR`, que contiene una simulación de un proceso espacial estacionario (sin tendencia).
 
@@ -142,6 +160,7 @@ vario <- variogram(z ~ 1, datos, cloud = FALSE, cutoff = 0.6)
 # Si se quiere tomar el 50% del máximo salto (posible) cutoff = maxlag
 # maxlag <- 0.5*sqrt(sum(diff(apply(s100$coord, 2, range))^2)) 
 # maxlag <- 0.5*sqrt(sum(diff(matrix(st_bbox(datos), nrow = 2, byrow = TRUE))^2))
+# Suponiendo que se trata de coordenadas proyectadas...
 names(vario)
 ```
 
@@ -220,8 +239,7 @@ estos semivariogramas.
   \begin{array}{ll}
   0 & \text{si} \left\| \mathbf{h}\right\| =0 \\
   c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
-  -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)
-  3\right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
+  -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^3 \right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
   c_0 +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
   \end{array}
   \right.$$ 
@@ -294,7 +312,7 @@ estos semivariogramas.
   $$\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
+  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \Gamma(\nu )} \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
