@@ -3,19 +3,21 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  spanish,
 ]{book}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -34,15 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Estadística Espacial con R},
-  pdfauthor={Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es); Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)},
-  pdflang={es},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -54,13 +47,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -68,7 +61,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -77,7 +70,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -110,6 +103,48 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{spanish}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
 \usepackage{booktabs}
 \usepackage{amsthm}
 \usepackage[a4paper, top=3.25cm, bottom=2.5cm, left=3cm, right=2.5cm]{geometry}
@@ -143,43 +178,22 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
-\ifxetex
-  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{spanish}
-\else
-  \usepackage[main=spanish]{babel}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\fi
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Estadística Espacial con R},
+  pdfauthor={Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es); Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)},
+  pdflang={es},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Estadística Espacial con R}
 \author{Rubén Fernández Casal (MODES, CITIC, UDC; \href{mailto:ruben.fcasal@udc.es}{\nolinkurl{ruben.fcasal@udc.es}}) \and Tomás Cotos Yáñez (SIDOR, UVIGO; \href{mailto:cotos@uvigo.es}{\nolinkurl{cotos@uvigo.es}})}
-\date{Edición: Enero de 2022. Impresión: 2022-11-28}
+\date{Edición: Enero de 2022. Impresión: 2026-03-09}
 
 \usepackage{amsthm}
 \newtheorem{theorem}{Teorema}[chapter]
@@ -205,12 +219,11 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{pruxf3logo}{%
-\chapter*{Prólogo}\label{pruxf3logo}}
+\chapter*{Prólogo}\label{pruxf3logo}
 \addcontentsline{toc}{chapter}{Prólogo}
 
-La versión actual del libro \textbf{\emph{se está desarrollando}} principalmente como apoyo a la docencia de la última parte de la asignatura de \href{https://guiadocente.udc.es/guia_docent/index.php?centre=614\&ensenyament=614G02\&assignatura=614G02022\&idioma=cast}{Análisis estadístico de datos con dependencia} del \href{https://estudos.udc.es/es/study/start/614G02V01}{Grado en Ciencia e Ingeniería de Datos} de la \href{https://www.udc.es}{UDC}.
-El objetivo es que (futuras versiones del libro con contenidos adicionales) también resulte de utilidad para la docencia de la asignatura de \href{http://eamo.usc.es/pub/mte/index.php?option=com_content\&view=article\&id=2202\&idm=15\&a\%C3\%B1o=2021}{Estadística Espacial} del \href{http://eio.usc.es/pub/mte}{Máster interuniversitario en Técnicas Estadísticas}).
+La versión actual del libro \textbf{\emph{se está desarrollando}} principalmente como apoyo a la docencia de la última parte de la asignatura de \href{https://guiadocente.udc.es/guia_docent/index.php?centre=614&ensenyament=614G02&assignatura=614G02022&idioma=cast}{Análisis estadístico de datos con dependencia} del \href{https://estudos.udc.es/es/study/start/614G02V01}{Grado en Ciencia e Ingeniería de Datos} de la \href{https://www.udc.es}{UDC}.
+El objetivo es que (futuras versiones del libro con contenidos adicionales) también resulte de utilidad para la docencia de la asignatura de \href{http://eamo.usc.es/pub/mte/index.php?option=com_content&view=article&id=2202&idm=15&a\%C3\%B1o=2021}{Estadística Espacial} del \href{http://eio.usc.es/pub/mte}{Máster interuniversitario en Técnicas Estadísticas}).
 
 La teoría en este libro está basada en gran parte en la tesis doctoral:
 
@@ -226,13 +239,13 @@ Se puede acceder a la versión en línea a través del siguiente enlace:
 donde puede descargarse en formato \href{https://rubenfcasal.github.io/estadistica_espacial/estadistica_espacial.pdf}{pdf}.
 
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
-\href{https://CRAN.R-project.org/package=sf}{\texttt{sf}}, \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}}, \href{https://CRAN.R-project.org/package=starts}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=gstat}{\texttt{gstat}}, \href{https://CRAN.R-project.org/package=geoR}{\texttt{geoR}}, \href{https://CRAN.R-project.org/package=spacetime}{\texttt{spacetime}}, \href{https://CRAN.R-project.org/package=sm}{\texttt{sm}}, \href{https://CRAN.R-project.org/package=fields}{\texttt{fields}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}}, \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, \href{https://CRAN.R-project.org/package=maps}{\texttt{maps}}, \href{https://CRAN.R-project.org/package=maptools}{\texttt{maptools}}, \href{https://CRAN.R-project.org/package=ggplot2}{\texttt{ggplot2}}, \href{https://CRAN.R-project.org/package=plot3D}{\texttt{plot3D}}, \href{https://CRAN.R-project.org/package=lattice}{\texttt{lattice}}, \href{https://CRAN.R-project.org/package=classInt}{\texttt{classInt}}, \href{https://CRAN.R-project.org/package=viridis}{\texttt{viridis}}, \href{https://CRAN.R-project.org/package=dplyr}{\texttt{dplyr}}, \href{https://CRAN.R-project.org/package=mapSpain}{\texttt{mapSpain}}, \href{https://CRAN.R-project.org/package=tmap}{\texttt{tmap}}, \href{https://CRAN.R-project.org/package=mapview}{\texttt{mapview}}, \href{https://CRAN.R-project.org/package=osmdata}{\texttt{osmdata}}, \href{https://CRAN.R-project.org/package=rnaturalearth}{\texttt{rnaturalearth}}, \href{https://CRAN.R-project.org/package=ncdf}{\texttt{ncdf}}, \href{https://CRAN.R-project.org/package=quadprog}{\texttt{quadprog}}, \href{https://CRAN.R-project.org/package=spam}{\texttt{spam}}, \href{https://CRAN.R-project.org/package=DEoptim}{\texttt{DEoptim}}.
+\href{https://CRAN.R-project.org/package=sf}{\texttt{sf}}, \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}}, \href{https://CRAN.R-project.org/package=starts}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=gstat}{\texttt{gstat}}, \href{https://CRAN.R-project.org/package=geoR}{\texttt{geoR}}, \href{https://CRAN.R-project.org/package=spacetime}{\texttt{spacetime}}, \href{https://CRAN.R-project.org/package=sm}{\texttt{sm}}, \href{https://CRAN.R-project.org/package=fields}{\texttt{fields}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}}, \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, \href{https://CRAN.R-project.org/package=ggplot2}{\texttt{ggplot2}}, \href{https://CRAN.R-project.org/package=plot3D}{\texttt{plot3D}}, \href{https://CRAN.R-project.org/package=lattice}{\texttt{lattice}}, \href{https://CRAN.R-project.org/package=classInt}{\texttt{classInt}}, \href{https://CRAN.R-project.org/package=viridis}{\texttt{viridis}}, \href{https://CRAN.R-project.org/package=dplyr}{\texttt{dplyr}}, \href{https://CRAN.R-project.org/package=mapSpain}{\texttt{mapSpain}}, \href{https://CRAN.R-project.org/package=tmap}{\texttt{tmap}}, \href{https://CRAN.R-project.org/package=mapview}{\texttt{mapview}}, \href{https://CRAN.R-project.org/package=osmdata}{\texttt{osmdata}}, \href{https://CRAN.R-project.org/package=rnaturalearth}{\texttt{rnaturalearth}}, \href{https://CRAN.R-project.org/package=ncdf}{\texttt{ncdf}}, \href{https://CRAN.R-project.org/package=quadprog}{\texttt{quadprog}}, \href{https://CRAN.R-project.org/package=spam}{\texttt{spam}}, \href{https://CRAN.R-project.org/package=DEoptim}{\texttt{DEoptim}}.
 Por ejemplo mediante los siguientes comandos:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{pkgs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"sf"}\NormalTok{, }\StringTok{"sp"}\NormalTok{, }\StringTok{"starts"}\NormalTok{, }\StringTok{"gstat"}\NormalTok{, }\StringTok{"geoR"}\NormalTok{, }\StringTok{"spacetime"}\NormalTok{, }\StringTok{"sm"}\NormalTok{, }\StringTok{"fields"}\NormalTok{, }
-          \StringTok{"rgdal"}\NormalTok{, }\StringTok{"rgeos"}\NormalTok{, }\StringTok{"maps"}\NormalTok{, }\StringTok{"maptools"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"plot3D"}\NormalTok{, }\StringTok{"lattice"}\NormalTok{, }
+          \StringTok{"rgdal"}\NormalTok{, }\StringTok{"rgeos"}\NormalTok{, }\StringTok{"ggplot2"}\NormalTok{, }\StringTok{"plot3D"}\NormalTok{, }\StringTok{"lattice"}\NormalTok{, }
           \StringTok{"classInt"}\NormalTok{, }\StringTok{"viridis"}\NormalTok{, }\StringTok{"dplyr"}\NormalTok{, }\StringTok{"mapSpain"}\NormalTok{, }\StringTok{"tmap"}\NormalTok{, }\StringTok{"mapview"}\NormalTok{, }
           \StringTok{"osmdata"}\NormalTok{, }\StringTok{"rnaturalearth"}\NormalTok{, }\StringTok{"ncdf"}\NormalTok{, }\StringTok{"quadprog"}\NormalTok{, }\StringTok{"spam"}\NormalTok{, }\StringTok{"DEoptim"}\NormalTok{ )}
 
@@ -277,8 +290,7 @@ para lo que se recomendaría consultar el libro de \href{https://rubenfcasal.git
 Este obra está bajo una licencia de \href{https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es_ES}{Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional}
 (esperamos poder liberarlo bajo una licencia menos restrictiva más adelante\ldots).
 
-\hypertarget{intro-estesp}{%
-\chapter{Introducción: Procesos espaciales y Geoestadística}\label{intro-estesp}}
+\chapter{Introducción: Procesos espaciales y Geoestadística}\label{intro-estesp}
 
 Es bien sabido que al utilizar en la práctica métodos estadísticos no siempre es adecuado suponer que las observaciones del fenómeno de interés han sido tomadas bajo condiciones idénticas e independientes unas de otras (i.e.~que los datos son independientes e idénticamente distribuidos).
 Esta falta de homogeneidad en los datos suele ser modelada a través de la suposición de media no constante (por ejemplo suponiendo que ésta es una combinación lineal de ciertas variables explicativas) pero con la consideración de que los errores son independientes e idénticamente distribuidos.
@@ -299,8 +311,7 @@ La metodología espacial y espacio-temporal ha sido utilizada de forma creciente
 En muchos casos interesa analizar datos que tienen asociada una componente espacial o espacio-temporal de forma natural, por ejemplo, en campos relacionados con la geología, hidrología, ecología, ciencias medioambientales, meteorología, epidemiología, recursos mineros, geografía, economía, astronomía, proceso de imágenes, experimentos agrícolas, etc.
 En estas disciplinas la metodología espacial puede ser de ayuda en alguna o en muchas etapas del estudio, desde el diseño inicial del muestreo hasta la representación final de los resultados obtenidos (p.e. para la generación de mapas o animaciones).
 
-\hypertarget{proc-esp}{%
-\section{Procesos espaciales}\label{proc-esp}}
+\section{Procesos espaciales}\label{proc-esp}
 
 Supongamos que \(Z(\mathbf{s})\) es un valor aleatorio en la posición espacial \(\mathbf{s} \in \mathbb{R}^{d}\).
 Entonces, si \(\mathbf{s}\) varía dentro del conjunto índice \(D\subset \mathbb{R}^{d}\) se obtiene el proceso espacial:
@@ -370,8 +381,7 @@ Esto sería válido también para el caso espacio-temporal, por ejemplo podríam
 Por tanto, las definiciones y métodos para procesos espaciales son en principio aplicables también al caso espacio-temporal.
 Sin embargo, la componente temporal presenta diferencias respecto a la componente espacial\ldots{}
 
-\hypertarget{paquetes-r}{%
-\subsection{Paquetes de R}\label{paquetes-r}}
+\subsection{Paquetes de R}\label{paquetes-r}
 
 En R hay disponibles una gran cantidad de paquetes para el análisis estadístico de datos espaciales (ver por ejemplo \href{http://cran.r-project.org/web/views/Spatial.html}{CRAN Task View: Analysis of Spatial Data}).
 Entre ellos podríamos destacar:
@@ -391,14 +401,13 @@ Algunos de estos paquetes son la referencia para el análisis de este tipo de da
 aunque también están disponibles otros, como por ejemplo \texttt{maptools}, \texttt{geosphere}, \texttt{tmap}, \texttt{mapsf}, \texttt{leaflet}, \texttt{mapview}, \texttt{mapdeck}, \texttt{ggmap}, \texttt{rgrass7}, \texttt{RSAGA}, \texttt{RPyGeo}, \texttt{RQGIS} o \texttt{r-arcgis}, que implementan herramientas adicionales y permiten, por ejemplo, generar gráficos interactivos o interactuar con sistemas externos de información geográfica (GIS).
 
 En todos estos paquetes se trabajan con similares tipos de datos (espaciales y espacio-temporales) por lo que se han desarrollado paquetes que facilitan su manejo.
-Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}) y el paquete \href{https://r-spatial.github.io/sf}{\texttt{sf}} \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}).
+Entre ellos destacan el paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} Bivand et~al. (\citeproc{ref-Bivand2013}{2013}) y el paquete \href{https://r-spatial.github.io/sf}{\texttt{sf}} E. Pebesma y Bivand (\citeproc{ref-Pebesma2021}{2021}).
 Otros paquetes para la manipulación de datos que pueden ser de interés son: \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}}, \href{https://r-spatial.github.io/stars}{\texttt{starts}}, \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}}, entre otros.
 En la Sección \ref{datos-tipos} se incluye información adicional sobre estos paquetes.
 
 En este libro emplearemos principalmente el paquete \texttt{gstat} para el análisis de datos geoestadísticos (siguiente sección; aunque se incluye una introducción al paquete \texttt{geoR} en el Apéndice \ref{intro-geoR}) y el paquete \texttt{sf} para la manipulación de datos espaciales (en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp} para datos espaciales).
 
-\hypertarget{gstat-pkg}{%
-\subsection{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{gstat-pkg}}
+\subsection{\texorpdfstring{El paquete \textbf{gstat}}{El paquete gstat}}\label{gstat-pkg}
 
 El paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} permite la modelización geoestadística (univariante, Capítulo \ref{modelado}, y multivariante, Capítulo \ref{multivar}), espacial y espacio-temporal (Capítulo \ref{esp-temp}), incluyendo predicción y simulación (Capítulo \ref{kriging} y secciones 5.X y 6.X).
 
@@ -427,8 +436,7 @@ el blog \href{https://r-spatial.org/}{r-spatial} o las correspondientes publicac
 Este paquete de R es una evolución de un programa independiente anterior con el mismo nombre (\href{http://www.sciencedirect.com/science/article/pii/S0098300497000824}{Pebesma y Wesseling, 1998}; basado en la librería \href{http://www.gslib.com}{GSLIB}, Deutsch y Journel, 1992).
 Puede resultar de interés consultar el \href{http://www.gstat.org/gstat.pdf}{manual original} para información adicional sobre los detalles computacionales.
 
-\hypertarget{geoestadistica}{%
-\section{Geoestadística}\label{geoestadistica}}
+\section{Geoestadística}\label{geoestadistica}
 
 La geoestadística (Matheron 1962) surgió como una mezcla de varias disciplinas: ingeniería de minas, geología, matemáticas y estadística, para dar respuesta a problemas como, por ejemplo, el de la estimación de los recursos de una explotación minera (se desarrolló principalmente a partir de los años 80).
 La diferencia (ventaja) respecto a otras aproximaciones es que, además de tener en cuenta la tendencia espacial (variación de gran escala), también tiene en cuenta la correlación espacial (variación de pequeña escala).
@@ -466,8 +474,7 @@ Como en condiciones normales únicamente se dispone de una realización parcial 
 En la Sección \ref{procesos-estacionarios} se definen los principales tipos de estacionariedad habitualmente considerados en geoestadística y se introducen dos funciones relacionadas con procesos estacionarios, el covariograma y el variograma.
 Algunas propiedades de estas funciones, que podríamos decir que son las herramientas fundamentales de la geoestadística, se muestran en la Sección \ref{procesos-estacionarios}.
 
-\hypertarget{modelos-clasicos-espaciales}{%
-\subsection{Modelos clásicos y modelos espaciales}\label{modelos-clasicos-espaciales}}
+\subsection{Modelos clásicos y modelos espaciales}\label{modelos-clasicos-espaciales}
 
 En general, cuando se considera que la componente espacial (o espacio-temporal) puede ser importante en el modelado y el análisis de los datos es necesaria una aproximación estadística distinta a la tradicionalmente usada.
 
@@ -532,8 +539,7 @@ Por ejemplo, podemos considerar:
 con \(\sigma^{2} \geq 0\) y \(0<\rho <1\).
 De esta forma, si \(\hat{\boldsymbol{\theta}}\) es un estimador de \(\boldsymbol{\theta}\) (ver Sección \ref{ajuste-variog}), podemos obtener por ejemplo una aproximación del predictor óptimo de \(Z(\mathbf{s}_{0} )\) sustituyendo en \eqref{eq:predictor-kriging} \(\boldsymbol{\Sigma}(\boldsymbol{\theta})\) por \(\boldsymbol{\Sigma}(\hat{\boldsymbol{\theta}} )\) y \(\mathbf{c}(\boldsymbol{\theta})\) por \(\mathbf{c}(\hat{\boldsymbol{\theta}} )\).
 
-\hypertarget{ventajas-de-la-aproximaciuxf3n-espacial-y-espacio-temporal}{%
-\subsection{Ventajas de la aproximación espacial (y espacio-temporal)}\label{ventajas-de-la-aproximaciuxf3n-espacial-y-espacio-temporal}}
+\subsection{Ventajas de la aproximación espacial (y espacio-temporal)}\label{ventajas-de-la-aproximaciuxf3n-espacial-y-espacio-temporal}
 
 Algunos de los beneficios de utilizar modelos espaciales para caracterizar y explotar la dependencia espacial de un conjunto de datos son los siguientes:
 
@@ -548,8 +554,7 @@ Algunos de los beneficios de utilizar modelos espaciales para caracterizar y exp
   La variación espacial no explicada en la estructura de la media debe ser absorbida por la estructura del error, por lo que un modelo que incorpore la dependencia espacial puede decirse que esta protegido frente a una mala especificación de este tipo. Esto en muchos casos tiene como resultado una simplificación en la especificación de la tendencia; en general los modelos con dependencia espacial suelen tener una descripción más parsimoniosa (en ocasiones con muchos menos parámetros) que los clásicos modelos de superficie de tendencia.
 \end{itemize}
 
-\hypertarget{procesos-estacionarios}{%
-\section{Procesos espaciales estacionarios}\label{procesos-estacionarios}}
+\section{Procesos espaciales estacionarios}\label{procesos-estacionarios}
 
 Supongamos que \(\left\{ Z(\mathbf{s}) : \mathbf{s} \in D \subset \mathbb{R}^{d} \right\}\) es un proceso geoestadístico.
 Este proceso aleatorio se puede caracterizar a través de las funciones de distribución finito-dimensionales:
@@ -616,8 +621,7 @@ entonces\footnote{Suponiendo que \(\lim \limits_{\left\| \mathbf{h}\right\| \rig
 A \(\sigma^{2} = C(\mathbf{0})\) se le denomina \emph{umbral} (o \emph{meseta}) del semivariograma.
 La relación entre el semivariograma y el covariograma se ilustra en la Figura \ref{fig:var-gen}.
 
-\hypertarget{caracteristicas-variograma}{%
-\subsection{Características del variograma}\label{caracteristicas-variograma}}
+\subsection{Características del variograma}\label{caracteristicas-variograma}
 
 Además del umbral (si existe, ya que el variograma podría no estar acotado; ver sección anterior), hay otras características geométricas del variograma (o del covariograma) de especial importancia\footnote{Además de poder interpretar su influencia en la predicción espacial (Sección \ref{efecto-variog-kriging}), son utilizadas en la parametrización de la mayoría de los modelos de variogramas o covariogramas (Sección \ref{modelos-parametricos}).}, entre ellas destacarían el \emph{efecto pepita} (o \emph{nugget}) y el \emph{rango} (o \emph{alcance}).
 La Figura \ref{fig:var-gen} ilustra las distintas características del semivariograma.
@@ -654,8 +658,7 @@ El variograma y el covariograma son las funciones habitualmente consideradas en 
 En la práctica normalmente se suele utilizar el variograma, no sólo porque es más general (puede existir en casos en que el covariograma no), sino por las ventajas en su estimación (Sección \ref{vario-muestrales}; Cressie, 1993, Sección 2.4.1).
 No obstante, en muchos casos los modelos de variograma se obtienen a partir de modelos de covariograma.
 
-\hypertarget{propiedades-elementales}{%
-\subsection{Propiedades elementales del covariograma y del variograma}\label{propiedades-elementales}}
+\subsection{Propiedades elementales del covariograma y del variograma}\label{propiedades-elementales}
 
 El variograma y el covariograma deben verificar ciertas propiedades que sus estimadores no siempre verifican, a continuación se detallan algunas de ellas.
 
@@ -706,8 +709,7 @@ Algunas propiedades adicionales que verifica un variograma son las siguientes:
 
 Se suelen emplear estas propiedades para la obtención de modelos de variograma válidos, como por ejemplo en el caso de la anisotropía zonal (Sección \ref{anisotropia}) o del modelo lineal de (co)regionalización (secciones \ref{vario-lin-reg} y 5.X).
 
-\hypertarget{procesos-agregados}{%
-\subsection{Procesos agregados}\label{procesos-agregados}}
+\subsection{Procesos agregados}\label{procesos-agregados}
 
 En algunos casos los datos pueden ser agregaciones espaciales en lugar de observaciones puntuales (e incluso observaciones sobre distintos soportes) o, por ejemplo, puede ser de interés la estimación de medias espaciales a partir de datos puntuales.
 Estas agregaciones pueden ser modeladas como el promedio de un proceso puntual, lo que permite deducir fácilmente las relaciones entre covariogramas y variogramas vinculados a diferentes soportes.
@@ -729,8 +731,7 @@ Aunque nos centraremos principalmente en el caso de soporte puntual, los método
 Sin embargo, en la práctica pueden aparecer dificultades, especialmente al combinar observaciones en distintos soportes (esto es lo que se conoce como el problema de cambio de soporte, o el \emph{modifiable areal unit problem}, MAUP).
 Para más detalles ver por ejemplo Cressie (1993, Sección 5.2) ó Chilès y Delfiner (1999, Sección 2.4).
 
-\hypertarget{objetivos-esquema}{%
-\section{Objetivos y procedimiento}\label{objetivos-esquema}}
+\section{Objetivos y procedimiento}\label{objetivos-esquema}
 
 A partir de los valores observados \(\{Z(\mathbf{s}_1), \ldots, Z(\mathbf{s}_n)\}\) (o \(\{Z(B_1), \ldots, Z(B_n)\}\)), los objetivos suelen ser:
 
@@ -772,14 +773,12 @@ La aproximación tradicional (paramétrica) para el modelado de un proceso geoes
 
 Como ya se comentó, emplearemos el paquete \href{https://r-spatial.github.io/gstat}{\texttt{gstat}} en este proceso (Sección \ref{gstat-pkg}).
 
-\hypertarget{datos}{%
-\chapter{Datos espaciales}\label{datos}}
+\chapter{Datos espaciales}\label{datos}
 
 En este capítulo se incluye una breve introducción a los tipos de datos espaciales (Sección \ref{datos-tipos}) y a su manipulación en R con el paquete \texttt{sf} (secciones \ref{sf-intro}, \ref{sf-plot} y \ref{operaciones-datos}).
 La parte final se centra en el análisis exploratorio de datos espaciales (Sección \ref{sp-eda}).
 
-\hypertarget{datos-tipos}{%
-\section{Tipos de datos espaciales}\label{datos-tipos}}
+\section{Tipos de datos espaciales}\label{datos-tipos}
 
 En el campo de los datos espaciales se suele distinguir entre dos tipos de datos:
 
@@ -833,19 +832,18 @@ Entre ellos destacan:
 
 \begin{itemize}
 \item
-  \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} (Classes and methods for spatial data, \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand, 2005}): se corresponde con \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}) y emplea clases S4. Se complementa con los paquetes \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} (interfaz a la \emph{geospatial data abstraction library}, para la lectura y escritura de datos espaciales) y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}} (interfaz a la librería \emph{Geometry Engine Open Source}, para operaciones geométricas).
+  \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} (Classes and methods for spatial data, \citeproc{ref-Pebesma2005}{E. J. Pebesma y Bivand, 2005}): se corresponde con Bivand et~al. (\citeproc{ref-Bivand2013}{2013}) y emplea clases S4. Se complementa con los paquetes \href{https://CRAN.R-project.org/package=rgdal}{\texttt{rgdal}} (interfaz a la \emph{geospatial data abstraction library}, para la lectura y escritura de datos espaciales) y \href{https://CRAN.R-project.org/package=rgeos}{\texttt{rgeos}} (interfaz a la librería \emph{Geometry Engine Open Source}, para operaciones geométricas).
 \item
-  \href{https://r-spatial.github.io/sf}{\texttt{sf}} (Simple Features for R, \protect\hyperlink{ref-Pebesma2018}{E. Pebesma, 2018}): alternativa en desarrollo con objetos más simples S3 (compatible con \href{http://tidyverse.org}{\texttt{tidyverse}} y que proporciona una interfaz directa a las librerías \href{https://gdal.org}{GDAL} y \href{https://trac.osgeo.org/geos}{GEOS}) que aspira a reemplazar el paquete \texttt{sp} a corto plazo. Se corresponde con \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}) (disponible \href{https://keen-swartz-3146c4.netlify.app}{online}).
+  \href{https://r-spatial.github.io/sf}{\texttt{sf}} (Simple Features for R, \citeproc{ref-Pebesma2018}{E. Pebesma, 2018}): alternativa en desarrollo con objetos más simples S3 (compatible con \href{http://tidyverse.org}{\texttt{tidyverse}} y que proporciona una interfaz directa a las librerías \href{https://gdal.org}{GDAL} y \href{https://trac.osgeo.org/geos}{GEOS}) que aspira a reemplazar el paquete \texttt{sp} a corto plazo. Se corresponde con E. Pebesma y Bivand (\citeproc{ref-Pebesma2021}{2021}) (disponible \href{https://keen-swartz-3146c4.netlify.app}{online}).
 \end{itemize}
 
 El paquete \texttt{sp} tiene un soporte limitado para datos ráster, este es uno de los motivos por los que surgió el paquete \href{https://CRAN.R-project.org/package=raster}{\texttt{raster}}, que actualmente está siendo reemplazado por el paquete \href{https://CRAN.R-project.org/package=terra}{\texttt{terra}} (información sobre estos paquetes está disponible en el \href{https://rspatial.org/}{manual online}).
 El paquete \texttt{sf} no implementa datos ráster (y tiene un soporte muy limitado para rejillas de datos), para manejar este tipo de datos se complementa con el paquete \href{https://r-spatial.github.io/stars}{\texttt{starts}} (Spatiotemporal Arrays: Raster and Vector Datacubes).
-Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones \href{https://keen-swartz-3146c4.netlify.app/sf.html\#raster-to-vector}{7.5} y \href{https://keen-swartz-3146c4.netlify.app/sf.html\#warp}{7.7} de \protect\hyperlink{ref-Pebesma2021}{E. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2021}{2021}).
+Para detalles sobre la conversión entre datos ráster y datos vectoriales ver por ejemplo las secciones \href{https://keen-swartz-3146c4.netlify.app/sf.html\#raster-to-vector}{7.5} y \href{https://keen-swartz-3146c4.netlify.app/sf.html\#warp}{7.7} de E. Pebesma y Bivand (\citeproc{ref-Pebesma2021}{2021}).
 
 En este capítulo emplearemos el paquete \texttt{sf} para la manipulación de datos espaciales, aunque en el Apéndice \ref{intro-sp} se incluye una breve introducción a las clases \texttt{sp}, ya que este tipo de objetos siguen siendo ampliamente empleados en la actualidad (y, de momento, algunas de las herramientas disponibles en R solo admiten las clases de datos definidas en este paquete).
 
-\hypertarget{sf-intro}{%
-\section{\texorpdfstring{Introducción al paquete \textbf{sf}}{Introducción al paquete sf}}\label{sf-intro}}
+\section{\texorpdfstring{Introducción al paquete \textbf{sf}}{Introducción al paquete sf}}\label{sf-intro}
 
 El modelo de geometrías de \emph{\href{https://en.wikipedia.org/wiki/Simple_Features}{características simples}} (o rasgos simples) es un estándar (\href{https://www.iso.org/standard/40114.html}{ISO 19125}) desarrollado por el \href{https://www.ogc.org}{Open Geospatial Consortium} (OGC) para formas geográficas vectoriales, que ha sido adoptado por gran cantidad de software geográfico (entre otros por GeoJSON, ArcGIS, QGIS, PostGIS, MySQL Spatial Extensions, Microsoft SQL Server\ldots).
 Como ya se comentó, este tipo de datos espaciales está implementado en R en el paquete \href{https://r-spatial.github.io/sf}{\texttt{sf}}.
@@ -967,41 +965,66 @@ En este paquete, todos los métodos y funciones que operan sobre datos espaciale
 \end{Shaded}
 
 \begin{verbatim}
-##   [1] $<-                   [                     [[<-                 
-##   [4] aggregate             anti_join             arrange              
-##   [7] as.data.frame         cbind                 coerce               
-##  [10] dbDataType            dbWriteTable          distinct             
-##  [13] dplyr_reconstruct     filter                full_join            
-##  [16] gather                group_by              group_split          
-##  [19] identify              idw                   initialize           
-##  [22] inner_join            krige                 krige.cv             
-##  [25] left_join             merge                 mutate               
-##  [28] nest                  pivot_longer          plot                 
-##  [31] print                 rbind                 rename               
-##  [34] right_join            rowwise               sample_frac          
-##  [37] sample_n              select                semi_join            
-##  [40] separate              separate_rows         show                 
-##  [43] slice                 slotsFromS3           spread               
-##  [46] st_agr                st_agr<-              st_area              
-##  [49] st_as_s2              st_as_sf              st_as_stars          
-##  [52] st_bbox               st_boundary           st_buffer            
-##  [55] st_cast               st_centroid           st_collection_extract
-##  [58] st_convex_hull        st_coordinates        st_crop              
-##  [61] st_crs                st_crs<-              st_difference        
-##  [64] st_filter             st_geometry           st_geometry<-        
-##  [67] st_inscribed_circle   st_interpolate_aw     st_intersection      
-##  [70] st_intersects         st_is                 st_is_valid          
-##  [73] st_join               st_line_merge         st_m_range           
-##  [76] st_make_valid         st_nearest_points     st_node              
-##  [79] st_normalize          st_point_on_surface   st_polygonize        
-##  [82] st_precision          st_reverse            st_sample            
-##  [85] st_segmentize         st_set_precision      st_shift_longitude   
-##  [88] st_simplify           st_snap               st_sym_difference    
-##  [91] st_transform          st_transform_proj     st_triangulate       
-##  [94] st_union              st_voronoi            st_wrap_dateline     
-##  [97] st_write              st_z_range            st_zm                
-## [100] summarise             transform             transmute            
-## [103] ungroup               unite                 unnest               
+##   [1] $<-                          [                           
+##   [3] [[<-                         [<-                         
+##   [5] aggregate                    anti_join                   
+##   [7] arrange                      as.data.frame               
+##   [9] cbind                        coerce                      
+##  [11] dbDataType                   dbWriteTable                
+##  [13] distinct                     dplyr_reconstruct           
+##  [15] drop_na                      duplicated                  
+##  [17] filter                       full_join                   
+##  [19] gather                       group_by                    
+##  [21] group_split                  identify                    
+##  [23] idw                          initialize                  
+##  [25] inner_join                   krige                       
+##  [27] krige.cv                     left_join                   
+##  [29] merge                        mutate                      
+##  [31] nest                         pivot_longer                
+##  [33] pivot_wider                  plot                        
+##  [35] points                       print                       
+##  [37] rbind                        rename                      
+##  [39] rename_with                  right_join                  
+##  [41] rowwise                      sample_frac                 
+##  [43] sample_n                     select                      
+##  [45] semi_join                    separate                    
+##  [47] separate_rows                show                        
+##  [49] slice                        slotsFromS3                 
+##  [51] spread                       st_agr                      
+##  [53] st_agr<-                     st_area                     
+##  [55] st_as_s2                     st_as_sf                    
+##  [57] st_as_sfc                    st_as_stars                 
+##  [59] st_bbox                      st_boundary                 
+##  [61] st_break_antimeridian        st_buffer                   
+##  [63] st_cast                      st_centroid                 
+##  [65] st_collection_extract        st_concave_hull             
+##  [67] st_convex_hull               st_coordinates              
+##  [69] st_crop                      st_crs                      
+##  [71] st_crs<-                     st_difference               
+##  [73] st_drop_geometry             st_exterior_ring            
+##  [75] st_filter                    st_geometry                 
+##  [77] st_geometry<-                st_inscribed_circle         
+##  [79] st_interpolate_aw            st_intersection             
+##  [81] st_intersects                st_is                       
+##  [83] st_is_full                   st_is_valid                 
+##  [85] st_join                      st_line_merge               
+##  [87] st_m_range                   st_make_valid               
+##  [89] st_minimum_rotated_rectangle st_nearest_points           
+##  [91] st_node                      st_normalize                
+##  [93] st_point_on_surface          st_polygonize               
+##  [95] st_precision                 st_reverse                  
+##  [97] st_rotate                    st_sample                   
+##  [99] st_segmentize                st_set_precision            
+## [101] st_shift_longitude           st_simplify                 
+## [103] st_snap                      st_sym_difference           
+## [105] st_transform                 st_triangulate              
+## [107] st_triangulate_constrained   st_union                    
+## [109] st_voronoi                   st_wrap_dateline            
+## [111] st_write                     st_z_range                  
+## [113] st_zm                        summarise                   
+## [115] text                         transform                   
+## [117] transmute                    ungroup                     
+## [119] unite                        unnest                      
 ## see '?methods' for accessing help and source code
 \end{verbatim}
 
@@ -1009,18 +1032,25 @@ Los objetos geométricos básicos son del tipo \texttt{sfg} (\emph{simple featur
 Admite los 17 tipos de geometrías simples del estándar, pero de forma completa los 7 tipos básicos:
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.20}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.61}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.20}}@{}}
-\toprule
-Tipo & Description & Creación \\
-\midrule
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1951}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6098}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1951}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Tipo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Creación
+\end{minipage} \\
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{POINT}, \texttt{MULTIPOINT} & Punto o conjunto de puntos & \texttt{st\_point()}, \texttt{st\_multipoint()} \\
 \texttt{LINESTRING}, \texttt{MULTILINESTRING} & Línea o conjunto de líneas & \texttt{st\_linestring()}, \texttt{st\_multilinestring()} \\
 \texttt{POLYGON}, \texttt{MULTIPOLYGON} & Polígono\footnote{Secuencia de puntos que forma un anillo cerrado, que no se interseca; el primero anillo definen el anillo exterior, anillos posteriores definen agujeros. Según la norma, los puntos del anillo exterior deben especificarse en sentido contrario a las agujas del reloj y los de los agujeros en sentido de las agujas del reloj.} o conjunto de polígonos & \texttt{st\_polygon()}, \texttt{st\_multipolygon()} \\
 \texttt{GEOMETRYCOLLECTION} & Conjunto de geometrías de los tipos anteriores & \texttt{st\_geometrycollection()} \\
-\bottomrule
 \end{longtable}
 
 Las geometrías se imprimen empleando la representación \emph{well-known text} (WKT) del estándar (se exportan empleando la representación \emph{well-known binary}, WKB).
@@ -1070,7 +1100,7 @@ Esta forma de proceder puede resultar de interés cuando se construyen geometrí
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Creación de una columna de geometrías]
-\protect\hypertarget{exr:sfc}{}{\label{exr:sfc} \iffalse (Creación de una columna de geometrías) \fi{} }Crear una geometría (un objeto \texttt{sfc}) formada por: dos puntos en las posiciones
+\protect\hypertarget{exr:sfc}{}\label{exr:sfc}Crear una geometría (un objeto \texttt{sfc}) formada por: dos puntos en las posiciones
 (1,5) y (5,5), una línea entre los puntos (1,1) y (5,1), y un polígono, con vértices
 \{(0,0), (6,0), (6,6), (0,6), (0,0)\} y con un agujero con vértices \{(2,2), (2,4),
 (4,4), (4,2), (2,2)\} (NOTA: consultar la ayuda \texttt{?st}, puede resultar cómodo emplear
@@ -1152,6 +1182,7 @@ Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \tex
 \CommentTok{\# save(meuse\_sf, meuse\_riv, meuse\_grid, file = "datos/st\_meuse.RData")}
 
 \CommentTok{\# Representar}
+\NormalTok{old.par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{no.readonly =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# reset = FALSE}
 \FunctionTok{plot}\NormalTok{(meuse\_sf[}\StringTok{"zinc"}\NormalTok{], }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.5}\NormalTok{, }\AttributeTok{main =} \StringTok{""}\NormalTok{,}
      \AttributeTok{breaks =} \StringTok{"quantile"}\NormalTok{, }\AttributeTok{key.pos =} \DecValTok{4}\NormalTok{, }\AttributeTok{reset =} \ConstantTok{FALSE}\NormalTok{)}
 \FunctionTok{plot}\NormalTok{(meuse\_riv, }\AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{)}
@@ -1168,17 +1199,22 @@ Como ejemplo consideraremos el conjunto de datos \texttt{meuse} del paquete \tex
 \caption{Concentración de zinc (ppm) en el entorno del río Meuse (datos `sp::meuse`).}\label{fig:meuse-sf}
 \end{figure}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(old.par)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Creación y representación de datos espaciales]
-\protect\hypertarget{exr:aquifer1}{}{\label{exr:aquifer1} \iffalse (Creación y representación de datos espaciales) \fi{} }Cargar los datos del acuífero Wolfcamp (\emph{aquifer.RData}), generar el correspondiente
+\protect\hypertarget{exr:aquifer1}{}\label{exr:aquifer1}Cargar los datos del acuífero Wolfcamp (\emph{aquifer.RData}), generar el correspondiente
 objeto \texttt{sf} y representarlo mostrando los ejes.
 \end{exercise}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{crs}{%
-\subsection{Sistemas de referencia de coordenadas}\label{crs}}
+\subsection{Sistemas de referencia de coordenadas}\label{crs}
 
 El sistema de referencia de coordenadas (CRS) especifica la correspondencia entre valores de las coordenadas y puntos concretos en la superficie de la Tierra (o del espacio), y resulta fundamental cuando se combinan datos espaciales.
 En general se consideran dos tipos de CRS:
@@ -1282,7 +1318,7 @@ También admite el estándar \href{http://www.opengeospatial.org/standards/wkt-c
 En \href{https://spatialreference.org}{spatialreference.org} se puede obtener información detallada sobre una gran cantidad de proyecciones (y permite realizar búsquedas).
 También puede ser de utilidad \href{https://epsg.io}{epsg.io} o este \href{https://proj.org/operations/projections}{listado} con detalles de los parámetros.
 
-El CRS ideal dependerá del tipo de problema y de la zona cubierta por los datos (ver e.g Lovelace et al, 2021, \href{https://geocompr.robinlovelace.net/reproj-geo-data.html\#which-crs-to-use}{Sección 6.3}, para más información).
+El CRS ideal dependerá del tipo de problema y de la zona cubierta por los datos (ver e.g Lovelace et al, 2021, \href{https://geocompr.robinlovelace.net/reproj-geo-data.html\#which-crs}{Sección 7.6}, para más información).
 En general en estadística espacial nos interesará trabajar con coordenadas proyectadas, de forma que tenga sentido emplear la distancia euclídea (algo que puede ser poco o nada razonable si se trabaja con coordenadas geodésicas en una zona muy amplia del globo o cerca de los polos).
 En el caso de coordenadas sin proyectar (latitud/longitud) puede ser preferible trabajar con distancias ortodrómicas (longitud del arco del círculo máximo que une los puntos, \emph{great circle distances})\footnote{Algo que ya hace de forma automática el paquete \texttt{gstat}.}.
 Es importante destacar que cambiar el CRS no reproyecta los datos, hay que emplear \texttt{st\_transform()} para hacerlo, como se describe en la Sección \ref{operaciones-datos}.
@@ -1290,8 +1326,7 @@ Es importante destacar que cambiar el CRS no reproyecta los datos, hay que emple
 Finalmente hay que insistir también en que el campo de aplicación de la estadística espacial no se restringe al análisis de datos geográficos (por ejemplo nos puede interesar analizar el desgaste en la pared de un crisol empleado en fundición) y en estos casos los CRS geográficos carecen de sentido.
 De todos modos habrá que emplear un sistema de coordenadas que permita calcular algún tipo de salto o distancia entre puntos (aunque siempre se pueden considerar coordenadas espaciales tres dimensiones con la distancia euclídea).
 
-\hypertarget{tidyverse-sf}{%
-\subsection{\texorpdfstring{Integración con el ecosistema \textbf{tidyverse}}{Integración con el ecosistema tidyverse}}\label{tidyverse-sf}}
+\subsection{\texorpdfstring{Integración con el ecosistema \textbf{tidyverse}}{Integración con el ecosistema tidyverse}}\label{tidyverse-sf}
 
 El paquete \texttt{sf} es compatible con \href{http://tidyverse.org}{\texttt{tidyverse}} y proporciona métodos para interactuar con los paquetes \href{https://dplyr.tidyverse.org}{\texttt{dplyr}},
 \href{http://tidyr.tidyverse.org}{\texttt{tidyr}} y \href{https://ggplot2.tidyverse.org}{\texttt{ggplot2}}.
@@ -1372,8 +1407,7 @@ Este operador permite canalizar la salida de una función a la entrada de otra.
 Por ejemplo \texttt{segundo(primero(datos))} se traduce en \texttt{datos\ \%\textgreater{}\%\ primero\ \%\textgreater{}\%\ segundo}
 (facilitando la lectura de expresiones de izquierda a derecha).
 
-\hypertarget{sf-plot}{%
-\section{Representación de datos espaciales}\label{sf-plot}}
+\section{Representación de datos espaciales}\label{sf-plot}
 
 El paquete \texttt{sf} implementa métodos \texttt{plot()} para la representación de objetos espaciales (ver \href{https://r-spatial.github.io/sf/reference/plot.html}{\texttt{?plot.sf}}).
 Estos métodos suelen ser la forma más rápida de generar gráficos básicos (estáticos), pero también se pueden emplear otros paquetes como \href{https://ggplot2.tidyverse.org}{\texttt{ggplot2}} (Sección \ref{tidyverse-sf}), \href{https://r-tmap.github.io/tmap}{\texttt{tmap}}, \href{https://riatelab.github.io/mapsf}{\texttt{mapsf}}, \href{https://rstudio.github.io/leaflet}{\texttt{leaflet}}, \href{https://r-spatial.github.io/mapview}{\texttt{mapview}}, \href{https://symbolixau.github.io/mapdeck}{\texttt{mapdeck}} o \href{https://github.com/dkahle/ggmap}{\texttt{ggmap}}, para generar mapas más avanzados, incluyendo mapas dinámicos.
@@ -1416,7 +1450,7 @@ El método \texttt{plot()} es de la forma:
 \item
   \texttt{border}: color de los bordes de polígonos.
 \item
-  \texttt{reset}: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (\texttt{reset\ =\ TRUE}). Solo en ese caso es necesario establecer \texttt{reset\ =\ FALSE} para continuar añadiendo elementos, con \texttt{add\ =\ TRUE} (para restaurarlos hay que ejecutar \texttt{dev.off()}) (ver figuras: \ref{fig:meuse-sf}, \ref{fig:transform}).
+  \texttt{reset}: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (\texttt{reset\ =\ TRUE}). Solo en ese caso es necesario establecer \texttt{reset\ =\ FALSE} para continuar añadiendo elementos, con \texttt{add\ =\ TRUE} (para restaurarlos hay que ejecutar \texttt{dev.off()} o haberlos guardado previamente) (ver figuras: \ref{fig:meuse-sf}, \ref{fig:transform}).
 \item
   \texttt{...}: otros parámetros gráficos (ver \texttt{?plot.default} y \texttt{?par}).
 \end{itemize}
@@ -1484,8 +1518,7 @@ El paquete \href{https://r-spatial.github.io/mapview}{\texttt{mapview}} también
 
 Para más información ver las \href{https://r-spatial.github.io/mapview/articles/articles/mapview_01-basics.html}{viñetas} del paquete.
 
-\hypertarget{operaciones-datos}{%
-\section{Operaciones con datos espaciales}\label{operaciones-datos}}
+\section{Operaciones con datos espaciales}\label{operaciones-datos}
 
 A continuación se describe una selección de las herramientas disponibles para datos espaciales.
 Para un listado completo de las funciones implementadas en el paquete \texttt{sf} se puede consultar la \href{https://r-spatial.github.io/sf/reference/index.html}{referencia} (o la ``\href{https://github.com/rstudio/cheatsheets/blob/master/sf.pdf}{chuleta}'', aunque puede contener algunos errores).
@@ -1500,8 +1533,7 @@ Puede que algunas herramientas (o recursos) admitan únicamente objetos \texttt{
   \texttt{as(x,\ "Spatial")}: convierte \texttt{x} a un objeto \texttt{Spatial*}.
 \end{itemize}
 
-\hypertarget{importaciuxf3n-y-exportaciuxf3n-de-datos-espaciales}{%
-\subsection{Importación y exportación de datos espaciales}\label{importaciuxf3n-y-exportaciuxf3n-de-datos-espaciales}}
+\subsection{Importación y exportación de datos espaciales}\label{importaciuxf3n-y-exportaciuxf3n-de-datos-espaciales}
 
 El paquete \texttt{sf} permite importar y exportar una gran cantidad de formatos de datos espaciales, almacenados en ficheros o en bases de datos, mediante las funciones \texttt{st\_read()} y \texttt{st\_write()}.
 Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones deducen el formato automáticamente a partir de la extensión del archivo (por ejemplo \emph{.shp} para \emph{ESRI Shapefile}) o a partir del prefijo (por ejemplo \emph{PG:} para \emph{PostGIS/PostgreSQL}):
@@ -1526,7 +1558,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "C:/Program Files/R/R-4.1.1/library/sf/shape/nc.shp"
+## [1] "C:/Program Files/R/R-4.4.2/library/sf/shape/nc.shp"
 \end{verbatim}
 
 \begin{Shaded}
@@ -1537,7 +1569,7 @@ Como se mostró al principio de la Sección \ref{sf-intro}, estas funciones dedu
 
 \begin{verbatim}
 ## Reading layer `nc' from data source 
-##   `C:\Program Files\R\R-4.1.1\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
+##   `C:\Program Files\R\R-4.4.2\library\sf\shape\nc.shp' using driver `ESRI Shapefile'
 ## Simple feature collection with 100 features and 14 fields
 ## Geometry type: MULTIPOLYGON
 ## Dimension:     XY
@@ -1556,14 +1588,14 @@ se puede obtener un listado con la función \texttt{st\_drivers()}:
 \end{Shaded}
 
 \begin{verbatim}
-## 'data.frame':    89 obs. of  7 variables:
-##  $ name     : chr  "ESRIC" "FITS" "PCIDSK" "netCDF" ...
-##  $ long_name: chr  "Esri Compact Cache" "Flexible Image Transport System" "PCIDSK Database File" "Network Common Data Format" ...
-##  $ write    : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
-##  $ copy     : logi  FALSE FALSE FALSE TRUE TRUE TRUE ...
+## 'data.frame':    75 obs. of  7 variables:
+##  $ name     : chr  "PCIDSK" "netCDF" "PDS4" "VICAR" ...
+##  $ long_name: chr  "PCIDSK Database File" "Network Common Data Format" "NASA Planetary Data System 4" "MIPL VICAR file" ...
+##  $ write    : logi  TRUE TRUE TRUE TRUE FALSE TRUE ...
+##  $ copy     : logi  FALSE TRUE TRUE TRUE TRUE TRUE ...
 ##  $ is_raster: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
 ##  $ is_vector: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
-##  $ vsi      : logi  TRUE FALSE TRUE FALSE TRUE TRUE ...
+##  $ vsi      : logi  TRUE FALSE TRUE TRUE TRUE TRUE ...
 \end{verbatim}
 
 Además, se han desarrollado una gran cantidad de paquetes de R que permiten acceder directamente desde R a datos espaciales.
@@ -1571,7 +1603,6 @@ Muchos incluyen conjuntos de datos espaciales y otros implementan interfaces a b
 Algunos de ellos son los siguientes:
 
 \begin{itemize}
-\tightlist
 \item
   \href{https://docs.ropensci.org/rnaturalearth/}{\texttt{rnaturalearth}}: permite importar una gran cantidad de datos vectoriales y rasterizados de \href{http://www.naturalearthdata.com}{Natural Earth}, incluyendo datos administrativos/culturales (fronteras de países, aeropuertos, carreteras, vías férreas\ldots) y físicos (costas, lagos\ldots).
 \item
@@ -1588,6 +1619,8 @@ Algunos de ellos son los siguientes:
   \href{https://open-eo.github.io/openeo-r-client}{\texttt{openeo}}: permite importar datos de servidores \href{https://openeo.org}{openEO} (\emph{Open Earth Observation data}).
 \item
   \href{https://CRAN.R-project.org/package=rnoaa}{\texttt{rnoaa}}: permite importar datos climáticos de la \href{https://www.ncdc.noaa.gov/cdo-web/webservices/v2}{National Oceanic and Atmospheric Administration} (NOAA).
+\item
+  \href{https://emf-creaf.github.io/meteospain}{\texttt{meteospain}}: permite descargar datos de las redes de estaciones meteorológicas españolas: \href{https://www.aemet.es/en/portada}{AEMET} (Agencia Estatal de Meteorología), \href{https://meteo.cat}{MeteoCat} (Servicio Meteorológico de Cataluña), \href{https://www.meteogalicia.gal/web/inicio.action}{MeteoGalicia} (Servicio Meteorológico de Galicia), \href{https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/}{RIA} (Red de Información Agroclimática de Andalucía) y \href{https://www.meteoclimatic.net/}{Meteoclimatic} (red de estaciones meteorológicas no profesionales).
 \item
   \href{https://ropenspain.github.io/climaemet}{\texttt{climaemet}}: permite importar datos climáticos proporcionados por la \href{https://opendata.aemet.es}{Agencia Estatal de Meteorología de España} (AEMET).
 \item
@@ -1644,8 +1677,7 @@ Algunas de ellas son:
 
 Muchos de los archivos de datos están en formato \href{https://www.unidata.ucar.edu/software/netcdf}{NetCDF} (\emph{Network Common Data Form}) y se pueden importar a R con el paquete \href{http://cirrus.ucsd.edu/~pierce/ncdf}{\texttt{ncdf4}}.
 
-\hypertarget{operaciones-geometrias}{%
-\subsection{Operaciones con geometrías}\label{operaciones-geometrias}}
+\subsection{Operaciones con geometrías}\label{operaciones-geometrias}
 
 Operaciones \href{https://r-spatial.github.io/sf/reference/geos_unary.html}{unarias} (operan sobre un único conjunto de geometrías simples, el primer argumento) con resultado geométrico:
 
@@ -1653,6 +1685,8 @@ Operaciones \href{https://r-spatial.github.io/sf/reference/geos_unary.html}{unar
 \tightlist
 \item
   \texttt{st\_geometry()}: devuelve (o establece) la columna \texttt{sfc} de un objeto \texttt{sf}.
+\item
+  \texttt{st\_drop\_geometry()}: elimina la geometría de un objeto \texttt{sf} (devuelve la tabla de datos).
 \item
   \texttt{st\_transform(x,\ crs,\ ...)}: transforma o convierte las coordenadas de \texttt{x} a un nuevo sistema de referencia.
 \item
@@ -1777,8 +1811,7 @@ El resultado de las operaciones lógicas es una matriz dispersa (de clase \textt
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{example}[Creación de una rejilla de predicción]
-\protect\hypertarget{exm:aquifer2}{}{\label{exm:aquifer2} \iffalse (Creación de una rejilla de predicción) \fi{} }
-Continuando con los datos del Ejercicio \ref{exr:aquifer1}, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones 50 por 50 e intersecarla con el buffer.
+\protect\hypertarget{exm:aquifer2}{}\label{exm:aquifer2}Continuando con los datos del Ejercicio \ref{exr:aquifer1}, para crear un objeto con las posiciones de predicción, podríamos generar un buffer (\texttt{st\_buffer()}) de radio 40 en torno a las posiciones de observación y a partir de él crear una rejilla vectorial (\texttt{st\_make\_grid(...,\ what\ =\ "centers")}) de dimensiones 50 por 50 e intersecarla con el buffer.
 \end{example}
 
 \begin{Shaded}
@@ -1843,8 +1876,7 @@ Sin embargo, en lugar de emplear una rejilla \texttt{sf}, puede resultar preferi
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{sp-eda}{%
-\section{Análisis exploratorio de datos espaciales}\label{sp-eda}}
+\section{Análisis exploratorio de datos espaciales}\label{sp-eda}
 
 Como se comentó en la Sección \ref{objetivos-esquema}, el primer paso para estimar las componentes del modelo, la tendencia \(\mu(\mathbf{s})\) y el semivariograma \(\gamma(\mathbf{h})\), es realizar un análisis exploratorio de los datos.
 
@@ -1948,15 +1980,13 @@ En este caso concreto parece que una tendencia lineal es adecuada.
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \begin{exercise}[Análisis exploratorio de la tendencia]
-\protect\hypertarget{exr:descriptiva}{}{\label{exr:descriptiva} \iffalse (Análisis exploratorio de la tendencia) \fi{} }
-Realizar un análisis exploratorio del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
+\protect\hypertarget{exr:descriptiva}{}\label{exr:descriptiva}Realizar un análisis exploratorio del conjunto de datos \texttt{s100} del paquete \texttt{geoR}
 (que contiene una simulación de un proceso espacial estacionario, sin tendencia;
 ver Sección \ref{vario-muestrales}).
 \end{exercise}
 
 \begin{exercise}[Análisis exploratorio con variables explicativas]
-\protect\hypertarget{exr:descriptiva2}{}{\label{exr:descriptiva2} \iffalse (Análisis exploratorio con variables explicativas) \fi{} }
-Realizar un análisis exploratorio del conjunto de datos \texttt{meuse\_sf} (almacenado en
+\protect\hypertarget{exr:descriptiva2}{}\label{exr:descriptiva2}Realizar un análisis exploratorio del conjunto de datos \texttt{meuse\_sf} (almacenado en
 el archivo \emph{st\_meuse.RData}; ver Figura \ref{fig:meuse-sf}) considerando como
 respuesta la concentración de zinc y como variables explicativas, además de las
 coordenadas espaciales, las variables que comparte con la rejilla \texttt{meuse\_grid}
@@ -1972,8 +2002,7 @@ Capítulo \ref{multivar}).
 
 Para el análisis exploratorio de la dependencia se suelen emplear las semivarianzas muestrales o los estimadores experimentales del variograma, como se describe en la Sección \ref{vario-muestrales}.
 
-\hypertarget{modelado}{%
-\chapter{Modelado de procesos geoestadísticos}\label{modelado}}
+\chapter{Modelado de procesos geoestadísticos}\label{modelado}
 
 Como se comentó en la Sección \ref{objetivos-esquema} la aproximación tradicional (paramétrica) para el modelado de un proceso geoestadístico, es decir, estimar la tendencia \(\mu(\mathbf{s})\) y el semivariograma \(\gamma(\mathbf{h})\), consiste en los siguientes pasos:
 
@@ -2022,8 +2051,7 @@ Otra alternativa sería asumir normalidad y estimar ambos componentes de forma c
 
 Finalmente, en el paso 3, para verificar si el modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (y para comparar modelos), se emplea normalmente la técnica de validación cruzada, descrita en la Sección \ref{validacion-cruzada} del siguiente capítulo (en el que también se describe los principales métodos empleados en el paso 4).
 
-\hypertarget{vario-muestrales}{%
-\section{Estimadores muestrales del semivariograma}\label{vario-muestrales}}
+\section{Estimadores muestrales del semivariograma}\label{vario-muestrales}
 
 Suponiendo que el proceso es intrísecamente estacionario, a partir de \eqref{eq:vario-est}, empleando el método de los momentos, se obtiene el denominado \emph{estimador empírico} (o clásico) del semivariograma (Matheron, 1962):
 \[\hat{\gamma}(\mathbf{h}) = \dfrac{1}{2\left| N(\mathbf{h})\right| }
@@ -2070,18 +2098,33 @@ Dependiendo de la elección de estos pesos obtenemos distintos estimadores:
 \item
   \(\omega_{ij}(r)=K\left( \frac{\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| -r}{h} \right)\), es el estimador Nadaraya-Watson (Hall et al., 1994).
 \item
-  \(\omega_{ij}(r)=K\left( \frac{\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| -r}{h} \right) \times\) \(\sum\limits_{k}\sum\limits_{l}K\left( \frac{\left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r}{h} \right) \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r\right) \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| \right)\) se obtiene el estimador lineal local del semivariograma (García-Soidán et al., 2003).
+  \(\omega_{ij}(r)=K\left( \frac{\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| -r}{h} \right) \times\) \(\sum\limits_{k}\sum\limits_{l}K\left( \frac{\left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r}{h} \right)   \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -r\right) \left( \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| -\left\| \mathbf{s}_{i} -\mathbf{s}_{j} \right\| \right)\) se obtiene el estimador lineal local del semivariograma (García-Soidán et al., 2003).
 \end{itemize}
 
-La función \href{https://r-spatial.github.io/gstat/reference/variogram.html}{\texttt{variogram()}} del paquete \texttt{gstat}:
+La función \href{https://r-spatial.github.io/gstat/reference/variogram.html}{\texttt{variogram()}} del paquete \texttt{gstat} permite calcular los estimadores muestrales del semivariograma (por defecto el estimador clásico asumiendo isotropía), además de muchas otras posibilidades.
+Habitualmente se emplea de la forma:
 
 \begin{verbatim}
-variogram(formula, locations = coordinates(data), data, cutoff, width = cutoff/15,
-          cressie = FALSE, cloud = FALSE, covariogram = FALSE, ...)
+variogram(formula, locations = coordinates(data), data, cutoff, 
+          width = cutoff/15, cressie = FALSE, cloud = FALSE, ...)
 \end{verbatim}
 
-permite obtener la nube de semivarianzas (\texttt{cloud\ =\ TRUE}) y las estimaciones
-empíricas o robustas (\texttt{cressie\ =\ TRUE}), además de otras posibilidades.
+\begin{itemize}
+\item
+  \texttt{formula}: especifica el modelo lineal de tendencia espacial. Si se asume un proceso estacionario sin tendencia será de la forma \texttt{respuesta\ \textasciitilde{}\ 1}. Si se especifica otro modelo, empleará los residuos del correspondiente ajuste OLS (ver Sección \ref{trend-fit}).
+\item
+  \texttt{cutoff}: máxima distancia considerada, por defecto 1/3 de la máxima distancia posible (en el rango de las observaciones).
+\item
+  \texttt{width}: amplitud de los intervalos (regiones de tolerancia) empleados para discretizar las distancias en el cálculo de los estimadores muestrales (si \texttt{cloud\ =\ FALSE}). Por defecto se establece de forma que el número de saltos es 15.
+\item
+  \texttt{cressie}: determina si se emplean las semivarianzas clásicas (por defecto) o robustas (\texttt{cressie\ =\ TRUE}).
+\item
+  \texttt{cloud}: determina si se calculan los estimadores muestrales (por defecto) o la nube de semivarianzas sin discretizar (\texttt{cloud\ =\ TRUE}) .
+\end{itemize}
+
+\emph{NOTA}: Si las coordenadas de los datos están proyectadas, \texttt{gstat} emplea la distancia euclídea (en la misma escala). En el caso de coordenadas geodésicas sin proyectar (latitud/longitud) emplea distancias ortodrómicas (longitud del arco del círculo máximo que une los puntos) en kilómetros.
+Hay que tener esto en cuenta para establecer \texttt{cutoff} o \texttt{width}.
+Además, si \texttt{width} es demasiado pequeño pueden aparecer problemas (por ejemplo al representar el estimador) si no hay semivarianzas muestrales en algún intervalo.
 
 En primer lugar emplearemos el conjunto de datos \texttt{s100} del paquete \texttt{geoR}, que contiene una simulación de un proceso espacial estacionario (sin tendencia).
 
@@ -2103,6 +2146,7 @@ En primer lugar emplearemos el conjunto de datos \texttt{s100} del paquete \text
 \CommentTok{\# Si se quiere tomar el 50\% del máximo salto (posible) cutoff = maxlag}
 \CommentTok{\# maxlag \textless{}{-} 0.5*sqrt(sum(diff(apply(s100$coord, 2, range))\^{}2)) }
 \CommentTok{\# maxlag \textless{}{-} 0.5*sqrt(sum(diff(matrix(st\_bbox(datos), nrow = 2, byrow = TRUE))\^{}2))}
+\CommentTok{\# Suponiendo que se trata de coordenadas proyectadas...}
 \FunctionTok{names}\NormalTok{(vario)}
 \end{Highlighting}
 \end{Shaded}
@@ -2226,16 +2270,14 @@ Estableciendo \texttt{model\ =\ "independent"} devuelve un p-valor para contrast
 
 También se puede realizar contrastes adicionales estableciendo el parámetro \texttt{model} a \texttt{"isotropic"} o \texttt{"stationary"}.
 
-\hypertarget{modelos-variog}{%
-\section{Modelos de semivariogramas}\label{modelos-variog}}
+\section{Modelos de semivariogramas}\label{modelos-variog}
 
 Los variogramas deben ser condicionalmente semidefinidos negativos, una propiedad que los estimadores tradicionales normalmente no poseen.
 Tradicionalmente esto se remedia ajustando un modelo paramétrico válido al estimador muestral (Sección \ref{ajuste-variog}).
 En la Sección \ref{modelos-parametricos} se presentan algunos de los modelos isotrópicos tradicionalmente utilizados en geoestadística.
 Estos modelos son empleados también en ciertos casos como estructuras básicas a partir de las cuales se construyen modelos más complejos, como modelos anisotrópicos (Sección \ref{anisotropia}) o los denominados modelos lineales de regionalización (Sección \ref{vario-lin-reg}).
 
-\hypertarget{modelos-parametricos}{%
-\subsection{Modelos paramétricos isotrópicos}\label{modelos-parametricos}}
+\subsection{Modelos paramétricos isotrópicos}\label{modelos-parametricos}
 
 A continuación se presentan algunos de los modelos isotrópicos de semivariograma más utilizados en geoestadística (una revisión más completa se tiene por ejemplo en Chilès y Delfiner, 1999, Sección 2.5.1).
 En la notación utilizada en las parametrizaciones \(c_0 \geq 0\) representa el efecto nugget, \(c_1 \geq 0\) el umbral parcial (en el caso de variogramas acotados, con \(\sigma^2= c_0 + c_1\)) y \(a>0\) el rango (si existe) o el parámetro de escala.
@@ -2250,8 +2292,7 @@ estos semivariogramas.
   \begin{array}{ll}
   0 & \text{si} \left\| \mathbf{h}\right\| =0 \\
   c_0 +c_1 \left\{ \dfrac{3}{2} \dfrac{\left\| \mathbf{h}\right\| }{a}
-  -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)
-  3\right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
+  -\dfrac{1}{2} \left( \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^3 \right\}  & \text{si} 0<\left\| \mathbf{h}\right\| \leq a \\
   c_0 +c_1  & \text{si} \left\| \mathbf{h}\right\| >a
   \end{array}
   \right.\]
@@ -2323,7 +2364,7 @@ estos semivariogramas.
   \[\gamma(\mathbf{h}\left| \boldsymbol{\theta}\right. )\ =\ \left\{ 
   \begin{array}{ll}
   0 & \text{si}\  \mathbf{h}=\mathbf{0} \\
-  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \gamma(\nu )} \left(
+  c_0 + c_1 \left( 1-\dfrac{1}{2^{\nu -1} \Gamma(\nu )} \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right)^{\nu } K_{\nu } \left(
   \dfrac{\left\| \mathbf{h}\right\| }{a} \right) \right)  & \text{si}\ 
   \mathbf{h}\neq \mathbf{0}
@@ -2452,8 +2493,7 @@ La función \texttt{show.vgms()} genera gráficos con los distintos modelos (por
 \caption{Ejemplo de modelo exponencial.}\label{fig:vgm-exp}
 \end{figure}
 
-\hypertarget{anisotropia}{%
-\subsection{Modelado de anisotropía}\label{anisotropia}}
+\subsection{Modelado de anisotropía}\label{anisotropia}
 
 La hipótesis de isotropía simplifica notablemente el modelado de la dependencia espacial por lo que la mayoría de los modelos (básicos) de semivariogramas considerados en geoestadística son isotrópicos (Sección \ref{modelos-parametricos}).
 Sin embargo, en muchos casos no se puede asumir que la dependencia es igual en cualquier dirección (uno de los ejemplos más claros es el caso espacio-temporal, donde en principio no es razonable pensar que un salto espacial es equivalente a un salto temporal).
@@ -2552,8 +2592,7 @@ Por ejemplo, un covariograma completamente separable en \(\mathbb{R}^2\) es de l
 En este caso se puede pensar que el proceso espacial se obtiene como producto de procesos unidimensionales independientes definidos sobre cada uno de los ejes de coordenadas.
 Este tipo de modelos se utilizan habitualmente en geoestadística espacio-temporal (aunque no permiten modelar interacciones).
 
-\hypertarget{vario-lin-reg}{%
-\subsection{El modelo lineal de regionalización}\label{vario-lin-reg}}
+\subsection{El modelo lineal de regionalización}\label{vario-lin-reg}
 
 A partir de las propiedades 1 y 2 del semivariograma mostradas en la Sección \ref{propiedades-elementales}, se obtienen los denominados \emph{modelos lineales de regionalización} (también \emph{modelos anidados} o \emph{nested models}):
 \[\gamma(\mathbf{h}) = \sum\limits_{k=0}^{q}b_{k} \gamma_{k}(\mathbf{h}),\]
@@ -2599,8 +2638,7 @@ En \texttt{gstat} se pueden definir modelos de este tipo empleando el parámetro
 
 \begin{center}\includegraphics[width=0.7\linewidth]{03-modelado_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
-\hypertarget{ajuste-variog}{%
-\section{Ajuste de un modelo válido}\label{ajuste-variog}}
+\section{Ajuste de un modelo válido}\label{ajuste-variog}
 
 Como ya se comentó anteriormente, en general los estimadores del variograma no pueden ser usados directamente en la predicción espacial;
 no son condicionalmente semidefinidos negativos y eso puede causar por ejemplo sistemas kriging inválidos o estimaciones negativas de la varianza kriging.
@@ -2609,8 +2647,7 @@ Supongamos que \(P=\left\{ 2\gamma(\mathbf{h};\boldsymbol{\theta}):\boldsymbol{\
 Se trata de encontrar el mejor elemento de \(P\), para lo que se han propuesto diversos criterios de bondad de ajuste (ver e.g.~Cressie, 1993, Sección 2.6).
 Entre ellos hay que destacar los basados en mínimos cuadrados y en máxima verosimilitud, descritos a continuación.
 
-\hypertarget{ls-fit}{%
-\subsection{Estimación por mínimos cuadrados}\label{ls-fit}}
+\subsection{Estimación por mínimos cuadrados}\label{ls-fit}
 
 Supongamos que \(2\gamma(\mathbf{h};\boldsymbol{\theta}_0)\) es el variograma teórico y que \(\hat{\gamma}_{i} =\hat{\gamma}(\mathbf{h}_{i})\), \(i = 1,\ldots,K\), son las estimaciones del semivariograma obtenidas utilizando algún tipo de estimador piloto (e.g.~alguno de los mostrados en la Sección 4.1.1).
 Normalmente, siguiendo las recomendaciones sugeridas por Journel y Huijbregts (1978, p.~194), solamente se consideran en el ajuste saltos menores o iguales que la mitad del máximo salto (i.e.~\(\left\| \mathbf{h}_{i} \right\| \leq \frac{1}{2} \max \left\{ \left\| \mathbf{s}_{k} -\mathbf{s}_{l} \right\| \right\}\)); y, si se utiliza el estimador empírico (o uno similar), de forma que el número de aportaciones a cada estimación sea por lo menos de treinta (i.e.~\(\left| N(\mathbf{h}_{i})\right| \geq 30\)).
@@ -2619,7 +2656,8 @@ Habitualmente (e.g.~Cressie, 1993, p.~96-97) la estimación por mínimos cuadrad
   \left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right)^{\top } \mathbf{V}(\boldsymbol{\theta})\left( \hat{\boldsymbol{\gamma}} - \boldsymbol{\gamma}(\boldsymbol{\theta})\right),
   \label{eq:ls-obj}
 \end{equation}
-siendo \(\hat{\boldsymbol{\gamma}} =(\hat{\gamma}(\mathbf{h}_1),\ldots,\hat{\gamma} (\mathbf{h}_{K}))^\top\), \(\boldsymbol{\gamma}(\boldsymbol{\theta})=(\gamma(\mathbf{h}_1 ;\boldsymbol{\theta}),\ldots,\gamma(\mathbf{h}_{K} ;\boldsymbol{\theta}))^\top\)
+siendo \(\hat{\boldsymbol{\gamma}} =(\hat{\gamma}(\mathbf{h}_1),\ldots,\hat{\gamma}
+(\mathbf{h}_{K}))^\top\), \(\boldsymbol{\gamma}(\boldsymbol{\theta})=(\gamma(\mathbf{h}_1 ;\boldsymbol{\theta}),\ldots,\gamma(\mathbf{h}_{K} ;\boldsymbol{\theta}))^\top\)
 y \(\mathbf{V}(\boldsymbol{\theta})\) una matriz \(K\times K\) semidefinida positiva que puede
 depender de \(\boldsymbol{\theta}\), considerando alguno de los siguientes casos:
 
@@ -2719,8 +2757,8 @@ Como ejemplo, a continuación se ajusta un modelo exponencial al variograma emp�
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in fit.variogram(vario, model = fit.ols, fit.method = 1): No convergence
-## after 200 iterations: try different initial values?
+## Warning in fit.variogram(vario, model = fit.ols, fit.method = 1): No
+## convergence after 200 iterations: try different initial values?
 \end{verbatim}
 
 \begin{Shaded}
@@ -2811,8 +2849,7 @@ Sin embargo, actualmente solo admite datos tipo \texttt{Spatial*} del paquete \t
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{trend-fit}{%
-\subsection{Modelado del variograma en procesos no estacionarios}\label{trend-fit}}
+\subsection{Modelado del variograma en procesos no estacionarios}\label{trend-fit}
 
 Como ya se comentó en la introducción de este capítulo, si no se puede asumir que la tendencia es constante no es apropiado utilizar directamente los estimadores del semivariograma mostrados en la Sección \ref{vario-muestrales}.
 Por ejemplo, considerando el modelo lineal \eqref{eq:modelolineal} de la Sección \ref{modelos-clasicos-espaciales} (el modelo del \emph{kriging universal}, Sección \ref{kuniversal}; que emplearemos en el resto de este capítulo), tendríamos que:
@@ -2954,8 +2991,7 @@ Adicionalmente se han propuesto alternativas a los métodos de ajuste basados en
 
 Otra alternativa sería asumir normalidad y estimar ambos componentes de forma conjunta empleando alguno de los métodos basados en máxima verosimilitud descritos en la siguiente sección (que también tienen problemas de sesgo).
 
-\hypertarget{ml-fit}{%
-\subsection{Estimación por máxima verosimilitud}\label{ml-fit}}
+\subsection{Estimación por máxima verosimilitud}\label{ml-fit}
 
 La estimación por máxima verosimilitud (\emph{maximum likelihood}, ML) es un método muy conocido en inferencia estadística paramétrica, aunque su uso en geoestadística ha sido relativamente reciente (a partir de mediados de los 80).
 Además la estimación ML tiene una conexión directa con la estimación Bayesiana (e.g.~Handcock y Wallis, 1994) y el empleo de estas herramientas en estadística espacial ha experimentado un notable aumento en los últimos años (e.g.~\href{https://spacetimewithr.org/}{Wikle et al., 2019}; \href{https://www.paulamoraga.com/book-geospatial/}{Moraga, 2020}).
@@ -3126,8 +3162,7 @@ Como aparece en la ayuda de esta función, es preferible usar el paquete \texttt
 ## 2   Sph 4.544502 79.16084
 \end{verbatim}
 
-\hypertarget{comentarios-sobre-los-distintos-muxe9todos}{%
-\section{Comentarios sobre los distintos métodos}\label{comentarios-sobre-los-distintos-muxe9todos}}
+\section{Comentarios sobre los distintos métodos}\label{comentarios-sobre-los-distintos-muxe9todos}
 
 Podemos afirmar que los métodos de estimación basados en mínimos cuadrados son los utilizados con mayor frecuencia en geoestadística.
 Por el contrario la estimación por máxima verosimilitud ha sido objeto de debate, con numerosos comentarios en la literatura a favor (e.g.~Pardo-Igúzquiza, 1998) y en contra (e.g.~Ripley, 1988) de este tipo de métodos.
@@ -3154,14 +3189,12 @@ En este caso los métodos de mínimos cuadrados serán claramente preferibles a 
 Para comparar el ajuste obtenido con distintos modelos se pueden considerar los correspondientes valores finales de la función objetivo utilizada; por ejemplo los valores WLS (o GLS) correspondientes a su ajuste al estimador piloto o los valores del NLL si se utiliza alguno de los métodos de máxima verosimilitud (en este caso también se pueden emplear criterios para la selección de modelos que tengan en cuenta el número de parámetros, como AIC -\emph{Aikaike Information Criterion}- o BIC -\emph{Bayesian Information Criterion}).
 Sin embargo en muchas ocasiones el objetivo final es la predicción, por lo que se suele utilizar la técnica de validación cruzada descrita en la Sección \ref{validacion-cruzada}.
 
-\hypertarget{kriging}{%
-\chapter{Predicción Kriging}\label{kriging}}
+\chapter{Predicción Kriging}\label{kriging}
 
 En este capítulo se comentan brevemente los métodos más conocidos de predicción espacial denominados métodos kriging\footnote{Podríamos definir los métodos kriging como algoritmos de predicción de mínimo error en media cuadrática que tienen en cuenta la estructura de segundo orden del proceso} (ver Sección \ref{geoestadistica} para un resumen del origen de esta terminología), centrándonos únicamente en el caso de predicción lineal puntual univariante (el caso multivariante se trata en el Capítulo \ref{multivar}).
 Una revisión más completa de estos métodos se tiene por ejemplo en Cressie (1993, Capítulo 3 y secciones 5.1, 5.4 y 5.9.1) o Chilès y Delfiner (2012, capítulos 3, 4 y 6).
 
-\hypertarget{introduccion}{%
-\section{Introducción}\label{introduccion}}
+\section{Introducción}\label{introduccion}
 
 Si denotamos por \(\mathbf{Z}=\left( Z(\mathbf{s}_{1}), \ldots, z(\mathbf{s}_{n} )\right)^\top\) valores observados del proceso, los distintos métodos kriging proporcionan un predictor \(p(\mathbf{Z},\mathbf{s}_{0})\) de \(Z(\mathbf{s}_{0})\) verificando que:
 
@@ -3206,8 +3239,7 @@ Por tanto en las expresiones de las ecuaciones de los distintos métodos kriging
 \[2\gamma(\mathbf{s}_{1}, \mathbf{s}_{2}) = Var(Z(\mathbf{s}_{1}) - Z(\mathbf{s}_{2})),\]
 en lugar de suponer que son funciones de \(\mathbf{s}_{1}-\mathbf{s}_{2}\).
 
-\hypertarget{ksimple}{%
-\section{Kriging con media conocida: kriging simple}\label{ksimple}}
+\section{Kriging con media conocida: kriging simple}\label{ksimple}
 
 Supongamos que el proceso \(Z(\cdot)\) admite una descomposición de la forma:
 \[Z(\mathbf{s})=\mu(\mathbf{s})+\varepsilon(\mathbf{s}),\]
@@ -3253,8 +3285,7 @@ En la práctica suele interesar la predicción en múltiples posiciones.
 Teniendo en cuenta que la matriz del sistema no depende de la posición
 de predicción\footnote{Además, tanto los pesos kriging como la varianza kriging no dependen de los datos observados, solamente de las posiciones y del covariograma (lo que por ejemplo, entre otras cosas, facilita el diseño de la configuración espacial de muestreo).}, el procedimiento recomendado sería calcular la factorización Cholesky de la matriz \(\boldsymbol{\Sigma}\) y posteriormente emplear esta factorización para resolver el sistema en cada posición de predicción \(\mathbf{s}_{0}\).
 
-\hypertarget{kuniversal}{%
-\section{Kriging con media desconocida: kriging universal y kriging residual}\label{kuniversal}}
+\section{Kriging con media desconocida: kriging universal y kriging residual}\label{kuniversal}
 
 Como ya se comentó, el kriging universal se basa en el siguiente modelo:
 \[Z(\mathbf{s}) = \sum\limits_{j=0}^{p}X_{j}(\mathbf{s})\beta_{j} + \varepsilon(\mathbf{s}),\]
@@ -3336,8 +3367,7 @@ En el caso particular del kriging ordinario (\(p=0\)), la expresión de la varia
 \[\sigma_{KO}^{2} (\mathbf{s}_{0})=\sum\limits_{i=1}^{n}\lambda_{i} 
 \gamma(\mathbf{s}_{0},\mathbf{s}_{i})+m_{0}.\]
 
-\hypertarget{ku-covariograma}{%
-\subsection{Ecuaciones en función del covariograma}\label{ku-covariograma}}
+\subsection{Ecuaciones en función del covariograma}\label{ku-covariograma}
 
 Cuando existe el covariograma \(C(\mathbf{s}_{1},\mathbf{s}_{2}) = Cov(\varepsilon(\mathbf{s}_{1}), \varepsilon(\mathbf{s}_{2}))\) del proceso \(\varepsilon(\cdot)\) y es conocido (una suposición más fuerte), podemos expresar las ecuaciones del kriging universal (o del KO) en función de \(C(\cdot,\cdot)\).
 Además, si ninguna de las funciones explicativas es idénticamente 1, las ecuaciones del kriging universal sólo pueden expresarse en función del covariograma.
@@ -3369,8 +3399,7 @@ y la varianza kriging es:
 Muchos de los algoritmos utilizados para la solución de los sistema kriging están diseñados y optimizados para covariogramas (e.g.~Chilès y Delfiner, 2012, p.~170).
 En el caso de variogramas no acotados se podrían emplear pseudo-covarianzas (ver Sección \ref{trend-fit}).
 
-\hypertarget{kriging-residual}{%
-\subsection{Kriging residual}\label{kriging-residual}}
+\subsection{Kriging residual}\label{kriging-residual}
 
 Otra forma, que puede ser más interesante, de obtener las ecuaciones del KU es a partir del predictor del kriging simple.
 Suponiendo que \(\boldsymbol{\beta}\) es conocido en el modelo del KU, el predictor del kriging simple es:
@@ -3397,8 +3426,7 @@ Estas expresiones son conocidas como la relación de aditividad entre el KS y el
 Los resultados anteriores permiten pensar en la predicción lineal con media desconocida como un proceso de dos etapas: en la primera estimar la media desconocida, y en la segunda realizar la predicción lineal óptima con media supuestamente conocida.
 En el caso de una tendencia lineal obtenemos el predictor de KU, mientras que en el caso general se obtiene el denominado predictor del \emph{kriging residual} (o \emph{kriging con tendencia externa}).
 
-\hypertarget{kriging-gstat}{%
-\section{\texorpdfstring{Kriging con el paquete \textbf{gstat}}{Kriging con el paquete gstat}}\label{kriging-gstat}}
+\section{\texorpdfstring{Kriging con el paquete \textbf{gstat}}{Kriging con el paquete gstat}}\label{kriging-gstat}
 
 Los métodos kriging (KS, KO y KU) están implementados en la función \texttt{krige()} del paquete \texttt{gstat}.
 Normalmente la sintaxis empleada es:
@@ -3527,12 +3555,12 @@ Aparentemente hay un \textbf{\emph{ERROR en krige()}} y cambia las coordenadas d
 
 \begin{verbatim}
 ##        x                 y         
-##  Min.   :-181.86   Min.   : 53.83  
-##  1st Qu.:-100.73   1st Qu.:115.11  
-##  Median : -16.22   Median :178.95  
-##  Mean   : -16.22   Mean   :178.95  
-##  3rd Qu.:  68.29   3rd Qu.:242.79  
-##  Max.   : 149.42   Max.   :304.08
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21
 \end{verbatim}
 
 Para evitar este problema podemos añadir los resultado al objeto \texttt{grid} y emplearlo en lugar de \texttt{pred}:
@@ -3582,11 +3610,10 @@ También podríamos emplear el paquete \texttt{ggplot2}:
 
 \begin{center}\includegraphics[width=1\linewidth]{04-kriging_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
-\hypertarget{consideraciones-kriging}{%
-\section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}}
+\section{Consideraciones acerca de los métodos kriging}\label{consideraciones-kriging}
 
 Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado (BLUP, \emph{best linear unbiased predictor}).
-Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging.
+Como es bien sabido, en el caso de normalidad el predictor insesgado óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging.
 Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g.~Rivoirard, 1994) y del kriging trans-normal (ver Sección \ref{kriging-trans-normal}).
 
 En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
@@ -3601,8 +3628,7 @@ En general, por ejemplo si el proceso es normal, es de esperar que subestime la 
 Para más detalles sobre este problema, ver por ejemplo Cressie (1993, Sección 5.3), Christensen (1991, Sección 6.5), Stein (1999, Sección 6.8) o Chilès y Delfiner (2012, Sección 3.4.3).
 En la Sección \ref{validacion-cruzada} se sugiere una posible corrección de la varianza kriging a partir del método de validación cruzada.
 
-\hypertarget{kriging-interpolador}{%
-\subsection{Kriging como interpolador}\label{kriging-interpolador}}
+\subsection{Kriging como interpolador}\label{kriging-interpolador}
 
 Las ecuaciones kriging tienen en cuenta varios aspectos del problema de interpolación\footnote{Para un tratamiento más detallado ver por ejemplo Chilès y Delfiner (2012), secciones 3.3.2 y 3.4.2.}:
 
@@ -3632,8 +3658,7 @@ Esto que en principio puede ser una propiedad muy interesante puede conducir a r
 Para solucionar estos problemas se han propuesto numerosas alternativas, entre ellas la inclusión de restricciones adicionales sobre los pesos de forma que sean positivos (e.g.~Chilès y Delfiner, 2012, Sección 3.9.1) (lo cual puede dar lugar a un incremento considerable del MSPE de predicción) o sobre el predictor (ver p.e. Goovaerts, 1997, Sección 7.4.2).
 Otra alternativa que puede ser preferible es la transformación del proceso \(Z(\cdot)\) a otra escala (de forma que se aproxime a la normalidad), realizar la predicción kriging del proceso transformado y volver a la escala original (pero asegurándose de que al hacer la transformación inversa el resultado tenga las propiedades de optimalidad deseadas); más detalles sobre este procedimiento se tienen en la Sección \ref{kriging-trans-normal}.
 
-\hypertarget{efecto-variog-kriging}{%
-\subsection{Efecto del variograma (covariograma) en el kriging}\label{efecto-variog-kriging}}
+\subsection{Efecto del variograma (covariograma) en el kriging}\label{efecto-variog-kriging}
 
 El variograma (o el covariograma) tiene un efecto determinante en la predicción espacial.
 Como ejemplo, a continuación se incluyen algunas observaciones acerca de la influencia en el kriging de las tres principales características de un variograma estacionario (normalmente tratadas como parámetros) definidas en la Sección \ref{procesos-estacionarios}.
@@ -3668,8 +3693,7 @@ Teniendo en cuenta los comentarios anteriores, podemos afirmar que todos los par
 Estas observaciones no contradicen el resultado de que asintóticamente lo importante es capturar el comportamiento del variograma cerca del origen (Stein, 1988).
 Es difícil determinar cuando los datos están suficientemente cerca como para tener sólo en cuenta el efecto nugget y la pendiente del variograma cerca del origen.
 
-\hypertarget{eleccion-vecindario}{%
-\subsection{Elección del vecindario}\label{eleccion-vecindario}}
+\subsection{Elección del vecindario}\label{eleccion-vecindario}
 
 Una práctica habitual en geoestadística, en lugar de considerar todas las observaciones disponibles, es incluir en las ecuaciones kriging únicamente los \(n(\mathbf{s}_{0})\) datos más ``próximos'' a la posición de predicción \(\mathbf{s}_{0}\) .
 Esto puede justificarse por varias razones:
@@ -3712,8 +3736,7 @@ Adicionalmente, cuando el número de datos es grande y sus posiciones irregulare
 
 Independientemente del algoritmo de búsqueda que se vaya a utilizar, puede ser recomendable realizar antes algunas pruebas utilizando por ejemplo la técnica de validación cruzada descrita a continuación.
 
-\hypertarget{validacion-cruzada}{%
-\section{Validación cruzada del modelo ajustado}\label{validacion-cruzada}}
+\section{Validación cruzada del modelo ajustado}\label{validacion-cruzada}
 
 El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver e.g.~Cressie, 1993, Sección 2.6.4).
 Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
@@ -3775,7 +3798,7 @@ Como ya se comentó, la función \texttt{krige.cv()} emplea LOOCV por defecto y 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.79    0.09    0.90
+##    0.47    0.01    0.50
 \end{verbatim}
 
 \begin{Shaded}
@@ -3810,7 +3833,7 @@ Si el número de observaciones es grande puede ser preferible emplear k-fold CV 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.11    0.00    0.11
+##    0.06    0.00    0.06
 \end{verbatim}
 
 Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):
@@ -3927,19 +3950,16 @@ Además de los gráficos estándar para analizar la distribución de los residuo
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{otros-muxe9todos-kriging}{%
-\section{Otros métodos kriging}\label{otros-muxe9todos-kriging}}
+\section{Otros métodos kriging}\label{otros-muxe9todos-kriging}
 
-\hypertarget{block-kriging}{%
-\subsection{Block kriging}\label{block-kriging}}
+\subsection{Block kriging}\label{block-kriging}
 
 Aunque en los métodos kriging descritos anteriormente se asumía que el soporte era puntual, serían igualmente válidos para el caso de distintos soportes.
 Simplemente habría que sustituir las semivarianzas (o covarianzas) puntuales por las del proceso agregado \(Var\left( Z(B_1)-Z(B_2)\right)\) (ver Sección \ref{procesos-agregados}).
 
 La función \texttt{krige()} del paquete \texttt{gtsat} empleará este método de forma automática cuando la geometría del argumento \texttt{newdata} sean polígonos (incluyendo datos raster).
 
-\hypertarget{kriging-trans-normal}{%
-\subsection{Kriging trans-normal}\label{kriging-trans-normal}}
+\subsection{Kriging trans-normal}\label{kriging-trans-normal}
 
 Como se comentó en la Sección \ref{consideraciones-kriging}, en el caso de normalidad el predictor óptimo \(E\left( \left. Z(\mathbf{s}_{0})\right| \mathbf{Z}\right)\) de \(Z(\mathbf{s}_{0})\) es lineal y coincide con los predictores kriging.
 Pero si el proceso no es normal este predictor puede ser altamente no lineal, en esos casos la transformación del proceso \(Z(\cdot)\) a otra escala puede producir que se aproxime a la normalidad.
@@ -3989,8 +4009,7 @@ que en el caso del KS se aproxima al predictor óptimo \(E\left( \left. Z(\mathb
 Como aproximación de la varianza kriging de este predictor se puede utilizar:
 \[\sigma_{KT}^{2}(\mathbf{s}_{0}) = \sigma_{K}^{2}(\mathbf{s}_{0}) \phi^{\prime} (p_{K}(\mathbf{Y},\mathbf{s}_{0})).\]
 
-\hypertarget{multivar}{%
-\chapter{Procesos espaciales multivariantes}\label{multivar}}
+\chapter{Procesos espaciales multivariantes}\label{multivar}
 
 \textbf{\emph{En preparación\ldots{}}}
 
@@ -3999,8 +4018,7 @@ son \(k\) procesos espaciales univariantes (y que se suponen en principio interd
 \[\mathbf{Z}(\mathbf{s})=(Z_{1}(\mathbf{s}), \ldots, Z_{k}(\mathbf{s}))^\top\]
 lo denominaremos proceso espacial multivariante (también se denomina proceso espacial vectorial, campo vectorial espacial o vector regionalizado).
 
-\hypertarget{esp-temp}{%
-\chapter{Procesos espacio-temporales}\label{esp-temp}}
+\chapter{Procesos espacio-temporales}\label{esp-temp}
 
 \textbf{\emph{En preparación\ldots{}}}
 
@@ -4029,19 +4047,16 @@ predicción en todas las posiciones espacio-temporales sin algún tipo de
 modelado adicional. Por ejemplo, utilizando la representación y los métodos geoestadísticos de predicción espacial multivariante, se pueden obtener en principio superficies de predicción solamente en los k instantes temporales \(t_{i} ,\  i=1, \ldots, k\),
 y no es posible la interpolación temporal sin modelado adicional (ver Sección 5.3.5).
 
-\hypertarget{appendix-apendices}{%
-\appendix}
+\appendix
 
 
-\hypertarget{intro-sp}{%
-\chapter{\texorpdfstring{Introducción al paquete \textbf{sp}}{Introducción al paquete sp}}\label{intro-sp}}
+\chapter{\texorpdfstring{Introducción al paquete \textbf{sp}}{Introducción al paquete sp}}\label{intro-sp}
 
-El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; \protect\hyperlink{ref-Pebesma2005}{E. J. Pebesma y Bivand} (\protect\hyperlink{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales.
+El paquete \href{https://CRAN.R-project.org/package=sp}{\texttt{sp}} {[}Classes and methods for spatial data; E. J. Pebesma y Bivand (\citeproc{ref-Pebesma2005}{2005}){]} implementa objetos y métodos para datos espaciales.
 En este apéndice se incluyen algunos ejemplos que pueden servir como introducción a las herramientas implementadas en este paquete.
-Para más detalles ver \protect\hyperlink{ref-Bivand2013}{Bivand et~al.} (\protect\hyperlink{ref-Bivand2013}{2013}), consular las viñetas \href{https://cran.r-project.org/web/packages/sp/vignettes/intro_sp.pdf}{sp: classes and methods for spatial data} y \href{https://edzer.github.io/sp}{Plotting maps with sp} o la \href{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}{chuleta}.
+Para más detalles ver Bivand et~al. (\citeproc{ref-Bivand2013}{2013}), consular las viñetas \href{https://cran.r-project.org/web/packages/sp/vignettes/intro_sp.pdf}{sp: classes and methods for spatial data} y \href{https://edzer.github.io/sp}{Plotting maps with sp} o la \href{https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html}{chuleta}.
 
-\hypertarget{tipos-de-objetos}{%
-\section{Tipos de objetos}\label{tipos-de-objetos}}
+\section{Tipos de objetos}\label{tipos-de-objetos}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4171,8 +4186,7 @@ los componentes:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{spatialpoints-y-spatialpointsdataframe}{%
-\subsection{SpatialPoints y SpatialPointsDataFrame}\label{spatialpoints-y-spatialpointsdataframe}}
+\subsection{SpatialPoints y SpatialPointsDataFrame}\label{spatialpoints-y-spatialpointsdataframe}
 
 \begin{itemize}
 \item
@@ -4196,8 +4210,7 @@ los componentes:
   \end{itemize}
 \end{itemize}
 
-\hypertarget{ejemplo-spatialpoints}{%
-\subsubsection{Ejemplo SpatialPoints}\label{ejemplo-spatialpoints}}
+\subsubsection{Ejemplo SpatialPoints}\label{ejemplo-spatialpoints}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4269,7 +4282,7 @@ los componentes:
 ##   .. .. ..$ : chr [1:2] "min" "max"
 ##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
 ##   .. .. ..@ projargs: chr "+proj=longlat +ellps=WGS84 +no_defs"
-##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,298"| __truncated__
+##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS 84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,29"| __truncated__
 \end{verbatim}
 
 Hay muchos métodos (funciones genéricas) implementados para objetos \texttt{sp}:
@@ -4283,8 +4296,7 @@ Hay muchos métodos (funciones genéricas) implementados para objetos \texttt{sp
 
 \begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
-\hypertarget{ejemplo-spatialpointsdataframe}{%
-\subsubsection{Ejemplo SpatialPointsDataFrame}\label{ejemplo-spatialpointsdataframe}}
+\subsubsection{Ejemplo SpatialPointsDataFrame}\label{ejemplo-spatialpointsdataframe}
 
 Importante (para preparar datos):
 
@@ -4319,7 +4331,7 @@ Importante (para preparar datos):
 ##   .. .. ..$ : chr [1:2] "min" "max"
 ##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
 ##   .. .. ..@ projargs: chr "+proj=longlat +ellps=WGS84 +no_defs"
-##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,298"| __truncated__
+##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS 84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,29"| __truncated__
 \end{verbatim}
 
 Una alernativa normalmente preferible es modificar directamente
@@ -4358,7 +4370,7 @@ el \texttt{data.frame}:
 ##   .. .. ..$ : chr [1:2] "min" "max"
 ##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
 ##   .. .. ..@ projargs: chr "+proj=longlat +ellps=WGS84 +no_defs"
-##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,298"| __truncated__
+##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"Unknown based on WGS 84 ellipsoid\",\n        ELLIPSOID[\"WGS 84\",6378137,29"| __truncated__
 \end{verbatim}
 
 Operaciones como en un \texttt{data.frame}.
@@ -4472,8 +4484,7 @@ Importante (para análisis descriptivo):
 
 \begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-11-3} \end{center}
 
-\hypertarget{spatiallines-y-spatialpolygons}{%
-\subsection{SpatialLines y SpatialPolygons}\label{spatiallines-y-spatialpolygons}}
+\subsection{SpatialLines y SpatialPolygons}\label{spatiallines-y-spatialpolygons}
 
 \begin{itemize}
 \item
@@ -4513,11 +4524,12 @@ Importante (para análisis descriptivo):
   \end{itemize}
 \end{itemize}
 
-\hypertarget{ejemplo-spatiallines}{%
-\subsubsection{Ejemplo SpatialLines}\label{ejemplo-spatiallines}}
+\subsubsection{Ejemplo SpatialLines}\label{ejemplo-spatiallines}
 
 El fichero \emph{costa.galicia.txt} contiene la costa de Galicia en formato Mapgen.
 Descargada del (difunto) \href{http://www.ngdc.noaa.gov/mgg/shorelines/shorelines.html}{Coastline Extractor}
+
+\textbf{El siguiente código no se evalúa, ya que el paquete \texttt{maptools} se archivó por petición del creador del paquete}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4526,30 +4538,13 @@ Descargada del (difunto) \href{http://www.ngdc.noaa.gov/mgg/shorelines/shoreline
 \NormalTok{costa.galicia }\OtherTok{\textless{}{-}} \FunctionTok{MapGen2SL}\NormalTok{(}\StringTok{"datos/costa.galicia.txt"}\NormalTok{, }\FunctionTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +ellps=WGS84"}\NormalTok{))}
 
 \FunctionTok{summary}\NormalTok{(costa.galicia)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Object of class SpatialLines
-## Coordinates:
-##         min       max
-## x -9.305495 -6.500147
-## y 41.500846 43.791944
-## Is projected: FALSE 
-## proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{plot}\NormalTok{(sdf, }\AttributeTok{axes=}\ConstantTok{TRUE}\NormalTok{)}
 \FunctionTok{plot}\NormalTok{(costa.galicia, }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-12-1} \end{center}
-
-\hypertarget{ejemplo-spatialpolygonsdataframe}{%
-\subsubsection{Ejemplo SpatialPolygonsDataFrame}\label{ejemplo-spatialpolygonsdataframe}}
+\subsubsection{Ejemplo SpatialPolygonsDataFrame}\label{ejemplo-spatialpolygonsdataframe}
 
 Los objetos de este tipo se suelen crear a partir de objetos \texttt{SpatialLines},
 pero hay que asegurarse de que definen adecuadamente un polígono.
@@ -4681,8 +4676,7 @@ Es preferible emplear este tipo de objetos a \texttt{SpatialLines}:
 
 \begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
-\hypertarget{spatialgrid-y-spatialpixels}{%
-\subsection{SpatialGrid y SpatialPixels}\label{spatialgrid-y-spatialpixels}}
+\subsection{SpatialGrid y SpatialPixels}\label{spatialgrid-y-spatialpixels}
 
 Es habitual trabajar con datos espaciales en formato
 rejilla (grid) (e.g.~predicciones en geoestadística):
@@ -4711,8 +4705,7 @@ rejilla (grid) (e.g.~predicciones en geoestadística):
   \end{itemize}
 \end{itemize}
 
-\hypertarget{ejemplo-spatialgrid}{%
-\subsubsection{Ejemplo SpatialGrid}\label{ejemplo-spatialgrid}}
+\subsubsection{Ejemplo SpatialGrid}\label{ejemplo-spatialgrid}
 
 Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 
@@ -4744,8 +4737,8 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 ##   .. .. ..$ : NULL
 ##   .. .. ..$ : chr [1:2] "min" "max"
 ##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
-##   .. .. ..@ projargs: chr "+proj=longlat +datum=WGS84 +no_defs"
-##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.25722"| __truncated__
+##   .. .. ..@ projargs: chr "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs"
+##   .. .. ..$ comment: chr "BOUNDCRS[\n    SOURCECRS[\n        GEOGCRS[\"unknown\",\n            DATUM[\"World Geodetic System 1984\",\n   "| __truncated__
 \end{verbatim}
 
 \begin{Shaded}
@@ -4757,8 +4750,7 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 
 \begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
-\hypertarget{ejemplo-spatialpixels}{%
-\subsubsection{Ejemplo SpatialPixels}\label{ejemplo-spatialpixels}}
+\subsubsection{Ejemplo SpatialPixels}\label{ejemplo-spatialpixels}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4786,8 +4778,8 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 ##   .. .. ..$ : chr [1:2] "s1" "s2"
 ##   .. .. ..$ : chr [1:2] "min" "max"
 ##   ..@ proj4string:Formal class 'CRS' [package "sp"] with 1 slot
-##   .. .. ..@ projargs: chr "+proj=longlat +datum=WGS84 +no_defs"
-##   .. .. ..$ comment: chr "GEOGCRS[\"unknown\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.25722"| __truncated__
+##   .. .. ..@ projargs: chr "+proj=longlat +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +no_defs"
+##   .. .. ..$ comment: chr "BOUNDCRS[\n    SOURCECRS[\n        GEOGCRS[\"unknown\",\n            DATUM[\"World Geodetic System 1984\",\n   "| __truncated__
 \end{verbatim}
 
 \begin{Shaded}
@@ -4807,7 +4799,7 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 \end{Shaded}
 
 \begin{verbatim}
-## 4040 bytes
+## 5192 bytes
 \end{verbatim}
 
 \begin{Shaded}
@@ -4817,7 +4809,7 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 \end{Shaded}
 
 \begin{verbatim}
-## 117680 bytes
+## 118832 bytes
 \end{verbatim}
 
 \begin{Shaded}
@@ -4828,27 +4820,30 @@ Importante si se utiliza el paquete \texttt{gstat}\ldots{}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{muxe9todos-y-procedimientos-clases-sp}{%
-\section{Métodos y procedimientos clases sp}\label{muxe9todos-y-procedimientos-clases-sp}}
+\section{Métodos y procedimientos clases sp}\label{muxe9todos-y-procedimientos-clases-sp}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.13}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.87}}@{}}
-\toprule
-Método & Descripción \\
-\midrule
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1325}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8675}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Método
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Descripción
+\end{minipage} \\
+\midrule\noalign{}
 \endhead
+\bottomrule\noalign{}
+\endlastfoot
 \texttt{{[}} & selecciona elementos espaciales (puntos, líneas, polígonos, filas/columnas de una rejilla) y/o variables. \\
 \texttt{\$,\ {[}{[}} & obtiene, establece o agrega variables (columnas). \\
 \texttt{coordinates} & obtiene o establece (creando objetos sp) coordenadas. \\
 \texttt{as(obj,\ clase)} & convierte un objeto a una clase. \\
 \texttt{over,\ overlay} & combina objetos espaciales. \\
 \texttt{spsample} & muestrea puntos dentro de una región (rectangular, polígono, línea o rejilla). \\
-\bottomrule
 \end{longtable}
 
-\hypertarget{importarexportartransformar}{%
-\subsection{Importar/exportar/transformar}\label{importarexportartransformar}}
+\subsection{Importar/exportar/transformar}\label{importarexportartransformar}
 
 A través de R (paquetes que emplean sp) es fácil exportar datos a otras aplicaciones
 (e.g.~\href{http://plotkml.r-forge.r-project.org}{Google Earth}).
@@ -4865,23 +4860,26 @@ y procesados con \emph{\href{datos/NOAA_OISST_extraction_v2.R}{NOAA\_OISST\_extr
 \NormalTok{jet.colors }\OtherTok{\textless{}{-}} \FunctionTok{colorRampPalette}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"\#00007F"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"\#007FFF"}\NormalTok{, }\StringTok{"cyan"}\NormalTok{, }\StringTok{"\#7FFF7F"}\NormalTok{, }\StringTok{"yellow"}\NormalTok{, }\StringTok{"\#FF7F00"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"\#7F0000"}\NormalTok{))}
 \FunctionTok{image}\NormalTok{(sstsp, }\AttributeTok{col =} \FunctionTok{jet.colors}\NormalTok{(}\DecValTok{128}\NormalTok{), }\AttributeTok{axes =} \ConstantTok{TRUE}\NormalTok{)}
 \FunctionTok{title}\NormalTok{(}\FunctionTok{attr}\NormalTok{(sstsp}\SpecialCharTok{@}\NormalTok{data, }\StringTok{"label"}\NormalTok{))}
-
-\CommentTok{\# Ejemplo importar datos de otros paquetes:}
-\FunctionTok{library}\NormalTok{(maps)}
-\FunctionTok{library}\NormalTok{(maptools)}
-\NormalTok{world }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(}\StringTok{"world"}\NormalTok{, }\AttributeTok{fill =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)   }\CommentTok{\# Hay un mapa con mayor resolución en mapdata::worldHires}
-\NormalTok{world\_pol }\OtherTok{\textless{}{-}} \FunctionTok{map2SpatialPolygons}\NormalTok{(world, world}\SpecialCharTok{$}\NormalTok{names, }\FunctionTok{CRS}\NormalTok{(}\StringTok{"+proj=longlat +ellps=WGS84"}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(world\_pol, }\AttributeTok{col =} \StringTok{\textquotesingle{}white\textquotesingle{}}\NormalTok{, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{) }
 \end{Highlighting}
 \end{Shaded}
 
 \begin{center}\includegraphics[width=0.7\linewidth]{11-sp_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
-\hypertarget{representaciones-gruxe1ficas}{%
-\section{Representaciones gráficas}\label{representaciones-gruxe1ficas}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# El siguiente código está comentado, ya que el paquete \textasciigrave{}maptools\textasciigrave{} se archivó por petición del creador del paquete}
+\CommentTok{\# \# Ejemplo importar datos de otros paquetes:}
+\CommentTok{\# library(maps)}
+\CommentTok{\# library(maptools)}
+\CommentTok{\# world \textless{}{-} map("world", fill = TRUE, plot = FALSE)   \# Hay un mapa con mayor resolución en mapdata::worldHires}
+\CommentTok{\# world\_pol \textless{}{-} map2SpatialPolygons(world, world$names, CRS("+proj=longlat +ellps=WGS84"))}
+\CommentTok{\# plot(world\_pol, col = \textquotesingle{}white\textquotesingle{}, add = TRUE) }
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{gruxe1ficos-estuxe1ndar}{%
-\subsection{Gráficos estándar}\label{gruxe1ficos-estuxe1ndar}}
+\section{Representaciones gráficas}\label{representaciones-gruxe1ficas}
+
+\subsection{Gráficos estándar}\label{gruxe1ficos-estuxe1ndar}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4936,8 +4934,7 @@ se puede establecer los colores en función de una variable continua:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{gruxe1ficos-lattice-spplot}{%
-\subsection{Gráficos lattice: spplot}\label{gruxe1ficos-lattice-spplot}}
+\subsection{Gráficos lattice: spplot}\label{gruxe1ficos-lattice-spplot}
 
 \begin{itemize}
 \item
@@ -4979,16 +4976,14 @@ Añadir perfil de Galicia:
 
 Alternativamente gráficos ggplot (\href{https://ggplot2.tidyverse.org}{\texttt{ggplot2}}) con el paquete \href{https://paleolimbot.github.io/ggspatial}{\texttt{ggspatial}}\ldots{}
 
-\hypertarget{intro-geoR}{%
-\chapter{\texorpdfstring{Introducción al paquete \textbf{geoR}}{Introducción al paquete geoR}}\label{intro-geoR}}
+\chapter{\texorpdfstring{Introducción al paquete \textbf{geoR}}{Introducción al paquete geoR}}\label{intro-geoR}
 
 El paquete \href{http://www.leg.ufpr.br/geoR}{\texttt{geoR}} proporciona herramientas para el análisis de datos
 geoestadísticos en \texttt{R}
 (alternativa al paquete \href{http://r-spatial.github.io/gstat}{\texttt{gstat}}).
 A continuación se ilustran algunas de las capacidades de este paquete.
 
-\hypertarget{inicio-de-una-sesiuxf3n-y-de-carga-de-datos}{%
-\section{Inicio de una sesión y de carga de datos}\label{inicio-de-una-sesiuxf3n-y-de-carga-de-datos}}
+\section{Inicio de una sesión y de carga de datos}\label{inicio-de-una-sesiuxf3n-y-de-carga-de-datos}
 
 Después de iniciar la sesión R, cargar \texttt{geoR} con el comando \texttt{library} (o
 \texttt{require}). Si el paquete se carga correctamente aparece un mensaje.
@@ -4999,8 +4994,7 @@ Después de iniciar la sesión R, cargar \texttt{geoR} con el comando \texttt{li
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{archivos-de-datos}{%
-\subsection{Archivos de datos}\label{archivos-de-datos}}
+\subsection{Archivos de datos}\label{archivos-de-datos}
 
 Normalmente, los datos se almacenan como un objeto (una lista) de la
 clase \texttt{geodata}. Un objeto de esta clase contiene obligatoriamente dos
@@ -5091,8 +5085,7 @@ y lo convierte a \texttt{geodata}:
 En la documentación de las funciones \texttt{as.geodata} y \texttt{read.geodata}
 hay más información sobre cómo importar/convertir datos.
 
-\hypertarget{anuxe1lisis-descriptivo-de-datos-geoestaduxedsticos}{%
-\section{Análisis descriptivo de datos geoestadísticos}\label{anuxe1lisis-descriptivo-de-datos-geoestaduxedsticos}}
+\section{Análisis descriptivo de datos geoestadísticos}\label{anuxe1lisis-descriptivo-de-datos-geoestaduxedsticos}
 
 Como se mostró anteriormente, el método \texttt{summary} proporciona un breve resumen
 descriptivo de los datos (ver \texttt{?summary.geodata}).
@@ -5156,8 +5149,7 @@ partir de los valores de los datos. Por ejemplo, para los puntos, empleando el a
 
 \begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
-\hypertarget{modelado-de-la-dependencia}{%
-\section{Modelado de la dependencia}\label{modelado-de-la-dependencia}}
+\section{Modelado de la dependencia}\label{modelado-de-la-dependencia}
 
 En la primera parte de esta sección consideraremos un proceso espacial sin
 tendencia:
@@ -5199,8 +5191,7 @@ tendencia:
 
 En el último apartado se tratará el caso general.
 
-\hypertarget{variogramas-empuxedricos}{%
-\subsection{Variogramas empíricos}\label{variogramas-empuxedricos}}
+\subsection{Variogramas empíricos}\label{variogramas-empuxedricos}
 
 Los variogramas empíricos se calculan utilizando la función \texttt{variog}:
 
@@ -5431,8 +5422,7 @@ direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{geor-ajuste}{%
-\subsection{Ajuste de un modelo de variograma}\label{geor-ajuste}}
+\subsection{Ajuste de un modelo de variograma}\label{geor-ajuste}
 
 Los estimadores empíricos no pueden ser empleados en la práctica (no
 verifican necesariamente las propiedades de un variograma válido), por
@@ -5795,8 +5785,7 @@ Representación gráfica junto al estimador empírico:
 
 \begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
-\hypertarget{inferencia-sobre-el-variograma}{%
-\subsection{Inferencia sobre el variograma}\label{inferencia-sobre-el-variograma}}
+\subsection{Inferencia sobre el variograma}\label{inferencia-sobre-el-variograma}
 
 Se pueden obtener dos tipos de envolventes (envelopes, i.e.~valores
 máximos y mínimos aproximados) del variograma empírico mediante
@@ -5881,8 +5870,7 @@ espacial si el variograma suavizado no está contenido en esa región).
 \textbf{Nota}: Se puede realizar contrastes adicionales estableciendo el parámetro \texttt{model}
 a \texttt{"isotropic"} o \texttt{"stationary"}.
 
-\hypertarget{estimaciuxf3n-del-variograma-en-procesos-no-estacionarios}{%
-\subsection{Estimación del variograma en procesos no estacionarios}\label{estimaciuxf3n-del-variograma-en-procesos-no-estacionarios}}
+\subsection{Estimación del variograma en procesos no estacionarios}\label{estimaciuxf3n-del-variograma-en-procesos-no-estacionarios}
 
 Cuando el proceso no es estacionario (no se puede emplear directamente los
 estimadores empíricos) hay que eliminar la tendencia para estimar el variograma:
@@ -5916,8 +5904,7 @@ estimadores empíricos) hay que eliminar la tendencia para estimar el variograma
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{predicciuxf3n-espacial-kriging}{%
-\section{Predicción espacial (kriging)}\label{predicciuxf3n-espacial-kriging}}
+\section{Predicción espacial (kriging)}\label{predicciuxf3n-espacial-kriging}
 
 El paquete \texttt{geoR} dispone de opciones para los métodos kriging
 tradicionales, que dependiendo de las suposiciones acerca de la función
@@ -6062,8 +6049,7 @@ Otras opciones:
 
 \begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-4} \end{center}
 
-\hypertarget{validaciuxf3n-cruzada}{%
-\subsection{Validación cruzada}\label{validaciuxf3n-cruzada}}
+\subsection{Validación cruzada}\label{validaciuxf3n-cruzada}
 
 Para verificar si un modelo (de tendencia y variograma) describe adecuadamente
 la variabilidad espacial de los datos (p.e. para comparar modelos), se emplea
@@ -6161,8 +6147,7 @@ elimina una observación (i.e.~validar el procedimiento de estimación)
 añadir la opción \texttt{reest\ =\ TRUE} (puede requerir mucho tiempo de
 computación).
 
-\hypertarget{gls}{%
-\chapter{Mínimos cuadrados generalizados en R}\label{gls}}
+\chapter{Mínimos cuadrados generalizados en R}\label{gls}
 
 Uno de los modelos más utilizados en estadística para el caso de datos no homogéneos es el conocido modelo clásico de regresión lineal:
 \[Y =\sum\limits_{j=0}^{p}X_{j}\beta_{j} +\varepsilon,\]
@@ -6232,16 +6217,14 @@ En la práctica la matriz de covarianzas suele ser desconocida y habría que est
 El procedimiento habitual, para evitar la estimación de \(n(n+1)/2\) parámetros adicionales a partir del
 conjunto de \(n\) observaciones, suele ser asumir un modelo paramétrico adecuado (ver comentarios al final de la Sección \ref{modelos-clasicos-espaciales}).
 
-Para más detalles, incluyendo el enfoque de máxima verosimilitud y su aplicación en la práctica para la regresión con series de tiempo, ver por ejemplo el apéndice \href{https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Timeseries-Regression.pdf}{Time-Series Regression and Generalized Least Squares in R} de \href{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}{Fox (2019)}.
+Para más detalles, incluyendo el enfoque de máxima verosimilitud y su aplicación en la práctica para la regresión con series de tiempo, ver por ejemplo el apéndice \href{https://www.john-fox.ca/Companion/appendices/Appendix-Timeseries-Regression.pdf}{Time-Series Regression and Generalized Least Squares in R} de \href{https://www.john-fox.ca/Companion/}{Fox (2019)}.
 La teoría para la estimación por máxima verosimilitud en el caso temporal (unidimensional) es totalmente análoga a la del caso espacial (multidimensional), descrita en la Sección \ref{ml-fit} (bajo la hipótesis habitual de normalidad).
 
-\hypertarget{ejemplo-aquifer}{%
-\chapter{Ejemplo de análisis geoestadístico}\label{ejemplo-aquifer}}
+\chapter{Ejemplo de análisis geoestadístico}\label{ejemplo-aquifer}
 
 El objetivo es realizar un análisis geoestadístico del conjunto de datos \texttt{aquifer} (considerando como variable de interés \texttt{aquifer\$head} y asumiendo la presencia de una tendencia espacial lineal), siguiendo el procedimiento descrito en la Sección \ref{objetivos-esquema} (y en la introducción del Capítulo \ref{modelado}).
 
-\hypertarget{carga-de-datos-y-creaciuxf3n-del-objeto-sf}{%
-\section{\texorpdfstring{Carga de datos y creación del objeto \texttt{sf}:}{Carga de datos y creación del objeto sf:}}\label{carga-de-datos-y-creaciuxf3n-del-objeto-sf}}
+\section{\texorpdfstring{Carga de datos y creación del objeto \texttt{sf}:}{Carga de datos y creación del objeto sf:}}\label{carga-de-datos-y-creaciuxf3n-del-objeto-sf}
 
 En este caso, cómo es habitual, los datos están almacenados en un \texttt{data.frame} y la recomendación es emplear \texttt{st\_as\_sf()} para convertirlos a un objeto \texttt{sf} (Sección \ref{sf-intro}):
 
@@ -6258,8 +6241,7 @@ Por comodidad se establece \texttt{remove\ =\ FALSE} para mantener las coordenad
 
 En caso necesario también habría que establecer el CRS (Sección \ref{crs}) e incluso podría ser necesario transformar los datos a coordenadas proyectadas mediante \texttt{st\_transform()}(Sección \ref{operaciones-geometrias}).
 
-\hypertarget{anuxe1lisis-exploratorio}{%
-\section{Análisis exploratorio}\label{anuxe1lisis-exploratorio}}
+\section{Análisis exploratorio}\label{anuxe1lisis-exploratorio}
 
 El primer paso es comenzar por un análisis exploratorio de los datos (Sección \ref{sp-eda}).
 Nos centraremos en el modelado de los datos, pero seguramente interesaría analizar si hay datos atípicos\ldots{}
@@ -6379,11 +6361,9 @@ Podríamos empezar por ajustar el modelo por OLS (cuidado con los resultados de 
 
 El análisis de la variabilidad de pequeña escala se realizaría a través de las semivarianzas (clásicas o robustas, Sección \ref{vario-muestrales}), pero solo consideraremos los estimadores muestrales, para el modelado de la dependencia espacial.
 
-\hypertarget{modelado-de-la-dependencia-1}{%
-\section{Modelado de la dependencia}\label{modelado-de-la-dependencia-1}}
+\section{Modelado de la dependencia}\label{modelado-de-la-dependencia-1}
 
-\hypertarget{estimaciuxf3n-experimental-del-variograma}{%
-\subsection{Estimación experimental del variograma}\label{estimaciuxf3n-experimental-del-variograma}}
+\subsection{Estimación experimental del variograma}\label{estimaciuxf3n-experimental-del-variograma}
 
 Como se muestra en la Sección \ref{vario-muestrales}, las estimaciones empíricas del semivariograma se obtienen con la función \href{https://r-spatial.github.io/gstat/reference/variogram.html}{\texttt{variogram()}}.
 
@@ -6413,8 +6393,7 @@ Para seguir las recomendaciones de Journel y Huijbregts (1978), de considerar a 
 Si hay datos atípicos sería preferible emplear una versión robusta de este estimador.
 Además, estamos asumiendo isotropía, aunque lo ideal sería asegurarse de que es una hipótesis razonable (ver comentarios al final de la Sección \ref{vario-muestrales} y Sección \ref{anisotropia}).
 
-\hypertarget{ajuste-de-un-modelo-vuxe1lido}{%
-\subsection{Ajuste de un modelo válido}\label{ajuste-de-un-modelo-vuxe1lido}}
+\subsection{Ajuste de un modelo válido}\label{ajuste-de-un-modelo-vuxe1lido}
 
 El paso final en el modelado es el ajuste por WLS de un modelo válido (Sección \ref{ls-fit}; la recomendación es emplear pesos inversamente proporcionales a la varianza \texttt{fit.method\ =\ 2}).
 En este caso un modelo de variograma esférico parece razonable:
@@ -6496,8 +6475,7 @@ Para añadir más elementos mejor hacerlo ``a mano'':
 
 \begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
-\hypertarget{predicciuxf3n-espacial-ku}{%
-\section{Predicción espacial (KU)}\label{predicciuxf3n-espacial-ku}}
+\section{Predicción espacial (KU)}\label{predicciuxf3n-espacial-ku}
 
 Para generar la rejilla de predicción consideramos un buffer de radio 40 en torno a las posiciones espaciales:
 
@@ -6581,12 +6559,12 @@ Obtenemos las predicciones mediante kriging universal (Sección \ref{kuniversal}
 
 \begin{verbatim}
 ##        x                 y         
-##  Min.   :-181.86   Min.   : 53.83  
-##  1st Qu.:-100.73   1st Qu.:115.11  
-##  Median : -16.22   Median :178.95  
-##  Mean   : -16.22   Mean   :178.95  
-##  3rd Qu.:  68.29   3rd Qu.:242.79  
-##  Max.   : 149.42   Max.   :304.08
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21
 \end{verbatim}
 
 Posible solución: añadir el resultado a \texttt{grid}:
@@ -6636,8 +6614,7 @@ También podríamos emplear el paquete \texttt{ggplot2}:
 
 \begin{center}\includegraphics[width=1\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
-\hypertarget{validaciuxf3n-cruzada-1}{%
-\section{Validación cruzada}\label{validaciuxf3n-cruzada-1}}
+\section{Validación cruzada}\label{validaciuxf3n-cruzada-1}
 
 Para realizar una diagnosis del modelo de tendencia y variograma (y para seleccionar parámetros o comparar modelos) podemos emplear la técnica de validación cruzada Sección \ref{validacion-cruzada}, mediante la función \texttt{krige.cv()}.
 
@@ -6652,7 +6629,7 @@ Por defecto emplea LOOCV y puede requerir de mucho tiempo de computación (no es
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.86    0.08    0.94
+##    0.50    0.05    0.65
 \end{verbatim}
 
 \begin{Shaded}
@@ -6687,7 +6664,7 @@ Si el número de observaciones es grande puede ser preferible emplear k-fold CV 
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    0.14    0.02    0.16
+##    0.09    0.00    0.12
 \end{verbatim}
 
 Para seleccionar modelos podemos considerar distintas medidas, implementadas en la siguiente función:
@@ -6805,8 +6782,7 @@ Además de los gráficos estándar para analizar la distribución de los residuo
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{referencias}{%
-\chapter{Referencias}\label{referencias}}
+\chapter{Referencias}\label{referencias}
 
 \textbf{Bibliografía básica}
 
@@ -6824,10 +6800,9 @@ Cressie, N. (1993). \emph{Statistics for Spatial Data}. John Wiley.
 
 Wikle, C.K., Zammit-Mangion, A. y Cressie, N. (2019). \emph{Spatio-temporal Statistics with R}. Chapman and Hall/CRC (accesible \href{https://spacetimewithr.org}{online}).
 
-\hypertarget{links}{%
-\section{Enlaces}\label{links}}
+\section{Enlaces}\label{links}
 
-\textbf{\emph{Repositorio}}: \href{https://github.com/rubenfcasal/simbook}{rubenfcasal/simbook}
+\textbf{\emph{Repositorio}}: \href{https://github.com/rubenfcasal/estadistica_espacial}{rubenfcasal/estadistica\_espacial}
 
 \textbf{Recursos para el aprendizaje de R}: En este \href{https://rubenfcasal.github.io/post/ayuda-y-recursos-para-el-aprendizaje-de-r}{post} se muestran algunos recursos que pueden ser útiles para el aprendizaje de R y la obtención de ayuda.
 
@@ -6844,7 +6819,10 @@ Ayuda online:
   \href{https://stats.stackexchange.com}{Cross Validated}
 \end{itemize}
 
-En \href{https://bookdown.org}{\textbf{\emph{bookdown}}} está disponible una selección de libros escritos con este paquete:
+En \href{https://bookdown.org}{\textbf{\emph{bookdown}}} está disponible una selección de libros escritos con este paquete.
+En el \href{(https://bookdown.org/home/archive/)}{listado completo} se incluyen muchos más (algunos en castellano).
+
+Podríamos destacar:
 
 \begin{itemize}
 \item
@@ -6852,16 +6830,18 @@ En \href{https://bookdown.org}{\textbf{\emph{bookdown}}} está disponible una se
 \item
   Lovelace, R., Nowosad, J., y Muenchow, J. (2019). \emph{\href{https://geocompr.robinlovelace.net}{Geocomputation with R}}, \href{https://www.routledge.com/9781138304512}{CRC}.
 \item
+  Moraga, P. (2019). \emph{\href{https://www.paulamoraga.com/book-geospatial}{Geospatial health data: Modeling and visualization with R-INLA and shiny}}, \href{https://www.routledge.com/9780367357955}{CRC}.
+\item
   Pebesma, E., y Bivand, R. (2021). \emph{\href{https://r-spatial.org/book}{Spatial Data Science}}.
 \item
   Wickham, H. (2015). \emph{\href{http://r-pkgs.had.co.nz/}{R packages: organize, test, document, and share your code}} (actualmente 2ª edición en desarrollo con H. Bryan), \href{http://shop.oreilly.com/product/0636920034421.do}{O'Reilly, 1ª edición}.
 \item
-  Wickham, H. (2019). \emph{\href{https://adv-r.hadley.nz/}{Advanced R, 2ª edición}}, \href{https://www.amazon.com/dp/0815384572}{Chapman \& Hall}, \href{http://adv-r.had.co.nz/}{1ª edición.}.
+  Wickham, H. (2019). \emph{\href{https://adv-r.hadley.nz/}{Advanced R, 2ª edición}}, \href{https://www.amazon.com/dp/0815384572}{Chapman \& Hall}, \href{http://adv-r.had.co.nz/}{1ª edición}.
 \item
   Wickham, H., y Grolemund, G. (2016). \emph{\href{http://r4ds.had.co.nz}{R for data science: import, tidy, transform, visualize, and model data}}, \href{https://es.r4ds.hadley.nz}{online-castellano}, \href{http://shop.oreilly.com/product/0636920034407.do}{O'Reilly}.
 \end{itemize}
 
-En el \href{(https://bookdown.org/home/archive/)}{listado completo} se incluyen algunos en castellano:
+Entre los disponibles en castellano:
 
 \begin{itemize}
 \item
@@ -6882,8 +6862,7 @@ Para referencias adicionales ver el libro:
   Baruffa, O. (2022). \emph{\href{https://www.bigbookofr.com}{Big Book of R}}: Your last-ever bookmark (hopefully\ldots).
 \end{itemize}
 
-\hypertarget{bibliografuxeda-completa}{%
-\section{Bibliografía completa}\label{bibliografuxeda-completa}}
+\section{Bibliografía completa}\label{bibliografuxeda-completa}
 
 \textbf{\emph{Work in progress\ldots{}}}
 
@@ -6893,19 +6872,19 @@ Tobler, W. (1970). A computer movie simulating urban growth in the Detroit regio
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{refs}{}
+\phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\leavevmode\hypertarget{ref-Bivand2013}{}%
+\bibitem[\citeproctext]{ref-Bivand2013}
 Bivand, R. S., Pebesma, E., y Gómez-Rubio, V. (2013). \emph{Applied Spatial Data Analysis with {R}} (Second). Springer. \url{http://www.asdar-book.org/}
 
-\leavevmode\hypertarget{ref-Pebesma2018}{}%
+\bibitem[\citeproctext]{ref-Pebesma2018}
 Pebesma, E. (2018). {Simple Features for R: Standardized Support for Spatial Vector Data}. \emph{{The R Journal}}, \emph{10}(1), 439-446. \url{https://doi.org/10.32614/RJ-2018-009}
 
-\leavevmode\hypertarget{ref-Pebesma2021}{}%
-Pebesma, E., y Bivand, R. (2021). \emph{Spatial Data Science}. \url{https://keen-swartz-3146c4.netlify.app}
-
-\leavevmode\hypertarget{ref-Pebesma2005}{}%
+\bibitem[\citeproctext]{ref-Pebesma2005}
 Pebesma, E. J., y Bivand, R. S. (2005). Classes and methods for spatial data in {R}. \emph{R News}, \emph{5}(2), 9-13. \url{https://CRAN.R-project.org/doc/Rnews/}
+
+\bibitem[\citeproctext]{ref-Pebesma2021}
+Pebesma, E., y Bivand, R. (2021). \emph{Spatial Data Science}. \url{https://keen-swartz-3146c4.netlify.app}
 
 \end{CSLReferences}
 

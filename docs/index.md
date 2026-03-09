@@ -3,7 +3,7 @@ title: "Estadística Espacial con R"
 author: 
   - "Rubén Fernández Casal (MODES, CITIC, UDC; ruben.fcasal@udc.es)"
   - "Tomás Cotos Yáñez (SIDOR, UVIGO; cotos@uvigo.es)"
-date: "Edición: Enero de 2022. Impresión: 2022-11-28"
+date: "Edición: Enero de 2022. Impresión: 2026-03-09"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -36,7 +36,7 @@ Se puede acceder a la versión en línea a través del siguiente enlace:
 donde puede descargarse en formato [pdf](https://rubenfcasal.github.io/estadistica_espacial/estadistica_espacial.pdf).
 
 Para ejecutar los ejemplos mostrados en el libro sería necesario tener instalados los siguientes paquetes:
-[`sf`](https://CRAN.R-project.org/package=sf), [`sp`](https://CRAN.R-project.org/package=sp), [`starts`](https://CRAN.R-project.org/package=starts), [`gstat`](https://CRAN.R-project.org/package=gstat), [`geoR`](https://CRAN.R-project.org/package=geoR), [`spacetime`](https://CRAN.R-project.org/package=spacetime), [`sm`](https://CRAN.R-project.org/package=sm), [`fields`](https://CRAN.R-project.org/package=fields), [`rgdal`](https://CRAN.R-project.org/package=rgdal), [`rgeos`](https://CRAN.R-project.org/package=rgeos), [`maps`](https://CRAN.R-project.org/package=maps), [`maptools`](https://CRAN.R-project.org/package=maptools), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2), [`plot3D`](https://CRAN.R-project.org/package=plot3D), [`lattice`](https://CRAN.R-project.org/package=lattice), [`classInt`](https://CRAN.R-project.org/package=classInt), [`viridis`](https://CRAN.R-project.org/package=viridis), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`mapSpain`](https://CRAN.R-project.org/package=mapSpain), [`tmap`](https://CRAN.R-project.org/package=tmap), [`mapview`](https://CRAN.R-project.org/package=mapview), [`osmdata`](https://CRAN.R-project.org/package=osmdata), [`rnaturalearth`](https://CRAN.R-project.org/package=rnaturalearth), [`ncdf`](https://CRAN.R-project.org/package=ncdf), [`quadprog`](https://CRAN.R-project.org/package=quadprog), [`spam`](https://CRAN.R-project.org/package=spam), [`DEoptim`](https://CRAN.R-project.org/package=DEoptim).
+[`sf`](https://CRAN.R-project.org/package=sf), [`sp`](https://CRAN.R-project.org/package=sp), [`starts`](https://CRAN.R-project.org/package=starts), [`gstat`](https://CRAN.R-project.org/package=gstat), [`geoR`](https://CRAN.R-project.org/package=geoR), [`spacetime`](https://CRAN.R-project.org/package=spacetime), [`sm`](https://CRAN.R-project.org/package=sm), [`fields`](https://CRAN.R-project.org/package=fields), [`rgdal`](https://CRAN.R-project.org/package=rgdal), [`rgeos`](https://CRAN.R-project.org/package=rgeos), [`ggplot2`](https://CRAN.R-project.org/package=ggplot2), [`plot3D`](https://CRAN.R-project.org/package=plot3D), [`lattice`](https://CRAN.R-project.org/package=lattice), [`classInt`](https://CRAN.R-project.org/package=classInt), [`viridis`](https://CRAN.R-project.org/package=viridis), [`dplyr`](https://CRAN.R-project.org/package=dplyr), [`mapSpain`](https://CRAN.R-project.org/package=mapSpain), [`tmap`](https://CRAN.R-project.org/package=tmap), [`mapview`](https://CRAN.R-project.org/package=mapview), [`osmdata`](https://CRAN.R-project.org/package=osmdata), [`rnaturalearth`](https://CRAN.R-project.org/package=rnaturalearth), [`ncdf`](https://CRAN.R-project.org/package=ncdf), [`quadprog`](https://CRAN.R-project.org/package=quadprog), [`spam`](https://CRAN.R-project.org/package=spam), [`DEoptim`](https://CRAN.R-project.org/package=DEoptim).
 <!-- 
 cholera
 raster, terra
@@ -46,9 +46,9 @@ remotes::install_github("r-spatial/mapview")
 -->
 Por ejemplo mediante los siguientes comandos:
 
-```r
+``` r
 pkgs <- c("sf", "sp", "starts", "gstat", "geoR", "spacetime", "sm", "fields", 
-          "rgdal", "rgeos", "maps", "maptools", "ggplot2", "plot3D", "lattice", 
+          "rgdal", "rgeos", "ggplot2", "plot3D", "lattice", 
           "classInt", "viridis", "dplyr", "mapSpain", "tmap", "mapview", 
           "osmdata", "rnaturalearth", "ncdf", "quadprog", "spam", "DEoptim" )
 
@@ -57,7 +57,7 @@ install.packages(setdiff(pkgs, installed.packages()[,"Package"]), dependencies =
 
 Si aparecen errores (normalmente debidos a incompatibilidades con versiones ya instaladas), probar a ejecutar en lugar de lo anterior:
 
-```r
+``` r
 install.packages(pkgs, dependencies=TRUE) # Instala todos...
 ```
 
@@ -71,7 +71,7 @@ Aunque al necesitar compilación los usuarios de Windows deben tener instalado p
 (para lo que se pueden seguir los pasos descritos [aquí](https://rubenfcasal.github.io/post/instalacion-de-r)).
 Alternativamente, los usuarios de Windows (con una versión 4.X.X de R) pueden instalar este paquete ya compilado con el siguiente código:
 
-```r
+``` r
 install.packages('https://github.com/rubenfcasal/npsp/releases/download/v0.7-8/npsp_0.7-8.zip', 
                  repos = NULL)
 ```
@@ -80,7 +80,8 @@ install.packages('https://github.com/rubenfcasal/npsp/releases/download/v0.7-8/n
 Para generar el libro (compilar) serán necesarios paquetes adicionales, 
 para lo que se recomendaría consultar el libro de ["Escritura de libros con bookdown" ](https://rubenfcasal.github.io/bookdown_intro) en castellano.
 
-<img src="images/by-nc-nd-88x31.png" width="44" />
+
+\includegraphics[width=1.22in]{images/by-nc-nd-88x31} 
 
 Este obra está bajo una licencia de [Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.es_ES) 
 (esperamos poder liberarlo bajo una licencia menos restrictiva más adelante...).

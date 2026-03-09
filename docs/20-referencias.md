@@ -52,7 +52,7 @@ Podríamos destacar:
 
 - Wickham, H. (2015). *[R packages: organize, test, document, and share your code](http://r-pkgs.had.co.nz/)* (actualmente 2ª edición en desarrollo con H. Bryan), [O'Reilly, 1ª edición](http://shop.oreilly.com/product/0636920034421.do).
 
-- Wickham, H. (2019). *[Advanced R, 2ª edición](https://adv-r.hadley.nz/)*, [Chapman & Hall](https://www.amazon.com/dp/0815384572), [1ª edición.](http://adv-r.had.co.nz/).
+- Wickham, H. (2019). *[Advanced R, 2ª edición](https://adv-r.hadley.nz/)*, [Chapman & Hall](https://www.amazon.com/dp/0815384572), [1ª edición](http://adv-r.had.co.nz/).
 
 - Wickham, H., y Grolemund, G. (2016). *[R for data science: import, tidy, transform, visualize, and model data](http://r4ds.had.co.nz)*, [online-castellano](https://es.r4ds.hadley.nz), [O'Reilly](http://shop.oreilly.com/product/0636920034407.do).
 

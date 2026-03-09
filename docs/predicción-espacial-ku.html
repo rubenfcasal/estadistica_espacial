@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>D.4 Predicción espacial (KU) | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="D.4 Predicción espacial (KU) | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="modelado-de-la-dependencia-1.html"/>
 <link rel="next" href="validación-cruzada-1.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,21 +49,23 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.34.0/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -75,7 +75,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -114,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -129,10 +129,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -322,27 +327,27 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="predicción-espacial-ku" class="section level2" number="10.4">
-<h2><span class="header-section-number">D.4</span> Predicción espacial (KU)</h2>
+<div id="predicción-espacial-ku" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">D.4</span> Predicción espacial (KU)<a href="predicción-espacial-ku.html#predicción-espacial-ku" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Para generar la rejilla de predicción consideramos un buffer de radio 40 en torno a las posiciones espaciales:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="predicción-espacial-ku.html#cb343-1" aria-hidden="true" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> aquifer_sf <span class="sc">%&gt;%</span> <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">st_buffer</span>(<span class="dv">40</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="predicción-espacial-ku.html#cb343-1" tabindex="-1"></a>buffer <span class="ot">&lt;-</span> aquifer_sf <span class="sc">%&gt;%</span> <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">st_buffer</span>(<span class="dv">40</span>)</span></code></pre></div>
 <p>En lugar de emplear una rejilla <code>sf</code>:</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="predicción-espacial-ku.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="co"># grid &lt;- buffer %&gt;% st_make_grid(n = c(50, 50), what = &quot;centers&quot;) %&gt;% st_intersection(buffer)</span></span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="predicción-espacial-ku.html#cb344-1" tabindex="-1"></a><span class="co"># grid &lt;- buffer %&gt;% st_make_grid(n = c(50, 50), what = &quot;centers&quot;) %&gt;% st_intersection(buffer)</span></span></code></pre></div>
 <p>por comodidad es preferible emplear una rejilla <code>stars</code>:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="predicción-espacial-ku.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
-<span id="cb345-2"><a href="predicción-espacial-ku.html#cb345-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="predicción-espacial-ku.html#cb345-1" tabindex="-1"></a><span class="fu">library</span>(stars)</span>
+<span id="cb345-2"><a href="predicción-espacial-ku.html#cb345-2" tabindex="-1"></a>grid <span class="ot">&lt;-</span> buffer <span class="sc">%&gt;%</span>  <span class="fu">st_as_stars</span>(<span class="at">nx =</span> <span class="dv">50</span>, <span class="at">ny =</span> <span class="dv">50</span>)</span></code></pre></div>
 <p>Si suponemos un modelo (no constante) para la tendencia, es necesario añadir los valores de las variables explicativas a la rejilla de predicción:</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="predicción-espacial-ku.html#cb346-1" aria-hidden="true" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(grid)</span>
-<span id="cb346-2"><a href="predicción-espacial-ku.html#cb346-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lon <span class="ot">&lt;-</span> coord<span class="sc">$</span>x</span>
-<span id="cb346-3"><a href="predicción-espacial-ku.html#cb346-3" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>lat <span class="ot">&lt;-</span> coord<span class="sc">$</span>y</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="predicción-espacial-ku.html#cb346-1" tabindex="-1"></a>coord <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(grid)</span>
+<span id="cb346-2"><a href="predicción-espacial-ku.html#cb346-2" tabindex="-1"></a>grid<span class="sc">$</span>lon <span class="ot">&lt;-</span> coord<span class="sc">$</span>x</span>
+<span id="cb346-3"><a href="predicción-espacial-ku.html#cb346-3" tabindex="-1"></a>grid<span class="sc">$</span>lat <span class="ot">&lt;-</span> coord<span class="sc">$</span>y</span></code></pre></div>
 <p>Además, en este caso recortamos la rejilla para filtrar predicciones alejadas de las observaciones:</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="predicción-espacial-ku.html#cb347-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="predicción-espacial-ku.html#cb347-1" tabindex="-1"></a>grid <span class="ot">&lt;-</span> grid <span class="sc">%&gt;%</span> <span class="fu">st_crop</span>(buffer)</span></code></pre></div>
 <p>Obtenemos las predicciones mediante kriging universal (Sección <a href="kuniversal.html#kuniversal">4.3</a> y Sección <a href="kriging-gstat.html#kriging-gstat">4.4</a>):</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="predicción-espacial-ku.html#cb348-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">krige</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf, <span class="at">model =</span> fit,</span>
-<span id="cb348-2"><a href="predicción-espacial-ku.html#cb348-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">newdata =</span> grid)</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="predicción-espacial-ku.html#cb348-1" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">krige</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf, <span class="at">model =</span> fit,</span>
+<span id="cb348-2"><a href="predicción-espacial-ku.html#cb348-2" tabindex="-1"></a>              <span class="at">newdata =</span> grid)</span></code></pre></div>
 <pre><code>## [using universal kriging]</code></pre>
 <p><strong><em>ERROR en krige</em></strong>: cambia las coordenadas del objeto stars</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="predicción-espacial-ku.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(grid))</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="predicción-espacial-ku.html#cb350-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(grid))</span></code></pre></div>
 <pre><code>##        x                 y         
 ##  Min.   :-181.86   Min.   :-28.03  
 ##  1st Qu.:-100.73   1st Qu.: 33.25  
@@ -350,35 +355,35 @@ div.csl-indent {
 ##  Mean   : -16.22   Mean   : 97.09  
 ##  3rd Qu.:  68.29   3rd Qu.:160.93  
 ##  Max.   : 149.42   Max.   :222.21</code></pre>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="predicción-espacial-ku.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(pred))</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="predicción-espacial-ku.html#cb352-1" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">st_coordinates</span>(pred))</span></code></pre></div>
 <pre><code>##        x                 y         
-##  Min.   :-181.86   Min.   : 53.83  
-##  1st Qu.:-100.73   1st Qu.:115.11  
-##  Median : -16.22   Median :178.95  
-##  Mean   : -16.22   Mean   :178.95  
-##  3rd Qu.:  68.29   3rd Qu.:242.79  
-##  Max.   : 149.42   Max.   :304.08</code></pre>
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21</code></pre>
 <p>Posible solución: añadir el resultado a <code>grid</code>:</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="predicción-espacial-ku.html#cb354-1" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.pred <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.pred</span>
-<span id="cb354-2"><a href="predicción-espacial-ku.html#cb354-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>var1.var <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.var</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="predicción-espacial-ku.html#cb354-1" tabindex="-1"></a>grid<span class="sc">$</span>var1.pred <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.pred</span>
+<span id="cb354-2"><a href="predicción-espacial-ku.html#cb354-2" tabindex="-1"></a>grid<span class="sc">$</span>var1.var <span class="ot">&lt;-</span> pred<span class="sc">$</span>var1.var</span></code></pre></div>
 <p>Finalmente representamos las predicciones y las varianzas kriging:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="predicción-espacial-ku.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
-<span id="cb355-2"><a href="predicción-espacial-ku.html#cb355-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicciones kriging&quot;</span>)</span></code></pre></div>
-<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="predicción-espacial-ku.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.var&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
-<span id="cb356-2"><a href="predicción-espacial-ku.html#cb356-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Varianzas kriging&quot;</span>)</span></code></pre></div>
-<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="predicción-espacial-ku.html#cb355-1" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.pred&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
+<span id="cb355-2"><a href="predicción-espacial-ku.html#cb355-2" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicciones kriging&quot;</span>)</span></code></pre></div>
+<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="predicción-espacial-ku.html#cb356-1" tabindex="-1"></a><span class="fu">plot</span>(grid[<span class="st">&quot;var1.var&quot;</span>], <span class="at">breaks =</span> <span class="st">&quot;equal&quot;</span>, <span class="at">col =</span> <span class="fu">sf.colors</span>(<span class="dv">64</span>), <span class="at">key.pos =</span> <span class="dv">4</span>,</span>
+<span id="cb356-2"><a href="predicción-espacial-ku.html#cb356-2" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Varianzas kriging&quot;</span>)</span></code></pre></div>
+<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-2.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
 <p>También podríamos emplear el paquete <code>ggplot2</code>:</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="predicción-espacial-ku.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb357-2"><a href="predicción-espacial-ku.html#cb357-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb357-3"><a href="predicción-espacial-ku.html#cb357-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.pred, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb357-4"><a href="predicción-espacial-ku.html#cb357-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
-<span id="cb357-5"><a href="predicción-espacial-ku.html#cb357-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
-<span id="cb357-6"><a href="predicción-espacial-ku.html#cb357-6" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.var, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb357-7"><a href="predicción-espacial-ku.html#cb357-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
-<span id="cb357-8"><a href="predicción-espacial-ku.html#cb357-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
-<span id="cb357-9"><a href="predicción-espacial-ku.html#cb357-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="predicción-espacial-ku.html#cb357-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb357-2"><a href="predicción-espacial-ku.html#cb357-2" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb357-3"><a href="predicción-espacial-ku.html#cb357-3" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.pred, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb357-4"><a href="predicción-espacial-ku.html#cb357-4" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
+<span id="cb357-5"><a href="predicción-espacial-ku.html#cb357-5" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
+<span id="cb357-6"><a href="predicción-espacial-ku.html#cb357-6" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">geom_stars</span>(<span class="at">data =</span> grid, <span class="fu">aes</span>(<span class="at">fill =</span> var1.var, <span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb357-7"><a href="predicción-espacial-ku.html#cb357-7" tabindex="-1"></a>    <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">data =</span> aquifer_sf) <span class="sc">+</span></span>
+<span id="cb357-8"><a href="predicción-espacial-ku.html#cb357-8" tabindex="-1"></a>    <span class="fu">coord_sf</span>(<span class="at">lims_method =</span> <span class="st">&quot;geometry_bbox&quot;</span>)</span>
+<span id="cb357-9"><a href="predicción-espacial-ku.html#cb357-9" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-23-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 </div>
             </section>
 
@@ -400,42 +405,42 @@ div.csl-indent {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/14-ejemplo_aquifer.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["estadistica_espacial.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/14-ejemplo_aquifer.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["estadistica_espacial.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
@@ -446,7 +451,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

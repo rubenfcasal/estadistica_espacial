@@ -4,7 +4,7 @@
 ---
 title: "Ejemplo de análisis geoestadístico"
 author: "Estadística Espacial"
-date: "Análisis estadístico de datos con dependencia (GCED, GCED, UDC)"
+date: "Análisis estadístico de datos con dependencia (GCED, UDC)"
 output: 
   bookdown::html_document2:
     pandoc_args: ["--number-offset", "0,0"]
@@ -33,7 +33,7 @@ El objetivo es realizar un análisis geoestadístico del conjunto de datos `aqui
 En este caso, cómo es habitual, los datos están almacenados en un `data.frame` y la recomendación es emplear `st_as_sf()` para convertirlos a un objeto `sf` (Sección \@ref(sf-intro)):
 
 
-```r
+``` r
 load("datos/aquifer.RData")
 library(sf)
 aquifer$head <- aquifer$head/100 # en cientos de pies (escala más manejable...)
@@ -54,7 +54,7 @@ Estaríamos interesados en la simetría y normalidad de la respuesta (o del erro
 Podríamos empezar por realizar un análisis descriptivo unidimensional:
 
 
-```r
+``` r
 z <- aquifer_sf$head
 summary(z)
 ```
@@ -64,27 +64,31 @@ summary(z)
 ##   10.24   15.48   17.97   20.02   25.40   35.71
 ```
 
-```r
+``` r
 hist(z, xlab = "piezometric-head", main = "", freq = FALSE)
 lines(density(z), col = 'blue')
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-3-1} \end{center}
 
 Nos interesaría estudiar si la media es constante o hay una tendencia espacial (analizar la variabilidad de gran escala).
 Podríamos analizar la distribución espacial de los datos:
 
 
-```r
+``` r
 plot(aquifer_sf["head"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-4-1} \end{center}
 
 y generar gráficos de dispersión de la respuesta frente a coordenadas (o frente a otras posibles variables explicativas):
 
 
-```r
+``` r
 x <- aquifer_sf$lon
 y <- aquifer_sf$lat
 old.par <- par(mfrow = c(1, 2), omd = c(0.05, 0.95, 0.01, 0.95))
@@ -94,9 +98,11 @@ plot(y, z)
 lines(lowess(y, z), lty = 2, lwd = 2, col = 'blue')
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=1\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+``` r
 par(old.par)
 ```
 
@@ -107,7 +113,7 @@ En este caso parece razonable considerar (como punto de partida) un modelo linea
 Podríamos empezar por ajustar el modelo por OLS (cuidado con los resultados de inferencia, ya que en principio no sería razonable asumir que las observaciones son independientes y por ejemplo la varianza estaría subestimada) y analizar los residuos...
 
 
-```r
+``` r
 trend.ols <- lm(head ~ lon + lat, data = aquifer_sf)
 summary(trend.ols)
 ```
@@ -134,7 +140,7 @@ summary(trend.ols)
 ## F-statistic: 338.8 on 2 and 82 DF,  p-value: < 2.2e-16
 ```
 
-```r
+``` r
 z <- residuals(trend.ols)
 summary(z)
 ```
@@ -144,12 +150,14 @@ summary(z)
 ## -3.6700 -1.6141 -0.3074  0.0000  1.4823  6.5117
 ```
 
-```r
+``` r
 hist(z, xlab = "ols residuals", main = "", freq = FALSE)
 lines(density(z), col = 'blue')
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 
 El análisis de la variabilidad de pequeña escala se realizaría a través de las semivarianzas (clásicas o robustas, Sección \@ref(vario-muestrales)), pero solo consideraremos los estimadores muestrales, para el modelado de la dependencia espacial.
@@ -164,7 +172,7 @@ Como se muestra en la Sección \@ref(vario-muestrales), las estimaciones empíri
 En el caso de tendencia no constante la estimación del variograma se haría a partir de los residuos, Sección \@ref(trend-fit), especificando la fórmula del modelo de tendencia como primer argumento de la función `variogram()` (si la tendencia es constante, la fórmula sería del tipo `respuesta ~ 1`, y la estimación del variograma se obtendría directamente de las observaciones).
 
 
-```r
+``` r
 library(gstat)
 # maxlag <- 0.5*sqrt(sum(diff(matrix(st_bbox(aquifer_sf), nrow = 2, byrow = TRUE))^2))
 maxlag <- 150
@@ -176,11 +184,13 @@ Habría que determinar el número de saltos (por defecto 15, `width = cutoff/15`
 Para seguir las recomendaciones de Journel y Huijbregts (1978), de considerar a lo sumo hasta la mitad del máximo salto posible (podría ser preferible menor) y saltos con aportaciones de al menos 30 pares de datos (se puede relajar cerca del origen), podemos representar las estimaciones junto con el número de aportaciones:
 
 
-```r
+``` r
 plot(vario, plot.numbers = TRUE)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 Si hay datos atípicos sería preferible emplear una versión robusta de este estimador.
 Además, estamos asumiendo isotropía, aunque lo ideal sería asegurarse de que es una hipótesis razonable (ver comentarios al final de la Sección \@ref(vario-muestrales) y Sección \@ref(anisotropia)).
@@ -191,7 +201,7 @@ El paso final en el modelado es el ajuste por WLS de un modelo válido (Sección
 En este caso un modelo de variograma esférico parece razonable:
 
 
-```r
+``` r
 modelo <- vgm(model = "Sph", nugget = NA) # Valores iniciales por defecto
 # modelo <- vgm(psill = 3, model = "Sph", range = 75, nugget = 0) # Valores iniciales
 fit <- fit.variogram(vario, modelo, fit.method = 2)
@@ -202,7 +212,7 @@ NOTA: Si aparecen problemas de convergencia se puede probar a cambiar los valore
 Imprimiendo el resultado del ajuste obtenemos las estimaciones de los parámetros, que podríamos interpretar (ver Sección \@ref(procesos-estacionarios) y Sección \@ref(efecto-variog-kriging)):
 
 
-```r
+``` r
 fit
 ```
 
@@ -212,7 +222,7 @@ fit
 ## 2   Sph 3.044034 63.39438
 ```
 
-```r
+``` r
 nugget <- fit$psill[1]
 sill <- nugget + fit$psill[2]
 range <- fit$range[2]
@@ -223,7 +233,7 @@ NOTA: Cuidado, en el caso de un variograma exponencial, el parámetro que aparec
 Si quisiésemos comparar el ajuste de distintos modelos se podría considerar el valor mínimo de la función objetivo WLS, almacenado como un atributo del resultado (aunque la recomendación sería emplear validación cruzada):
 
 
-```r
+``` r
 attr(fit, "SSErr")
 ```
 
@@ -236,19 +246,21 @@ Para representar las estimaciones empíricas junto con un único ajuste, se
 podría emplear `plot.gstatVariogram()`:
 
 
-```r
+``` r
 # Cuidado con plot.variogramModel() si se pretende añadir elementos
 # plot(fit, cutoff = maxlag, ylim = c(0, 4.5))
 # with(vario,  points(dist, gamma))
 plot(vario, fit)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 Para añadir más elementos mejor hacerlo "a mano":
 
 
-```r
+``` r
 plot(vario$dist, vario$gamma, xlab = "distance", ylab =  "semivariance", 
      xlim = c(0, max(range*1.1, maxlag)), ylim = c(0, sill*1.1))
 lines(variogramLine(fit, maxdist = max(range*1.1, maxlag)))
@@ -258,7 +270,9 @@ abline(h = nugget, lty = 3)
 abline(h = sill, lty = 3)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 
 ## Predicción espacial (KU)
@@ -266,21 +280,21 @@ abline(h = sill, lty = 3)
 Para generar la rejilla de predicción consideramos un buffer de radio 40 en torno a las posiciones espaciales:
 
 
-```r
+``` r
 buffer <- aquifer_sf %>% st_geometry() %>% st_buffer(40)
 ```
 
 En lugar de emplear una rejilla `sf`:
 
 
-```r
+``` r
 # grid <- buffer %>% st_make_grid(n = c(50, 50), what = "centers") %>% st_intersection(buffer)
 ```
 
 por comodidad es preferible emplear una rejilla `stars`:
 
 
-```r
+``` r
 library(stars)
 grid <- buffer %>%  st_as_stars(nx = 50, ny = 50)
 ```
@@ -288,7 +302,7 @@ grid <- buffer %>%  st_as_stars(nx = 50, ny = 50)
 Si suponemos un modelo (no constante) para la tendencia, es necesario añadir los valores de las variables explicativas a la rejilla de predicción:
 
 
-```r
+``` r
 coord <- st_coordinates(grid)
 grid$lon <- coord$x
 grid$lat <- coord$y
@@ -297,14 +311,14 @@ grid$lat <- coord$y
 Además, en este caso recortamos la rejilla para filtrar predicciones alejadas de las observaciones:
 
 
-```r
+``` r
 grid <- grid %>% st_crop(buffer)
 ```
 
 Obtenemos las predicciones mediante kriging universal (Sección \@ref(kuniversal) y Sección \@ref(kriging-gstat)):
 
 
-```r
+``` r
 pred <- krige(formula = head ~ lon + lat, locations = aquifer_sf, model = fit,
               newdata = grid)
 ```
@@ -317,7 +331,7 @@ pred <- krige(formula = head ~ lon + lat, locations = aquifer_sf, model = fit,
 ***ERROR en krige***: cambia las coordenadas del objeto stars
 
 
-```r
+``` r
 summary(st_coordinates(grid))
 ```
 
@@ -331,24 +345,24 @@ summary(st_coordinates(grid))
 ##  Max.   : 149.42   Max.   :222.21
 ```
 
-```r
+``` r
 summary(st_coordinates(pred))
 ```
 
 ```
 ##        x                 y         
-##  Min.   :-181.86   Min.   : 53.83  
-##  1st Qu.:-100.73   1st Qu.:115.11  
-##  Median : -16.22   Median :178.95  
-##  Mean   : -16.22   Mean   :178.95  
-##  3rd Qu.:  68.29   3rd Qu.:242.79  
-##  Max.   : 149.42   Max.   :304.08
+##  Min.   :-181.86   Min.   :-28.03  
+##  1st Qu.:-100.73   1st Qu.: 33.25  
+##  Median : -16.22   Median : 97.09  
+##  Mean   : -16.22   Mean   : 97.09  
+##  3rd Qu.:  68.29   3rd Qu.:160.93  
+##  Max.   : 149.42   Max.   :222.21
 ```
 
 Posible solución: añadir el resultado a `grid`:
 
 
-```r
+``` r
 grid$var1.pred <- pred$var1.pred
 grid$var1.var <- pred$var1.var
 ```
@@ -356,24 +370,28 @@ grid$var1.var <- pred$var1.var
 Finalmente representamos las predicciones y las varianzas kriging:
 
 
-```r
+``` r
 plot(grid["var1.pred"], breaks = "equal", col = sf.colors(64), key.pos = 4,
      main = "Predicciones kriging")
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-22-1} \end{center}
+
+``` r
 plot(grid["var1.var"], breaks = "equal", col = sf.colors(64), key.pos = 4,
      main = "Varianzas kriging")
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-22-2.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-22-2} \end{center}
 
 También podríamos emplear el paquete `ggplot2`:
 
 
-```r
+``` r
 library(ggplot2)
 library(gridExtra)
 p1 <- ggplot() + geom_stars(data = grid, aes(fill = var1.pred, x = x, y = y)) +
@@ -385,7 +403,9 @@ p2 <- ggplot() + geom_stars(data = grid, aes(fill = var1.var, x = x, y = y)) +
 grid.arrange(p1, p2, ncol = 2)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 
 ## Validación cruzada
@@ -395,17 +415,17 @@ Para realizar una diagnosis del modelo de tendencia y variograma (y para selecci
 Por defecto emplea LOOCV y puede requerir de mucho tiempo de computación (no está implementado eficientemente en `gtsat`):
 
 
-```r
+``` r
 system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
                            model = fit))
 ```
 
 ```
 ##    user  system elapsed 
-##    0.56    0.02    0.58
+##    0.50    0.05    0.65
 ```
 
-```r
+``` r
 str(cv)
 ```
 
@@ -426,7 +446,7 @@ str(cv)
 Si el número de observaciones es grande puede ser preferible emplear k-fold CV (y como la partición en grupos es aleatoria se recomendaría fijar previamente la semilla de aleatorización):
 
 
-```r
+``` r
 set.seed(1)
 system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
                            model = fit, nfold = 10))
@@ -434,13 +454,13 @@ system.time(cv <- krige.cv(formula = head ~ lon + lat, locations = aquifer_sf,
 
 ```
 ##    user  system elapsed 
-##    0.14    0.02    0.16
+##    0.09    0.00    0.12
 ```
 
 Para seleccionar modelos podemos considerar distintas medidas, implementadas en la siguiente función:
 
 
-```r
+``` r
 summary_cv <- function(cv.data, na.rm = FALSE,
                        tol = sqrt(.Machine$double.eps)) {
   err <- cv.data$residual      # Errores
@@ -487,7 +507,7 @@ Para detectar datos atípicos, o problemas con el modelo, podemos generar distin
 Por ejemplo, gráficos de dispersión de valores observados o residuos estándarizados frente a predicciones:
 
 
-```r
+``` r
 old_par <- par(mfrow = c(1, 2))
 plot(observed ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Observado")
 abline(a = 0, b = 1, col = "blue")
@@ -496,31 +516,37 @@ plot(zscore ~ var1.pred, data = cv, xlab = "Predicción", ylab = "Residuo estand
 abline(h = c(-3, -2, 0, 2, 3), lty = 3)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-27-1.png" width="100%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=1\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-27-1} \end{center}
+
+``` r
 par(old_par)
 ```
 
 Gráficos con la distribución espacial de los residuos:
 
 
-```r
+``` r
 plot(cv["residual"], pch = 20, cex = 2, breaks = "quantile", nbreaks = 4)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-28-1.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-28-1} \end{center}
+
+``` r
 plot(cv["zscore"], pch = 20, cex = 2)
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-28-2.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-28-2} \end{center}
 
 Además de los gráficos estándar para analizar la distribución de los residuos estandarizados o detectar atípicos:
 
 
-```r
+``` r
 # Histograma
 old_par <- par(mfrow = c(1, 3))
 hist(cv$zscore, freq = FALSE)
@@ -532,13 +558,15 @@ qqline(cv$zscore, col = "blue")
 car::Boxplot(cv$zscore, ylab = "Residuos estandarizados")
 ```
 
-<img src="14-ejemplo_aquifer_files/figure-html/unnamed-chunk-29-1.png" width="100%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth]{14-ejemplo_aquifer_files/figure-latex/unnamed-chunk-29-1} \end{center}
 
 ```
 ## [1] 78
 ```
 
-```r
+``` r
 par(old_par)
 ```
 

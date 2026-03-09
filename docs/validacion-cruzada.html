@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.6 Validación cruzada del modelo ajustado | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.6 Validación cruzada del modelo ajustado | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="consideraciones-kriging.html"/>
 <link rel="next" href="otros-métodos-kriging.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,21 +49,23 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.34.0/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -75,7 +75,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -114,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -129,10 +129,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -322,8 +327,8 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="validacion-cruzada" class="section level2" number="4.6">
-<h2><span class="header-section-number">4.6</span> Validación cruzada del modelo ajustado</h2>
+<div id="validacion-cruzada" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Validación cruzada del modelo ajustado<a href="validacion-cruzada.html#validacion-cruzada" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>El método de validación cruzada es la técnica normalmente utilizada en geoestadística para diagnosticar si un modelo (de tendencia y variograma) describe adecuadamente la variabilidad espacial de los datos (ver e.g. Cressie, 1993, Sección 2.6.4).
 Si se asume que la tendencia es constante, permitiría verificar si el modelo de variograma describe adecuadamente la dependencia espacial de los datos.
 Aunque también es utilizada para otros fines (ver e.g. Isaaks y Srivastava, 1989, Capítulo 15), entre ellos: comparar distintas hipótesis sobre el modelo geoestadístico (tipo de modelo, vecindarios, etc.), detectar observaciones atípicas o incluso para la estimación de los parámetros del variograma.
@@ -354,15 +359,15 @@ Se podría pensar en calcular una media ponderada con pesos inversamente proporc
 Alternativamente se podría emplear validación cruzada en <em>k</em> grupos (<em>k-fold cross-validation</em>), considerando típicamente 10 o 5 grupos<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a>.</p>
 <p>La validación cruzada en <code>gstat</code> está implementada en la función <code>krige.cv()</code>.
 La sintaxis de esta función es casi idéntica a la de la función <code>krige()</code> (Sección <a href="kriging-gstat.html#kriging-gstat">4.4</a>, salvo que incluye un argumento <code>nfold</code> en lugar de <code>newdata</code>:</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="validacion-cruzada.html#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">krige.cv</span>(formula, locations, model, <span class="at">nfold =</span> <span class="fu">nrow</span>(data), ...)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="validacion-cruzada.html#cb135-1" tabindex="-1"></a><span class="fu">krige.cv</span>(formula, locations, model, <span class="at">nfold =</span> <span class="fu">nrow</span>(data), ...)</span></code></pre></div>
 <p>El resultado (un <code>data.frame</code> o un objeto del mismo tipo que <code>locations</code>), además de las predicciones y varianzas kriging de validación cruzada (en las posiciones de observación), contiene los componentes <code>observed</code> (valor observado), <code>residual</code> (residuos), <code>zscore</code> (residuos divididos por el error estándar kriging) y <code>fold</code> (grupo de validación cruzada).</p>
 <p>Como ejemplo continuaremos con los datos del acuífero Wolfcamp (en <a href="s100.html">s100</a> se tiene un ejemplo adicional empleando KO).
 Como ya se comentó, la función <code>krige.cv()</code> emplea LOOCV por defecto y puede requerir de mucho tiempo de computación (no implementa eficientemente esta técnica):</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="validacion-cruzada.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(cv <span class="ot">&lt;-</span> <span class="fu">krige.cv</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf,</span>
-<span id="cb135-2"><a href="validacion-cruzada.html#cb135-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">model =</span> fit))</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="validacion-cruzada.html#cb136-1" tabindex="-1"></a><span class="fu">system.time</span>(cv <span class="ot">&lt;-</span> <span class="fu">krige.cv</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf,</span>
+<span id="cb136-2"><a href="validacion-cruzada.html#cb136-2" tabindex="-1"></a>                           <span class="at">model =</span> fit))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    0.64    0.08    0.76</code></pre>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="validacion-cruzada.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cv)</span></code></pre></div>
+##    0.52    0.06    0.69</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="validacion-cruzada.html#cb138-1" tabindex="-1"></a><span class="fu">str</span>(cv)</span></code></pre></div>
 <pre><code>## Classes &#39;sf&#39; and &#39;data.frame&#39;:   85 obs. of  7 variables:
 ##  $ var1.pred: num  15 23.5 22.9 24.6 17 ...
 ##  $ var1.var : num  3.08 2.85 2.32 2.81 2.05 ...
@@ -375,42 +380,42 @@ Como ya se comentó, la función <code>krige.cv()</code> emplea LOOCV por defect
 ##  - attr(*, &quot;agr&quot;)= Factor w/ 3 levels &quot;constant&quot;,&quot;aggregate&quot;,..: NA NA NA NA NA NA
 ##   ..- attr(*, &quot;names&quot;)= chr [1:6] &quot;var1.pred&quot; &quot;var1.var&quot; &quot;observed&quot; &quot;residual&quot; ...</code></pre>
 <p>Si el número de observaciones es grande puede ser preferible emplear k-fold CV (y como la partición en grupos es aleatoria se recomendaría fijar previamente la semilla de aleatorización):</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="validacion-cruzada.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb139-2"><a href="validacion-cruzada.html#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(cv <span class="ot">&lt;-</span> <span class="fu">krige.cv</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf,</span>
-<span id="cb139-3"><a href="validacion-cruzada.html#cb139-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">model =</span> fit, <span class="at">nfold =</span> <span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="validacion-cruzada.html#cb140-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb140-2"><a href="validacion-cruzada.html#cb140-2" tabindex="-1"></a><span class="fu">system.time</span>(cv <span class="ot">&lt;-</span> <span class="fu">krige.cv</span>(<span class="at">formula =</span> head <span class="sc">~</span> lon <span class="sc">+</span> lat, <span class="at">locations =</span> aquifer_sf,</span>
+<span id="cb140-3"><a href="validacion-cruzada.html#cb140-3" tabindex="-1"></a>                           <span class="at">model =</span> fit, <span class="at">nfold =</span> <span class="dv">10</span>))</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##    0.06    0.00    0.06</code></pre>
+##    0.08    0.00    0.07</code></pre>
 <p>Como ya se comentó, podemos considerar distintos estadísticos, por ejemplo los implementados en la siguiente función (los tres últimos tienen en cuenta la estimación de la varianza kriging):</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="validacion-cruzada.html#cb141-1" aria-hidden="true" tabindex="-1"></a>summary_cv <span class="ot">&lt;-</span> <span class="cf">function</span>(cv.data, <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb141-2"><a href="validacion-cruzada.html#cb141-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">tol =</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps)) {</span>
-<span id="cb141-3"><a href="validacion-cruzada.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  err <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>residual      <span class="co"># Errores</span></span>
-<span id="cb141-4"><a href="validacion-cruzada.html#cb141-4" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>observed</span>
-<span id="cb141-5"><a href="validacion-cruzada.html#cb141-5" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>zscore</span>
-<span id="cb141-6"><a href="validacion-cruzada.html#cb141-6" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">pmax</span>(cv.data<span class="sc">$</span>var1.var, tol) <span class="co"># Ponderación según varianza kriging</span></span>
-<span id="cb141-7"><a href="validacion-cruzada.html#cb141-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(na.rm) {</span>
-<span id="cb141-8"><a href="validacion-cruzada.html#cb141-8" aria-hidden="true" tabindex="-1"></a>    is.a <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(err)</span>
-<span id="cb141-9"><a href="validacion-cruzada.html#cb141-9" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> err[is.a]</span>
-<span id="cb141-10"><a href="validacion-cruzada.html#cb141-10" aria-hidden="true" tabindex="-1"></a>    obs <span class="ot">&lt;-</span> obs[is.a]</span>
-<span id="cb141-11"><a href="validacion-cruzada.html#cb141-11" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> z[is.a]</span>
-<span id="cb141-12"><a href="validacion-cruzada.html#cb141-12" aria-hidden="true" tabindex="-1"></a>    w <span class="ot">&lt;-</span> w[is.a]</span>
-<span id="cb141-13"><a href="validacion-cruzada.html#cb141-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb141-14"><a href="validacion-cruzada.html#cb141-14" aria-hidden="true" tabindex="-1"></a>  perr <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span>err<span class="sc">/</span><span class="fu">pmax</span>(obs, tol)  <span class="co"># Errores porcentuales</span></span>
-<span id="cb141-15"><a href="validacion-cruzada.html#cb141-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(</span>
-<span id="cb141-16"><a href="validacion-cruzada.html#cb141-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Medidas de error tradicionales</span></span>
-<span id="cb141-17"><a href="validacion-cruzada.html#cb141-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">me =</span> <span class="fu">mean</span>(err),           <span class="co"># Error medio</span></span>
-<span id="cb141-18"><a href="validacion-cruzada.html#cb141-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(err<span class="sc">^</span><span class="dv">2</span>)), <span class="co"># Raíz del error cuadrático medio</span></span>
-<span id="cb141-19"><a href="validacion-cruzada.html#cb141-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">mae =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(err)),     <span class="co"># Error absoluto medio</span></span>
-<span id="cb141-20"><a href="validacion-cruzada.html#cb141-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">mpe =</span> <span class="fu">mean</span>(perr),         <span class="co"># Error porcentual medio</span></span>
-<span id="cb141-21"><a href="validacion-cruzada.html#cb141-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">mape =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perr)),   <span class="co"># Error porcentual absoluto medio</span></span>
-<span id="cb141-22"><a href="validacion-cruzada.html#cb141-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">r.squared =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(err<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((obs <span class="sc">-</span> <span class="fu">mean</span>(obs))<span class="sc">^</span><span class="dv">2</span>), <span class="co"># Pseudo R-cuadrado</span></span>
-<span id="cb141-23"><a href="validacion-cruzada.html#cb141-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Medidas de error que tienen en cuenta la varianza kriging</span></span>
-<span id="cb141-24"><a href="validacion-cruzada.html#cb141-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">dme =</span> <span class="fu">mean</span>(z),            <span class="co"># Error estandarizado medio</span></span>
-<span id="cb141-25"><a href="validacion-cruzada.html#cb141-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">dmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">2</span>)),    <span class="co"># Error cuadrático medio adimensional</span></span>
-<span id="cb141-26"><a href="validacion-cruzada.html#cb141-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">rwmse =</span> <span class="fu">sqrt</span>(<span class="fu">weighted.mean</span>(err<span class="sc">^</span><span class="dv">2</span>, w)) <span class="co"># Raíz del ECM ponderado</span></span>
-<span id="cb141-27"><a href="validacion-cruzada.html#cb141-27" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb141-28"><a href="validacion-cruzada.html#cb141-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb141-29"><a href="validacion-cruzada.html#cb141-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb141-30"><a href="validacion-cruzada.html#cb141-30" aria-hidden="true" tabindex="-1"></a><span class="fu">summary_cv</span>(cv)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="validacion-cruzada.html#cb142-1" tabindex="-1"></a>summary_cv <span class="ot">&lt;-</span> <span class="cf">function</span>(cv.data, <span class="at">na.rm =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb142-2"><a href="validacion-cruzada.html#cb142-2" tabindex="-1"></a>                       <span class="at">tol =</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps)) {</span>
+<span id="cb142-3"><a href="validacion-cruzada.html#cb142-3" tabindex="-1"></a>  err <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>residual      <span class="co"># Errores</span></span>
+<span id="cb142-4"><a href="validacion-cruzada.html#cb142-4" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>observed</span>
+<span id="cb142-5"><a href="validacion-cruzada.html#cb142-5" tabindex="-1"></a>  z <span class="ot">&lt;-</span> cv.data<span class="sc">$</span>zscore</span>
+<span id="cb142-6"><a href="validacion-cruzada.html#cb142-6" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">pmax</span>(cv.data<span class="sc">$</span>var1.var, tol) <span class="co"># Ponderación según varianza kriging</span></span>
+<span id="cb142-7"><a href="validacion-cruzada.html#cb142-7" tabindex="-1"></a>  <span class="cf">if</span>(na.rm) {</span>
+<span id="cb142-8"><a href="validacion-cruzada.html#cb142-8" tabindex="-1"></a>    is.a <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>(err)</span>
+<span id="cb142-9"><a href="validacion-cruzada.html#cb142-9" tabindex="-1"></a>    err <span class="ot">&lt;-</span> err[is.a]</span>
+<span id="cb142-10"><a href="validacion-cruzada.html#cb142-10" tabindex="-1"></a>    obs <span class="ot">&lt;-</span> obs[is.a]</span>
+<span id="cb142-11"><a href="validacion-cruzada.html#cb142-11" tabindex="-1"></a>    z <span class="ot">&lt;-</span> z[is.a]</span>
+<span id="cb142-12"><a href="validacion-cruzada.html#cb142-12" tabindex="-1"></a>    w <span class="ot">&lt;-</span> w[is.a]</span>
+<span id="cb142-13"><a href="validacion-cruzada.html#cb142-13" tabindex="-1"></a>  }</span>
+<span id="cb142-14"><a href="validacion-cruzada.html#cb142-14" tabindex="-1"></a>  perr <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span>err<span class="sc">/</span><span class="fu">pmax</span>(obs, tol)  <span class="co"># Errores porcentuales</span></span>
+<span id="cb142-15"><a href="validacion-cruzada.html#cb142-15" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(</span>
+<span id="cb142-16"><a href="validacion-cruzada.html#cb142-16" tabindex="-1"></a>    <span class="co"># Medidas de error tradicionales</span></span>
+<span id="cb142-17"><a href="validacion-cruzada.html#cb142-17" tabindex="-1"></a>    <span class="at">me =</span> <span class="fu">mean</span>(err),           <span class="co"># Error medio</span></span>
+<span id="cb142-18"><a href="validacion-cruzada.html#cb142-18" tabindex="-1"></a>    <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(err<span class="sc">^</span><span class="dv">2</span>)), <span class="co"># Raíz del error cuadrático medio</span></span>
+<span id="cb142-19"><a href="validacion-cruzada.html#cb142-19" tabindex="-1"></a>    <span class="at">mae =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(err)),     <span class="co"># Error absoluto medio</span></span>
+<span id="cb142-20"><a href="validacion-cruzada.html#cb142-20" tabindex="-1"></a>    <span class="at">mpe =</span> <span class="fu">mean</span>(perr),         <span class="co"># Error porcentual medio</span></span>
+<span id="cb142-21"><a href="validacion-cruzada.html#cb142-21" tabindex="-1"></a>    <span class="at">mape =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(perr)),   <span class="co"># Error porcentual absoluto medio</span></span>
+<span id="cb142-22"><a href="validacion-cruzada.html#cb142-22" tabindex="-1"></a>    <span class="at">r.squared =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(err<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">sum</span>((obs <span class="sc">-</span> <span class="fu">mean</span>(obs))<span class="sc">^</span><span class="dv">2</span>), <span class="co"># Pseudo R-cuadrado</span></span>
+<span id="cb142-23"><a href="validacion-cruzada.html#cb142-23" tabindex="-1"></a>    <span class="co"># Medidas de error que tienen en cuenta la varianza kriging</span></span>
+<span id="cb142-24"><a href="validacion-cruzada.html#cb142-24" tabindex="-1"></a>    <span class="at">dme =</span> <span class="fu">mean</span>(z),            <span class="co"># Error estandarizado medio</span></span>
+<span id="cb142-25"><a href="validacion-cruzada.html#cb142-25" tabindex="-1"></a>    <span class="at">dmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">2</span>)),    <span class="co"># Error cuadrático medio adimensional</span></span>
+<span id="cb142-26"><a href="validacion-cruzada.html#cb142-26" tabindex="-1"></a>    <span class="at">rwmse =</span> <span class="fu">sqrt</span>(<span class="fu">weighted.mean</span>(err<span class="sc">^</span><span class="dv">2</span>, w)) <span class="co"># Raíz del ECM ponderado</span></span>
+<span id="cb142-27"><a href="validacion-cruzada.html#cb142-27" tabindex="-1"></a>  ))</span>
+<span id="cb142-28"><a href="validacion-cruzada.html#cb142-28" tabindex="-1"></a>}</span>
+<span id="cb142-29"><a href="validacion-cruzada.html#cb142-29" tabindex="-1"></a></span>
+<span id="cb142-30"><a href="validacion-cruzada.html#cb142-30" tabindex="-1"></a><span class="fu">summary_cv</span>(cv)</span></code></pre></div>
 <pre><code>##           me         rmse          mae          mpe         mape    r.squared 
 ##  0.058039856  1.788446500  1.407874022 -0.615720059  7.852363328  0.913398424 
 ##          dme         dmse        rwmse 
@@ -418,32 +423,32 @@ Como ya se comentó, la función <code>krige.cv()</code> emplea LOOCV por defect
 <p>Estas medidas podrían emplearse para seleccionar modelos (de tendencia y variograma), y también para ayudar a establecer los parámetros del vecindario para kriging local.</p>
 <p>Para detectar datos atípicos, o problemas con el modelo, podemos generar distintos gráficos.
 Por ejemplo, gráficos de dispersión de valores observados o residuos estándarizados frente a predicciones:</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="validacion-cruzada.html#cb143-1" aria-hidden="true" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb143-2"><a href="validacion-cruzada.html#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(observed <span class="sc">~</span> var1.pred, <span class="at">data =</span> cv, <span class="at">xlab =</span> <span class="st">&quot;Predicción&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Observado&quot;</span>)</span>
-<span id="cb143-3"><a href="validacion-cruzada.html#cb143-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb143-4"><a href="validacion-cruzada.html#cb143-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb143-5"><a href="validacion-cruzada.html#cb143-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zscore <span class="sc">~</span> var1.pred, <span class="at">data =</span> cv, <span class="at">xlab =</span> <span class="st">&quot;Predicción&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Residuo estandarizado&quot;</span>)</span>
-<span id="cb143-6"><a href="validacion-cruzada.html#cb143-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="04-kriging_files/figure-html/unnamed-chunk-16-1.png" width="100%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="validacion-cruzada.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old_par)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="validacion-cruzada.html#cb144-1" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb144-2"><a href="validacion-cruzada.html#cb144-2" tabindex="-1"></a><span class="fu">plot</span>(observed <span class="sc">~</span> var1.pred, <span class="at">data =</span> cv, <span class="at">xlab =</span> <span class="st">&quot;Predicción&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Observado&quot;</span>)</span>
+<span id="cb144-3"><a href="validacion-cruzada.html#cb144-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb144-4"><a href="validacion-cruzada.html#cb144-4" tabindex="-1"></a></span>
+<span id="cb144-5"><a href="validacion-cruzada.html#cb144-5" tabindex="-1"></a><span class="fu">plot</span>(zscore <span class="sc">~</span> var1.pred, <span class="at">data =</span> cv, <span class="at">xlab =</span> <span class="st">&quot;Predicción&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Residuo estandarizado&quot;</span>)</span>
+<span id="cb144-6"><a href="validacion-cruzada.html#cb144-6" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">lty =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="04-kriging_files/figure-html/unnamed-chunk-16-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="validacion-cruzada.html#cb145-1" tabindex="-1"></a><span class="fu">par</span>(old_par)</span></code></pre></div>
 <p>Gráficos con la distribución espacial de los residuos:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="validacion-cruzada.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv[<span class="st">&quot;residual&quot;</span>], <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">nbreaks =</span> <span class="dv">4</span>)</span></code></pre></div>
-<p><img src="04-kriging_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="validacion-cruzada.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv[<span class="st">&quot;zscore&quot;</span>], <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="04-kriging_files/figure-html/unnamed-chunk-17-2.png" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="validacion-cruzada.html#cb146-1" tabindex="-1"></a><span class="fu">plot</span>(cv[<span class="st">&quot;residual&quot;</span>], <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">2</span>, <span class="at">breaks =</span> <span class="st">&quot;quantile&quot;</span>, <span class="at">nbreaks =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="04-kriging_files/figure-html/unnamed-chunk-17-1.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="validacion-cruzada.html#cb147-1" tabindex="-1"></a><span class="fu">plot</span>(cv[<span class="st">&quot;zscore&quot;</span>], <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="04-kriging_files/figure-html/unnamed-chunk-17-2.png" alt="" width="70%" style="display: block; margin: auto;" /></p>
 <p>Además de los gráficos estándar para analizar la distribución de los residuos estándarizados o detectar atípicos:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="validacion-cruzada.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histograma</span></span>
-<span id="cb147-2"><a href="validacion-cruzada.html#cb147-2" aria-hidden="true" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
-<span id="cb147-3"><a href="validacion-cruzada.html#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(cv<span class="sc">$</span>zscore, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb147-4"><a href="validacion-cruzada.html#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(cv<span class="sc">$</span>zscore), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb147-5"><a href="validacion-cruzada.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de normalidad</span></span>
-<span id="cb147-6"><a href="validacion-cruzada.html#cb147-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(cv<span class="sc">$</span>zscore)</span>
-<span id="cb147-7"><a href="validacion-cruzada.html#cb147-7" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(cv<span class="sc">$</span>zscore, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb147-8"><a href="validacion-cruzada.html#cb147-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot</span></span>
-<span id="cb147-9"><a href="validacion-cruzada.html#cb147-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Boxplot</span>(cv<span class="sc">$</span>zscore, <span class="at">ylab =</span> <span class="st">&quot;Residuos estandarizados&quot;</span>)</span></code></pre></div>
-<p><img src="04-kriging_files/figure-html/unnamed-chunk-18-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="validacion-cruzada.html#cb148-1" tabindex="-1"></a><span class="co"># Histograma</span></span>
+<span id="cb148-2"><a href="validacion-cruzada.html#cb148-2" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>))</span>
+<span id="cb148-3"><a href="validacion-cruzada.html#cb148-3" tabindex="-1"></a><span class="fu">hist</span>(cv<span class="sc">$</span>zscore, <span class="at">freq =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb148-4"><a href="validacion-cruzada.html#cb148-4" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(cv<span class="sc">$</span>zscore), <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb148-5"><a href="validacion-cruzada.html#cb148-5" tabindex="-1"></a><span class="co"># Gráfico de normalidad</span></span>
+<span id="cb148-6"><a href="validacion-cruzada.html#cb148-6" tabindex="-1"></a><span class="fu">qqnorm</span>(cv<span class="sc">$</span>zscore)</span>
+<span id="cb148-7"><a href="validacion-cruzada.html#cb148-7" tabindex="-1"></a><span class="fu">qqline</span>(cv<span class="sc">$</span>zscore, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb148-8"><a href="validacion-cruzada.html#cb148-8" tabindex="-1"></a><span class="co"># Boxplot</span></span>
+<span id="cb148-9"><a href="validacion-cruzada.html#cb148-9" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Boxplot</span>(cv<span class="sc">$</span>zscore, <span class="at">ylab =</span> <span class="st">&quot;Residuos estandarizados&quot;</span>)</span></code></pre></div>
+<p><img src="04-kriging_files/figure-html/unnamed-chunk-18-1.png" alt="" width="100%" style="display: block; margin: auto;" /></p>
 <pre><code>## [1] 78</code></pre>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="validacion-cruzada.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old_par)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="validacion-cruzada.html#cb150-1" tabindex="-1"></a><span class="fu">par</span>(old_par)</span></code></pre></div>
 <!-- 
 --- 
 
@@ -478,42 +483,42 @@ Por ejemplo, gráficos de dispersión de valores observados o residuos estándar
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["estadistica_espacial.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["estadistica_espacial.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
@@ -524,7 +529,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

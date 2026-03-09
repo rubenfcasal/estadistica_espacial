@@ -4,7 +4,7 @@
 ---
 title: "Ejemplo de análisis geoestadístico"
 author: "Estadística Espacial"
-date: "Análisis estadístico de datos con dependencia (GCED, GCED, UDC)"
+date: "Análisis estadístico de datos con dependencia (GCED, UDC)"
 output: 
   bookdown::html_document2:
     pandoc_args: ["--number-offset", "0,0"]

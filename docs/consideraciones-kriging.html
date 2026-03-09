@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>4.5 Consideraciones acerca de los métodos kriging | Estadística Espacial con R</title>
   <meta name="description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4.5 Consideraciones acerca de los métodos kriging | Estadística Espacial con R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Apuntes de Estadística Espacial (para las asignaturas: ‘Análisis estadístico de datos con dependencia’ del Grado en Ciencia e Ingeniería de Datos y ‘Aprendizaje estadístico’ del Máster InterUniversitario en Técnicas Estadísticas)." />
   <meta name="github-repo" content="rubenfcasal/estadistica_espacial" />
@@ -33,7 +32,6 @@
   
 <link rel="prev" href="kriging-gstat.html"/>
 <link rel="next" href="validacion-cruzada.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,21 +49,23 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="libs/datatables-binding-0.19/datatables.js"></script>
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
-<link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
-<script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+<script src="libs/datatables-binding-0.34.0/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -75,7 +75,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -101,7 +101,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -114,7 +114,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -129,10 +129,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging div.csl-entry {
   margin-left:2em;
@@ -322,10 +327,10 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="consideraciones-kriging" class="section level2" number="4.5">
-<h2><span class="header-section-number">4.5</span> Consideraciones acerca de los métodos kriging</h2>
+<div id="consideraciones-kriging" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Consideraciones acerca de los métodos kriging<a href="consideraciones-kriging.html#consideraciones-kriging" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Los métodos kriging descritos anteriormente permiten obtener el mejor predictor lineal insesgado (BLUP, <em>best linear unbiased predictor</em>).
-Como es bien sabido, en el caso de normalidad el predictor óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging.
+Como es bien sabido, en el caso de normalidad el predictor insesgado óptimo (tomando como función de pérdidas el error cuadrático) es lineal y va a coincidir con los predictores kriging.
 Pero si el proceso no es normal no tiene porque serlo, lo que ha motivado el desarrollo de métodos kriging no lineales (ver e.g. Rivoirard, 1994) y del kriging trans-normal (ver Sección <a href="otros-métodos-kriging.html#kriging-trans-normal">4.7.2</a>).</p>
 <p>En estos métodos se supone que el variograma (covariograma) es conocido, sin embargo en la práctica en realidad el variograma es estimado (kriging estimado).
 Puede verse (Yakowitz y Szidarovszky, 1985) que, bajo condiciones muy generales, el predictor kriging con variograma estimado converge al valor correcto si la densidad de datos tiende a infinito, incluso cuando la estimación del variograma no es muy buena.
@@ -337,8 +342,8 @@ variograma afecta directamente a la varianza kriging y en general no es un estim
 En general, por ejemplo si el proceso es normal, es de esperar que subestime la verdadera varianza de predicción y por tanto debería incrementarse para que tenga en cuenta el efecto de la estimación del variograma.
 Para más detalles sobre este problema, ver por ejemplo Cressie (1993, Sección 5.3), Christensen (1991, Sección 6.5), Stein (1999, Sección 6.8) o Chilès y Delfiner (2012, Sección 3.4.3).
 En la Sección <a href="validacion-cruzada.html#validacion-cruzada">4.6</a> se sugiere una posible corrección de la varianza kriging a partir del método de validación cruzada.</p>
-<div id="kriging-interpolador" class="section level3" number="4.5.1">
-<h3><span class="header-section-number">4.5.1</span> Kriging como interpolador</h3>
+<div id="kriging-interpolador" class="section level3 hasAnchor" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Kriging como interpolador<a href="consideraciones-kriging.html#kriging-interpolador" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Las ecuaciones kriging tienen en cuenta varios aspectos del problema de interpolación<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a>:</p>
 <ul>
 <li>La configuración espacial de los datos, a través de las matrices <span class="math inline">\(\boldsymbol{\Sigma}\)</span> (o <span class="math inline">\(\boldsymbol{\Gamma}\)</span>), donde el covariograma (o el variograma) actúa como una “distancia estadística” entre las observaciones y de forma que se tiene en cuenta la información redundante presente en los datos.</li>
@@ -358,8 +363,8 @@ Esto que en principio puede ser una propiedad muy interesante puede conducir a r
 Para solucionar estos problemas se han propuesto numerosas alternativas, entre ellas la inclusión de restricciones adicionales sobre los pesos de forma que sean positivos (e.g. Chilès y Delfiner, 2012, Sección 3.9.1) (lo cual puede dar lugar a un incremento considerable del MSPE de predicción) o sobre el predictor (ver p.e. Goovaerts, 1997, Sección 7.4.2).
 Otra alternativa que puede ser preferible es la transformación del proceso <span class="math inline">\(Z(\cdot)\)</span> a otra escala (de forma que se aproxime a la normalidad), realizar la predicción kriging del proceso transformado y volver a la escala original (pero asegurándose de que al hacer la transformación inversa el resultado tenga las propiedades de optimalidad deseadas); más detalles sobre este procedimiento se tienen en la Sección <a href="otros-métodos-kriging.html#kriging-trans-normal">4.7.2</a>.</p>
 </div>
-<div id="efecto-variog-kriging" class="section level3" number="4.5.2">
-<h3><span class="header-section-number">4.5.2</span> Efecto del variograma (covariograma) en el kriging</h3>
+<div id="efecto-variog-kriging" class="section level3 hasAnchor" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> Efecto del variograma (covariograma) en el kriging<a href="consideraciones-kriging.html#efecto-variog-kriging" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>El variograma (o el covariograma) tiene un efecto determinante en la predicción espacial.
 Como ejemplo, a continuación se incluyen algunas observaciones acerca de la influencia en el kriging de las tres principales características de un variograma estacionario (normalmente tratadas como parámetros) definidas en la Sección <a href="procesos-estacionarios.html#procesos-estacionarios">1.3</a>.</p>
 <p><strong>Rango</strong></p>
@@ -388,8 +393,8 @@ Hay que tener en cuenta que cuando la media no es constante (e.g. KU), puede oc
 Estas observaciones no contradicen el resultado de que asintóticamente lo importante es capturar el comportamiento del variograma cerca del origen (Stein, 1988).
 Es difícil determinar cuando los datos están suficientemente cerca como para tener sólo en cuenta el efecto nugget y la pendiente del variograma cerca del origen.</p>
 </div>
-<div id="eleccion-vecindario" class="section level3" number="4.5.3">
-<h3><span class="header-section-number">4.5.3</span> Elección del vecindario</h3>
+<div id="eleccion-vecindario" class="section level3 hasAnchor" number="4.5.3">
+<h3><span class="header-section-number">4.5.3</span> Elección del vecindario<a href="consideraciones-kriging.html#eleccion-vecindario" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Una práctica habitual en geoestadística, en lugar de considerar todas las observaciones disponibles, es incluir en las ecuaciones kriging únicamente los <span class="math inline">\(n(\mathbf{s}_{0})\)</span> datos más “próximos” a la posición de predicción <span class="math inline">\(\mathbf{s}_{0}\)</span> .
 Esto puede justificarse por varias razones:</p>
 <ul>
@@ -450,42 +455,42 @@ Adicionalmente, cuando el número de datos es grande y sus posiciones irregulare
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
-"text": "Edit"
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": ["estadistica_espacial.pdf"],
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": true,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": "https://github.com/rubenfcasal/estadistica_espacial/edit/master/04-kriging.Rmd",
+    "text": "Edit"
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["estadistica_espacial.pdf"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
@@ -496,7 +501,7 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:")
       if (/^https?:/.test(src))
         src = src.replace(/^https?:/, '');

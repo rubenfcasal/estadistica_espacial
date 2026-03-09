@@ -21,6 +21,14 @@ Capítulo \@ref(datos)
 bookdown::preview_chapter("02-datos.Rmd")
 knitr::purl("02-datos.Rmd", documentation = 2)
 knitr::spin("02-datos.R",knit = FALSE)
+
+Pendiente:
+Con datos raster cuidado con st_transform(), el resultado no es una rejilla rectangular, 
+y st_warp(), que interpola para que sea una rejilla regular.
+Al combinar datos vectoriales con raster con distintos CRS, 
+la recomendación es emplear el CRS del raster como referencia y transformar los 
+datos vectoriales.
+
 -->
 
 ```{r , child = '_global_options.Rmd'}
@@ -194,10 +202,12 @@ meuse_grid <- st_as_sf(meuse.grid, coords = c("x", "y"),
 # save(meuse_sf, meuse_riv, meuse_grid, file = "datos/st_meuse.RData")
 
 # Representar
+old.par <- par(no.readonly = TRUE) # reset = FALSE
 plot(meuse_sf["zinc"], pch = 16, cex = 1.5, main = "",
      breaks = "quantile", key.pos = 4, reset = FALSE)
 plot(meuse_riv, col = "lightblue", add = TRUE)
 plot(st_geometry(meuse_grid), pch = 3, cex = 0.2, col = "lightgray", add = TRUE)
+par(old.par)
 ```
 
 ---
@@ -256,7 +266,7 @@ Pendiente:
 https://cdn.proj.org/ 
 -->
 
-El CRS ideal dependerá del tipo de problema y de la zona cubierta por los datos (ver e.g Lovelace et al, 2021, [Sección 6.3](https://geocompr.robinlovelace.net/reproj-geo-data.html#which-crs-to-use), para más información).
+El CRS ideal dependerá del tipo de problema y de la zona cubierta por los datos (ver e.g Lovelace et al, 2021, [Sección 7.6](https://geocompr.robinlovelace.net/reproj-geo-data.html#which-crs), para más información).
 En general en estadística espacial nos interesará trabajar con coordenadas proyectadas, de forma que tenga sentido emplear la distancia euclídea (algo que puede ser poco o nada razonable si se trabaja con coordenadas geodésicas en una zona muy amplia del globo o cerca de los polos).
 En el caso de coordenadas sin proyectar (latitud/longitud) puede ser preferible trabajar con distancias ortodrómicas (longitud del arco del círculo máximo que une los puntos, *great circle distances*)^[Algo que ya hace de forma automática el paquete `gstat`.].
 Es importante destacar que cambiar el CRS no reproyecta los datos, hay que emplear `st_transform()` para hacerlo, como se describe en la Sección \@ref(operaciones-datos).
@@ -350,7 +360,7 @@ plot(x, ..., max.plot, pal = NULL, nbreaks, breaks = "pretty",
 * `graticule`: lógico, objeto de clase `crs` (`st_crs()`) u objeto creado por `st_graticule`; `TRUE` representará la gratícula `st_graticule(x)` `r citefig("transform")`.
 * `col_graticule`: color de la gratícula.
 * `border`: color de los bordes de polígonos.
-* `reset`: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (`reset = TRUE`). Solo en ese caso es necesario establecer `reset = FALSE` para continuar añadiendo elementos, con `add = TRUE` (para restaurarlos hay que ejecutar `dev.off()`) `r citefig("meuse-sf", "transform")`. 
+* `reset`: lógico; si el gráfico contiene una leyenda se modifican los parámetros gráficos y por defecto los restaura (`reset = TRUE`). Solo en ese caso es necesario establecer `reset = FALSE` para continuar añadiendo elementos, con `add = TRUE` (para restaurarlos hay que ejecutar `dev.off()` o haberlos guardado previamente) `r citefig("meuse-sf", "transform")`. 
 * `...`: otros parámetros gráficos (ver `?plot.default` y `?par`).
 
 Ejemplo:
@@ -452,18 +462,32 @@ Muchos incluyen conjuntos de datos espaciales y otros implementan interfaces a b
 Algunos de ellos son los siguientes:
 
 * `r citepkg("rnaturalearth", "https://docs.ropensci.org/rnaturalearth/")`: permite importar una gran cantidad de datos vectoriales y rasterizados de [Natural Earth](http://www.naturalearthdata.com), incluyendo datos administrativos/culturales (fronteras de países, aeropuertos, carreteras, vías férreas...) y físicos (costas, lagos...). 
+
 * `r citepkg("giscoR", "https://ropengov.github.io/giscoR/")`: permite importar datos de [Eurostat - GISCO](https://ec.europa.eu/eurostat/web/gisco) (*Geographic Information System of the COmmission*). 
+
 * `r citepkg("mapSpain", "https://ropenspain.github.io/mapSpain")`: permite importar límites administrativos de España (CCAA, provincias, municipios...).
+
 * `r citepkg("osmdata")`: permite importar "pequeños" conjuntos de datos de [OpenStreetMap](https://www.openstreetmap.org) (OSM).
+
 * `r citepkg("osmextract")`:  permite importar grandes conjuntos de datos de OSM.
+
 * `r citepkg("ows4R", "https://github.com/eblondel/ows4R/wiki")`: (en desarrollo) proporciona una interfaz para *[OGC standard Web-Services](https://www.ogc.org/docs/is)* (OWS).
+
 * `r citepkg("openeo", "https://open-eo.github.io/openeo-r-client")`: permite importar datos de servidores [openEO](https://openeo.org) (*Open Earth Observation data*).
+
 * `r citepkg("rnoaa")`: permite importar datos climáticos de la [National Oceanic and Atmospheric Administration](https://www.ncdc.noaa.gov/cdo-web/webservices/v2) (NOAA). 
+
+* `r citepkg("meteospain", "https://emf-creaf.github.io/meteospain")`: permite descargar datos de las redes de estaciones meteorológicas españolas: [AEMET](https://www.aemet.es/en/portada) (Agencia Estatal de Meteorología), [MeteoCat](https://meteo.cat) (Servicio Meteorológico de Cataluña), [MeteoGalicia](https://www.meteogalicia.gal/web/inicio.action) (Servicio Meteorológico de Galicia), [RIA](https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/) (Red de Información Agroclimática de Andalucía) y [Meteoclimatic](https://www.meteoclimatic.net/) (red de estaciones meteorológicas no profesionales).
+
 * `r citepkg("climaemet", "https://ropenspain.github.io/climaemet")`: permite importar datos climáticos proporcionados por la [Agencia Estatal de Meteorología de España](https://opendata.aemet.es) (AEMET).
+
 * `r citepkg("meteoForecast", "https://github.com/oscarperpinan/meteoForecast")`: permite importar resultados de los modelos numéricos de predicción meteorológica [GFS](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/global-forcast-system-gfs),
 [MeteoGalicia](https://www.meteogalicia.gal/web/modelos/threddsIndex.action), [NAM](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam) y [RAP](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/rapid-refresh-rap).
+
 * `r citepkg("saqgetr","https://github.com/skgrange/saqgetr")`: permite importar datos de calidad del aire de Europa.
+
 * `r citepkg("RGISTools", "https://github.com/spatialstatisticsupna/RGISTools")`: permite importar datos de imágenes de satélite de Landsat, MODIS y Sentinel. 
+
 * `r citepkgs(c("maptools", "spData", "spDataLarge", "getlandsat"))`...
 
 ```{r osm-coru, eval=.regerar, fig.path="images/", dev="png", fig.cap="Representación de las carreteras, calles y caminos en A Coruña (generado con el paquete `osmdata`)."}
@@ -505,6 +529,7 @@ Muchos de los archivos de datos están en formato [NetCDF](https://www.unidata.u
 Operaciones [unarias](https://r-spatial.github.io/sf/reference/geos_unary.html) (operan sobre un único conjunto de geometrías simples, el primer argumento) con resultado geométrico:
 
 * `st_geometry()`: devuelve (o establece) la columna `sfc` de un objeto `sf`.
+* `st_drop_geometry()`: elimina la geometría de un objeto `sf` (devuelve la tabla de datos).
 * `st_transform(x, crs, ...)`: transforma o convierte las coordenadas de `x` a un nuevo sistema de referencia.
 * `st_cast(x, to, ...)`: cambia la geometría `x` a otro tipo de geometría.
 * `st_centroid()`: devuelve los centroides de las geometrías.

@@ -42,7 +42,7 @@ Después de iniciar la sesión R, cargar `geoR` con el comando `library` (o
 `require`). Si el paquete se carga correctamente aparece un mensaje.
 
 
-```r
+``` r
 library(geoR)
 ```
 
@@ -64,7 +64,7 @@ y coordenadas de las fronteras de la zona de estudio.
 Hay algunos conjuntos de datos incluidos en el paquete de distribución.
 
 
-```r
+``` r
 # data()                    # lista todos los conjuntos de datos disponibles
 # data(package = "geoR")    # lista los conjuntos de datos en el paquete geoR
 
@@ -93,7 +93,7 @@ summary(wolfcamp)
 Se pueden importar directamente un archivo de datos en formato texto:
 
 
-```r
+``` r
 ncep <- read.geodata('ncep.txt', header = FALSE, coords.col = 1:2, data.col = 4)
 # plot(ncep)
 # summary(ncep)
@@ -103,7 +103,7 @@ ncep <- read.geodata('ncep.txt', header = FALSE, coords.col = 1:2, data.col = 4)
 También se puede convertir un `data.frame` a un objeto `geodata`:
 
 
-```r
+``` r
 ncep.df <- read.table('ncep.txt', header = FALSE)
 names(ncep.df) <- c('x', 'y', 't', 'z')
 # str(ncep.df)
@@ -120,7 +120,7 @@ por ejemplo el siguiente código crea un objeto `SpatialPointsDataFrame`
 y lo convierte a `geodata`:
 
 
-```r
+``` r
 library(sp)
 load("caballa.galicia.RData")
 coordinates(caballa.galicia) <- c("x","y")
@@ -147,42 +147,50 @@ valores en las posiciones espaciales (distinguiendo según cuartiles),
 los datos frente a las coordenadas y un histograma de los datos:
 
 
-```r
+``` r
 plot(wolfcamp)
 ```
 
-<img src="12-geor_files/figure-html/plot-geo1-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo1-1} \end{center}
 
 Los gráficos de dispersión de los datos frente a las coordenadas nos pueden ayudar
 a determinar si hay una tendencia. También, en lugar del histograma, 
 nos puede interesar un gráfico de dispersión 3D
 
 
-```r
+``` r
 plot(wolfcamp, lowess = TRUE, scatter3d = TRUE) 
 ```
 
-<img src="12-geor_files/figure-html/plot-geo2-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo2-1} \end{center}
 
 Si se asume que hay una tendencia puede interesar eliminarla:
 
 
-```r
+``` r
 plot(wolfcamp, trend=~coords)
 ```
 
-<img src="12-geor_files/figure-html/plot-geo3-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-geo3-1} \end{center}
 
 El comando `points(geodata)` (función `points.geodata`) genera un gráfico con
 las posiciones de los datos (y por defecto con el tamaño de los puntos proporcional
 al valor):
 
 
-```r
+``` r
 points(wolfcamp)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 Se pueden establecer los tamaños de los puntos, simbolos y colores a
 partir de los valores de los datos. Por ejemplo, para los puntos, empleando el argumento:
@@ -190,11 +198,13 @@ partir de los valores de los datos. Por ejemplo, para los puntos, empleando el a
 `              "quartiles", "deciles", "equal")`.
 
 
-```r
+``` r
 points(wolfcamp, col = "gray", pt.divide = "equal")
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 
 ## Modelado de la dependencia
@@ -203,7 +213,7 @@ En la primera parte de esta sección consideraremos un proceso espacial sin
 tendencia:
 
 
-```r
+``` r
 data(s100) # Cargar datos estacionarios
 summary(s100)
 ```
@@ -228,11 +238,13 @@ summary(s100)
 ## [1] "cov.model" "nugget"    "cov.pars"  "kappa"     "lambda"
 ```
 
-```r
+``` r
 plot(s100)
 ```
 
-<img src="12-geor_files/figure-html/plot-s100-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-s100-1} \end{center}
 
 En el último apartado se tratará el caso general.
 
@@ -242,7 +254,7 @@ En el último apartado se tratará el caso general.
 Los variogramas empíricos se calculan utilizando la función `variog`:
 
 
-```r
+``` r
 oldpar <- par(mfrow=c(1,2)) 
 plot(variog(s100))
 ```
@@ -251,7 +263,7 @@ plot(variog(s100))
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 plot(variog(s100, max.dist = 0.6))
 ```
 
@@ -259,9 +271,11 @@ plot(variog(s100, max.dist = 0.6))
 ## variog: computing omnidirectional variogram
 ```
 
-<img src="12-geor_files/figure-html/plot-variog1-1.png" width="90%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog1-1} \end{center}
+
+``` r
 par(oldpar)
 ```
 
@@ -269,7 +283,7 @@ La recomendación es considerar solo saltos hasta la mitad de la máxima
 distancia (ver `Distance summary` en resultados del sumario).
 
 
-```r
+``` r
 vario <- variog(s100, max.dist = 0.6)
 ```
 
@@ -277,7 +291,7 @@ vario <- variog(s100, max.dist = 0.6)
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 names(vario)
 ```
 
@@ -289,7 +303,7 @@ names(vario)
 ## [17] "direction"        "tolerance"        "uvec"             "call"
 ```
 
-```r
+``` r
 # str(vario)
 ```
 
@@ -301,7 +315,7 @@ discretizados (binned) o suavizados, dependiendo del parámetro:
 `option = c("bin", "cloud", "smooth")`
 
 
-```r
+``` r
 # Calculo de los variogramas empíricos
 vario.b <- variog(s100, max.dist = 0.6) #discretizado
 ```
@@ -310,7 +324,7 @@ vario.b <- variog(s100, max.dist = 0.6) #discretizado
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 vario.c <- variog(s100, max.dist=0.6, op="cloud")  #nube
 ```
 
@@ -318,7 +332,7 @@ vario.c <- variog(s100, max.dist=0.6, op="cloud")  #nube
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 vario.bc <- variog(s100, max.dist=0.6, bin.cloud=TRUE)  #discretizado+nube
 ```
 
@@ -326,7 +340,7 @@ vario.bc <- variog(s100, max.dist=0.6, bin.cloud=TRUE)  #discretizado+nube
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 vario.s <- variog(s100, max.dist=0.6, op="sm", band=0.2)  #suavizado
 ```
 
@@ -334,7 +348,7 @@ vario.s <- variog(s100, max.dist=0.6, op="sm", band=0.2)  #suavizado
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 # Representación gráfica
 oldpar<-par(mfrow=c(2,2)) # Preparar para 4 gráficos por ventana
 plot(vario.b, main="Variograma empírico")
@@ -344,9 +358,11 @@ title("Gráficos de cajas") # Corregir fallo del comando anterior
 plot(vario.s, main="Variograma suavizado")
 ```
 
-<img src="12-geor_files/figure-html/plot-variog2-1.png" width="90%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog2-1} \end{center}
+
+``` r
 par(oldpar) # Restaurar opciones de gráficos
 ```
 
@@ -355,7 +371,7 @@ puede ser preferible utilizar el estimador robusto. Se puede
 calcular este estimador estableciendo `estimator.type = "modulus"`:
 
 
-```r
+``` r
 varior.b <- variog(s100, estimator.type = "modulus", max.dist=0.6)
 ```
 
@@ -363,7 +379,7 @@ varior.b <- variog(s100, estimator.type = "modulus", max.dist=0.6)
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 varior.bc <- variog(s100, estimator.type = "modulus", max.dist=0.6, bin.cloud=TRUE)
 ```
 
@@ -371,7 +387,7 @@ varior.bc <- variog(s100, estimator.type = "modulus", max.dist=0.6, bin.cloud=TR
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 oldpar<-par(mfrow=c(2,2)) #Preparar para 4 gráficos por ventana
 plot(vario.b, main="Estimador clásico")
 plot(varior.b, main="Estimador robusto")
@@ -379,9 +395,11 @@ plot(vario.bc, bin.cloud=TRUE)
 plot(varior.bc, bin.cloud=TRUE)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog3-1.png" width="90%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog3-1} \end{center}
+
+``` r
 par(oldpar) #Restaurar opciones de gráficos
 ```
 
@@ -391,7 +409,7 @@ para calcular un variograma en la dirección de 60 grados (con la
 tolerancia angular por defecto de 22.5 grados):
 
 
-```r
+``` r
 vario.60 <- variog(s100, max.dist = 0.6, direction = pi/3) #variograma en la dirección de 60 grados
 ```
 
@@ -405,7 +423,7 @@ direccionales con la función `variog4`. Por defecto calcula cuatro variogramas
 direccionales, correspondientes a los ángulos 0, 45, 90 y 135 grados:
 
 
-```r
+``` r
 vario.4 <- variog4(s100, max.dist = 0.6)
 ```
 
@@ -421,16 +439,18 @@ vario.4 <- variog4(s100, max.dist = 0.6)
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 oldpar <- par(mfrow=c(1,2))
 plot(vario.60)
 title(main = expression(paste("direccional, angulo = ", 60 * degree)))
 plot(vario.4, lwd = 2)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog4-1.png" width="90%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog4-1} \end{center}
+
+``` r
 par(oldpar)
 ```
 
@@ -461,7 +481,7 @@ Ejemplo de ajuste "a ojo":
 
 
 
-```r
+``` r
 vario.b <- variog(s100, max.dist=0.6) #discretizado
 ```
 
@@ -469,7 +489,7 @@ vario.b <- variog(s100, max.dist=0.6) #discretizado
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 vario.s <- variog(s100, max.dist=0.6,option = "smooth", kernel = "normal", band = 0.2)  #suavizado
 ```
 
@@ -477,7 +497,7 @@ vario.s <- variog(s100, max.dist=0.6,option = "smooth", kernel = "normal", band 
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 plot(vario.b)
 lines(vario.s, type = "l", lty = 2)
 
@@ -485,19 +505,23 @@ lines.variomodel(cov.model = "exp", cov.pars = c(1,0.3), nugget = 0, max.dist = 
 legend(0.3, 0.3, c("empirico", "suavizado", "modelo exponencial"), lty = c(1, 2, 1), lwd = c(1, 1, 3))
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 Otros ajustes:
 
 
-```r
+``` r
 plot(vario.b)
 lines.variomodel(cov.model = "exp", cov.pars = c(0.9,0.3), nug = 0.1, max.dist = 0.6)
 lines.variomodel(cov.model = "mat", cov.pars = c(0.85,0.2), nug = 0.1, kappa = 1, max.dist = 0.6,lty = 2)
 lines.variomodel(cov.model = "sph", cov.pars = c(0.8,0.8), nug = 0.1, max.dist = 0.6, lwd = 2)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 Nota: no hace falta escribir el nombre completo de los parámetros
 (basta con que no dé lugar a confusión).
@@ -507,7 +531,7 @@ realizar el ajuste gráficamente de forma interactiva
 (cuadro de diálogo en tcl/tk):
 
 
-```r
+``` r
 eyefit(vario.b)
 ```
 
@@ -522,7 +546,7 @@ covariables.
 Ejemplos de estimación por mínimos cuadrados (llamadas a `variofit`):
 
 
-```r
+``` r
 #   Modelo exponencial con par ini umbral 1 y escala 0.5 (1/3 rango = 1.5)
 vario.ols <- variofit(vario.b, ini = c(1, 0.5), weights = "equal")  #ordinarios
 ```
@@ -533,7 +557,7 @@ vario.ols <- variofit(vario.b, ini = c(1, 0.5), weights = "equal")  #ordinarios
 ## variofit: minimisation function used: optim
 ```
 
-```r
+``` r
 vario.wls <- variofit(vario.b, ini = c(1, 0.5), weights = "cressie")  #ponderados
 ```
 
@@ -543,7 +567,7 @@ vario.wls <- variofit(vario.b, ini = c(1, 0.5), weights = "cressie")  #ponderado
 ## variofit: minimisation function used: optim
 ```
 
-```r
+``` r
 vario.wls
 ```
 
@@ -558,7 +582,7 @@ vario.wls
 ## variofit: minimised weighted sum of squares = 31.5115
 ```
 
-```r
+``` r
 summary(vario.wls)
 ```
 
@@ -611,7 +635,7 @@ summary(vario.wls)
 Ejemplo de estimación por máxima verosimilitud (llamada a `likfit`):
 
 
-```r
+``` r
 vario.ml <- likfit(s100, ini = c(1, 0.5)) #Modelo exponencial con par ini umbral y escala (1/3 rango)
 ```
 
@@ -628,7 +652,7 @@ vario.ml <- likfit(s100, ini = c(1, 0.5)) #Modelo exponencial con par ini umbral
 ## likfit: end of numerical maximisation.
 ```
 
-```r
+``` r
 vario.ml
 ```
 
@@ -641,7 +665,7 @@ vario.ml
 ## likfit: maximised log-likelihood = -83.57
 ```
 
-```r
+``` r
 summary(vario.ml)
 ```
 
@@ -686,7 +710,7 @@ Ejemplo de estimación por máxima verosimilitud restringida (opción de
 `likfit`):
 
 
-```r
+``` r
 vario.reml <- likfit(s100, ini = c(1, 0.5), lik.method = "RML")
 ```
 
@@ -703,7 +727,7 @@ vario.reml <- likfit(s100, ini = c(1, 0.5), lik.method = "RML")
 ## likfit: end of numerical maximisation.
 ```
 
-```r
+``` r
 summary(vario.reml)
 ```
 
@@ -760,7 +784,7 @@ summary(vario.reml)
 Representación gráfica junto al estimador empírico:
 
 
-```r
+``` r
 plot(vario.b, main = "Estimador empírico y modelos ajustados")
 lines(vario.ml, max.dist = 0.6)
 lines(vario.reml, lwd = 2, max.dist = 0.6)
@@ -769,7 +793,9 @@ lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
 legend(0.3, 0.3, legend = c("ML", "REML", "OLS", "WLS"), lty = c(1, 1, 2, 2), lwd = c(1, 2,1, 2)) 
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 
 ### Inferencia sobre el variograma
@@ -787,7 +813,7 @@ simulación:
     variograma empírico.
 
 
-```r
+``` r
 env.indep <- variog.mc.env(s100, obj.var = vario.b)
 ```
 
@@ -797,7 +823,7 @@ env.indep <- variog.mc.env(s100, obj.var = vario.b)
 ## variog.env: computing the envelops
 ```
 
-```r
+``` r
 env.model <- variog.model.env(s100, obj.var = vario.b, model = vario.wls)
 ```
 
@@ -808,16 +834,18 @@ env.model <- variog.model.env(s100, obj.var = vario.b, model = vario.wls)
 ## variog.env: computing the envelops
 ```
 
-```r
+``` r
 oldpar <- par(mfrow = c(1, 2))
 plot(vario.b, envelope = env.indep)
 plot(vario.b, envelope = env.model)
 lines(vario.wls, lty = 2, lwd = 2, max.dist = 0.6)
 ```
 
-<img src="12-geor_files/figure-html/plot-variog-env-1.png" width="90%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.9\linewidth]{12-geor_files/figure-latex/plot-variog-env-1} \end{center}
+
+``` r
 par(oldpar) 	
 ```
 
@@ -832,7 +860,7 @@ proceso es independiente (i.e. consideraríamos que hay dependencia
 espacial si el variograma suavizado no está contenido en esa región).
 
 
-```r
+``` r
 library(sm)
 sm.variogram(s100$coords, s100$data, model = "independent")
 ```
@@ -841,7 +869,9 @@ sm.variogram(s100$coords, s100$data, model = "independent")
 ## Test of spatial independence: p =  0.024
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 **Nota**: Se puede realizar contrastes adicionales estableciendo el parámetro `model`
 a `"isotropic"` o `"stationary"`.
@@ -853,7 +883,7 @@ Cuando el proceso no es estacionario (no se puede emplear directamente los
 estimadores empíricos) hay que eliminar la tendencia para estimar el variograma:
 
 
-```r
+``` r
 oldpar <- par(mfrow=c(1,2)) 
 plot(variog(wolfcamp, max.dist = 200)) # Supone que el proceso es estacionario
 ```
@@ -862,7 +892,7 @@ plot(variog(wolfcamp, max.dist = 200)) # Supone que el proceso es estacionario
 ## variog: computing omnidirectional variogram
 ```
 
-```r
+``` r
 plot(variog(wolfcamp, trend = ~coords, max.dist = 200)) # Asume una tendencia lineal en las coordenadas
 ```
 
@@ -870,9 +900,11 @@ plot(variog(wolfcamp, trend = ~coords, max.dist = 200)) # Asume una tendencia li
 ## variog: computing omnidirectional variogram
 ```
 
-<img src="12-geor_files/figure-html/plot-variog-wolf-1.png" width="80%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.8\linewidth]{12-geor_files/figure-latex/plot-variog-wolf-1} \end{center}
+
+``` r
 par(oldpar)
 ```
 
@@ -903,7 +935,7 @@ Para obtener una rejilla discreta de predicción puede ser de utilidad la
 función `expand.grid`:
 
 
-```r
+``` r
 # Rejilla regular 51x51 en cuadrado unidad
 xx <- seq(0, 1, l = 51)
 yy <- seq(0, 1, l = 51)
@@ -912,13 +944,15 @@ plot(s100$coords, pch = 20, asp = 1)
 points(pred.grid, pch = 3, cex = 0.2)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 El comando para realizar kriging ordinario con variograma `vario.wls`
 sería:
 
 
-```r
+``` r
 ko.wls <- krige.conv(s100, loc = pred.grid, krige = krige.control(obj.m = vario.wls))
 ```
 
@@ -931,7 +965,7 @@ El resultado es una lista incluyendo predicciones (`ko.wls$predict`) y
 varianzas kriging (`ko.wls$krige.var`):
 
 
-```r
+``` r
 names(ko.wls)
 ```
 
@@ -949,52 +983,62 @@ aunque la última versión del método `image.kriging()` puede fallar al añadir
 elementos (por lo menos en RMarkdown; tampoco es compatible con `par(mfrow)`):
 
 
-```r
+``` r
 # oldpar <- par(mfrow = c(1, 2)) 
 # image.kriging no es compatible con mfrow en últimas versiones
 image(ko.wls, coords.data=s100$coords, main = "Superficie de predicciones")
 contour(ko.wls, add = TRUE) #añadir gráfico de contorno
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-22-1} \end{center}
+
+``` r
 image(ko.wls, coords.data=s100$coords, values = sqrt(ko.wls$krige.var), main = "Superficie de err. std. kriging") 
 contour(ko.wls, values = sqrt(ko.wls$krige.var), add = TRUE)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-22-2.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-22-2} \end{center}
+
+``` r
 # par(oldpar)
 ```
 
 Otras opciones:
 
 
-```r
+``` r
 contour(ko.wls,filled = TRUE)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-1} \end{center}
+
+``` r
 fcol <- topo.colors(10)[cut(matrix(ko.wls$pred,nrow=51,ncol=51)[-1,-1],10,include.lowest=TRUE)]
 persp(ko.wls, theta=-60, phi=40, col=fcol)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-2.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-2} \end{center}
+
+``` r
 if(!require(plot3D)) 
   stop('Required pakage `plot3D` not installed.') # install.packages('plot3D')
 
 persp3D(xx, yy, matrix(ko.wls$predict, nrow = length(xx)), theta=-60, phi=40)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-3.png" width="70%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-3} \end{center}
+
+``` r
 if(!require(npsp)) {
   cat("Required pakage `npsp` not installed!\n")   
   cat("On windows, run `install.packages('https://github.com/rubenfcasal/npsp/releases/download/v0.7-8/npsp_0.7-8.zip', repos = NULL)`\n")  
@@ -1002,7 +1046,9 @@ if(!require(npsp)) {
   spersp(xx, yy, ko.wls$predict, theta=-60, phi=40)
 ```
 
-<img src="12-geor_files/figure-html/unnamed-chunk-23-4.png" width="70%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.7\linewidth]{12-geor_files/figure-latex/unnamed-chunk-23-4} \end{center}
 
 
 ### Validación cruzada
@@ -1020,7 +1066,7 @@ variograma describe adecuadamente la dependencia espacial de los datos:
 
 
 
-```r
+``` r
 xv.wls <- xvalid(s100, model = vario.wls)
 ```
 
@@ -1031,7 +1077,7 @@ xv.wls <- xvalid(s100, model = vario.wls)
 ## xvalid: end of cross-validation
 ```
 
-```r
+``` r
 summary(xv.wls)
 ```
 
@@ -1044,7 +1090,7 @@ summary(xv.wls)
 ## std.errors 0.9190753
 ```
 
-```r
+``` r
 xv.reml <- xvalid(s100, model = vario.reml)
 ```
 
@@ -1055,7 +1101,7 @@ xv.reml <- xvalid(s100, model = vario.reml)
 ## xvalid: end of cross-validation
 ```
 
-```r
+``` r
 summary(xv.reml)
 ```
 
@@ -1076,14 +1122,16 @@ estandarizados (dividiendo por la raíz cuadrada de la varianza de
 predicción).
 
 
-```r
+``` r
 oldpar <- par(mfrow = c(2, 5), mar = c(bottom = 4.5, left = 4, top = 2, right = 2))
 plot(xv.wls, ask = FALSE)
 ```
 
-<img src="12-geor_files/figure-html/plot-xvalid-1.png" width="100%" style="display: block; margin: auto;" />
 
-```r
+
+\begin{center}\includegraphics[width=1\linewidth]{12-geor_files/figure-latex/plot-xvalid-1} \end{center}
+
+``` r
 par(oldpar)
 
 # plot(xv.reml)
