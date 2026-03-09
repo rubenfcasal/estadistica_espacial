@@ -103,7 +103,7 @@ En la práctica la matriz de covarianzas suele ser desconocida y habría que est
 El procedimiento habitual, para evitar la estimación de $n(n+1)/2$ parámetros adicionales a partir del
 conjunto de $n$ observaciones, suele ser asumir un modelo paramétrico adecuado (ver comentarios al final de la Sección \@ref(modelos-clasicos-espaciales)).
 
-Para más detalles, incluyendo el enfoque de máxima verosimilitud y su aplicación en la práctica para la regresión con series de tiempo, ver por ejemplo el apéndice [Time-Series Regression and Generalized Least Squares in R](https://socialsciences.mcmaster.ca/jfox/Books/Companion/appendices/Appendix-Timeseries-Regression.pdf) de [Fox (2019)](https://socialsciences.mcmaster.ca/jfox/Books/Companion/).
+Para más detalles, incluyendo el enfoque de máxima verosimilitud y su aplicación en la práctica para la regresión con series de tiempo, ver por ejemplo el apéndice [Time-Series Regression and Generalized Least Squares in R](https://www.john-fox.ca/Companion/appendices/Appendix-Timeseries-Regression.pdf) de [Fox (2019)](https://www.john-fox.ca/Companion/).
 La teoría para la estimación por máxima verosimilitud en el caso temporal (unidimensional) es totalmente análoga a la del caso espacial (multidimensional), descrita en la Sección \@ref(ml-fit) (bajo la hipótesis habitual de normalidad).
 
 
